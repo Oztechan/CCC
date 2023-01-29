@@ -1,13 +1,11 @@
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.widget
 
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
@@ -19,13 +17,14 @@ import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("OPT_IN_USAGE")
-class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
+class WidgetViewModelTest {
 
-    override val subject: WidgetViewModel by lazy {
+    private val subject: WidgetViewModel by lazy {
         WidgetViewModel(calculatorStorage, backendApiService, currencyDataSource, appStorage)
     }
 
@@ -46,9 +45,8 @@ class WidgetViewModelTest : BaseViewModelTest<WidgetViewModel>() {
     private val currency = Currency(code = base, name = "Euro", symbol = "€")
     private val exchangeRate = ExchangeRate(base = base, conversion = Conversion(base = base))
 
-    override fun setup() {
-        super.setup()
-
+    @BeforeTest
+    fun setup() {
         given(calculatorStorage)
             .invocation { currentBase }
             .thenReturn(base)

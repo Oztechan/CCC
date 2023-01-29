@@ -7,7 +7,6 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.util.getFormatted
 
 class WidgetViewModel(
@@ -45,13 +44,12 @@ class WidgetViewModel(
             .conversion
 
         currencyDataSource.getActiveCurrencies()
-            .filterNot { it.name == calculatorStorage.currentBase }
+            .filterNot { it.code == calculatorStorage.currentBase }
             .onEach {
                 it.rate = conversion.getRateFromCode(it.code)
                     ?.getFormatted(calculatorStorage.precision)
                     ?.toDoubleOrNull() ?: 0.0
             }
-            .toValidList(calculatorStorage.currentBase)
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
             .let {
                 state = state.copy(

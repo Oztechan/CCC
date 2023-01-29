@@ -8,7 +8,6 @@ import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
-import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
@@ -19,7 +18,4 @@ val viewModelModule = module {
     viewModelDefinition { SelectCurrencyViewModel(get()) }
     viewModelDefinition { PremiumViewModel(get()) }
     viewModelDefinition { WatchersViewModel(get(), get(), get()) }
-
-    // has to be singleton
-    single { WidgetViewModel(get(), get(), get(), get()) }
 }
