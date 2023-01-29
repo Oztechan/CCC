@@ -10,4 +10,5 @@ coverage:
     patch:
       default:
         informational: true
-comment: false
+comment: # this is a top-level key
+  layout: "diff, reach, files"
