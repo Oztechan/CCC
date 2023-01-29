@@ -49,7 +49,6 @@ android {
 dependencies {
     libs.apply {
         common.apply {
-            implementation(kotlinXDateTime)
             testImplementation(test)
         }
 

@@ -2,8 +2,7 @@ package com.oztechan.ccc.client.viewmodel.widget
 
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isItOver
-import com.oztechan.ccc.client.core.shared.util.nowAsInstant
-import com.oztechan.ccc.client.core.shared.util.toDateString
+import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -57,7 +56,7 @@ class WidgetViewModel(
             .let {
                 state = state.copy(
                     currencyList = it,
-                    lastUpdate = nowAsInstant().toDateString()
+                    lastUpdate = nowAsDateString()
                 )
             }
     }
