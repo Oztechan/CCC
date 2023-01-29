@@ -83,7 +83,7 @@ dependencies {
         implementation(project(ad))
     }
 
-    implementation(project(Modules.Client.Core.viewmodel))
+    implementation(project(Modules.Client.Core.viewModel))
 
     Modules.Client.Core.apply {
         implementation(project(res))

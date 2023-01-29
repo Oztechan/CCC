@@ -42,7 +42,7 @@ kotlin {
                     implementation(project(conversion))
                 }
                 Modules.Client.Core.apply {
-                    implementation(project(viewmodel))
+                    implementation(project(viewModel))
                     implementation(project(persistence))
                     implementation(project(analytics))
                     implementation(project(shared))

@@ -3,6 +3,7 @@ plugins {
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
+        alias(ksp)
     }
 }
 kotlin {
@@ -18,25 +19,43 @@ kotlin {
             dependencies {
                 libs.common.apply {
                     implementation(koinCore)
-                    implementation(coroutines)
                 }
-                implementation(project(Modules.Submodules.logmob))
+
+                Modules.Common.Core.apply {
+                    implementation(project(model))
+                }
+
+                Modules.Client.Core.apply {
+                    implementation(project(viewModel))
+                    implementation(project(shared))
+                }
+
+                Modules.Client.Storage.apply {
+                    implementation(project(app))
+                    implementation(project(calculator))
+                }
+
+                Modules.Client.DataSource.apply {
+                    implementation(project(currency))
+                }
+
+                Modules.Client.Service.apply {
+                    implementation(project(backend))
+                }
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.common.test)
+                libs.common.apply {
+                    implementation(test)
+                    implementation(mockative)
+                    implementation(coroutinesTest)
+                }
+                implementation(project(Modules.Common.Core.infrastructure))
             }
         }
 
-        val androidMain by getting {
-            dependencies {
-                libs.android.apply {
-                    implementation(koinAndroid)
-                    implementation(lifecycleViewmodel)
-                }
-            }
-        }
+        val androidMain by getting
         val androidTest by getting
 
         val iosX64Main by getting
@@ -60,10 +79,18 @@ kotlin {
     }
 }
 
+dependencies {
+    ksp(libs.processors.mockative)
+}
+
+ksp {
+    arg("mockative.stubsUnitByDefault", "true")
+}
+
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.Core.viewModel.packageName
+        namespace = Modules.Client.ViewModel.widget.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

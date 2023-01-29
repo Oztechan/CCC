@@ -139,6 +139,10 @@ dependencies {
         implementation(project(appConfig))
     }
 
+    Modules.Client.ViewModel.apply {
+        implementation(project(widget))
+    }
+
     Modules.Android.Feature.apply {
         implementation(project(mobile))
         implementation(project(widget))
