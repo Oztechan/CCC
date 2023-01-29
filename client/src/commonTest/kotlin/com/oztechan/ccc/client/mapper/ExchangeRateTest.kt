@@ -1,7 +1,6 @@
 package com.oztechan.ccc.client.mapper
 
-import com.oztechan.ccc.client.core.shared.util.nowAsInstant
-import com.oztechan.ccc.client.core.shared.util.toDateString
+import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -13,8 +12,8 @@ internal class ExchangeRateTest : BaseTest() {
     @Test
     fun toConversion() {
         val base = "EUR"
-        val conversion = Conversion(base, nowAsInstant().toDateString(), usd = 5.0)
-        val exchangeRate = ExchangeRate(base, nowAsInstant().toDateString(), conversion)
+        val conversion = Conversion(base, nowAsDateString(), usd = 5.0)
+        val exchangeRate = ExchangeRate(base, nowAsDateString(), conversion)
         assertEquals(conversion, exchangeRate.toConversion())
     }
 
@@ -22,7 +21,7 @@ internal class ExchangeRateTest : BaseTest() {
     fun toTodayResponse() {
         val exchangeRate = ExchangeRate("EUR", null, Conversion())
         assertEquals(
-            exchangeRate.copy(date = nowAsInstant().toDateString()),
+            exchangeRate.copy(date = nowAsDateString()),
             exchangeRate.toTodayResponse()
         )
     }

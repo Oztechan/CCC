@@ -23,6 +23,14 @@ internal class DateUtilTest {
     }
 
     @Test
+    fun nowAsDateStringTest() {
+        val nowLong = nowAsLong()
+        val nowInstant = nowAsInstant()
+        assertEquals(nowInstant.toDateString(), nowAsDateString())
+        assertEquals(nowLong.toDateString(), nowAsDateString())
+    }
+
+    @Test
     fun isItOver() {
         assertTrue { (nowAsLong() - DAY).isItOver() }
         assertTrue { (nowAsLong() - SECOND).isItOver() }

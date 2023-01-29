@@ -5,9 +5,11 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
+internal fun nowAsInstant() = Clock.System.now()
+
 fun nowAsLong() = nowAsInstant().toEpochMilliseconds()
 
-fun nowAsInstant() = Clock.System.now()
+fun nowAsDateString() = nowAsInstant().toDateString()
 
 fun Long.isItOver(): Boolean {
     return nowAsLong() >= this
@@ -26,6 +28,6 @@ fun Instant.toDateString(
         "${dayOfMonth.toDoubleDigits()}.${monthNumber.toDoubleDigits()}.${year.toDoubleDigits()}"
 }
 
-private const val BIGGEST_DIGIT = 9
+private const val BIGGEST_NUMBER = 9
 
-internal fun Int.toDoubleDigits() = if (this <= BIGGEST_DIGIT) "0$this" else "$this"
+internal fun Int.toDoubleDigits() = if (this <= BIGGEST_NUMBER) "0$this" else "$this"
