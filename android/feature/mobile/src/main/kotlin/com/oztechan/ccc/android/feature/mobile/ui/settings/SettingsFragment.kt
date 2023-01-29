@@ -29,10 +29,10 @@ import com.oztechan.ccc.android.feature.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.oztechan.ccc.client.viewmodel.util.MAXIMUM_FLOATING_POINT
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject

@@ -8,8 +8,8 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.getFormatted
 import com.oztechan.ccc.client.util.toValidList
+import com.oztechan.ccc.client.viewmodel.util.getFormatted
 
 class WidgetViewModel(
     private val calculatorStorage: CalculatorStorage,

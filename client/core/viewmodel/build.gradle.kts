@@ -23,7 +23,11 @@ kotlin {
                 implementation(project(Modules.Submodules.logmob))
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.common.test)
+            }
+        }
 
         val androidMain by getting {
             dependencies {

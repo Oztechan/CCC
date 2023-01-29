@@ -1,15 +1,10 @@
-/*
- * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
- */
+package com.oztechan.ccc.client.viewmodel.util
 
-package com.oztechan.ccc.client.util
-
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersData
 import platform.Foundation.NSNumber
 import platform.Foundation.NSNumberFormatter
 import platform.Foundation.NSNumberFormatterDecimalStyle
 
-internal actual fun Double.getFormatted(precision: Int) = NSNumberFormatter().apply {
+actual fun Double.getFormatted(precision: Int) = NSNumberFormatter().apply {
     var currentPrecision = precision.toULong()
     setNumberStyle(NSNumberFormatterDecimalStyle)
     setGroupingSeparator(" ")
@@ -22,11 +17,4 @@ internal actual fun Double.getFormatted(precision: Int) = NSNumberFormatter().ap
             setMaximumFractionDigits(currentPrecision)
         }
     }
-}.stringFromNumber(NSNumber(this)).orEmpty()
-
-internal actual fun Double.removeScientificNotation() = NSNumberFormatter().apply {
-    setNumberStyle(NSNumberFormatterDecimalStyle)
-    setGroupingSeparator("")
-    setDecimalSeparator(".")
-    setMaximumFractionDigits(WatchersData.MAXIMUM_INPUT.toULong())
 }.stringFromNumber(NSNumber(this)).orEmpty()
