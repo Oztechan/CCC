@@ -51,10 +51,11 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
+      - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
+          fetch-depth: 0
 
       - name: Adding secret files
         run: |
@@ -92,6 +93,49 @@ jobs:
       - name: Cancel other jobs if this fails
         if: failure()
         uses: andymckay/cancel-action@0.2
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  DistributeAndroid:
+    runs-on: ubuntu-latest
+    needs: [ GradleBuild ]
+    if: github.event_name == 'push'
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Clone Repo # needed for app version
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Download Google APK
+        uses: actions/download-artifact@v3
+        with:
+          name: androidArtifacts
+
+      - name: Firebase App Distribution Google
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: app-google-release.apk
+
+      - name: Firebase App Distribution Huawei
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: app-huawei-release.apk
+
+      - name: Delete Google APK
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: androidArtifacts
 
       - name: Set Job Status
         id: status
@@ -164,49 +208,6 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  DistributeAndroid:
-    runs-on: ubuntu-latest
-    needs: [ GradleBuild ]
-    if: github.event_name == 'push'
-    outputs:
-      status: ${{ steps.status.outputs.status }}
-    steps:
-      - name: Clone Repo # needed for app version
-        uses: actions/checkout@v3
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0
-
-      - name: Download Google APK
-        uses: actions/download-artifact@v3
-        with:
-          name: androidArtifacts
-
-      - name: Firebase App Distribution Google
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: app-google-release.apk
-
-      - name: Firebase App Distribution Huawei
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: app-huawei-release.apk
-
-      - name: Delete Google APK
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: androidArtifacts
-
-      - name: Set Job Status
-        id: status
-        run: echo "::set-output name=status::success"
-
   DistributeIOS:
     runs-on: macos-12
     needs: [ XCodeBuild ]
@@ -214,7 +215,7 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - name: Clone Repo
+      - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
@@ -264,17 +265,11 @@ jobs:
         with:
           arguments: check koverMergedXmlReport detektAll --parallel
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/reports/kover/merged/xml/report.xml
-
-      - name: Upload coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/reports/kover/merged/xml/report.xml
+          name: coverageReport
+          path: build/reports/kover/merged/xml/report.xml
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -284,9 +279,47 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
+  UploadQualityReports:
+    runs-on: ubuntu-latest
+    needs: [ Quality ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Clone Repo # needed for app version
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Download Coverage Report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverageReport
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: report.xml
+
+      - name: Upload coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: report.xml
+
+      - name: Delete Coverage Report
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: iOSArtifacts
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild, Quality, DistributeAndroid, DistributeIOS ]
+    needs: [ GradleBuild, XCodeBuild, Quality, DistributeAndroid, DistributeIOS, UploadQualityReports ]
     if: always()
     steps:
 
@@ -294,6 +327,7 @@ jobs:
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
           false == (needs.Quality.outputs.status == 'success') ||
+          false == (needs.UploadQualityReports.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
         env:
