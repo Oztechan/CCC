@@ -92,7 +92,50 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  DistributeAndroid:
+    runs-on: ubuntu-latest
+    needs: [ GradleBuild ]
+    if: github.event_name == 'push'
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Clone Repo # needed for app version
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: Download Google APK
+        uses: actions/download-artifact@v3
+        with:
+          name: androidArtifacts
+
+      - name: Firebase App Distribution Google
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: app-google-release.apk
+
+      - name: Firebase App Distribution Huawei
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: app-huawei-release.apk
+
+      - name: Delete Google APK
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: androidArtifacts
 
       - name: Set Job Status
         id: status
@@ -202,7 +245,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
 
       - name: Set Job Status
         id: status
@@ -273,7 +316,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.2
+        uses: andymckay/cancel-action@0.3
 
       - name: Set Job Status
         id: status
