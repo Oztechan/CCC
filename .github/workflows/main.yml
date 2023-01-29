@@ -308,6 +308,17 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: report.xml
 
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=oztechan
+            -Dsonar.projectKey=Oztechan_CCC
+            -Dsonar.coverage.jacoco.xmlReportPaths=report.xml
+
       - name: Delete Coverage Report
         uses: geekyeggo/delete-artifact@v2
         with:
