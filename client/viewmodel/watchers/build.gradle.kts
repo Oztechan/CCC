@@ -55,7 +55,11 @@ kotlin {
             }
         }
 
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.android.lifecycleViewmodel)
+            }
+        }
         val androidTest by getting
 
         val iosX64Main by getting
@@ -90,7 +94,7 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.ViewModel.widget.packageName
+        namespace = Modules.Client.ViewModel.watchers.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
