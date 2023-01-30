@@ -44,6 +44,7 @@ kotlin {
                 libs.common.apply {
                     implementation(ktorServerContentNegotiation)
                     implementation(ktorJson)
+                    implementation(kermit)
                 }
 
                 Modules.Common.Core.apply {

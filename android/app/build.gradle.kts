@@ -91,6 +91,8 @@ dependencies {
         debugImplementation(leakCanary)
     }
 
+    implementation(libs.common.kermit)
+
     Modules.Android.Core.apply {
         implementation(project(billing))
         implementation(project(ad))

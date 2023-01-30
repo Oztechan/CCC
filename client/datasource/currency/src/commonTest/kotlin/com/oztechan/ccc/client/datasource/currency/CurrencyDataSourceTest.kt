@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.datasource.currency
 
-import com.github.submob.logmob.initTestLogger
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.Currency
 import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
@@ -41,7 +42,7 @@ internal class CurrencyDataSourceTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
+        Logger.setLogWriters(CommonWriter())
 
         given(sqlDriver)
             .invocation { executeQuery(-1, "", 0, null) }

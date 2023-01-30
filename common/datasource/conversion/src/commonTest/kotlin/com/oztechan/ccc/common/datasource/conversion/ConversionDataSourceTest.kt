@@ -1,6 +1,7 @@
 package com.oztechan.ccc.common.datasource.conversion
 
-import com.github.submob.logmob.initTestLogger
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.sql.ConversionQueries
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -42,7 +43,7 @@ internal class ConversionDataSourceTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
+        Logger.setLogWriters(CommonWriter())
 
         given(sqlDriver)
             .invocation { executeQuery(-1, "", 0, null) }

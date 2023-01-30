@@ -50,6 +50,7 @@ dependencies {
     libs.apply {
         common.apply {
             testImplementation(test)
+            implementation(kermit)
         }
 
         android.apply {
@@ -91,7 +92,6 @@ dependencies {
     }
 
     Modules.Submodules.apply {
-        implementation(project(logmob))
         implementation(project(scopemob))
         implementation(project(basemob))
     }

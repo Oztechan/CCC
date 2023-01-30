@@ -62,10 +62,11 @@ android {
 }
 
 dependencies {
-    implementation(libs.common.koinCore)
+    libs.common.apply {
+        implementation(koinCore)
+        implementation(kermit)
+    }
 
     @Suppress("UnstableApiUsage")
     DeviceFlavour.googleImplementation(libs.android.google.admob)
-
-    implementation(project(Modules.Submodules.logmob))
 }

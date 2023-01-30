@@ -4,7 +4,6 @@
 package com.oztechan.ccc.client.viewmodel.settings
 
 import co.touchlab.kermit.Logger
-import com.github.submob.logmob.e
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.util.isItOver
@@ -89,7 +88,7 @@ class SettingsViewModel(
                 delay(SYNC_DELAY)
 
                 runCatching { backendApiService.getConversion(name) }
-                    .onFailure { error -> Logger.e(error) }
+                    .onFailure { error -> Logger.e(error) { error.message.toString() } }
                     .onSuccess { conversionDataSource.insertConversion(it) }
             }
 

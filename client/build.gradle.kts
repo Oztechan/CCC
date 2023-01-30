@@ -27,10 +27,10 @@ kotlin {
                     implementation(kotlinXDateTime)
                     implementation(coroutines)
                     implementation(koinCore)
+                    implementation(kermit)
                 }
 
                 Modules.Submodules.apply {
-                    implementation(project(logmob))
                     implementation(project(scopemob))
                     implementation(project(parsermob))
                 }

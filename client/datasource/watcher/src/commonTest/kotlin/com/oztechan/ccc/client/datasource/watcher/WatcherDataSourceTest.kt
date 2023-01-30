@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.datasource.watcher
 
-import com.github.submob.logmob.initTestLogger
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.Watcher
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
@@ -44,7 +45,7 @@ internal class WatcherDataSourceTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
+        Logger.setLogWriters(CommonWriter())
 
         given(sqlDriver)
             .invocation { executeQuery(-1, "", 0, null) }
