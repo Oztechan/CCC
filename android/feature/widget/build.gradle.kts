@@ -33,6 +33,8 @@ dependencies {
         implementation(koinAndroid)
     }
 
+    implementation(libs.common.kermit)
+
     implementation(project(Modules.Client.ViewModel.widget))
 
     implementation(project(Modules.Common.Core.model))
@@ -40,8 +42,6 @@ dependencies {
     implementation(project(Modules.Client.self))
 
     implementation(project(Modules.Client.Core.res))
-
-    implementation(project(Modules.Submodules.logmob))
 
     testImplementation(libs.common.test)
 }

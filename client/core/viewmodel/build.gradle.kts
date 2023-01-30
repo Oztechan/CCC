@@ -19,8 +19,8 @@ kotlin {
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(coroutines)
+                    implementation(kermit)
                 }
-                implementation(project(Modules.Submodules.logmob))
             }
         }
         val commonTest by getting {

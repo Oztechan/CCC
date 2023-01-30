@@ -1,7 +1,6 @@
 package com.oztechan.ccc.backend.controller.client
 
 import co.touchlab.kermit.Logger
-import com.github.submob.logmob.e
 import com.oztechan.ccc.backend.service.free.FreeApiService
 import com.oztechan.ccc.backend.service.premium.PremiumApiService
 import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
@@ -25,12 +24,12 @@ internal class ClientControllerImpl(
 
             // non premium call for filling null values
             runCatching { freeApiService.getConversion(currencyType.name) }
-                .onFailure { Logger.e(it) }
+                .onFailure { Logger.e(it) { it.message.toString() } }
                 .onSuccess { nonPremiumResponse ->
 
                     // premium api call
                     runCatching { premiumApiService.getConversion(currencyType.name) }
-                        .onFailure { Logger.e(it) }
+                        .onFailure { Logger.e(it) { it.message.toString() } }
                         .onSuccess { premiumResponse ->
                             conversionDataSource.insertConversion(
                                 premiumResponse.fillMissingConversionWith(nonPremiumResponse)
@@ -48,7 +47,7 @@ internal class ClientControllerImpl(
             delay(SECOND)
 
             runCatching { freeApiService.getConversion(currencyType.name) }
-                .onFailure { Logger.e(it) }
+                .onFailure { Logger.e(it) { it.message.toString() } }
                 .onSuccess { conversionDataSource.insertConversion(it) }
         }
     }

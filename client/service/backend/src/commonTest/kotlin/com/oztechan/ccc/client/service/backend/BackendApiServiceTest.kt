@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.service.backend
 
-import com.github.submob.logmob.initTestLogger
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
 import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
 import com.oztechan.ccc.common.core.network.model.Conversion
@@ -35,7 +36,7 @@ internal class BackendApiServiceTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
+        Logger.setLogWriters(CommonWriter())
     }
 
     @Test

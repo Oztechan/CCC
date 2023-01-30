@@ -39,6 +39,7 @@ dependencies {
     libs.apply {
         common.apply {
             implementation(koinCore)
+            implementation(kermit)
         }
 
         android.apply {
@@ -46,13 +47,12 @@ dependencies {
 
             google.apply {
                 @Suppress("UnstableApiUsage")
-                DeviceFlavour.googleApi(billing)
+                DeviceFlavour.googleImplementation(billing)
             }
         }
     }
 
     Modules.Submodules.apply {
-        implementation(project(logmob))
         implementation(project(scopemob))
     }
 }

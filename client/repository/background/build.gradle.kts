@@ -22,12 +22,12 @@ kotlin {
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(coroutines)
+                    implementation(kermit)
                 }
                 implementation(project(Modules.Client.DataSource.watcher))
                 implementation(project(Modules.Client.Service.backend))
                 implementation(project(Modules.Client.Core.shared))
                 implementation(project(Modules.Common.Core.model))
-                implementation(project(Modules.Submodules.logmob))
             }
         }
         val commonTest by getting {

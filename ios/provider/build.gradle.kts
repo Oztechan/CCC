@@ -40,7 +40,10 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
 
-                implementation(libs.common.koinCore)
+                libs.common.apply {
+                    implementation(koinCore)
+                    implementation(kermit)
+                }
 
                 api(project(Modules.Client.self))
                 api(project(Modules.Client.Core.viewModel))

@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.repository.background
 
-import com.github.submob.logmob.initTestLogger
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.common.core.model.Conversion
@@ -32,7 +33,7 @@ internal class BackgroundRepositoryTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
+        Logger.setLogWriters(CommonWriter())
     }
 
     @Test

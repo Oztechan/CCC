@@ -17,13 +17,13 @@ kotlin {
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(coroutines)
+                    implementation(kermit)
                 }
                 Modules.Common.Core.apply {
                     implementation(project(network))
                     implementation(project(infrastructure))
                     implementation(project(model))
                 }
-                implementation(project(Modules.Submodules.logmob))
             }
         }
         val commonTest by getting {

@@ -15,7 +15,5 @@ enum class DeviceFlavour {
 
         val googleImplementation = "${google}Implementation"
         val huaweiImplementation = "${huawei}iImplementation"
-        val googleApi = "${google}Api"
-        val huaweiApi = "${huawei}Api"
     }
 }
