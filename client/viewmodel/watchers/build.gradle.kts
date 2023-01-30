@@ -20,6 +20,7 @@ kotlin {
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(coroutines)
+                    implementation(kermit)
                 }
 
                 Modules.Common.Core.apply {
@@ -37,10 +38,6 @@ kotlin {
 
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))
-                }
-
-                Modules.Submodules.apply {
-                    implementation(project(logmob))
                 }
             }
         }

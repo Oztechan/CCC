@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.viewmodel.watchers
 
-import com.github.submob.logmob.initTestLogger
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -47,7 +48,7 @@ internal class WatchersViewModelTest {
 
     @BeforeTest
     fun setup() {
-        initTestLogger()
+        Logger.setLogWriters(CommonWriter())
 
         Dispatchers.setMain(UnconfinedTestDispatcher())
 

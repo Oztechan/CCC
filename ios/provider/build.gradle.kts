@@ -56,7 +56,7 @@ kotlin {
                 api(project(Modules.Common.Core.model))
 
                 Modules.Client.ViewModel.apply {
-                    implementation(project(watchers))
+                    api(project(watchers))
                 }
 
                 Modules.Common.Core.apply {
