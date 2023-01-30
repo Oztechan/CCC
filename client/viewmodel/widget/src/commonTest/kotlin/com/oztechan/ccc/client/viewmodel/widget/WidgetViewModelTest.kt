@@ -24,7 +24,7 @@ import kotlin.test.assertEquals
 @Suppress("OPT_IN_USAGE")
 class WidgetViewModelTest {
 
-    private val subject: WidgetViewModel by lazy {
+    private val viewModel: WidgetViewModel by lazy {
         WidgetViewModel(calculatorStorage, backendApiService, currencyDataSource, appStorage)
     }
 
@@ -60,8 +60,8 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(mockEndDate)
 
-        assertEquals(base, subject.state.currentBase)
-        assertEquals(!appStorage.premiumEndDate.isItOver(), subject.state.isPremium)
+        assertEquals(base, viewModel.state.currentBase)
+        assertEquals(!appStorage.premiumEndDate.isItOver(), viewModel.state.isPremium)
     }
 
     @Test
@@ -78,7 +78,7 @@ class WidgetViewModelTest {
             .coroutine { getActiveCurrencies() }
             .thenReturn(listOf(currency))
 
-        subject.refreshWidgetData()
+        viewModel.refreshWidgetData()
 
         verify(backendApiService)
             .coroutine { getConversion(base) }
@@ -95,7 +95,7 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - DAY)
 
-        subject.refreshWidgetData()
+        viewModel.refreshWidgetData()
 
         verify(backendApiService)
             .coroutine { getConversion(base) }

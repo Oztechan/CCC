@@ -91,6 +91,10 @@ dependencies {
         implementation(project(analytics))
     }
 
+    Modules.Client.ViewModel.apply {
+        implementation(project(watchers))
+    }
+
     Modules.Submodules.apply {
         implementation(project(scopemob))
         implementation(project(basemob))

@@ -81,6 +81,7 @@ object Modules {
         }
 
         object ViewModel {
+            const val watchers = ":client:viewmodel:watchers"
             const val widget = ":client:viewmodel:widget"
         }
     }

@@ -26,6 +26,10 @@ kotlin {
             export(project(Modules.Client.Repository.background))
             export(project(Modules.Client.Core.analytics))
             export(project(Modules.Common.Core.model))
+
+            Modules.Client.ViewModel.apply {
+                export(project(watchers))
+            }
         }
     }
 
@@ -50,6 +54,10 @@ kotlin {
                 api(project(Modules.Client.Repository.background))
                 api(project(Modules.Client.Core.analytics))
                 api(project(Modules.Common.Core.model))
+
+                Modules.Client.ViewModel.apply {
+                    implementation(project(watchers))
+                }
 
                 Modules.Common.Core.apply {
                     implementation(project(database))

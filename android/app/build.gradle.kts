@@ -142,6 +142,7 @@ dependencies {
     }
 
     Modules.Client.ViewModel.apply {
+        implementation(project(watchers))
         implementation(project(widget))
     }
 
