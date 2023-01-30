@@ -17,12 +17,12 @@ import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateRate
 import com.oztechan.ccc.client.util.getConversionStringFromBase
-import com.oztechan.ccc.client.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.client.viewmodel.util.getFormatted
+import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate

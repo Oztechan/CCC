@@ -20,9 +20,9 @@ import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculateRate
 import com.oztechan.ccc.client.util.getConversionStringFromBase
-import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.client.util.toStandardDigits
-import com.oztechan.ccc.client.util.update
+import com.oztechan.ccc.client.viewmodel.util.launchIgnored
+import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
+import com.oztechan.ccc.client.viewmodel.util.update
 import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC

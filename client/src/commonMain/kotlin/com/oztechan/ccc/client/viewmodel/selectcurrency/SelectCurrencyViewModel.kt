@@ -5,8 +5,8 @@ package com.oztechan.ccc.client.viewmodel.selectcurrency
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.client.util.update
+import com.oztechan.ccc.client.viewmodel.util.launchIgnored
+import com.oztechan.ccc.client.viewmodel.util.update
 import com.oztechan.ccc.client.viewmodel.BaseData
 import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY

@@ -16,8 +16,8 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.client.util.update
+import com.oztechan.ccc.client.viewmodel.util.launchIgnored
+import com.oztechan.ccc.client.viewmodel.util.update
 import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesData.Companion.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.common.core.model.Currency

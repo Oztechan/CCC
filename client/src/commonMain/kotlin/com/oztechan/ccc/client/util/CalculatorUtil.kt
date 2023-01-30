@@ -1,8 +1,8 @@
 package com.oztechan.ccc.client.util
 
-import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
+import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
@@ -12,17 +12,6 @@ internal fun Conversion?.calculateRate(code: String, input: String?) = this
     ?.getRateFromCode(code)
     ?.times(input?.toSupportedCharacters()?.toStandardDigits()?.toDouble() ?: 0.0)
     ?: 0.0
-
-internal fun String.toStandardDigits(): String {
-    val builder = StringBuilder()
-    forEach { char ->
-        char.toString().toIntOrNull()
-            ?.whether { it >= 0 }
-            ?.let { builder.append(it) }
-            ?: run { builder.append(char) }
-    }
-    return builder.toString()
-}
 
 internal fun Currency.getConversionStringFromBase(
     base: String,
