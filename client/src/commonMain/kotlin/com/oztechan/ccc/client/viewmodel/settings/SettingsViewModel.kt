@@ -21,10 +21,10 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
 import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.util.indexToNumber
-import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.client.viewmodel.util.launchIgnored
+import com.oztechan.ccc.client.viewmodel.util.update
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow

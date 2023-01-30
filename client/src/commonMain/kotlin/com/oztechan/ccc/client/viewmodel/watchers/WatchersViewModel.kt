@@ -4,11 +4,11 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
-import com.oztechan.ccc.client.util.launchIgnored
-import com.oztechan.ccc.client.util.toStandardDigits
-import com.oztechan.ccc.client.util.update
 import com.oztechan.ccc.client.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.viewmodel.util.launchIgnored
+import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
+import com.oztechan.ccc.client.viewmodel.util.update
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.core.model.Watcher

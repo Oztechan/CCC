@@ -8,3 +8,17 @@ fun String.toSupportedCharacters() = replace(",", ".")
     .replace("٫", ".")
     .replace(" ", "")
     .replace("−", "-")
+
+fun String.toStandardDigits(): String {
+    val builder = StringBuilder()
+    forEach { char ->
+        char.toString().toIntOrNull().let {
+            if (it != null && it >= 0) {
+                builder.append(it)
+            } else {
+                builder.append(char)
+            }
+        }
+    }
+    return builder.toString()
+}

@@ -66,32 +66,6 @@ internal class CalculatorUtilTest : BaseTest() {
     }
 
     @Test
-    fun toStandardDigits() {
-        // https://en.wikipedia.org/w/index.php?title=Hindu%E2%80%93Arabic_numeral_system
-        listOf(
-            "०१२३४५६७८९",
-            "૦૧૨૩૪૫૬૭૮૯",
-            "੦੧੨੩੪੫੬੭੮੯",
-            "༠༡༢༣༤༥༦༧༨༩",
-            "০১২৩৪৫৬৭৮৯",
-            "೦೧೨೩೪೫೬೭೮೯",
-            "୦୧୨୩୪୫୬୭୮୯",
-            "൦൧൨൩൪൫൬൭൮൯",
-            "౦౧౨౩౪౫౬౭౮౯",
-            "០១២៣៤៥៦៧៨៩",
-            "๐๑๒๓๔๕๖๗๘๙",
-            "໐໑໒໓໔໕໖໗໘໙",
-            "၀၁၂၃၄၅၆၇၈၉",
-            "٠١٢٣٤٥٦٧٨٩",
-            "۰۱۲۳۴۵۶۷۸۹",
-            "۰۱۲۳۴۵۶۷۸۹",
-            "᠐᠑᠒᠓᠔᠕᠖᠗᠘᠙"
-        ).forEach {
-            assertEquals("0123456789", it.toStandardDigits(), "actual string $it")
-        }
-    }
-
-    @Test
     fun indexToNumber() {
         val value = Random.nextInt()
         assertEquals(value + 1, value.indexToNumber())
