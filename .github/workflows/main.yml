@@ -330,8 +330,6 @@ jobs:
 
   CodeAnalysis:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/realm/swiftlint:5.5-latest
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
