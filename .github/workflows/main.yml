@@ -349,7 +349,7 @@ jobs:
 
       - name: SwiftLint
         run: |
-          cd ios
+          cd CCC/ios
           swiftlint --reporter github-actions-logging --strict
 
       - name: Cancel other jobs if this fails
