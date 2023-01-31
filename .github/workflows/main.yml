@@ -340,7 +340,7 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
 
-      - name: GitHub Action for SwiftLint with --strict
+      - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
         env:
           WORKING_DIRECTORY: ios
