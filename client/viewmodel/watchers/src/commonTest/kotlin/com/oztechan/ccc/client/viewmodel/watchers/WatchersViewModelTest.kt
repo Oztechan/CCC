@@ -1,15 +1,12 @@
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.watchers
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.client.helper.BaseViewModelTest
-import com.oztechan.ccc.client.helper.util.after
-import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
 import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
 import io.mockative.Mock
@@ -17,8 +14,13 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -27,9 +29,9 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
 @Suppress("OPT_IN_USAGE", "TooManyFunctions")
-internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
+internal class WatchersViewModelTest {
 
-    override val subject: WatchersViewModel by lazy {
+    private val viewModel: WatchersViewModel by lazy {
         WatchersViewModel(currencyDataSource, watcherDataSource, adControlRepository)
     }
 
@@ -45,8 +47,10 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     private val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(watcherDataSource)
             .invocation { getWatchersFlow() }
@@ -61,7 +65,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBool)
 
-        assertEquals(mockBool, subject.shouldShowBannerAd())
+        assertEquals(mockBool, viewModel.shouldShowBannerAd())
 
         verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
@@ -70,35 +74,46 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
 
     // Event
     @Test
-    fun onBackClick() = subject.effect.before {
-        subject.event.onBackClick()
-    }.after {
-        assertNotNull(it)
-        assertIs<WatchersEffect.Back>(it)
+    fun onBackClick() = runTest {
+        viewModel.effect
+            .onSubscription {
+                viewModel.event.onBackClick()
+            }.firstOrNull().let {
+                assertNotNull(it)
+                assertIs<WatchersEffect.Back>(it)
+            }
     }
 
     @Test
-    fun onBaseClick() = subject.effect.before {
-        subject.event.onBaseClick(watcher)
-    }.after {
-        assertNotNull(it)
-        assertIs<WatchersEffect.SelectBase>(it)
-        assertEquals(watcher, it.watcher)
+    fun onBaseClick() = runTest {
+        viewModel.effect
+            .onSubscription {
+                viewModel.event.onBaseClick(watcher)
+            }
+            .firstOrNull().let {
+                assertNotNull(it)
+                assertIs<WatchersEffect.SelectBase>(it)
+                assertEquals(watcher, it.watcher)
+            }
     }
 
     @Test
-    fun onTargetClick() = subject.effect.before {
-        subject.event.onTargetClick(watcher)
-    }.after {
-        assertNotNull(it)
-        assertIs<WatchersEffect.SelectTarget>(it)
-        assertEquals(watcher, it.watcher)
+    fun onTargetClick() = runTest {
+        viewModel.effect
+            .onSubscription {
+                viewModel.event.onTargetClick(watcher)
+            }
+            .firstOrNull().let {
+                assertNotNull(it)
+                assertIs<WatchersEffect.SelectTarget>(it)
+                assertEquals(watcher, it.watcher)
+            }
     }
 
     @Test
     fun onBaseChanged() {
         val mockBase = "mock"
-        subject.event.onBaseChanged(watcher, mockBase)
+        viewModel.event.onBaseChanged(watcher, mockBase)
 
         runTest {
             verify(watcherDataSource)
@@ -110,7 +125,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     @Test
     fun onTargetChanged() {
         val mockBase = "mock"
-        subject.event.onTargetChanged(watcher, mockBase)
+        viewModel.event.onTargetChanged(watcher, mockBase)
 
         runTest {
             verify(watcherDataSource)
@@ -133,7 +148,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
             .coroutine { getWatchers() }
             .thenReturn(listOf())
 
-        subject.event.onAddClick()
+        viewModel.event.onAddClick()
 
         verify(watcherDataSource)
             .coroutine { addWatcher("", "") }
@@ -148,7 +163,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
             .coroutine { getActiveCurrencies() }
             .thenReturn(listOf(currency1, currency2))
 
-        subject.event.onAddClick()
+        viewModel.event.onAddClick()
 
         verify(watcherDataSource)
             .coroutine { addWatcher(currency1.code, currency2.code) }
@@ -159,17 +174,19 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
             .coroutine { getWatchers() }
             .thenReturn(listOf(watcher, watcher, watcher, watcher, watcher))
 
-        subject.effect.before {
-            subject.event.onAddClick()
-        }.after {
-            assertNotNull(it)
-            assertIs<WatchersEffect.MaximumNumberOfWatchers>(it)
-        }
+        viewModel.effect
+            .onSubscription {
+                viewModel.event.onAddClick()
+            }
+            .firstOrNull().let {
+                assertNotNull(it)
+                assertIs<WatchersEffect.MaximumNumberOfWatchers>(it)
+            }
     }
 
     @Test
     fun onDeleteClick() {
-        subject.event.onDeleteClick(watcher)
+        viewModel.event.onDeleteClick(watcher)
 
         runTest {
             verify(watcherDataSource)
@@ -181,7 +198,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     @Test
     fun onRelationChange() {
         val mockBoolean = Random.nextBoolean()
-        subject.event.onRelationChange(watcher, mockBoolean)
+        viewModel.event.onRelationChange(watcher, mockBoolean)
 
         runTest {
             verify(watcherDataSource)
@@ -194,7 +211,7 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
     fun onRateChange() = runTest {
         // when rate is normal
         var rate = "12"
-        assertEquals(rate, subject.event.onRateChange(watcher, rate))
+        assertEquals(rate, viewModel.event.onRateChange(watcher, rate))
 
         verify(watcherDataSource)
             .coroutine {
@@ -206,20 +223,25 @@ internal class WatchersViewModelTest : BaseViewModelTest<WatchersViewModel>() {
             .wasInvoked()
 
         // when rate is not valid
-        rate = "asd"
-        subject.effect.before {
-            assertEquals(rate, subject.event.onRateChange(watcher, rate))
-        }.after {
-            assertNotNull(it)
-            assertIs<WatchersEffect.InvalidInput>(it)
-        }
+        viewModel.effect
+            .onSubscription {
+                rate = "asd"
+                assertEquals(rate, viewModel.event.onRateChange(watcher, rate))
+            }
+            .firstOrNull().let {
+                assertNotNull(it)
+                assertIs<WatchersEffect.InvalidInput>(it)
+            }
+
         // when rate is too long
-        rate = "12345678910"
-        subject.effect.before {
-            assertEquals(rate.dropLast(1), subject.event.onRateChange(watcher, rate))
-        }.after {
-            assertNotNull(it)
-            assertIs<WatchersEffect.TooBigNumber>(it)
-        }
+        viewModel.effect
+            .onSubscription {
+                rate = "12345678910"
+                assertEquals(rate.dropLast(1), viewModel.event.onRateChange(watcher, rate))
+            }
+            .firstOrNull().let {
+                assertNotNull(it)
+                assertIs<WatchersEffect.TooBigNumber>(it)
+            }
     }
 }
