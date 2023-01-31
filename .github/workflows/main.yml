@@ -339,6 +339,8 @@ jobs:
         run: |
           apt-get update
           apt-get install -y git
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
 
       - name: Clone Repo
         uses: actions/checkout@v3
