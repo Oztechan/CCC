@@ -328,6 +328,29 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
+  CodeAnalysis:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/realm/swiftlint:5.5-latest
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Clone Repo # needed for app version
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: SwiftLint
+        run: |
+          cd ios
+          swiftlint --reporter github-actions-logging --strict
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   Notify:
     runs-on: ubuntu-latest
     needs: [ GradleBuild, XCodeBuild, Quality, DistributeAndroid, DistributeIOS, UploadQualityReports ]
@@ -339,6 +362,7 @@ jobs:
           false == (needs.XCodeBuild.outputs.status == 'success') ||
           false == (needs.Quality.outputs.status == 'success') ||
           false == (needs.UploadQualityReports.outputs.status == 'success') ||
+          false == (needs.CodeAnalysis.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
         env:
