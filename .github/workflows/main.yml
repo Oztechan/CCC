@@ -342,10 +342,7 @@ jobs:
           fetch-depth: '0'
 
       - name: Checkout submodules
-        shell: bash
-        run: |
-          sudo apt install git
-          git submodule update --init --recursive
+        uses: textbook/git-checkout-submodule-action@master
 
       - name: SwiftLint
         run: |
