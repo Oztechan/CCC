@@ -209,7 +209,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   DistributeIOS:
-    runs-on: ubuntu-latest
+    runs-on: macos-12
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -328,9 +328,36 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
+  CodeAnalysis:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Clone Repo # needed for app version
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
+
+      - name: SwiftLint
+        uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: ios
+        with:
+          args: --strict
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.3
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild, Quality, DistributeAndroid, DistributeIOS, UploadQualityReports ]
+    needs: [ GradleBuild, XCodeBuild, Quality, CodeAnalysis, DistributeAndroid, DistributeIOS, UploadQualityReports ]
     if: always()
     steps:
 
@@ -338,6 +365,7 @@ jobs:
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
           false == (needs.Quality.outputs.status == 'success') ||
+          false == (needs.CodeAnalysis.outputs.status == 'success') ||
           false == (needs.UploadQualityReports.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')

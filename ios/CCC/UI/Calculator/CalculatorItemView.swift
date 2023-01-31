@@ -6,12 +6,11 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Provider
 import Res
+import SwiftUI
 
 struct CalculatorItemView: View {
-
     var item: Currency
     var onItemClick: (Currency) -> Void
     var onItemImageLongClick: (Currency) -> Void
@@ -19,7 +18,6 @@ struct CalculatorItemView: View {
 
     var body: some View {
         HStack {
-
             Text(String(item.rate))
                 .font(relative: .body)
                 .foregroundColor(Res.colors().text.get())
@@ -43,7 +41,6 @@ struct CalculatorItemView: View {
             CurrencyImageView(imageName: item.code)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
-
         }
         .padding(.vertical, 4.cp())
         .contentShape(Rectangle())

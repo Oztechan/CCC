@@ -6,13 +6,12 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
 import NavigationStack
+import Provider
+import Res
+import SwiftUI
 
 struct SelectCurrencyView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         SelectCurrencyState,
         SelectCurrencyEffect,
@@ -29,11 +28,8 @@ struct SelectCurrencyView: View {
     var onCurrencySelected: (String) -> Void
 
     var body: some View {
-
         NavigationView {
-
             ZStack {
-
                 Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
@@ -80,7 +76,7 @@ struct SelectCurrencyView: View {
     }
 
     private func onEffect(effect: SelectCurrencyEffect) {
-        logger.i(message: {"SelectCurrencyView onEffect \(effect.description)"})
+        logger.i(message: { "SelectCurrencyView onEffect \(effect.description)" })
         switch effect {
         // swiftlint:disable force_cast
         case is SelectCurrencyEffect.CurrencyChange:
@@ -89,7 +85,7 @@ struct SelectCurrencyView: View {
         case is SelectCurrencyEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onCurrencySelected))
         default:
-            logger.i(message: {"BarView unknown effect"})
+            logger.i(message: { "BarView unknown effect" })
         }
     }
 }

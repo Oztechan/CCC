@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct InputView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -17,7 +17,6 @@ struct InputView: View {
 
     var body: some View {
         HStack {
-
             Spacer()
 
             Text(input)
@@ -34,7 +33,6 @@ struct InputView: View {
                 clickEvent: onSettingsClick,
                 imgName: "gear"
             ).padding(.trailing, 5.cp())
-
         }
         .frame(width: .none, height: 36.cp(), alignment: .center)
         .padding(.top, 4.cp())
