@@ -263,7 +263,7 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: check koverMergedXmlReport detektAll --parallel
+          arguments: check koverMergedXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
@@ -339,6 +339,11 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
+
+      - name: Detekt
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: detektAll
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
