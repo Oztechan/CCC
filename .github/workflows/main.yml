@@ -335,6 +335,7 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
+
       - name: Install Git
         run: |
           apt-get update
@@ -350,7 +351,7 @@ jobs:
       - name: SwiftLint
         run: |
           cd CCC/ios
-          swiftlint --reporter github-actions-logging --strict
+          swiftlint --strict
 
       - name: Cancel other jobs if this fails
         if: failure()
