@@ -340,30 +340,12 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
 
-      - name: Read version from Mintfile
-        run: echo "SWIFTLINT_VERSION=$(awk '/SwiftLint/ {split($0, a, "@"); print a[2]}' Mintfile)" >> $GITHUB_ENV
-      - uses: actions/cache@v2
-        with:
-          path: .build/release/swiftlint
-          key: $-linting-swiftlint-$
-      - name: Build realm/SwiftLint
-        run: |
-          if [ -f ".build/release/swiftlint" ]; then
-            sudo cp -f .build/release/swiftlint /usr/local/bin/swiftlint
-          else
-            git clone --depth 1 --branch $ https://github.com/realm/SwiftLint.git
-            cd SwiftLint
-            swift build --disable-sandbox -c release
-            mv .build .. && cd ..
-            rm -rf SwiftLint
-            sudo cp -f .build/release/swiftlint /usr/local/bin/swiftlint
-          fi
-      - name: SwiftLint
-        run: |
-          swiftlint --version
-          swiftlint --strict
+      - name: GitHub Action for SwiftLint with --strict
+        uses: norio-nomura/action-swiftlint@3.2.1
         env:
-          LINUX_SOURCEKIT_LIB_PATH: /usr/share/swift/usr/lib # FIXED: Fatal error: Loading libsourcekitdInProc.so failed
+          WORKING_DIRECTORY: ios
+        with:
+          args: --strict
 
       - name: Cancel other jobs if this fails
         if: failure()
