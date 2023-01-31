@@ -351,7 +351,7 @@ jobs:
           if [ -f ".build/release/swiftlint" ]; then
             sudo cp -f .build/release/swiftlint /usr/local/bin/swiftlint
           else
-            git clone --depth 1 --branch $ https://github.com/realm/SwiftLint
+            git clone --depth 1 --branch $ https://github.com/realm/SwiftLint.git
             cd SwiftLint
             swift build --disable-sandbox -c release
             mv .build .. && cd ..
