@@ -336,11 +336,8 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo # needed for app version
+      - name: Clone Repo
         uses: actions/checkout@v3
-        with:
-          fetch-depth: '0'
-      - run: git checkout HEAD^
 
       - name: Checkout submodules
         shell: bash
