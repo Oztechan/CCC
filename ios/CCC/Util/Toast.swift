@@ -6,8 +6,8 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import Loaf
 import Client
+import Loaf
 
 func showToast(text: String) {
     if let controller = UIApplication.shared.windows.first(where: \.isKeyWindow)?.rootViewController {

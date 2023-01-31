@@ -6,11 +6,11 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
+import Combine
+import NavigationStack
 import Provider
 import Res
-import NavigationStack
-import Combine
+import SwiftUI
 
 struct WatcherItem: View {
     @Environment(\.colorScheme) var colorScheme
@@ -69,7 +69,6 @@ struct WatcherItem: View {
                 .imageScale(.large)
                 .padding(.leading, 10.cp())
                 .onTapGesture { event.onDeleteClick(watcher: watcher) }
-
         }
         .padding(.vertical, 4.cp())
         .onAppear {

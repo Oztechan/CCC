@@ -6,14 +6,13 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import NavigationStack
-import Res
-import Provider
 import GoogleMobileAds
+import NavigationStack
+import Provider
+import Res
+import SwiftUI
 
 struct MainView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         BaseState,
         MainEffect,
@@ -23,7 +22,6 @@ struct MainView: View {
     >()
 
     var body: some View {
-
         NavigationStackView(
             transitionType: .default,
             easing: Animation.easeInOut
@@ -46,12 +44,12 @@ struct MainView: View {
     }
 
     private func onEffect(effect: MainEffect) {
-        logger.i(message: {"MainView onEffect \(effect.description)"})
+        logger.i(message: { "MainView onEffect \(effect.description)" })
         switch effect {
         case is MainEffect.ShowInterstitialAd:
             InterstitialAd().show()
         default:
-            logger.i(message: {"MainView unknown effect"})
+            logger.i(message: { "MainView unknown effect" })
         }
     }
 }
