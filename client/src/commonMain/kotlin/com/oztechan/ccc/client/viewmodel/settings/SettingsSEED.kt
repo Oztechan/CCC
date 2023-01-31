@@ -1,10 +1,10 @@
 package com.oztechan.ccc.client.viewmodel.settings
 
 import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.viewmodel.BaseData
-import com.oztechan.ccc.client.viewmodel.BaseEffect
-import com.oztechan.ccc.client.viewmodel.BaseEvent
-import com.oztechan.ccc.client.viewmodel.BaseState
+import com.oztechan.ccc.client.core.viewmodel.BaseData
+import com.oztechan.ccc.client.core.viewmodel.BaseEffect
+import com.oztechan.ccc.client.core.viewmodel.BaseEvent
+import com.oztechan.ccc.client.core.viewmodel.BaseState
 
 // State
 data class SettingsState(

@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.viewmodel.util
+package com.oztechan.ccc.client.core.viewmodel.util
 
 const val MAXIMUM_FLOATING_POINT = 9
 

@@ -1,6 +1,6 @@
-package com.oztechan.ccc.client.viewmodel.di
+package com.oztechan.ccc.client.core.viewmodel.di
 
-import com.oztechan.ccc.client.viewmodel.BaseViewModel
+import com.oztechan.ccc.client.core.viewmodel.BaseViewModel
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module

@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.viewmodel.util
+package com.oztechan.ccc.client.core.viewmodel.util
 
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
