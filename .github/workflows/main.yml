@@ -341,13 +341,10 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - name: Install git
+      - name: Checkout submodules
         with:
           args: install --prefer-dist --no-dev
-
-      - name: Checkout submodules
-        run: |
-          git submodule update --init --recursive
+        run: git submodule update --init --recursive
 
       - name: SwiftLint
         run: |
