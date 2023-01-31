@@ -335,6 +335,8 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
 
       - name: Install Git
         run: |
@@ -344,8 +346,6 @@ jobs:
       - name: Checkout submodules
         shell: bash
         run: |
-          git clone https://github.com/CurrencyConverterCalculator/CCC.git
-          cd CCC
           git submodule update --init --recursive
 
       - name: SwiftLint
