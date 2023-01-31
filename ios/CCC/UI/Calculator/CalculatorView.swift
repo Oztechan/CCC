@@ -67,8 +67,12 @@ struct CalculatorView: View {
                                 CalculatorItemView(
                                     item: $0,
                                     onItemClick: { observable.event.onItemClick(currency: $0) },
-                                    onItemImageLongClick: { observable.event.onItemImageLongClick(currency: $0) },
-                                    onItemAmountLongClick: { observable.event.onItemAmountLongClick(amount: $0) }
+                                    onItemImageLongClick: {
+                                        observable.event.onItemImageLongClick(currency: $0)
+                                    },
+                                    onItemAmountLongClick: {
+                                        observable.event.onItemAmountLongClick(amount: $0)
+                                    }
                                 )
                             }
                             .listRowInsets(.init())
@@ -120,7 +124,9 @@ struct CalculatorView: View {
                 text: Res.strings().choose_at_least_two_currency.get(),
                 buttonText: Res.strings().select.get(),
                 buttonAction: {
-                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+                    navigationStack.push(
+                        CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) })
+                    )
                 }
             )
         }
