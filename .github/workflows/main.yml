@@ -339,11 +339,8 @@ jobs:
       - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
         with:
-          fetch-depth: '0'
-          args: install --prefer-dist --no-dev
-
-      - name: Checkout submodules
-        run: git submodule update --init --recursive
+          submodules: 'recursive'
+          fetch-depth: 0
 
       - name: SwiftLint
         run: |
