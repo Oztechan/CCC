@@ -339,15 +339,16 @@ jobs:
         run: |
           apt-get update
           apt-get install -y git
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
 
       - name: Clone Repo
         uses: actions/checkout@v3
 
       - name: Checkout submodules
         shell: bash
-        run: git submodule update --init --recursive
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+          git submodule update --init --recursive
 
       - name: SwiftLint
         run: |
