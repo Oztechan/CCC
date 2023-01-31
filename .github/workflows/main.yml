@@ -339,7 +339,7 @@ jobs:
       - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
         with:
-          submodules: 'recursive'
+          submodules: true
           fetch-depth: 0
 
       - name: SwiftLint
