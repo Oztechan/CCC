@@ -329,7 +329,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   CodeAnalysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -350,8 +350,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: detektAll
-        env:
-          CI: false
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
