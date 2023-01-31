@@ -263,7 +263,7 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: check koverMergedXmlReport detektAll --parallel
+          arguments: check koverMergedXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
@@ -329,7 +329,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   CodeAnalysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -339,6 +339,17 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Detekt
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: detektAll
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
