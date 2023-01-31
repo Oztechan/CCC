@@ -342,7 +342,8 @@ jobs:
           fetch-depth: '0'
 
       - name: Checkout submodules
-        uses: textbook/git-checkout-submodule-action@master
+        shell: bash
+        run: git submodule update --init --recursive
 
       - name: SwiftLint
         run: |
