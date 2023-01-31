@@ -51,8 +51,8 @@ extension View {
         return self.font(.system(size: size))
     }
 
-    // swiftlint:disable cyclomatic_complexity
     private func getSizeFromStyle(style: Font.TextStyle) -> Double {
+        // swiftlint:disable:this cyclomatic_complexity
         switch style {
         case .largeTitle:
             return 34.cp()

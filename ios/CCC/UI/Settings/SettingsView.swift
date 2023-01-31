@@ -167,8 +167,9 @@ struct SettingsView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
+        // swiftlint:disable:this cyclomatic_complexity
+
         logger.i(message: { "SettingsView onEffect \(effect.description)" })
         switch effect {
         case is SettingsEffect.Back:

@@ -18,7 +18,13 @@ struct KeyboardView: View {
         [Res.strings().four.get(), Res.strings().five.get(), Res.strings().six.get(), Res.strings().divide.get()],
         [Res.strings().one.get(), Res.strings().two.get(), Res.strings().three.get(), Res.strings().minus.get()],
         [Res.strings().dot.get(), Res.strings().zero.get(), Res.strings().percent.get(), Res.strings().plus.get()],
-        [Res.strings().open_parentheses.get(), Res.strings().triple_zero.get(), Res.strings().ac.get(), Res.strings().delete_.get(), Res.strings().close_parentheses.get()]
+        [
+            Res.strings().open_parentheses.get(),
+            Res.strings().triple_zero.get(),
+            Res.strings().ac.get(),
+            Res.strings().delete_.get(),
+            Res.strings().close_parentheses.get()
+        ]
     ]
 
     var body: some View {
