@@ -346,6 +346,7 @@ jobs:
       - name: Checkout submodules
         shell: bash
         run: |
+          cd CCC
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
           git submodule update --init --recursive
