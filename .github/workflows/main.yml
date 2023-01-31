@@ -341,9 +341,11 @@ jobs:
         with:
           fetch-depth: '0'
 
-      - name: Checkout submodules
+      - name: Install git
         with:
           args: install --prefer-dist --no-dev
+
+      - name: Checkout submodules
         run: |
           git submodule update --init --recursive
 
