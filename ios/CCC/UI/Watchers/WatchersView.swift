@@ -6,13 +6,14 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import NavigationStack
-import PopupView
+import SwiftUI
 import Provider
 import Res
-import SwiftUI
+import NavigationStack
+import PopupView
 
 struct WatchersView: View {
+
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = ObservableSEEDViewModel<
@@ -75,6 +76,7 @@ struct WatchersView: View {
                             .background(Res.colors().background_strong.get())
 
                             Spacer()
+
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -102,6 +104,7 @@ struct WatchersView: View {
                         .foregroundColor(Res.colors().text.get())
                         .cornerRadius(5.cp())
                         .padding(8.cp())
+
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
                         .background(Res.colors().background.get())
                 }
@@ -160,6 +163,11 @@ struct WatchersView: View {
                     }
                 ).environmentObject(navigationStack)
             }
+
+
+
+
+
         )
         .onAppear {
             observable.startObserving()
@@ -180,7 +188,7 @@ struct WatchersView: View {
     }
 
     private func onEffect(effect: WatchersEffect) {
-        logger.i(message: { "WatchersView onEffect \(effect.description)" })
+        logger.i(message: {"WatchersView onEffect \(effect.description)"})
         switch effect {
         case is WatchersEffect.Back:
             navigationStack.pop()
@@ -199,12 +207,12 @@ struct WatchersView: View {
         case is WatchersEffect.MaximumNumberOfWatchers:
             isMaxWatchersSnackShown.toggle()
         default:
-            logger.i(message: { "WatchersView unknown effect" })
+            logger.i(message: {"WatchersView unknown effect"})
         }
     }
 
     private func onAuthorisationChange(authorizationStatus: UNAuthorizationStatus?) {
-        logger.i(message: { "WatchersView onAuthorisationChange \(String(describing: authorizationStatus?.rawValue))" })
+        logger.i(message: {"WatchersView onAuthorisationChange \(String(describing: authorizationStatus?.rawValue))"})
         switch authorizationStatus {
         case .notDetermined:
             notificationManager.requestAuthorisation()
