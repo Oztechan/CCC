@@ -7,15 +7,13 @@
 //
 
 import MessageUI
-import SwiftUI
 import Res
+import SwiftUI
 
 struct MailView: UIViewControllerRepresentable {
-
     @Binding var isShowing: Bool
 
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
-
         @Binding var isShowing: Bool
 
         init(isShowing: Binding<Bool>) {

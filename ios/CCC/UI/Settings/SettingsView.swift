@@ -6,15 +6,14 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
-import NavigationStack
 import GoogleMobileAds
+import NavigationStack
 import PopupView
+import Provider
+import Res
+import SwiftUI
 
 struct SettingsView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         SettingsState,
         SettingsEffect,
@@ -24,25 +23,23 @@ struct SettingsView: View {
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
-    @State var emailViewVisibility: Bool = false
-    @State var webViewVisibility: Bool = false
-    @State var isPremiumDialogShown: Bool = false
-    @State var isAdsAlreadyDisabledSnackShown: Bool = false
-    @State var isAlreadySyncedSnackShown: Bool = false
-    @State var isSynchronisingShown: Bool = false
-    @State var isSyncedSnackShown: Bool = false
+    @State var emailViewVisibility = false
+    @State var webViewVisibility = false
+    @State var isPremiumDialogShown = false
+    @State var isAdsAlreadyDisabledSnackShown = false
+    @State var isAlreadySyncedSnackShown = false
+    @State var isSynchronisingShown = false
+    @State var isSyncedSnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
     var onBaseChange: ((String) -> Void)
 
     var body: some View {
-
         ZStack {
             Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
-
                 SettingsToolbarView(backEvent: observable.event.onBackClick)
 
                 Form {
@@ -113,7 +110,6 @@ struct SettingsView: View {
                 if observable.viewModel.shouldShowBannerAd() {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()
                 }
-
             }
             .navigationBarHidden(true)
         }
@@ -173,7 +169,7 @@ struct SettingsView: View {
 
     // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
-        logger.i(message: {"SettingsView onEffect \(effect.description)"})
+        logger.i(message: { "SettingsView onEffect \(effect.description)" })
         switch effect {
         case is SettingsEffect.Back:
             navigationStack.pop()
@@ -196,7 +192,7 @@ struct SettingsView: View {
         case is SettingsEffect.Premium:
             isPremiumDialogShown.toggle()
         default:
-            logger.i(message: {"SettingsView unknown effect"})
+            logger.i(message: { "SettingsView unknown effect" })
         }
     }
 

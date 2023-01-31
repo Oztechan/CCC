@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct SlideView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -23,7 +23,6 @@ struct SlideView: View {
         ZStack {
             Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
             VStack {
-
                 Spacer()
 
                 Text(title)

@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
@@ -22,15 +22,12 @@ struct KeyboardView: View {
     ]
 
     var body: some View {
-
         VStack(alignment: .center) {
             ForEach(keys, id: \.self) { items in
-
                 HStack(alignment: .center) {
                     ForEach(items, id: \.self) { item in
-
                         Button(
-                            action: { onKeyPress(item)},
+                            action: { onKeyPress(item) },
                             label: {
                                 Text(item)
                                     .font(relative: .title2)
@@ -38,10 +35,8 @@ struct KeyboardView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }
                         )
-
                     }
                 }
-
             }
         }.background(Res.colors().background_strong.get())
     }

@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct CurrenciesToolbarView: View {
     var firstRun: Bool
@@ -19,7 +19,6 @@ struct CurrenciesToolbarView: View {
 
     var body: some View {
         HStack {
-
             if !firstRun {
                 ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")
             }
@@ -48,9 +47,7 @@ struct CurrenciesToolbarView: View {
                     },
                     imgName: "xmark"
                 )
-
             } else {
-
                 Text(Res.strings().txt_currencies.get()).font(relative: .title3)
 
                 Spacer()
@@ -60,7 +57,6 @@ struct CurrenciesToolbarView: View {
                     imgName: "magnifyingglass"
                 )
             }
-
         }.padding(top: 20.cp(), leading: 10.cp(), bottom: 10.cp(), trailing: 20.cp())
     }
 }

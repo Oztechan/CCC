@@ -35,7 +35,7 @@
 		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
 		5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71E82922BBD200733C49 /* ViewExt.swift */; };
 		5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EA2922BC0300733C49 /* ResourceExt.swift */; };
-		5C5C71ED2922BFC400733C49 /* ConversionStateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */; };
+		5C5C71ED2922BFC400733C49 /* ConversionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* ConversionState.swift */; };
 		5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EE2922C06F00733C49 /* SecretUtil.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
@@ -103,7 +103,7 @@
 		5C5B0E7B28A4084200FACFDE /* AnalyticsManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerImpl.swift; sourceTree = "<group>"; };
 		5C5C71E82922BBD200733C49 /* ViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExt.swift; sourceTree = "<group>"; };
 		5C5C71EA2922BC0300733C49 /* ResourceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceExt.swift; sourceTree = "<group>"; };
-		5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionStateExt.swift; sourceTree = "<group>"; };
+		5C5C71EC2922BFC400733C49 /* ConversionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionState.swift; sourceTree = "<group>"; };
 		5C5C71EE2922C06F00733C49 /* SecretUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretUtil.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 				5C5C71EE2922C06F00733C49 /* SecretUtil.swift */,
 				5C5C71E82922BBD200733C49 /* ViewExt.swift */,
 				5C5C71EA2922BC0300733C49 /* ResourceExt.swift */,
-				5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */,
+				5C5C71EC2922BFC400733C49 /* ConversionState.swift */,
 				5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */,
 			);
 			path = Util;
@@ -564,7 +564,7 @@
 				5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */,
 				5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
-				5C5C71ED2922BFC400733C49 /* ConversionStateExt.swift in Sources */,
+				5C5C71ED2922BFC400733C49 /* ConversionState.swift in Sources */,
 				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
 				5C31E4342814306D008C42B9 /* SettingsToolbarView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,

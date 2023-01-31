@@ -6,9 +6,9 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
 import Provider
+import Res
+import SwiftUI
 
 struct CurrenciesItemView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -19,7 +19,6 @@ struct CurrenciesItemView: View {
 
     var body: some View {
         HStack {
-
             CurrencyImageView(imageName: item.code)
 
             Text(item.code)
@@ -39,7 +38,6 @@ struct CurrenciesItemView: View {
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
                 .resize(widthAndHeight: 20.cp())
                 .foregroundColor(Res.colors().secondary.get())
-
         }
         .contentShape(Rectangle())
         .padding(.vertical, 4.cp())

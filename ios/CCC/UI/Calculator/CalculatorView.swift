@@ -6,14 +6,13 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
 import NavigationStack
 import PopupView
+import Provider
+import Res
+import SwiftUI
 
 struct CalculatorView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         CalculatorState,
         CalculatorEffect,
@@ -41,7 +40,6 @@ struct CalculatorView: View {
                 Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
-
                     InputView(
                         input: observable.state.input,
                         onSettingsClick: observable.event.onSettingsClicked
@@ -93,7 +91,6 @@ struct CalculatorView: View {
                     if observable.viewModel.shouldShowBannerAd() {
                         AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adapt()
                     }
-
                 }
             }
             .background(Res.colors().background_strong.get())
@@ -151,7 +148,7 @@ struct CalculatorView: View {
             content: {
                 SelectCurrencyView(
                     isBarShown: $isBarShown,
-                    onCurrencySelected: { observable.event.onBaseChange(base: $0)}
+                    onCurrencySelected: { observable.event.onBaseChange(base: $0) }
                 ).environmentObject(navigationStack)
             }
         )
@@ -164,7 +161,7 @@ struct CalculatorView: View {
     }
 
     private func onEffect(effect: CalculatorEffect) {
-        logger.i(message: {"CalculatorView onEffect \(effect.description)"})
+        logger.i(message: { "CalculatorView onEffect \(effect.description)" })
         switch effect {
         case is CalculatorEffect.Error:
             isGenericErrorSnackShown.toggle()
@@ -187,7 +184,7 @@ struct CalculatorView: View {
             CalculatorView.conversionCode = (effect as! CalculatorEffect.ShowConversion).code
             isConversionSnackShown.toggle()
         default:
-            logger.i(message: {"CalculatorView unknown effect"})
+            logger.i(message: { "CalculatorView unknown effect" })
         }
     }
 }

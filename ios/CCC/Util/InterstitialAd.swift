@@ -16,7 +16,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { interstitialAd, error in
                 if let error = error {
-                    logger.w(message: {"InterstitialAd show \(error.localizedDescription)"})
+                    logger.w(message: { "InterstitialAd show \(error.localizedDescription)" })
                     return
                 }
 
