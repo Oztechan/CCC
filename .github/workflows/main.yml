@@ -335,23 +335,37 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - name: Clone Repo
+
+      - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0
 
-      - name: Install Git
+      - name: Read version from Mintfile
+        run: echo "SWIFTLINT_VERSION=$(awk '/SwiftLint/ {split($0, a, "@"); print a[2]}' Mintfile)" >> $GITHUB_ENV
+      - uses: actions/cache@v2
+        with:
+          path: .build/release/swiftlint
+          key: $-linting-swiftlint-$
+      - name: Build realm/SwiftLint
         run: |
-          apt-get update
-          apt-get install -y git
-
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          git submodule update --init --recursive
-
+          if [ -f ".build/release/swiftlint" ]; then
+            sudo cp -f .build/release/swiftlint /usr/local/bin/swiftlint
+          else
+            git clone --depth 1 --branch $ https://github.com/realm/SwiftLint
+            cd SwiftLint
+            swift build --disable-sandbox -c release
+            mv .build .. && cd ..
+            rm -rf SwiftLint
+            sudo cp -f .build/release/swiftlint /usr/local/bin/swiftlint
+          fi
       - name: SwiftLint
         run: |
-          cd CCC/ios
+          swiftlint --version
           swiftlint --strict
+        env:
+          LINUX_SOURCEKIT_LIB_PATH: /usr/share/swift/usr/lib # FIXED: Fatal error: Loading libsourcekitdInProc.so failed
 
       - name: Cancel other jobs if this fails
         if: failure()
