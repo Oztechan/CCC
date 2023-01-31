@@ -160,8 +160,6 @@ struct WatchersView: View {
                             watcher: targetBarInfo.watcher!,
                             newTarget: $0
                         )
-
-
                     }
                 ).environmentObject(navigationStack)
             }

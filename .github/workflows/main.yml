@@ -209,7 +209,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   DistributeIOS:
-    runs-on: ubuntu-latest
+    runs-on: macos-12
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
