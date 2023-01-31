@@ -339,6 +339,9 @@ jobs:
       - name: Clone Repo # needed for app version
         uses: actions/checkout@v3
 
+      - name: Install git
+        run: sudo apt-get install -y git
+
       - name: Checkout submodules
         run: |
           git submodule update --init --recursive
@@ -347,6 +350,10 @@ jobs:
         run: |
           cd ios
           swiftlint --reporter github-actions-logging --strict
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.3
 
       - name: Set Job Status
         id: status
