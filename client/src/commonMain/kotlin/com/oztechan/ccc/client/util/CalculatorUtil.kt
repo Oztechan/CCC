@@ -2,8 +2,8 @@ package com.oztechan.ccc.client.util
 
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
-import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
-import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
+import com.oztechan.ccc.client.core.viewmodel.util.toStandardDigits
+import com.oztechan.ccc.client.core.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 

@@ -7,6 +7,8 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
+import com.oztechan.ccc.client.core.viewmodel.util.getFormatted
+import com.oztechan.ccc.client.core.viewmodel.util.toStandardDigits
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
@@ -21,8 +23,6 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
-import com.oztechan.ccc.client.viewmodel.util.getFormatted
-import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate

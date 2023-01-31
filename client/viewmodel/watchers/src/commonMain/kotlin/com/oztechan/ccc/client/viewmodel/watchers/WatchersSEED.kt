@@ -1,9 +1,9 @@
 package com.oztechan.ccc.client.viewmodel.watchers
 
-import com.oztechan.ccc.client.viewmodel.BaseData
-import com.oztechan.ccc.client.viewmodel.BaseEffect
-import com.oztechan.ccc.client.viewmodel.BaseEvent
-import com.oztechan.ccc.client.viewmodel.BaseState
+import com.oztechan.ccc.client.core.viewmodel.BaseData
+import com.oztechan.ccc.client.core.viewmodel.BaseEffect
+import com.oztechan.ccc.client.core.viewmodel.BaseEvent
+import com.oztechan.ccc.client.core.viewmodel.BaseState
 import com.oztechan.ccc.common.core.model.Watcher
 
 data class WatchersState(

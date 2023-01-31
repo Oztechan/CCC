@@ -1,8 +1,5 @@
 package com.oztechan.ccc.client.core.viewmodel.util
 
-import com.oztechan.ccc.client.viewmodel.util.getFormatted
-import com.oztechan.ccc.client.viewmodel.util.toStandardDigits
-import com.oztechan.ccc.client.viewmodel.util.toSupportedCharacters
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

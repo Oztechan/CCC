@@ -1,7 +1,6 @@
-package com.oztechan.ccc.client.viewmodel.di
+package com.oztechan.ccc.client.core.viewmodel.di
 
-import com.oztechan.ccc.client.viewmodel.BaseViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import com.oztechan.ccc.client.core.viewmodel.BaseViewModel
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
@@ -10,7 +9,7 @@ import org.koin.core.qualifier.Qualifier
 actual inline fun <reified T : BaseViewModel> Module.viewModelDefinition(
     qualifier: Qualifier?,
     noinline definition: Definition<T>
-): KoinDefinition<T> = viewModel(
+): KoinDefinition<T> = single(
     qualifier = qualifier,
     definition = definition
 )
