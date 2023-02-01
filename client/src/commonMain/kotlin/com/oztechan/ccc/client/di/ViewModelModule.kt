@@ -5,13 +5,11 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
-import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModelDefinition { MainViewModel(get(), get(), get(), get(), get(), get()) }
     viewModelDefinition { CurrenciesViewModel(get(), get(), get(), get(), get()) }
     viewModelDefinition { CalculatorViewModel(get(), get(), get(), get(), get(), get()) }
-    viewModelDefinition { SelectCurrencyViewModel(get()) }
     viewModelDefinition { PremiumViewModel(get()) }
 }
