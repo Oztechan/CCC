@@ -1,8 +1,6 @@
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.core.shared.util
 
-import com.oztechan.ccc.client.core.shared.util.nowAsLong
-import com.oztechan.ccc.client.core.shared.util.toInstant
-import com.oztechan.ccc.client.model.PremiumType
+import com.oztechan.ccc.client.core.shared.model.PremiumType
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus

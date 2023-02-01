@@ -1,7 +1,7 @@
 package com.oztechan.ccc.android.feature.mobile.util
 
 import androidx.appcompat.app.AppCompatDelegate
-import com.oztechan.ccc.client.model.AppTheme
+import com.oztechan.ccc.client.core.shared.model.AppTheme
 import org.junit.Test
 import kotlin.test.assertEquals
 

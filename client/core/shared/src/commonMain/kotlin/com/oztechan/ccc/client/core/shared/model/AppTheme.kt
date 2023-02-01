@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.client.model
+package com.oztechan.ccc.client.core.shared.model
 
 import com.oztechan.ccc.client.core.shared.Device
 

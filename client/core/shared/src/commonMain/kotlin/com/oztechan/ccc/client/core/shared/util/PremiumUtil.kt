@@ -1,8 +1,6 @@
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.core.shared.util
 
-import com.oztechan.ccc.client.core.shared.util.nowAsLong
-import com.oztechan.ccc.client.core.shared.util.toInstant
-import com.oztechan.ccc.client.model.PremiumType
+import com.oztechan.ccc.client.core.shared.model.PremiumType
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
@@ -10,7 +8,7 @@ import kotlinx.datetime.plus
 internal const val REWARDED_AD_PREMIUM_IN_DAYS = 2
 
 @Suppress("MagicNumber")
-internal fun PremiumType.calculatePremiumEnd(startDate: Long = nowAsLong()) = when (this) {
+fun PremiumType.calculatePremiumEnd(startDate: Long = nowAsLong()) = when (this) {
     PremiumType.VIDEO -> startDate.toInstant().plus(
         REWARDED_AD_PREMIUM_IN_DAYS,
         DateTimeUnit.DAY,

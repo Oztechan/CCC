@@ -28,9 +28,9 @@ import com.oztechan.ccc.android.feature.mobile.util.showSnack
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
+import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.MAXIMUM_FLOATING_POINT
-import com.oztechan.ccc.client.model.AppTheme
-import com.oztechan.ccc.client.util.numberToIndex
+import com.oztechan.ccc.client.core.shared.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import kotlinx.coroutines.flow.launchIn

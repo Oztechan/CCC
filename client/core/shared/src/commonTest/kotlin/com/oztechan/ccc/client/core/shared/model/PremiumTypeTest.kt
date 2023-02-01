@@ -1,11 +1,10 @@
-package com.oztechan.ccc.client.model
+package com.oztechan.ccc.client.core.shared.model
 
-import com.oztechan.ccc.client.helper.BaseTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
-internal class PremiumTypeTest : BaseTest() {
+internal class PremiumTypeTest {
 
     @Test
     fun getById() {

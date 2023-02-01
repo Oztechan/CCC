@@ -22,7 +22,7 @@ import com.oztechan.ccc.android.feature.mobile.util.toPremiumDataList
 import com.oztechan.ccc.android.feature.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
-import com.oztechan.ccc.client.model.PremiumType
+import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import kotlinx.coroutines.flow.launchIn

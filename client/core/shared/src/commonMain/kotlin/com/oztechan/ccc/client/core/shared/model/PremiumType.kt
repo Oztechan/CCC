@@ -2,10 +2,9 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.model
+package com.oztechan.ccc.client.core.shared.model
 
-import com.github.submob.scopemob.whetherNot
-import com.oztechan.ccc.client.util.REWARDED_AD_PREMIUM_IN_DAYS
+import com.oztechan.ccc.client.core.shared.util.REWARDED_AD_PREMIUM_IN_DAYS
 
 enum class PremiumType(val data: PremiumData) {
     VIDEO(PremiumData("Watch Video", "$REWARDED_AD_PREMIUM_IN_DAYS Days", "")),
@@ -17,7 +16,7 @@ enum class PremiumType(val data: PremiumData) {
 
     companion object {
         fun getById(sku: String?) = values()
-            .whetherNot { sku == null }
+            .takeUnless { sku == null }
             ?.firstOrNull { it.data.id == sku }
 
         fun getPurchaseIds() = values()
