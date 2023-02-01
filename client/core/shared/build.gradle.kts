@@ -23,7 +23,6 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(libs.common.test)
-                implementation(project(Modules.Common.Core.infrastructure))
             }
         }
 

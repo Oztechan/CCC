@@ -21,7 +21,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
 import com.oztechan.ccc.client.viewmodel.main.MainViewModel
-import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
+import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given

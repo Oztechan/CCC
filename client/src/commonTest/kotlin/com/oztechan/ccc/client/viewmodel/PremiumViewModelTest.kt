@@ -15,8 +15,8 @@ import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
-import com.oztechan.ccc.common.core.infrastructure.constants.DAY
-import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
+import com.oztechan.ccc.common.core.model.constants.DAY
+import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
