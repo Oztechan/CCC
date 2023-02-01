@@ -1,22 +1,23 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.selectcurrency
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.helper.BaseViewModelTest
-import com.oztechan.ccc.client.helper.util.after
-import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEffect
-import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -28,9 +29,9 @@ import kotlin.test.assertTrue
 import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
 @Suppress("OPT_IN_USAGE")
-internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyViewModel>() {
+internal class SelectCurrencyViewModelTest {
 
-    override val subject: SelectCurrencyViewModel by lazy {
+    private val subject: SelectCurrencyViewModel by lazy {
         SelectCurrencyViewModel(currencyDataSource)
     }
 
@@ -44,8 +45,10 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     private val currencyListEnough = listOf(currencyDollar, currencyEuro)
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(currencyDataSource)
             .invocation { getActiveCurrenciesFlow() }
@@ -94,20 +97,20 @@ internal class SelectCurrencyViewModelTest : BaseViewModelTest<SelectCurrencyVie
     }
 
     @Test
-    fun onItemClick() {
-        subject.effect.before {
+    fun onItemClick() = runTest {
+        subject.effect.onSubscription {
             subject.event.onItemClick(currencyDollar)
-        }.after {
+        }.firstOrNull().let {
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
             assertEquals(currencyDollar.code, it.newBase)
         }
     }
 
     @Test
-    fun onSelectClick() {
-        subject.effect.before {
+    fun onSelectClick() = runTest {
+        subject.effect.onSubscription {
             subject.event.onSelectClick()
-        }.after {
+        }.firstOrNull().let {
             assertIs<SelectCurrencyEffect.OpenCurrencies>(it)
         }
     }

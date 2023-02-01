@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.feature.mobile.databinding.ItemSelectCurrencyBinding
 import com.oztechan.ccc.android.feature.mobile.util.setBackgroundByName
-import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEvent
 import com.oztechan.ccc.common.core.model.Currency
 
 class SelectCurrencyAdapter(
-    private val selectCurrencyEvent: SelectCurrencyEvent
+    private val selectCurrencyEvent: com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEvent
 ) : BaseVBRecyclerViewAdapter<Currency>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(

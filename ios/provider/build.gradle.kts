@@ -29,6 +29,7 @@ kotlin {
 
             Modules.Client.ViewModel.apply {
                 export(project(settings))
+                export(project(selectCurrency))
                 export(project(watchers))
             }
         }
@@ -58,6 +59,7 @@ kotlin {
 
                 Modules.Client.ViewModel.apply {
                     api(project(settings))
+                    api(project(selectCurrency))
                     api(project(watchers))
                 }
 
