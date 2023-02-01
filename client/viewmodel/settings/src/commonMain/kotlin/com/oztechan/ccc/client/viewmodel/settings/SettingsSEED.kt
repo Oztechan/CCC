@@ -12,7 +12,6 @@ data class SettingsState(
     val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
     val premiumEndDate: String = "",
-    val loading: Boolean = false,
     val precision: Int = 0,
     val version: String = ""
 ) : BaseState()

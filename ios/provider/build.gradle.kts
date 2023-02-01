@@ -28,6 +28,7 @@ kotlin {
             export(project(Modules.Common.Core.model))
 
             Modules.Client.ViewModel.apply {
+                export(project(settings))
                 export(project(watchers))
             }
         }
@@ -56,6 +57,7 @@ kotlin {
                 api(project(Modules.Common.Core.model))
 
                 Modules.Client.ViewModel.apply {
+                    api(project(settings))
                     api(project(watchers))
                 }
 

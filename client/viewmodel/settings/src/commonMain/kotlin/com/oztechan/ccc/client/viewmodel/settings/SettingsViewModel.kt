@@ -79,8 +79,6 @@ class SettingsViewModel(
     }
 
     private suspend fun synchroniseConversions() {
-        _state.update { copy(loading = true) }
-
         _effect.emit(SettingsEffect.Synchronising)
 
         currencyDataSource.getActiveCurrencies()
@@ -94,7 +92,6 @@ class SettingsViewModel(
 
         _effect.emit(SettingsEffect.Synchronised)
 
-        _state.update { copy(loading = false) }
         data.synced = true
     }
 

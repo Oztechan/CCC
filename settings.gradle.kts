@@ -61,6 +61,7 @@ include(
     ":client:repository:adcontrol",
     ":client:repository:background",
     ":client:repository:appconfig",
+    ":client:viewmodel:settings",
     ":client:viewmodel:watchers",
     ":client:viewmodel:widget",
 

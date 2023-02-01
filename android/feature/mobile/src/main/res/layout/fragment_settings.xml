@@ -33,14 +33,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/loading_view"
-        style="@style/HorizontalProgressBarStyle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.core.widget.NestedScrollView
         style="@style/SettingsScrollViewStyle"
         app:layout_constraintBottom_toTopOf="@+id/ad_view_container"

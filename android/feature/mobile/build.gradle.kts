@@ -87,14 +87,12 @@ dependencies {
     Modules.Client.Core.apply {
         implementation(project(shared))
         implementation(project(viewModel))
-    }
-
-    Modules.Client.Core.apply {
         implementation(project(res))
         implementation(project(analytics))
     }
 
     Modules.Client.ViewModel.apply {
+        implementation(project(settings))
         implementation(project(watchers))
     }
 
