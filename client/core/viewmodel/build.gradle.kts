@@ -23,11 +23,7 @@ kotlin {
                 }
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.common.test)
-            }
-        }
+        val commonTest by getting
 
         val androidMain by getting {
             dependencies {

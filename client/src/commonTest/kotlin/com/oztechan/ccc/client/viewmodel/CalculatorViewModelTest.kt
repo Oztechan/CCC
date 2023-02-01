@@ -7,8 +7,8 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
-import com.oztechan.ccc.client.core.viewmodel.util.getFormatted
-import com.oztechan.ccc.client.core.viewmodel.util.toStandardDigits
+import com.oztechan.ccc.client.core.shared.util.getFormatted
+import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after

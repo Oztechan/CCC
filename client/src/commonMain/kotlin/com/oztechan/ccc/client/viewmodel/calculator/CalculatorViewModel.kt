@@ -11,12 +11,12 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
+import com.oztechan.ccc.client.core.shared.util.MAXIMUM_FLOATING_POINT
+import com.oztechan.ccc.client.core.shared.util.getFormatted
+import com.oztechan.ccc.client.core.shared.util.toStandardDigits
+import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.MAXIMUM_FLOATING_POINT
-import com.oztechan.ccc.client.core.viewmodel.util.getFormatted
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.toStandardDigits
-import com.oztechan.ccc.client.core.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.mapper.toConversion

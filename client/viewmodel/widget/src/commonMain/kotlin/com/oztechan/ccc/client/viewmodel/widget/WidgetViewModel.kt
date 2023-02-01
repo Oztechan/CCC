@@ -1,9 +1,9 @@
 package com.oztechan.ccc.client.viewmodel.widget
 
+import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
-import com.oztechan.ccc.client.core.viewmodel.util.getFormatted
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage

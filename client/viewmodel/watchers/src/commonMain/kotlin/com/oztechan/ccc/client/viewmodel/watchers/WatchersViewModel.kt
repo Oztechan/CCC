@@ -1,10 +1,10 @@
 package com.oztechan.ccc.client.viewmodel.watchers
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.client.core.shared.util.toStandardDigits
+import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.toStandardDigits
-import com.oztechan.ccc.client.core.viewmodel.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource

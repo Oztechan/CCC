@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.core.viewmodel.util
+package com.oztechan.ccc.client.core.shared.util
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

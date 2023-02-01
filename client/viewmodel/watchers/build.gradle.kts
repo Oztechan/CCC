@@ -29,6 +29,7 @@ kotlin {
 
                 Modules.Client.Core.apply {
                     implementation(project(viewModel))
+                    implementation(project(shared))
                 }
 
                 Modules.Client.DataSource.apply {

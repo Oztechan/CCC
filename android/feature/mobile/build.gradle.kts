@@ -84,7 +84,10 @@ dependencies {
         implementation(project(ad))
     }
 
-    implementation(project(Modules.Client.Core.viewModel))
+    Modules.Client.Core.apply {
+        implementation(project(shared))
+        implementation(project(viewModel))
+    }
 
     Modules.Client.Core.apply {
         implementation(project(res))
