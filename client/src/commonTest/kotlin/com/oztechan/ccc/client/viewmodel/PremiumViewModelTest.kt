@@ -4,15 +4,15 @@
 
 package com.oztechan.ccc.client.viewmodel
 
+import com.oztechan.ccc.client.core.shared.model.OldPurchase
+import com.oztechan.ccc.client.core.shared.model.PremiumData
+import com.oztechan.ccc.client.core.shared.model.PremiumType
+import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.helper.BaseViewModelTest
 import com.oztechan.ccc.client.helper.util.after
 import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.model.OldPurchase
-import com.oztechan.ccc.client.model.PremiumData
-import com.oztechan.ccc.client.model.PremiumType
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.util.calculatePremiumEnd
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import com.oztechan.ccc.common.core.infrastructure.constants.DAY

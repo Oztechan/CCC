@@ -8,7 +8,6 @@ import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.CurrencyType
-import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -63,17 +62,5 @@ internal class CalculatorUtilTest : BaseTest() {
         }
         assertEquals(mutableListOf(), list.toValidList(base))
         assertEquals(mutableListOf(), null.toValidList(base))
-    }
-
-    @Test
-    fun indexToNumber() {
-        val value = Random.nextInt()
-        assertEquals(value + 1, value.indexToNumber())
-    }
-
-    @Test
-    fun numberToIndex() {
-        val value = Random.nextInt()
-        assertEquals(value - 1, value.numberToIndex())
     }
 }

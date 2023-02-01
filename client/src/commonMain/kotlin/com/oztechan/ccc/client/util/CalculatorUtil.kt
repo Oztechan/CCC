@@ -25,7 +25,3 @@ fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
         it.rate.toString() != "0.0" &&
         it.rate.toString() != "0"
 } ?: mutableListOf()
-
-internal fun Int.indexToNumber() = this + 1
-
-fun Int.numberToIndex() = this - 1
