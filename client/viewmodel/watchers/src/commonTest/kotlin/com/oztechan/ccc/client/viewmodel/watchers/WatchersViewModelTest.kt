@@ -75,39 +75,34 @@ internal class WatchersViewModelTest {
     // Event
     @Test
     fun onBackClick() = runTest {
-        viewModel.effect
-            .onSubscription {
-                viewModel.event.onBackClick()
-            }.firstOrNull().let {
-                assertNotNull(it)
-                assertIs<WatchersEffect.Back>(it)
-            }
+        viewModel.effect.onSubscription {
+            viewModel.event.onBackClick()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WatchersEffect.Back>(it)
+        }
     }
 
     @Test
     fun onBaseClick() = runTest {
-        viewModel.effect
-            .onSubscription {
-                viewModel.event.onBaseClick(watcher)
-            }
-            .firstOrNull().let {
-                assertNotNull(it)
-                assertIs<WatchersEffect.SelectBase>(it)
-                assertEquals(watcher, it.watcher)
-            }
+        viewModel.effect.onSubscription {
+            viewModel.event.onBaseClick(watcher)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WatchersEffect.SelectBase>(it)
+            assertEquals(watcher, it.watcher)
+        }
     }
 
     @Test
     fun onTargetClick() = runTest {
-        viewModel.effect
-            .onSubscription {
-                viewModel.event.onTargetClick(watcher)
-            }
-            .firstOrNull().let {
-                assertNotNull(it)
-                assertIs<WatchersEffect.SelectTarget>(it)
-                assertEquals(watcher, it.watcher)
-            }
+        viewModel.effect.onSubscription {
+            viewModel.event.onTargetClick(watcher)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WatchersEffect.SelectTarget>(it)
+            assertEquals(watcher, it.watcher)
+        }
     }
 
     @Test
@@ -174,14 +169,12 @@ internal class WatchersViewModelTest {
             .coroutine { getWatchers() }
             .thenReturn(listOf(watcher, watcher, watcher, watcher, watcher))
 
-        viewModel.effect
-            .onSubscription {
-                viewModel.event.onAddClick()
-            }
-            .firstOrNull().let {
-                assertNotNull(it)
-                assertIs<WatchersEffect.MaximumNumberOfWatchers>(it)
-            }
+        viewModel.effect.onSubscription {
+            viewModel.event.onAddClick()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WatchersEffect.MaximumNumberOfWatchers>(it)
+        }
     }
 
     @Test
@@ -223,25 +216,21 @@ internal class WatchersViewModelTest {
             .wasInvoked()
 
         // when rate is not valid
-        viewModel.effect
-            .onSubscription {
-                rate = "asd"
-                assertEquals(rate, viewModel.event.onRateChange(watcher, rate))
-            }
-            .firstOrNull().let {
-                assertNotNull(it)
-                assertIs<WatchersEffect.InvalidInput>(it)
-            }
+        viewModel.effect.onSubscription {
+            rate = "asd"
+            assertEquals(rate, viewModel.event.onRateChange(watcher, rate))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WatchersEffect.InvalidInput>(it)
+        }
 
         // when rate is too long
-        viewModel.effect
-            .onSubscription {
-                rate = "12345678910"
-                assertEquals(rate.dropLast(1), viewModel.event.onRateChange(watcher, rate))
-            }
-            .firstOrNull().let {
-                assertNotNull(it)
-                assertIs<WatchersEffect.TooBigNumber>(it)
-            }
+        viewModel.effect.onSubscription {
+            rate = "12345678910"
+            assertEquals(rate.dropLast(1), viewModel.event.onRateChange(watcher, rate))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WatchersEffect.TooBigNumber>(it)
+        }
     }
 }

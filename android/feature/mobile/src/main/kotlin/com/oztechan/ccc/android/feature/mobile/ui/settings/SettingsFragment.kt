@@ -138,7 +138,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                binding.loadingView.visibleIf(loading)
                 binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
                     R.string.settings_active_item_value,
                     activeCurrencyCount

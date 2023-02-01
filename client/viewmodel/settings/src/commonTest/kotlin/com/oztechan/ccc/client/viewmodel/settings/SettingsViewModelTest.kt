@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.settings
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.Device
@@ -14,16 +16,11 @@ import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
-import com.oztechan.ccc.client.helper.BaseViewModelTest
-import com.oztechan.ccc.client.helper.util.after
-import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
-import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
 import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
@@ -36,9 +33,13 @@ import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -49,9 +50,9 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
-internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
+internal class SettingsViewModelTest {
 
-    override val subject: SettingsViewModel by lazy {
+    private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
             appStorage,
             calculatorStorage,
@@ -106,8 +107,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     private val version = "version"
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(appStorage)
             .invocation { appTheme }
@@ -141,7 +144,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     // init
     @Test
     fun `init updates states correctly`() = runTest {
-        subject.state.firstOrNull().let {
+        viewModel.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(AppTheme.SYSTEM_DEFAULT, it.appThemeType) // mocked -1
             assertEquals(currencyList.size, it.activeCurrencyCount)
@@ -153,7 +156,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Test
     fun `successful synchroniseConversions update the database`() = runTest {
-        subject.data.synced = false
+        viewModel.data.synced = false
 
         val exchangeRate = ExchangeRate("EUR", null, Conversion())
         val currency = Currency("EUR", "", "")
@@ -166,10 +169,9 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .coroutine { getConversion(currency.code) }
             .thenReturn(exchangeRate)
 
-        subject.effect.before {
-            subject.event.onSyncClick()
-        }.after {
-            assertTrue { subject.state.value.loading }
+        viewModel.effect.onSubscription {
+            viewModel.event.onSyncClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
@@ -180,7 +182,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Test
     fun `failed synchroniseConversions should pass Synchronised effect`() = runTest {
-        subject.data.synced = false
+        viewModel.data.synced = false
 
         given(currencyDataSource)
             .coroutine { currencyDataSource.getActiveCurrencies() }
@@ -190,10 +192,9 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .coroutine { getConversion("") }
             .thenThrow(Exception("test"))
 
-        subject.effect.before {
-            subject.event.onSyncClick()
-        }.after {
-            assertTrue { subject.state.value.loading }
+        viewModel.effect.onSubscription {
+            viewModel.event.onSyncClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
@@ -204,17 +205,15 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     // public methods
     @Test
-    fun updateTheme() {
+    fun updateTheme() = runTest {
         val mockTheme = AppTheme.DARK
 
-        with(subject) {
-            effect.before {
-                updateTheme(mockTheme)
-            }.after {
-                assertEquals(mockTheme, state.value.appThemeType)
-                assertIs<SettingsEffect.ChangeTheme>(it)
-                assertEquals(mockTheme.themeValue, it.themeValue)
-            }
+        viewModel.effect.onSubscription {
+            viewModel.updateTheme(mockTheme)
+        }.firstOrNull().let {
+            assertEquals(mockTheme, viewModel.state.value.appThemeType)
+            assertIs<SettingsEffect.ChangeTheme>(it)
+            assertEquals(mockTheme.themeValue, it.themeValue)
         }
 
         verify(appStorage)
@@ -225,9 +224,9 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + DAY)
 
-        subject.effect.before {
-            subject.event.onPremiumClick()
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
@@ -240,7 +239,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     fun isPremiumExpired() {
         assertEquals(
             appStorage.premiumEndDate.isItOver(),
-            subject.isPremiumExpired()
+            viewModel.isPremiumExpired()
         )
         verify(appStorage)
             .invocation { premiumEndDate }
@@ -255,7 +254,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(mockBoolean, subject.shouldShowBannerAd())
+        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
         verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
@@ -268,7 +267,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(1)
 
-        assertFalse { subject.isPremiumEverActivated() }
+        assertFalse { viewModel.isPremiumEverActivated() }
 
         verify(appStorage)
             .invocation { premiumEndDate }
@@ -281,7 +280,7 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(0)
 
-        assertTrue { subject.isPremiumEverActivated() }
+        assertTrue { viewModel.isPremiumEverActivated() }
 
         verify(appStorage)
             .invocation { premiumEndDate }
@@ -289,10 +288,10 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun updatePremiumEndDate() {
-        subject.state.before {
-            subject.updatePremiumEndDate()
-        }.after {
+    fun updatePremiumEndDate() = runTest {
+        viewModel.state.onSubscription {
+            viewModel.updatePremiumEndDate()
+        }.firstOrNull().let {
             assertNotNull(it)
             assertTrue { it.premiumEndDate.isNotEmpty() }
 
@@ -304,82 +303,92 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
 
     @Test
     fun getAppTheme() {
-        assertEquals(-1, subject.getAppTheme()) // already mocked
+        assertEquals(-1, viewModel.getAppTheme()) // already mocked
     }
 
     // Event
     @Test
-    fun onBackClick() = subject.effect.before {
-        subject.event.onBackClick()
-    }.after {
-        assertIs<SettingsEffect.Back>(it)
+    fun onBackClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onBackClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.Back>(it)
+        }
     }
 
     @Test
-    fun onCurrenciesClick() = subject.effect.before {
-        subject.event.onCurrenciesClick()
-    }.after {
-        assertIs<SettingsEffect.OpenCurrencies>(it)
+    fun onCurrenciesClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onCurrenciesClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.OpenCurrencies>(it)
+        }
     }
 
     @Test
-    fun onWatchersClick() = subject.effect.before {
-        subject.event.onWatchersClick()
-    }.after {
-        assertEquals(SettingsEffect.OpenWatchers, it)
+    fun onWatchersClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onWatchersClick()
+        }.firstOrNull().let {
+            assertEquals(SettingsEffect.OpenWatchers, it)
+        }
     }
 
     @Test
-    fun onFeedBackClick() = subject.effect.before {
-        subject.event.onFeedBackClick()
-    }.after {
-        assertIs<SettingsEffect.FeedBack>(it)
+    fun onFeedBackClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onFeedBackClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.FeedBack>(it)
+        }
     }
 
     @Test
-    fun onShareClick() {
+    fun onShareClick() = runTest {
         val link = "link"
 
         given(appConfigRepository)
             .invocation { getMarketLink() }
             .then { link }
 
-        subject.effect.before {
-            subject.event.onShareClick()
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onShareClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.Share>(it)
             assertEquals(link, it.marketLink)
         }
     }
 
     @Test
-    fun onSupportUsClick() {
+    fun onSupportUsClick() = runTest {
         val link = "link"
 
         given(appConfigRepository)
             .invocation { getMarketLink() }
             .then { link }
 
-        subject.effect.before {
-            subject.event.onSupportUsClick()
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onSupportUsClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.SupportUs>(it)
             assertEquals(link, it.marketLink)
         }
     }
 
     @Test
-    fun onOnGitHubClick() = subject.effect.before {
-        subject.event.onOnGitHubClick()
-    }.after {
-        assertIs<SettingsEffect.OnGitHub>(it)
+    fun onOnGitHubClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onOnGitHubClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.OnGitHub>(it)
+        }
     }
 
     @Test
-    fun onPremiumClick() {
-        subject.effect.before {
-            subject.event.onPremiumClick()
-        }.after {
+    fun onPremiumClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.Premium>(it)
         }
 
@@ -389,31 +398,30 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onThemeClick() = subject.effect.before {
-        subject.event.onThemeClick()
-    }.after {
-        assertIs<SettingsEffect.ThemeDialog>(it)
+    fun onThemeClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onThemeClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.ThemeDialog>(it)
+        }
     }
 
     @Test
-    fun onSyncClick() {
-        runTest {
-            given(currencyDataSource)
-                .coroutine { currencyDataSource.getActiveCurrencies() }
-                .thenReturn(listOf())
-        }
+    fun onSyncClick() = runTest {
+        given(currencyDataSource)
+            .coroutine { currencyDataSource.getActiveCurrencies() }
+            .thenReturn(listOf())
 
-        subject.effect.before {
-            subject.event.onSyncClick()
-        }.after {
-            assertTrue { subject.state.value.loading }
+        viewModel.effect.onSubscription {
+            viewModel.event.onSyncClick()
+        }.firstOrNull().let {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        subject.effect.before {
-            subject.event.onSyncClick()
-        }.after {
-            assertTrue { subject.data.synced }
+        viewModel.effect.onSubscription {
+            viewModel.event.onSyncClick()
+        }.firstOrNull().let {
+            assertTrue { viewModel.data.synced }
             assertIs<SettingsEffect.OnlyOneTimeSync>(it)
         }
 
@@ -423,18 +431,21 @@ internal class SettingsViewModelTest : BaseViewModelTest<SettingsViewModel>() {
     }
 
     @Test
-    fun onPrecisionClick() = subject.effect.before {
-        subject.event.onPrecisionClick()
-    }.after {
-        assertIs<SettingsEffect.SelectPrecision>(it)
+    fun onPrecisionClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPrecisionClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.SelectPrecision>(it)
+        }
     }
 
     @Test
-    fun onPrecisionSelect() {
+    fun onPrecisionSelect() = runTest {
         val value = Random.nextInt()
-        subject.state.before {
-            subject.event.onPrecisionSelect(value)
-        }.after {
+
+        viewModel.state.onSubscription {
+            viewModel.event.onPrecisionSelect(value)
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(value.indexToNumber(), it.precision)
 
