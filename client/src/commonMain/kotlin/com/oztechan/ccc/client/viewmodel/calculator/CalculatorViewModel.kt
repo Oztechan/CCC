@@ -25,7 +25,7 @@ import com.oztechan.ccc.client.mapper.toTodayResponse
 import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.util.calculateRate
 import com.oztechan.ccc.client.util.getConversionStringFromBase
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CalculatorViewModel(
-    private val calculatorStorage: CalculatorStorage,
+    private val calculationStorage: CalculationStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
@@ -74,8 +74,8 @@ class CalculatorViewModel(
             .onStart {
                 _state.update {
                     copy(
-                        base = calculatorStorage.currentBase,
-                        input = calculatorStorage.lastInput,
+                        base = calculationStorage.currentBase,
+                        input = calculationStorage.lastInput,
                     )
                 }
                 fetchConversion()
@@ -103,7 +103,7 @@ class CalculatorViewModel(
         .distinctUntilChanged()
         .onEach {
             Logger.d { "CalculatorViewModel observeInput $it" }
-            calculatorStorage.lastInput = it
+            calculationStorage.lastInput = it
             calculateOutput(it)
         }
         .launchIn(viewModelScope)
@@ -112,7 +112,7 @@ class CalculatorViewModel(
         calculateConversions(it, ConversionState.Cached(it.date))
     } ?: viewModelScope.launch {
         _state.update { copy(loading = true) }
-        runCatching { backendApiService.getConversion(calculatorStorage.currentBase) }
+        runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
             .onFailure(::fetchConversionFailed)
             .onSuccess(::fetchConversionSuccess)
             .also {
@@ -133,7 +133,7 @@ class CalculatorViewModel(
     private fun fetchConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel getConversionFailed" }
         conversionDataSource.getConversionByBase(
-            calculatorStorage.currentBase
+            calculationStorage.currentBase
         )?.let {
             calculateConversions(it, ConversionState.Offline(it.date))
         } ?: run {
@@ -153,7 +153,7 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = viewModelScope.launch {
         data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
-            .mapTo { if (isFinite()) getFormatted(calculatorStorage.precision) else "" }
+            .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
             .whether(
                 { output -> output.length <= MAXIMUM_OUTPUT },
                 { input.length <= MAXIMUM_INPUT }
@@ -176,7 +176,7 @@ class CalculatorViewModel(
         copy(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculatorStorage.precision)
+                    .getFormatted(calculationStorage.precision)
                     .toStandardDigits().toDoubleOrNull() ?: 0.0
             },
             conversionState = conversionState
@@ -185,7 +185,7 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
         data.conversion = null
-        calculatorStorage.currentBase = newBase
+        calculationStorage.currentBase = newBase
         _state.update {
             copy(
                 base = newBase,
@@ -247,7 +247,7 @@ class CalculatorViewModel(
             _effect.emit(
                 CalculatorEffect.ShowConversion(
                     currency.getConversionStringFromBase(
-                        calculatorStorage.currentBase,
+                        calculationStorage.currentBase,
                         data.conversion
                     ),
                     currency.code

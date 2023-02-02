@@ -7,17 +7,17 @@ import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 
 class WidgetViewModel(
-    private val calculatorStorage: CalculatorStorage,
+    private val calculationStorage: CalculationStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val appStorage: AppStorage
 ) {
 
     var state = WidgetState(
-        currentBase = calculatorStorage.currentBase,
+        currentBase = calculationStorage.currentBase,
         isPremium = !appStorage.premiumEndDate.isItOver()
     )
 
@@ -29,7 +29,7 @@ class WidgetViewModel(
         state = state.copy(
             currencyList = listOf(),
             lastUpdate = "",
-            currentBase = calculatorStorage.currentBase,
+            currentBase = calculationStorage.currentBase,
             isPremium = !appStorage.premiumEndDate.isItOver()
         )
 
@@ -40,14 +40,14 @@ class WidgetViewModel(
 
     private suspend fun getFreshWidgetData() {
         val conversion = backendApiService
-            .getConversion(calculatorStorage.currentBase)
+            .getConversion(calculationStorage.currentBase)
             .conversion
 
         currencyDataSource.getActiveCurrencies()
-            .filterNot { it.code == calculatorStorage.currentBase }
+            .filterNot { it.code == calculationStorage.currentBase }
             .onEach {
                 it.rate = conversion.getRateFromCode(it.code)
-                    ?.getFormatted(calculatorStorage.precision)
+                    ?.getFormatted(calculationStorage.precision)
                     ?.toDoubleOrNull() ?: 0.0
             }
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
@@ -64,7 +64,7 @@ class WidgetViewModel(
 
         var newBaseIndex = activeCurrencies
             .map { it.code }
-            .indexOf(calculatorStorage.currentBase)
+            .indexOf(calculationStorage.currentBase)
 
         if (isToNext) {
             newBaseIndex++
@@ -76,7 +76,7 @@ class WidgetViewModel(
             activeCurrencies.size -> newBaseIndex = 0
             -1 -> newBaseIndex = activeCurrencies.lastIndex
         }
-        calculatorStorage.currentBase = activeCurrencies[newBaseIndex].code
+        calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
     }
 
     companion object {

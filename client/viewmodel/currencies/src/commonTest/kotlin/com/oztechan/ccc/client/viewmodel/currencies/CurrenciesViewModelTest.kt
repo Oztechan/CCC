@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
@@ -40,14 +40,14 @@ import kotlin.test.assertTrue
 internal class CurrenciesViewModelTest {
 
     private val viewModel: CurrenciesViewModel by lazy {
-        CurrenciesViewModel(appStorage, calculatorStorage, currencyDataSource, adControlRepository, analyticsManager)
+        CurrenciesViewModel(appStorage, calculationStorage, currencyDataSource, adControlRepository, analyticsManager)
     }
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
-    private val calculatorStorage = mock(classOf<CalculatorStorage>())
+    private val calculationStorage = mock(classOf<CalculationStorage>())
 
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
@@ -82,7 +82,7 @@ internal class CurrenciesViewModelTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(currency1.code)
     }
@@ -141,7 +141,7 @@ internal class CurrenciesViewModelTest {
 
     @Test
     fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() = runTest {
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
 
@@ -165,7 +165,7 @@ internal class CurrenciesViewModelTest {
             .invocation { firstRun }
             .thenReturn(true)
 
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn("") // in order to get ChangeBase effect, have to have an effect to finish test
 
@@ -246,7 +246,7 @@ internal class CurrenciesViewModelTest {
                 }
             )
 
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn("")
 
@@ -255,7 +255,7 @@ internal class CurrenciesViewModelTest {
             assertEquals(firstActiveBase, it.newBase)
         }
 
-        verify(calculatorStorage)
+        verify(calculationStorage)
             .invocation { currentBase = firstActiveBase }
             .wasInvoked()
     }
@@ -273,7 +273,7 @@ internal class CurrenciesViewModelTest {
                 }
             )
 
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(currency1.code) // not active one
 
@@ -282,7 +282,7 @@ internal class CurrenciesViewModelTest {
             assertEquals(currency2.code, it.newBase)
         }
 
-        verify(calculatorStorage)
+        verify(calculationStorage)
             .invocation { currentBase = currency2.code }
             .wasInvoked()
     }
@@ -294,7 +294,7 @@ internal class CurrenciesViewModelTest {
             .invocation { firstRun }
             .thenReturn(false)
 
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn("EUR")
 
