@@ -81,6 +81,7 @@ object Modules {
         }
 
         object ViewModel {
+            const val currencies = ":client:viewmodel:currencies"
             const val settings = ":client:viewmodel:settings"
             const val selectCurrency = ":client:viewmodel:selectcurrency"
             const val premium = ":client:viewmodel:premium"

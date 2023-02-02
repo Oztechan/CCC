@@ -28,6 +28,7 @@ kotlin {
             export(project(Modules.Common.Core.model))
 
             Modules.Client.ViewModel.apply {
+                export(project(currencies))
                 export(project(settings))
                 export(project(selectCurrency))
                 export(project(watchers))
@@ -58,6 +59,7 @@ kotlin {
                 api(project(Modules.Common.Core.model))
 
                 Modules.Client.ViewModel.apply {
+                    api(project(currencies))
                     api(project(settings))
                     api(project(selectCurrency))
                     api(project(watchers))
