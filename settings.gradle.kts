@@ -51,7 +51,7 @@ include(
     ":client:core:persistence",
     ":client:core:remoteconfig",
     ":client:storage:app",
-    ":client:storage:calculator",
+    ":client:storage:calculation",
     ":client:datasource:currency",
     ":client:datasource:watcher",
     ":client:service:backend",

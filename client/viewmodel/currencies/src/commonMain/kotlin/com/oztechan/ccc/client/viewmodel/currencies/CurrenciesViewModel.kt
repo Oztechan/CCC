@@ -19,7 +19,7 @@ import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +31,7 @@ import kotlinx.coroutines.flow.onEach
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
     private val appStorage: AppStorage,
-    private val calculatorStorage: CalculatorStorage,
+    private val calculationStorage: CalculationStorage,
     private val currencyDataSource: CurrencyDataSource,
     private val adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
@@ -80,7 +80,7 @@ class CurrenciesViewModel(
         ?.whetherNot { appStorage.firstRun }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private suspend fun verifyCurrentBase() = calculatorStorage.currentBase.either(
+    private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -90,7 +90,7 @@ class CurrenciesViewModel(
     )?.mapTo {
         state.value.currencyList.firstOrNull { it.isActive }?.code.orEmpty()
     }?.let { newBase ->
-        calculatorStorage.currentBase = newBase
+        calculationStorage.currentBase = newBase
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))

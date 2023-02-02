@@ -81,7 +81,7 @@ kotlin {
                 }
                 Modules.Client.Storage.apply {
                     implementation(project(app))
-                    implementation(project(calculator))
+                    implementation(project(calculation))
                 }
 
                 Modules.Client.DataSource.apply {

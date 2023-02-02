@@ -22,7 +22,7 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
@@ -36,7 +36,7 @@ import kotlinx.coroutines.flow.onEach
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
     private val appStorage: AppStorage,
-    private val calculatorStorage: CalculatorStorage,
+    private val calculationStorage: CalculationStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
@@ -62,7 +62,7 @@ class SettingsViewModel(
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
                 premiumEndDate = appStorage.premiumEndDate.toDateString(),
-                precision = calculatorStorage.precision,
+                precision = calculationStorage.precision,
                 version = appConfigRepository.getVersion()
             )
         }
@@ -184,7 +184,7 @@ class SettingsViewModel(
 
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
-        calculatorStorage.precision = index.indexToNumber()
+        calculationStorage.precision = index.indexToNumber()
         _state.update { copy(precision = index.indexToNumber()) }
     }
     // endregion

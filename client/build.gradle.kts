@@ -60,7 +60,7 @@ kotlin {
                 }
                 Modules.Client.Storage.apply {
                     implementation(project(app))
-                    implementation(project(calculator))
+                    implementation(project(calculation))
                 }
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))

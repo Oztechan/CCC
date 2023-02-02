@@ -20,7 +20,7 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -55,7 +55,7 @@ internal class SettingsViewModelTest {
     private val viewModel: SettingsViewModel by lazy {
         SettingsViewModel(
             appStorage,
-            calculatorStorage,
+            calculationStorage,
             backendApiService,
             currencyDataSource,
             conversionDataSource,
@@ -70,7 +70,7 @@ internal class SettingsViewModelTest {
     private val appStorage = mock(classOf<AppStorage>())
 
     @Mock
-    private val calculatorStorage = mock(classOf<CalculatorStorage>())
+    private val calculationStorage = mock(classOf<CalculationStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -120,7 +120,7 @@ internal class SettingsViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(0)
 
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { precision }
             .thenReturn(mockedPrecision)
 
@@ -450,8 +450,8 @@ internal class SettingsViewModelTest {
             assertEquals(value.indexToNumber(), it.precision)
 
             println("-----")
-            verify(calculatorStorage)
-                .setter(calculatorStorage::precision)
+            verify(calculationStorage)
+                .setter(calculationStorage::precision)
                 .with(eq(value.indexToNumber()))
                 .wasInvoked()
         }

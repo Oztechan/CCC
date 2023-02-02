@@ -1,12 +1,12 @@
-package com.oztechan.ccc.client.storage.calculator
+package com.oztechan.ccc.client.storage.calculation
 
 import com.oztechan.ccc.client.core.persistence.Persistence
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_CURRENT_BASE
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_LAST_INPUT
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.DEFAULT_PRECISION
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_CURRENT_BASE
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_LAST_INPUT
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorageImpl.Companion.KEY_PRECISION
+import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_CURRENT_BASE
+import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_LAST_INPUT
+import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_PRECISION
+import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_CURRENT_BASE
+import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_LAST_INPUT
+import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_PRECISION
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -17,9 +17,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-internal class CalculatorStorageTest {
-    private val subject: CalculatorStorage by lazy {
-        CalculatorStorageImpl(persistence)
+internal class CalculationStorageTest {
+    private val subject: CalculationStorage by lazy {
+        CalculationStorageImpl(persistence)
     }
 
     @Mock

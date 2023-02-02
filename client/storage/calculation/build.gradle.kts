@@ -65,7 +65,7 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.Storage.calculator.packageName
+        namespace = Modules.Client.Storage.calculation.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {

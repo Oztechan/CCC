@@ -1,10 +1,10 @@
-package com.oztechan.ccc.client.storage.calculator
+package com.oztechan.ccc.client.storage.calculation
 
 import com.oztechan.ccc.client.core.persistence.Persistence
 
-class CalculatorStorageImpl(
+class CalculationStorageImpl(
     private val persistence: Persistence
-) : CalculatorStorage {
+) : CalculationStorage {
 
     override var currentBase
         get() = persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)

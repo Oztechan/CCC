@@ -56,7 +56,7 @@ object Modules {
 
         object Storage {
             const val app = ":client:storage:app"
-            const val calculator = ":client:storage:calculator"
+            const val calculation = ":client:storage:calculation"
         }
 
         object DataSource {

@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -25,11 +25,11 @@ import kotlin.test.assertEquals
 class WidgetViewModelTest {
 
     private val viewModel: WidgetViewModel by lazy {
-        WidgetViewModel(calculatorStorage, backendApiService, currencyDataSource, appStorage)
+        WidgetViewModel(calculationStorage, backendApiService, currencyDataSource, appStorage)
     }
 
     @Mock
-    private val calculatorStorage = mock(classOf<CalculatorStorage>())
+    private val calculationStorage = mock(classOf<CalculationStorage>())
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -47,7 +47,7 @@ class WidgetViewModelTest {
 
     @BeforeTest
     fun setup() {
-        given(calculatorStorage)
+        given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(base)
     }
