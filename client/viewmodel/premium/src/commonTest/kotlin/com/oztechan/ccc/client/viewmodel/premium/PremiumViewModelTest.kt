@@ -4,6 +4,8 @@
 
 package com.oztechan.ccc.client.viewmodel.premium
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.shared.model.OldPurchase
 import com.oztechan.ccc.client.core.shared.model.PremiumData
 import com.oztechan.ccc.client.core.shared.model.PremiumType
@@ -17,10 +19,14 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -38,6 +44,13 @@ internal class PremiumViewModelTest {
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
+
+    @BeforeTest
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+    }
 
     // SEED
     @Test
