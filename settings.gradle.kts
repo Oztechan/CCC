@@ -24,8 +24,8 @@ dependencyResolutionManagement {
 include(
     // Targets
     ":android:app", // android app
-    "android:core:billing", // android only billing module
-    "android:core:ad", // android only ad module
+    ":android:core:billing", // android only billing module
+    ":android:core:ad", // android only ad module
     ":android:feature:mobile", // android mobile app
     ":android:feature:widget", // android widget
 
