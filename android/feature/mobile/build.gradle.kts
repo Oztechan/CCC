@@ -75,8 +75,6 @@ dependencies {
         }
     }
 
-    implementation(project(Modules.Client.self))
-
     implementation(project(Modules.Common.Core.model))
 
     Modules.Android.Core.apply {
@@ -92,6 +90,7 @@ dependencies {
     }
 
     Modules.Client.ViewModel.apply {
+        implementation(project(main))
         implementation(project(calculator))
         implementation(project(currencies))
         implementation(project(settings))

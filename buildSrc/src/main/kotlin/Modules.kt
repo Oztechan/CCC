@@ -43,8 +43,6 @@ object Modules {
     }
 
     object Client {
-        const val self = ":client"
-
         object Core {
             const val viewModel = ":client:core:viewmodel"
             const val persistence = ":client:core:persistence"
@@ -81,6 +79,7 @@ object Modules {
         }
 
         object ViewModel {
+            const val main = ":client:viewmodel:main"
             const val calculator = ":client:viewmodel:calculator"
             const val currencies = ":client:viewmodel:currencies"
             const val settings = ":client:viewmodel:settings"

@@ -21,13 +21,13 @@ kotlin {
 
         framework {
             baseName = Modules.IOS.provider.frameworkName
-            export(project(Modules.Client.self))
             export(project(Modules.Client.Core.viewModel))
             export(project(Modules.Client.Repository.background))
             export(project(Modules.Client.Core.analytics))
             export(project(Modules.Common.Core.model))
 
             Modules.Client.ViewModel.apply {
+                export(project(main))
                 export(project(calculator))
                 export(project(currencies))
                 export(project(settings))
@@ -53,13 +53,13 @@ kotlin {
                     implementation(kermit)
                 }
 
-                api(project(Modules.Client.self))
                 api(project(Modules.Client.Core.viewModel))
                 api(project(Modules.Client.Repository.background))
                 api(project(Modules.Client.Core.analytics))
                 api(project(Modules.Common.Core.model))
 
                 Modules.Client.ViewModel.apply {
+                    api(project(main))
                     api(project(calculator))
                     api(project(currencies))
                     api(project(settings))

@@ -2,8 +2,10 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.main
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
@@ -13,20 +15,21 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
-import com.oztechan.ccc.client.helper.BaseViewModelTest
-import com.oztechan.ccc.client.helper.util.after
-import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.viewmodel.main.MainEffect
-import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -37,9 +40,9 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
-internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
+internal class MainViewModelTest {
 
-    override val subject: MainViewModel by lazy {
+    private val viewModel: MainViewModel by lazy {
         MainViewModel(
             appStorage,
             reviewConfigService,
@@ -72,8 +75,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     private val mockDevice = Device.IOS
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(appStorage)
             .invocation { appTheme }
@@ -99,10 +104,10 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
-        subject // init
+        viewModel // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.IsPremium(subject.isPremium().toString())) }
+            .invocation { setUserProperty(UserProperty.IsPremium(viewModel.isPremium().toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
@@ -122,7 +127,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     // SEED
     @Test
     fun `check state is null`() {
-        assertNull(subject.state)
+        assertNull(viewModel.state)
     }
 
     // public methods
@@ -134,7 +139,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { firstRun }
             .thenReturn(boolean)
 
-        assertEquals(boolean, subject.isFistRun())
+        assertEquals(boolean, viewModel.isFistRun())
 
         verify(appStorage)
             .invocation { firstRun }
@@ -143,7 +148,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     @Test
     fun getAppTheme() {
-        assertEquals(appThemeValue, subject.getAppTheme())
+        assertEquals(appThemeValue, viewModel.getAppTheme())
 
         verify(appStorage)
             .invocation { appTheme }
@@ -156,7 +161,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { premiumEndDate }
             .then { nowAsLong() + SECOND }
 
-        assertTrue { subject.isPremium() }
+        assertTrue { viewModel.isPremium() }
 
         verify(appStorage)
             .invocation { premiumEndDate }
@@ -169,7 +174,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { premiumEndDate }
             .then { nowAsLong() - SECOND }
 
-        assertFalse { subject.isPremium() }
+        assertFalse { viewModel.isPremium() }
 
         verify(appStorage)
             .invocation { premiumEndDate }
@@ -178,14 +183,14 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
 
     // event
     @Test
-    fun onPause() = with(subject) {
+    fun onPause() = with(viewModel) {
         event.onPause()
         assertFalse { data.adVisibility }
         assertTrue { data.adJob.isCancelled }
     }
 
     @Test
-    fun `onResume adjustSessionCount`() = with(subject) {
+    fun `onResume adjustSessionCount`() = with(viewModel) {
         val mockSessionCount = Random.nextLong()
 
         given(reviewConfigService)
@@ -235,7 +240,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun `onResume setupInterstitialAdTimer`() = with(subject) {
+    fun `onResume setupInterstitialAdTimer`() = runTest {
         val mockSessionCount = Random.nextLong()
 
         given(reviewConfigService)
@@ -266,16 +271,16 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { premiumEndDate }
             .then { nowAsLong() - SECOND }
 
-        effect.before {
-            onResume()
-        }.after {
-            assertTrue { data.adVisibility }
-            assertTrue { data.adJob.isActive }
+        viewModel.effect.onSubscription {
+            viewModel.onResume()
+        }.firstOrNull().let {
+            assertTrue { viewModel.data.adVisibility }
+            assertTrue { viewModel.data.adJob.isActive }
 
             assertIs<MainEffect.ShowInterstitialAd>(it)
 
-            data.adJob.cancel()
-            assertFalse { data.adJob.isActive }
+            viewModel.data.adJob.cancel()
+            assertFalse { viewModel.data.adJob.isActive }
         }
 
         verify(reviewConfigService)
@@ -292,7 +297,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun `onResume checkAppUpdate nothing happens when check update returns null`() = with(subject) {
+    fun `onResume checkAppUpdate nothing happens when check update returns null`() = with(viewModel) {
         val mockSessionCount = Random.nextLong()
 
         given(reviewConfigService)
@@ -325,7 +330,7 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun `onResume checkAppUpdate app review should ask when check update returns not null`() {
+    fun `onResume checkAppUpdate app review should ask when check update returns not null`() = runTest {
         val mockSessionCount = Random.nextLong()
         val mockBoolean = Random.nextBoolean()
 
@@ -353,12 +358,12 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
             .invocation { getMarketLink() }
             .then { "" }
 
-        subject.effect.before {
-            subject.onResume()
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.onResume()
+        }.firstOrNull().let {
             assertIs<MainEffect.AppUpdateEffect>(it)
             assertEquals(mockBoolean, it.isCancelable)
-            assertTrue { subject.data.isAppUpdateShown }
+            assertTrue { viewModel.data.isAppUpdateShown }
         }
 
         verify(reviewConfigService)
@@ -371,48 +376,47 @@ internal class MainViewModelTest : BaseViewModelTest<MainViewModel>() {
     }
 
     @Test
-    fun `onResume checkReview should request review when shouldShowAppReview returns true`() =
-        with(subject) {
-            val mockSessionCount = Random.nextLong()
+    fun `onResume checkReview should request review when shouldShowAppReview returns true`() = runTest {
+        val mockSessionCount = Random.nextLong()
 
-            given(reviewConfigService)
-                .invocation { config }
-                .then { ReviewConfig(0, 0L) }
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(0, 0L) }
 
-            given(adConfigService)
-                .invocation { config }
-                .then { AdConfig(0, 0, 0L, 0L) }
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
 
-            given(appStorage)
-                .invocation { sessionCount }
-                .then { mockSessionCount }
+        given(appStorage)
+            .invocation { sessionCount }
+            .then { mockSessionCount }
 
-            given(appConfigRepository)
-                .invocation { checkAppUpdate(false) }
-                .thenReturn(null)
+        given(appConfigRepository)
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(null)
 
-            given(appConfigRepository)
-                .invocation { shouldShowAppReview() }
-                .then { true }
+        given(appConfigRepository)
+            .invocation { shouldShowAppReview() }
+            .then { true }
 
-            effect.before {
-                onResume()
-            }.after {
-                assertIs<MainEffect.RequestReview>(it)
-            }
-
-            verify(appConfigRepository)
-                .invocation { shouldShowAppReview() }
-                .wasInvoked()
-
-            verify(reviewConfigService)
-                .invocation { config }
-                .wasInvoked()
+        viewModel.effect.onSubscription {
+            viewModel.onResume()
+        }.firstOrNull().let {
+            assertIs<MainEffect.RequestReview>(it)
         }
+
+        verify(appConfigRepository)
+            .invocation { shouldShowAppReview() }
+            .wasInvoked()
+
+        verify(reviewConfigService)
+            .invocation { config }
+            .wasInvoked()
+    }
 
     @Test
     fun `onResume checkReview should do nothing when shouldShowAppReview returns false`() =
-        with(subject) {
+        with(viewModel) {
             val mockSessionCount = Random.nextLong()
 
             given(reviewConfigService)

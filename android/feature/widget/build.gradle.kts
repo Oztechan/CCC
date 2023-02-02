@@ -39,8 +39,6 @@ dependencies {
 
     implementation(project(Modules.Common.Core.model))
 
-    implementation(project(Modules.Client.self))
-
     implementation(project(Modules.Client.Core.res))
 
     testImplementation(libs.common.test)

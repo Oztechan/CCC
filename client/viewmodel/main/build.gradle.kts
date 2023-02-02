@@ -1,9 +1,3 @@
-/*
- * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
- */
-
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
@@ -24,47 +18,26 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 libs.common.apply {
-                    implementation(kotlinXDateTime)
-                    implementation(coroutines)
                     implementation(koinCore)
+                    implementation(coroutines)
                     implementation(kermit)
                 }
 
-                Modules.Submodules.apply {
-                    implementation(project(scopemob))
-                    implementation(project(parsermob))
-                }
-                Modules.Common.Core.apply {
-                    implementation(project(model))
-                }
-                Modules.Common.DataSource.apply {
-                    implementation(project(conversion))
-                }
                 Modules.Client.Core.apply {
                     implementation(project(viewModel))
-                    implementation(project(persistence))
-                    implementation(project(analytics))
                     implementation(project(shared))
+                    implementation(project(analytics))
                 }
-                Modules.Client.DataSource.apply {
-                    implementation(project(currency))
-                    implementation(project(watcher))
+                Modules.Client.Storage.apply {
+                    implementation(project(app))
                 }
-                Modules.Client.Service.apply {
-                    implementation(project(backend))
+                Modules.Client.Repository.apply {
+                    implementation(project(appConfig))
+                    implementation(project(adControl))
                 }
                 Modules.Client.ConfigService.apply {
                     implementation(project(ad))
                     implementation(project(review))
-                    implementation(project(update))
-                }
-                Modules.Client.Storage.apply {
-                    implementation(project(app))
-                    implementation(project(calculation))
-                }
-                Modules.Client.Repository.apply {
-                    implementation(project(adControl))
-                    implementation(project(appConfig))
                 }
             }
         }
@@ -75,16 +48,14 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
+
+                implementation(project(Modules.Common.Core.model))
             }
         }
 
         val androidMain by getting {
             dependencies {
-                libs.android.apply {
-                    implementation(androidMaterial)
-                    implementation(koinAndroid)
-                    implementation(lifecycleViewmodel)
-                }
+                implementation(libs.android.lifecycleViewmodel)
             }
         }
         val androidTest by getting
@@ -121,18 +92,12 @@ ksp {
 @Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
-        namespace = Modules.Client.self.packageName
+        namespace = Modules.Client.ViewModel.main.packageName
         compileSdk = COMPILE_SDK_VERSION
 
         defaultConfig {
             minSdk = MIN_SDK_VERSION
             targetSdk = TARGET_SDK_VERSION
         }
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 }
