@@ -2,19 +2,16 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.premium
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.shared.model.OldPurchase
 import com.oztechan.ccc.client.core.shared.model.PremiumData
 import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
-import com.oztechan.ccc.client.helper.BaseViewModelTest
-import com.oztechan.ccc.client.helper.util.after
-import com.oztechan.ccc.client.helper.util.before
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
-import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
 import com.oztechan.ccc.common.core.model.constants.DAY
 import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
@@ -22,7 +19,14 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -32,33 +36,40 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @Suppress("OPT_IN_USAGE")
-internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
+internal class PremiumViewModelTest {
 
-    override val subject: PremiumViewModel by lazy {
+    private val viewModel: PremiumViewModel by lazy {
         PremiumViewModel(appStorage)
     }
 
     @Mock
     private val appStorage = mock(classOf<AppStorage>())
 
+    @BeforeTest
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+    }
+
     // SEED
     @Test
     fun `check data is null`() {
-        assertNull(subject.data)
+        assertNull(viewModel.data)
     }
 
     // public methods
     @Test
-    fun updatePremiumEndDate() {
-        subject.updatePremiumEndDate(null)
+    fun updatePremiumEndDate() = runTest {
+        viewModel.updatePremiumEndDate(null)
         verify(appStorage)
             .invocation { premiumEndDate }
             .wasNotInvoked()
 
         PremiumType.values().forEach { premiumType ->
-            subject.effect.before {
-                subject.updatePremiumEndDate(premiumType)
-            }.after {
+            viewModel.effect.onSubscription {
+                viewModel.updatePremiumEndDate(premiumType)
+            }.firstOrNull().let {
                 assertIs<PremiumEffect.PremiumActivated>(it)
                 assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
@@ -71,19 +82,19 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
     }
 
     @Test
-    fun restorePurchase() {
+    fun restorePurchase() = runTest {
         given(appStorage)
             .invocation { premiumEndDate }
             .thenReturn(0)
 
-        subject.effect.before {
-            subject.restorePurchase(
+        viewModel.effect.onSubscription {
+            viewModel.restorePurchase(
                 listOf(
                     OldPurchase(nowAsLong(), PremiumType.MONTH),
                     OldPurchase(nowAsLong(), PremiumType.YEAR)
                 )
             )
-        }.after {
+        }.firstOrNull().let {
             assertIs<PremiumEffect.PremiumActivated>(it)
             assertTrue { it.isRestorePurchase }
 
@@ -101,7 +112,7 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + SECOND)
 
-        subject.restorePurchase(listOf(oldPurchase))
+        viewModel.restorePurchase(listOf(oldPurchase))
 
         verify(appStorage)
             .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
@@ -116,7 +127,7 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
             .invocation { premiumEndDate }
             .thenReturn(0)
 
-        subject.restorePurchase(listOf(oldPurchase))
+        viewModel.restorePurchase(listOf(oldPurchase))
 
         verify(appStorage)
             .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
@@ -127,69 +138,73 @@ internal class PremiumViewModelTest : BaseViewModelTest<PremiumViewModel>() {
     fun showLoadingView() {
         val mockValue = Random.nextBoolean()
 
-        subject.showLoadingView(mockValue)
+        viewModel.showLoadingView(mockValue)
 
-        assertEquals(mockValue, subject.state.value.loading)
+        assertEquals(mockValue, viewModel.state.value.loading)
     }
 
     @Test
-    fun addPurchaseMethods() = PremiumType.values()
-        .map { it.data }
-        .forEach { premiumData ->
-            subject.state.before {
-                subject.addPurchaseMethods(listOf(premiumData))
-            }.after {
-                assertNotNull(it)
-                assertTrue { it.premiumTypes.contains(PremiumType.getById(premiumData.id)) }
-                assertFalse { it.loading }
+    fun addPurchaseMethods() = runTest {
+        PremiumType.values()
+            .map { it.data }
+            .forEach { premiumData ->
+                viewModel.state.onSubscription {
+                    viewModel.addPurchaseMethods(listOf(premiumData))
+                }.firstOrNull().let {
+                    assertNotNull(it)
+                    assertTrue { it.premiumTypes.contains(PremiumType.getById(premiumData.id)) }
+                    assertFalse { it.loading }
+                }
             }
-        }
+    }
 
     @Test
-    fun `addPurchaseMethods for unknown id will not add the item`() = subject.state.before {
-        subject.addPurchaseMethods(listOf(PremiumData("", "", "unknown")))
-    }.after {
-        assertNotNull(it)
-        println(it.premiumTypes.toString())
-        assertTrue { it.premiumTypes.isNotEmpty() } // only video should be there
-        assertEquals(PremiumType.VIDEO, it.premiumTypes.first())
-        assertFalse { it.loading }
+    fun `addPurchaseMethods for unknown id will not add the item`() = runTest {
+        viewModel.state.onSubscription {
+            viewModel.addPurchaseMethods(listOf(PremiumData("", "", "unknown")))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            println(it.premiumTypes.toString())
+            assertTrue { it.premiumTypes.isNotEmpty() } // only video should be there
+            assertEquals(PremiumType.VIDEO, it.premiumTypes.first())
+            assertFalse { it.loading }
+        }
     }
 
     // Event
     @Test
-    fun onPremiumItemClick() = with(subject) {
-        effect.before {
-            event.onPremiumItemClick(PremiumType.VIDEO)
-        }.after {
+    fun onPremiumItemClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumItemClick(PremiumType.VIDEO)
+        }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.VIDEO, it.premiumType)
         }
 
-        effect.before {
-            event.onPremiumItemClick(PremiumType.MONTH)
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumItemClick(PremiumType.MONTH)
+        }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.MONTH, it.premiumType)
         }
 
-        effect.before {
-            event.onPremiumItemClick(PremiumType.QUARTER)
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumItemClick(PremiumType.QUARTER)
+        }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.QUARTER, it.premiumType)
         }
 
-        effect.before {
-            event.onPremiumItemClick(PremiumType.HALF_YEAR)
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumItemClick(PremiumType.HALF_YEAR)
+        }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.HALF_YEAR, it.premiumType)
         }
 
-        effect.before {
-            event.onPremiumItemClick(PremiumType.YEAR)
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumItemClick(PremiumType.YEAR)
+        }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.YEAR, it.premiumType)
         }

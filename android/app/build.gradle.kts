@@ -144,6 +144,7 @@ dependencies {
     Modules.Client.ViewModel.apply {
         implementation(project(settings))
         implementation(project(selectCurrency))
+        implementation(project(premium))
         implementation(project(watchers))
         implementation(project(widget))
     }

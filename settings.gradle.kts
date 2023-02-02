@@ -24,8 +24,8 @@ dependencyResolutionManagement {
 include(
     // Targets
     ":android:app", // android app
-    "android:core:billing", // android only billing module
-    "android:core:ad", // android only ad module
+    ":android:core:billing", // android only billing module
+    ":android:core:ad", // android only ad module
     ":android:feature:mobile", // android mobile app
     ":android:feature:widget", // android widget
 
@@ -63,6 +63,7 @@ include(
     ":client:repository:appconfig",
     ":client:viewmodel:settings",
     ":client:viewmodel:selectcurrency",
+    ":client:viewmodel:premium",
     ":client:viewmodel:watchers",
     ":client:viewmodel:widget",
 
