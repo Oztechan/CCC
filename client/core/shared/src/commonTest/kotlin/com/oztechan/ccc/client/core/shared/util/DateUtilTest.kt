@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.core.shared.util
 
-import com.oztechan.ccc.common.core.infrastructure.constants.DAY
-import com.oztechan.ccc.common.core.infrastructure.constants.SECOND
+import com.oztechan.ccc.common.core.model.constants.DAY
+import com.oztechan.ccc.common.core.model.constants.SECOND
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone

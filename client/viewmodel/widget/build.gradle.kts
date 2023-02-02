@@ -51,7 +51,6 @@ kotlin {
                     implementation(mockative)
                     implementation(coroutinesTest)
                 }
-                implementation(project(Modules.Common.Core.infrastructure))
             }
         }
 

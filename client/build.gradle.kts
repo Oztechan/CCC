@@ -35,7 +35,6 @@ kotlin {
                     implementation(project(parsermob))
                 }
                 Modules.Common.Core.apply {
-                    implementation(project(infrastructure))
                     implementation(project(model))
                 }
                 Modules.Common.DataSource.apply {

@@ -21,11 +21,11 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculator.CalculatorStorage
-import com.oztechan.ccc.common.core.infrastructure.constants.DAY
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.core.model.Watcher
+import com.oztechan.ccc.common.core.model.constants.DAY
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
