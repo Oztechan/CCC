@@ -1,8 +1,10 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.client.viewmodel
+package com.oztechan.ccc.client.viewmodel.calculator
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
@@ -10,19 +12,14 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.helper.BaseViewModelTest
-import com.oztechan.ccc.client.helper.util.after
-import com.oztechan.ccc.client.helper.util.before
-import com.oztechan.ccc.client.model.ConversionState
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
-import com.oztechan.ccc.client.util.calculateRate
-import com.oztechan.ccc.client.util.getConversionStringFromBase
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.client.viewmodel.calculator.model.ConversionState
+import com.oztechan.ccc.client.viewmodel.calculator.util.calculateRate
+import com.oztechan.ccc.client.viewmodel.calculator.util.getConversionStringFromBase
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
@@ -32,9 +29,13 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onSubscription
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -44,9 +45,9 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
 @Suppress("OPT_IN_USAGE", "TooManyFunctions")
-internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>() {
+internal class CalculatorViewModelTest {
 
-    override val subject: CalculatorViewModel by lazy {
+    private val viewModel: CalculatorViewModel by lazy {
         CalculatorViewModel(
             calculationStorage,
             backendApiService,
@@ -81,8 +82,10 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     private val exchangeRate = ExchangeRate(currency1.code, null, Conversion())
 
     @BeforeTest
-    override fun setup() {
-        super.setup()
+    fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
+        Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(calculationStorage)
             .invocation { currentBase }
@@ -134,7 +137,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { lastInput }
             .thenReturn(mock)
 
-        subject.state.firstOrNull().let {
+        viewModel.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency1.code, it.base)
             assertEquals(mock, it.input)
@@ -147,9 +150,9 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .coroutine { getConversion(currency1.code) }
             .thenThrow(Exception())
 
-        subject.state.before {
-            subject.event.onKeyPress("1") // trigger api call
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress("1") // trigger api call
+        }.firstOrNull().let {
             assertNotNull(it)
             assertFalse { it.loading }
             assertEquals(ConversionState.Offline(exchangeRate.conversion.date), it.conversionState)
@@ -178,12 +181,12 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .coroutine { getConversionByBase(currency1.code) }
             .thenReturn(null)
 
-        subject.effect.before {
-            subject.event.onKeyPress("1") // trigger api call
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onKeyPress("1") // trigger api call
+        }.firstOrNull().let {
             assertIs<CalculatorEffect.Error>(it)
 
-            subject.state.value.let { state ->
+            viewModel.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
                 assertEquals(ConversionState.Error, state.conversionState)
@@ -209,12 +212,12 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { getActiveCurrenciesFlow() }
             .thenReturn(flowOf(listOf(currency1)))
 
-        subject.effect.before {
-            subject.event.onKeyPress("1") // trigger api call
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onKeyPress("1") // trigger api call
+        }.firstOrNull().let {
             assertIs<CalculatorEffect.FewCurrency>(it)
 
-            subject.state.value.let { state ->
+            viewModel.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
                 assertEquals(ConversionState.Error, state.conversionState)
@@ -227,48 +230,48 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     }
 
     @Test
-    fun `when input is too long it should drop the last digit and give warning`() {
+    fun `when input is too long it should drop the last digit and give warning`() = runTest {
         val fortyFiveDigitNumber = "1234567890+1234567890+1234567890+1234567890+1"
-        subject.effect.before {
-            subject.event.onKeyPress(fortyFiveDigitNumber)
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onKeyPress(fortyFiveDigitNumber)
+        }.firstOrNull().let {
             assertIs<CalculatorEffect.TooBigNumber>(it)
-            assertFalse { subject.state.value.loading }
-            assertEquals(fortyFiveDigitNumber.dropLast(1), subject.state.value.input)
+            assertFalse { viewModel.state.value.loading }
+            assertEquals(fortyFiveDigitNumber.dropLast(1), viewModel.state.value.input)
         }
     }
 
     @Test
-    fun `when output is too long it should drop the last digit and give warning`() {
+    fun `when output is too long it should drop the last digit and give warning`() = runTest {
         val nineteenDigitNumber = "123 567 901 345 789"
-        subject.effect.before {
-            subject.event.onKeyPress(nineteenDigitNumber)
-        }.after {
+        viewModel.effect.onSubscription {
+            viewModel.event.onKeyPress(nineteenDigitNumber)
+        }.firstOrNull().let {
             assertIs<CalculatorEffect.TooBigNumber>(it)
-            assertFalse { subject.state.value.loading }
-            assertEquals(nineteenDigitNumber.dropLast(1), subject.state.value.input)
+            assertFalse { viewModel.state.value.loading }
+            assertEquals(nineteenDigitNumber.dropLast(1), viewModel.state.value.input)
         }
     }
 
     @Test
-    fun `calculate output should return formatted finite output or empty string`() {
-        subject.state.before {
-            subject.event.onKeyPress("1/0")
-        }.after {
+    fun `calculate output should return formatted finite output or empty string`() = runTest {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress("1/0")
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("", it.output)
         }
-        subject.state.before {
-            subject.event.onKeyPress("AC") // clean input
-            subject.event.onKeyPress("1/1")
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress("AC") // clean input
+            viewModel.event.onKeyPress("1/1")
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("1", it.output)
         }
-        subject.state.before {
-            subject.event.onKeyPress("AC") // clean input
-            subject.event.onKeyPress("1111/1")
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress("AC") // clean input
+            viewModel.event.onKeyPress("1111/1")
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("1 111", it.output)
         }
@@ -277,7 +280,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {
-        subject // init
+        viewModel // init
 
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString())) }
@@ -292,7 +295,7 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { shouldShowBannerAd() }
             .thenReturn(mockBoolean)
 
-        assertEquals(mockBoolean, subject.shouldShowBannerAd())
+        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
 
         verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
@@ -301,26 +304,30 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 
     // Event
     @Test
-    fun onBarClick() = subject.effect.before {
-        subject.event.onBarClick()
-    }.after {
-        assertIs<CalculatorEffect.OpenBar>(it)
+    fun onBarClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onBarClick()
+        }.firstOrNull().let {
+            assertIs<CalculatorEffect.OpenBar>(it)
+        }
     }
 
     @Test
-    fun onSettingsClicked() = subject.effect.before {
-        subject.event.onSettingsClicked()
-    }.after {
-        assertIs<CalculatorEffect.OpenSettings>(it)
+    fun onSettingsClicked() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onSettingsClicked()
+        }.firstOrNull().let {
+            assertIs<CalculatorEffect.OpenSettings>(it)
+        }
     }
 
     // todo need to refactor
 //    @Test
 //    fun onItemClick() {
 //        var currency = currency1
-//        subject.state.before {
+//        subject.state.onSubscription {
 //            subject.event.onItemClick(currency1)
-//        }.after {
+//        }.firstOrNull().let {
 //            assertNotNull(it)
 //            assertEquals(currency1.code, it.base)
 //            assertEquals(currency1.rate, it.input)
@@ -329,9 +336,9 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 //        // when last digit is . it should be removed
 //        currency = currency.copy(rate = "123.")
 //
-//        subject.state.before {
+//        subject.state.onSubscription {
 //            subject.event.onItemClick(currency)
-//        }.after {
+//        }.firstOrNull().let {
 //            assertNotNull(it)
 //            assertEquals(currency.code, it.base)
 //            assertEquals("123", it.input)
@@ -339,9 +346,9 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 //
 //        currency = currency.copy(rate = "123 456.78")
 //
-//        subject.state.before {
+//        subject.state.onSubscription {
 //            subject.event.onItemClick(currency)
-//        }.after {
+//        }.firstOrNull().let {
 //            assertNotNull(it)
 //            assertEquals(currency.code, it.base)
 //            assertEquals("123456.78", it.input)
@@ -349,80 +356,84 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
 //    }
 
     @Test
-    fun onItemImageLongClick() = subject.effect.before {
-        subject.event.onItemImageLongClick(currency1)
-    }.after {
-        assertIs<CalculatorEffect.ShowConversion>(it)
-        assertEquals(
-            currency1.getConversionStringFromBase(
-                subject.state.value.base,
-                subject.data.conversion
-            ),
-            it.text
-        )
-        assertEquals(currency1.code, it.code)
+    fun onItemImageLongClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemImageLongClick(currency1)
+        }.firstOrNull().let {
+            assertIs<CalculatorEffect.ShowConversion>(it)
+            assertEquals(
+                currency1.getConversionStringFromBase(
+                    viewModel.state.value.base,
+                    viewModel.data.conversion
+                ),
+                it.text
+            )
+            assertEquals(currency1.code, it.code)
 
-        verify(analyticsManager)
-            .invocation { trackEvent(Event.ShowConversion(Param.Base(currency1.code))) }
-            .wasInvoked()
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.ShowConversion(Param.Base(currency1.code))) }
+                .wasInvoked()
+        }
     }
 
     @Test
-    fun onItemAmountLongClick() = subject.effect.before {
-        subject.event.onItemAmountLongClick(currency1.rate.toString())
-    }.after {
-        assertEquals(
-            CalculatorEffect.CopyToClipboard(currency1.rate.toString()),
-            it
-        )
+    fun onItemAmountLongClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemAmountLongClick(currency1.rate.toString())
+        }.firstOrNull().let {
+            assertEquals(
+                CalculatorEffect.CopyToClipboard(currency1.rate.toString()),
+                it
+            )
 
-        verify(analyticsManager)
-            .invocation { trackEvent(Event.CopyClipboard) }
-            .wasInvoked()
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.CopyClipboard) }
+                .wasInvoked()
+        }
     }
 
     @Test
-    fun onKeyPress() = with(subject) {
+    fun onKeyPress() = runTest {
         val key = "1"
 
         // emits when input is empty
-        state.before {
-            event.onKeyPress(key)
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress(key)
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(key, it.input)
         }
 
         // adds when input is not empty
-        state.before {
-            event.onKeyPress(key)
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress(key)
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(key + key, it.input)
         }
 
         // resets to "" when AC clicked
-        state.before {
-            event.onKeyPress(KEY_AC)
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress(KEY_AC)
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("", it.input)
         }
 
         // does nothing when press DEL if input is already empty
-        state.before {
-            event.onKeyPress(KEY_DEL)
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress(KEY_DEL)
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("", it.input)
         }
 
         // Deletes last digit when press DEL
-        state.before {
-            event.onKeyPress(key)
-            event.onKeyPress(key)
-            event.onKeyPress(KEY_DEL)
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onKeyPress(key)
+            viewModel.event.onKeyPress(key)
+            viewModel.event.onKeyPress(KEY_DEL)
+        }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(key, it.input)
         }
@@ -434,18 +445,16 @@ internal class CalculatorViewModelTest : BaseViewModelTest<CalculatorViewModel>(
             .invocation { currentBase }
             .thenReturn(currency1.code)
 
-        runTest {
-            given(backendApiService)
-                .coroutine { getConversion(currency1.code) }
-                .thenReturn(exchangeRate)
-        }
+        given(backendApiService)
+            .coroutine { getConversion(currency1.code) }
+            .thenReturn(exchangeRate)
 
-        subject.state.before {
-            subject.event.onBaseChange(currency1.code)
-        }.after {
+        viewModel.state.onSubscription {
+            viewModel.event.onBaseChange(currency1.code)
+        }.firstOrNull().let {
             assertNotNull(it)
-            assertNotNull(subject.data.conversion)
-            assertEquals(currency1.code, subject.data.conversion!!.base)
+            assertNotNull(viewModel.data.conversion)
+            assertEquals(currency1.code, viewModel.data.conversion!!.base)
             assertEquals(currency1.code, it.base)
 
             verify(analyticsManager)

@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.viewmodel.calculator.util
 
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode

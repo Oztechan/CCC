@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.mapper
+package com.oztechan.ccc.client.viewmodel.calculator.mapper
 
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.common.core.model.ExchangeRate
