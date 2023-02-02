@@ -18,7 +18,6 @@ import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -38,6 +37,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.seconds
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
 internal class MainViewModelTest {
@@ -159,7 +159,7 @@ internal class MainViewModelTest {
     fun `isPremium for future should return true`() {
         given(appStorage)
             .invocation { premiumEndDate }
-            .then { nowAsLong() + SECOND }
+            .then { nowAsLong() + 1.seconds.inWholeMilliseconds }
 
         assertTrue { viewModel.isPremium() }
 
@@ -172,7 +172,7 @@ internal class MainViewModelTest {
     fun `isPremium for future should return false`() {
         given(appStorage)
             .invocation { premiumEndDate }
-            .then { nowAsLong() - SECOND }
+            .then { nowAsLong() - 1.seconds.inWholeMilliseconds }
 
         assertFalse { viewModel.isPremium() }
 
@@ -269,7 +269,7 @@ internal class MainViewModelTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .then { nowAsLong() - SECOND }
+            .then { nowAsLong() - 1.seconds.inWholeMilliseconds }
 
         viewModel.effect.onSubscription {
             viewModel.onResume()

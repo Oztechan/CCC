@@ -1,7 +1,5 @@
 package com.oztechan.ccc.client.core.shared.util
 
-import com.oztechan.ccc.common.core.model.constants.DAY
-import com.oztechan.ccc.common.core.model.constants.SECOND
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -9,6 +7,8 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.seconds
 
 internal class DateUtilTest {
 
@@ -32,10 +32,10 @@ internal class DateUtilTest {
 
     @Test
     fun isItOver() {
-        assertTrue { (nowAsLong() - DAY).isItOver() }
-        assertTrue { (nowAsLong() - SECOND).isItOver() }
-        assertFalse { (nowAsLong() + DAY).isItOver() }
-        assertFalse { (nowAsLong() + SECOND).isItOver() }
+        assertTrue { (nowAsLong() - 1.days.inWholeMilliseconds).isItOver() }
+        assertTrue { (nowAsLong() - 1.seconds.inWholeMilliseconds).isItOver() }
+        assertFalse { (nowAsLong() + 1.days.inWholeMilliseconds).isItOver() }
+        assertFalse { (nowAsLong() + 1.seconds.inWholeMilliseconds).isItOver() }
     }
 
     @Test

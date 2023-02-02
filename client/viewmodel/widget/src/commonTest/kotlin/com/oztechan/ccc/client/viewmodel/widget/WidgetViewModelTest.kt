@@ -9,7 +9,6 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
-import com.oztechan.ccc.common.core.model.constants.DAY
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -20,6 +19,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.Duration.Companion.days
 
 @Suppress("OPT_IN_USAGE")
 class WidgetViewModelTest {
@@ -68,7 +68,7 @@ class WidgetViewModelTest {
     fun `if user is premium api call and db query are invoked`() = runTest {
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + DAY)
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
 
         given(backendApiService)
             .coroutine { getConversion(base) }
@@ -93,7 +93,7 @@ class WidgetViewModelTest {
     fun `if user is not premium no api call and db query are not invoked`() = runTest {
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - DAY)
+            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.refreshWidgetData()
 

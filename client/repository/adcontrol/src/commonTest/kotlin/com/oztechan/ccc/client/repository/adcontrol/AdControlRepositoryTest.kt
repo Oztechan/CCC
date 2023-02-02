@@ -4,7 +4,6 @@ import com.oztechan.ccc.client.configservice.ad.AdConfigService
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -15,6 +14,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.seconds
 
 @Suppress("TooManyFunctions")
 internal class AdControlRepositoryTest {
@@ -46,7 +46,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + SECOND)
+            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -79,7 +79,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + SECOND)
+            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -112,7 +112,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - SECOND)
+            .thenReturn(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -145,7 +145,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + SECOND)
+            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -178,7 +178,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - SECOND)
+            .thenReturn(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -211,7 +211,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + SECOND)
+            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -244,7 +244,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - SECOND)
+            .thenReturn(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
@@ -277,7 +277,7 @@ internal class AdControlRepositoryTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - SECOND)
+            .thenReturn(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         given(appStorage)
             .invocation { firstRun }
