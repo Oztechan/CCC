@@ -142,6 +142,7 @@ dependencies {
     }
 
     Modules.Client.ViewModel.apply {
+        implementation(project(currencies))
         implementation(project(settings))
         implementation(project(selectCurrency))
         implementation(project(premium))

@@ -24,6 +24,7 @@ import com.oztechan.ccc.client.repository.background.di.clientRepositoryBackgrou
 import com.oztechan.ccc.client.service.backend.di.clientServiceBackendModule
 import com.oztechan.ccc.client.storage.app.di.clientStorageAppModule
 import com.oztechan.ccc.client.storage.calculator.di.clientStorageCalculatorModule
+import com.oztechan.ccc.client.viewmodel.currencies.di.clientViewModelCurrenciesModule
 import com.oztechan.ccc.client.viewmodel.selectcurrency.di.clientViewModelSelectCurrencyModule
 import com.oztechan.ccc.client.viewmodel.settings.di.clientViewModelSettingsModule
 import com.oztechan.ccc.client.viewmodel.watchers.di.clientViewModelWatchersModule
@@ -63,6 +64,7 @@ fun initKoin(
         clientDataSourceWatcherModule,
         clientRepositoryAdControlModule,
         clientRepositoryBackgroundModule,
+        clientViewModelCurrenciesModule,
         clientViewModelSettingsModule,
         clientViewModelSelectCurrencyModule,
         clientRepositoryAppConfigModule,
