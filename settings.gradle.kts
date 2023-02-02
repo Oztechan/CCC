@@ -63,6 +63,7 @@ include(
     ":client:repository:appconfig",
     ":client:viewmodel:settings",
     ":client:viewmodel:selectcurrency",
+    ":client:viewmodel:premium",
     ":client:viewmodel:watchers",
     ":client:viewmodel:widget",
 

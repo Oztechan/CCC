@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.feature.mobile.databinding.ItemPremiumBinding
 import com.oztechan.ccc.client.core.shared.model.PremiumType
-import com.oztechan.ccc.client.viewmodel.premium.PremiumEvent
 
 class PremiumAdapter(
-    private val premiumEvent: PremiumEvent
+    private val premiumEvent: com.oztechan.ccc.client.viewmodel.premium.PremiumEvent
 ) : BaseVBRecyclerViewAdapter<PremiumType>(PremiumDiffer()) {
 
     override fun onCreateViewHolder(
