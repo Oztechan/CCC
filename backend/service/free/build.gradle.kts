@@ -22,6 +22,7 @@ kotlin {
                 Modules.Common.Core.apply {
                     implementation(project(network))
                     implementation(project(model))
+                    implementation(project(infrastructure))
                 }
             }
         }

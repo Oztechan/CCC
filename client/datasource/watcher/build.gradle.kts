@@ -27,6 +27,7 @@ kotlin {
                 Modules.Common.Core.apply {
                     implementation(project(database))
                     implementation(project(model))
+                    implementation(project(infrastructure))
                 }
             }
         }
