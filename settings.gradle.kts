@@ -43,7 +43,6 @@ include(
     ":common:core:model",
     ":common:datasource:conversion",
 
-    ":client", // Shared with all FE targets
     ":client:core:viewmodel",
     ":client:core:shared",
     ":client:core:res",
@@ -61,6 +60,7 @@ include(
     ":client:repository:adcontrol",
     ":client:repository:background",
     ":client:repository:appconfig",
+    ":client:viewmodel:main",
     ":client:viewmodel:calculator",
     ":client:viewmodel:currencies",
     ":client:viewmodel:settings",
