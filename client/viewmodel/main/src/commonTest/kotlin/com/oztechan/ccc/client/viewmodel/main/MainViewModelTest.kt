@@ -273,7 +273,7 @@ internal class MainViewModelTest {
 
         viewModel.effect.onSubscription {
             viewModel.onResume()
-        }.firstOrNull().let {
+        }.firstOrNull { // has to use firstOrNull with true returning lambda for loop
             assertTrue { viewModel.data.adVisibility }
             assertTrue { viewModel.data.adJob.isActive }
 
@@ -281,6 +281,7 @@ internal class MainViewModelTest {
 
             viewModel.data.adJob.cancel()
             assertFalse { viewModel.data.adJob.isActive }
+            true
         }
 
         verify(reviewConfigService)
