@@ -12,8 +12,6 @@ import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.storage.app.AppStorage
-import com.oztechan.ccc.common.core.model.constants.DAY
-import com.oztechan.ccc.common.core.model.constants.SECOND
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -34,6 +32,8 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.seconds
 
 @Suppress("OPT_IN_USAGE")
 internal class PremiumViewModelTest {
@@ -110,7 +110,7 @@ internal class PremiumViewModelTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + SECOND)
+            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
         viewModel.restorePurchase(listOf(oldPurchase))
 
@@ -121,7 +121,7 @@ internal class PremiumViewModelTest {
 
     @Test
     fun `restorePurchase should fail if all the old purchases expired`() {
-        val oldPurchase = OldPurchase(nowAsLong() - (DAY * 32), PremiumType.MONTH)
+        val oldPurchase = OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
 
         given(appStorage)
             .invocation { premiumEndDate }

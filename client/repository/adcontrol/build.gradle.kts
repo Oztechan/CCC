@@ -23,7 +23,6 @@ kotlin {
                 implementation(project(Modules.Client.Storage.app))
                 implementation(project(Modules.Client.ConfigService.ad))
                 implementation(project(Modules.Client.Core.shared))
-                implementation(project(Modules.Common.Core.model))
             }
         }
         val commonTest by getting {

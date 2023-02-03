@@ -25,7 +25,6 @@ import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.core.model.Watcher
-import com.oztechan.ccc.common.core.model.constants.DAY
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
@@ -48,6 +47,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.days
 
 @Suppress("TooManyFunctions", "OPT_IN_USAGE")
 internal class SettingsViewModelTest {
@@ -222,7 +222,7 @@ internal class SettingsViewModelTest {
 
         given(appStorage)
             .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + DAY)
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumClick()

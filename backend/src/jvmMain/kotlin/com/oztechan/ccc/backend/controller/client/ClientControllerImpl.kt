@@ -5,9 +5,9 @@ import com.oztechan.ccc.backend.service.free.FreeApiService
 import com.oztechan.ccc.backend.service.premium.PremiumApiService
 import com.oztechan.ccc.common.core.model.CurrencyType
 import com.oztechan.ccc.common.core.model.ExchangeRate
-import com.oztechan.ccc.common.core.model.constants.SECOND
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.seconds
 
 internal class ClientControllerImpl(
     private val premiumApiService: PremiumApiService,
@@ -20,7 +20,7 @@ internal class ClientControllerImpl(
 
         CurrencyType.getPopularCurrencies().forEach { currencyType ->
 
-            delay(SECOND)
+            delay(1.seconds.inWholeMilliseconds)
 
             // non premium call for filling null values
             runCatching { freeApiService.getConversion(currencyType.name) }
@@ -44,7 +44,7 @@ internal class ClientControllerImpl(
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
-            delay(SECOND)
+            delay(1.seconds.inWholeMilliseconds)
 
             runCatching { freeApiService.getConversion(currencyType.name) }
                 .onFailure { Logger.e(it) { it.message.toString() } }

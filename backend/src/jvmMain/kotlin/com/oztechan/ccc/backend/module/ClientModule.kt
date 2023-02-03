@@ -3,7 +3,6 @@ package com.oztechan.ccc.backend.module
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.client.ClientController
 import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
-import com.oztechan.ccc.common.core.model.constants.DAY
 import io.ktor.server.application.Application
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -12,9 +11,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.koin.core.qualifier.named
 import org.koin.ktor.ext.inject
-
-private const val NUMBER_OF_REFRESH_IN_A_DAY_POPULAR = 24
-private const val NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR = 3
+import kotlin.time.Duration.Companion.hours
 
 @Suppress("unused")
 internal fun Application.clientModule() {
@@ -27,14 +24,14 @@ internal fun Application.clientModule() {
     globalScope.launch(ioDispatcher) {
         while (isActive) {
             clientController.syncPopularCurrencies()
-            delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_POPULAR)
+            delay(1.hours.inWholeMilliseconds)
         }
     }
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
             clientController.syncUnPopularCurrencies()
-            delay(DAY / NUMBER_OF_REFRESH_IN_A_DAY_UN_POPULAR)
+            delay(8.hours.inWholeMilliseconds)
         }
     }
 }
