@@ -32,7 +32,7 @@ kotlin {
                     implementation(project(currency))
                 }
                 Modules.Client.Storage.apply {
-                    implementation(project(calculator))
+                    implementation(project(calculation))
                 }
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))
