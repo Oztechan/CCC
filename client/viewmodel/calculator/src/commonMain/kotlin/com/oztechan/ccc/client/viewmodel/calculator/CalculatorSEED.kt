@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
 import com.oztechan.ccc.client.core.viewmodel.BaseState
-import com.oztechan.ccc.client.model.ConversionState
+import com.oztechan.ccc.client.viewmodel.calculator.model.ConversionState
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 

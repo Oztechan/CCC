@@ -25,9 +25,9 @@ import com.oztechan.ccc.android.feature.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.core.res.getImageIdByName
-import com.oztechan.ccc.client.util.toValidList
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEffect
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
+import com.oztechan.ccc.client.viewmodel.calculator.util.toValidList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject

@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.feature.mobile.databinding.ItemCalculatorBinding
 import com.oztechan.ccc.android.feature.mobile.util.setBackgroundByName
-import com.oztechan.ccc.client.viewmodel.calculator.CalculatorEvent
 import com.oztechan.ccc.common.core.model.Currency
 
 class CalculatorAdapter(
-    private val calculatorEvent: CalculatorEvent
+    private val calculatorEvent: com.oztechan.ccc.client.viewmodel.calculator.CalculatorEvent
 ) : BaseVBRecyclerViewAdapter<Currency>(CalculatorDiffer()) {
 
     override fun onCreateViewHolder(

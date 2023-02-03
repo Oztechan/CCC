@@ -1,13 +1,12 @@
-package com.oztechan.ccc.client.mapper
+package com.oztechan.ccc.client.viewmodel.calculator.mapper
 
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
-import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class ExchangeRateTest : BaseTest() {
+internal class ExchangeRateTest {
 
     @Test
     fun toConversion() {

@@ -92,6 +92,7 @@ dependencies {
     }
 
     Modules.Client.ViewModel.apply {
+        implementation(project(calculator))
         implementation(project(currencies))
         implementation(project(settings))
         implementation(project(selectCurrency))

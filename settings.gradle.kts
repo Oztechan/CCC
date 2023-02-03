@@ -61,6 +61,7 @@ include(
     ":client:repository:adcontrol",
     ":client:repository:background",
     ":client:repository:appconfig",
+    ":client:viewmodel:calculator",
     ":client:viewmodel:currencies",
     ":client:viewmodel:settings",
     ":client:viewmodel:selectcurrency",

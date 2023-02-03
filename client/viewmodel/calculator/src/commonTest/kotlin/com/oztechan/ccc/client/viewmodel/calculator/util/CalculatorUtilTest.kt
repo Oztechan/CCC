@@ -1,10 +1,9 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
-package com.oztechan.ccc.client.util
+package com.oztechan.ccc.client.viewmodel.calculator.util
 
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
-import com.oztechan.ccc.client.helper.BaseTest
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.CurrencyType
@@ -12,7 +11,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("TooManyFunctions")
-internal class CalculatorUtilTest : BaseTest() {
+internal class CalculatorUtilTest {
 
     @Test
     fun calculateRate() {
