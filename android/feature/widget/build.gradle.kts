@@ -28,18 +28,20 @@ android {
 }
 
 dependencies {
-    libs.android.apply {
-        implementation(glance)
-        implementation(koinAndroid)
-    }
+    libs.apply {
+        android.apply {
+            implementation(glance)
+        }
 
-    implementation(libs.common.kermit)
+        common.apply {
+            implementation(koinCore)
+            testImplementation(test)
+        }
+    }
 
     implementation(project(Modules.Client.ViewModel.widget))
 
     implementation(project(Modules.Common.Core.model))
 
     implementation(project(Modules.Client.Core.res))
-
-    testImplementation(libs.common.test)
 }

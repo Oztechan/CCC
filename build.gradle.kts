@@ -9,6 +9,7 @@ plugins {
     libs.plugins.apply {
         alias(kover)
         alias(detekt)
+        id("com.autonomousapps.dependency-analysis") version "1.13.1"
     }
 }
 
@@ -71,6 +72,8 @@ allprojects {
             detektPlugins(rootProject.libs.common.detektFormatting)
         }
     }
+
+    apply(plugin = "com.autonomousapps.dependency-analysis")
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
