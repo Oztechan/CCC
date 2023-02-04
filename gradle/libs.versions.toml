@@ -123,6 +123,7 @@ classpaths-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kove
 
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
 android = { id = "org.jetbrains.kotlin.android" }
+jvm = { id = "org.jetbrains.kotlin.jvm" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods" }
 androidApp = { id = "com.android.application" }
 androidLib = { id = "com.android.library" }
