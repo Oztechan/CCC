@@ -30,6 +30,7 @@ object Modules {
 
         object Controller {
             const val sync = ":backend:controller:sync"
+            const val api = ":backend:controller:api"
         }
     }
 

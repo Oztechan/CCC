@@ -15,7 +15,7 @@ import kotlin.time.Duration.Companion.hours
 
 @Suppress("unused")
 internal fun Application.syncModule() {
-    Logger.i { "ClientModuleKt Application.syncModule" }
+    Logger.i { "SyncModuleKt Application.syncModule" }
 
     val syncController: SyncController by inject()
     val globalScope: CoroutineScope by inject()

@@ -1,7 +1,7 @@
 package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.controller.server.ServerController
+import com.oztechan.ccc.backend.controller.api.APIController
 import com.oztechan.ccc.backend.routes.getCurrencyByName
 import com.oztechan.ccc.backend.routes.getError
 import com.oztechan.ccc.backend.routes.getRoot
@@ -19,14 +19,14 @@ import org.koin.core.qualifier.named
 import org.koin.ktor.ext.inject
 
 @Suppress("unused")
-internal fun Application.serverModule() {
-    Logger.i { "ServerModuleKt Application.serverModule" }
+internal fun Application.apiModule() {
+    Logger.i { "APIModuleKt Application.apiModule" }
 
     install(ContentNegotiation) {
         json()
     }
 
-    val serverController: ServerController by inject()
+    val apiController: APIController by inject()
     val globalScope: CoroutineScope by inject()
     val ioDispatcher: CoroutineDispatcher by inject(named(DISPATCHER_IO))
 
@@ -34,7 +34,7 @@ internal fun Application.serverModule() {
         globalScope.launch(ioDispatcher) {
             getError()
             getRoot()
-            getCurrencyByName(serverController)
+            getCurrencyByName(apiController)
             getVersion()
         }
     }
