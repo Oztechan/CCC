@@ -1,8 +1,8 @@
 package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.backend.controller.sync.di.backendControllerSyncModule
 import com.oztechan.ccc.backend.di.backendModule
-import com.oztechan.ccc.backend.feature.sync.di.backendControllerSyncModule
 import com.oztechan.ccc.backend.service.free.di.backendServiceFreeModule
 import com.oztechan.ccc.backend.service.premium.di.backendServicePremiumModule
 import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule

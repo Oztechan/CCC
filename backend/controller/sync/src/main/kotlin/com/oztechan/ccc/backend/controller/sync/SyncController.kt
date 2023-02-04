@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.feature.sync
+package com.oztechan.ccc.backend.controller.sync
 
 interface SyncController {
     suspend fun syncPopularCurrencies()

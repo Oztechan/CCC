@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.feature.sync
+package com.oztechan.ccc.backend.controller.sync
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.service.free.FreeApiService

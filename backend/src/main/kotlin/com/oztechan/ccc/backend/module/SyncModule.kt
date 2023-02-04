@@ -1,7 +1,7 @@
 package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.feature.sync.SyncController
+import com.oztechan.ccc.backend.controller.sync.SyncController
 import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
 import io.ktor.server.application.Application
 import kotlinx.coroutines.CoroutineDispatcher
