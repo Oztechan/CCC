@@ -70,6 +70,13 @@ jobs:
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'gradle'
+
       - name: Assemble
         uses: gradle/gradle-build-action@v2
         with:
@@ -165,6 +172,13 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'gradle'
+
       - name: Generate Pods
         uses: gradle/gradle-build-action@v2
         with:
@@ -241,6 +255,13 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2
@@ -321,6 +342,13 @@ jobs:
         with:
           submodules: 'recursive'
           fetch-depth: 0
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Detekt
         uses: gradle/gradle-build-action@v2
