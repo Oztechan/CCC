@@ -79,7 +79,7 @@ jobs:
       - name: Assemble
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: assemble --scan
+          arguments: assemble
 
       - name: Upload Android Artifacts
         uses: actions/upload-artifact@v3
@@ -180,7 +180,7 @@ jobs:
       - name: Generate Pods
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel --scan
+          arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
       - name: Install Pods
         run: cd ios/CCC; pod install --repo-update
@@ -263,7 +263,7 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: check koverMergedXmlReport --parallel --scan
+          arguments: check koverMergedXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
@@ -349,7 +349,7 @@ jobs:
       - name: Detekt
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: detektAll --scan
+          arguments: detektAll
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
