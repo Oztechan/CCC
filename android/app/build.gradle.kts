@@ -31,15 +31,6 @@ android {
             versionName = getVersionName(project)
         }
     }
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
 
     signingConfigs {
         create(BuildType.release) {
@@ -87,7 +78,6 @@ dependencies {
     libs.android.apply {
         implementation(koinAndroid)
         implementation(firebasePer)
-        coreLibraryDesugaring(desugaring)
         debugImplementation(leakCanary)
     }
 

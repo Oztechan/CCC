@@ -1,16 +1,13 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    libs.plugins.apply {
-        id(multiplatform.get().pluginId)
-        id(androidLib.get().pluginId)
-    }
+    id(libs.plugins.multiplatform.get().pluginId)
 }
 kotlin {
-    android()
-
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+
+    jvm()
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
@@ -25,9 +22,6 @@ kotlin {
                 implementation(libs.common.test)
             }
         }
-
-        val androidMain by getting
-        val androidTest by getting
 
         val iosX64Main by getting
         val iosArm64Main by getting
@@ -46,19 +40,6 @@ kotlin {
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
             iosSimulatorArm64Test.dependsOn(this)
-        }
-    }
-}
-
-@Suppress("UnstableApiUsage")
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Core.shared.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
         }
     }
 }
