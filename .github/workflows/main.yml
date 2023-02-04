@@ -322,7 +322,7 @@ jobs:
       - name: Delete Coverage Report
         uses: geekyeggo/delete-artifact@v2
         with:
-          name: iOSArtifacts
+          name: coverageReport
 
       - name: Set Job Status
         id: status
