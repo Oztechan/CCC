@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import co.touchlab.kermit.Logger
 import com.oztechan.ccc.android.feature.widget.action.WidgetAction
 import com.oztechan.ccc.android.feature.widget.action.WidgetAction.Companion.getWidgetActionOrNull
 import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
@@ -61,9 +60,7 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
                         context.startActivity(it)
                     }
 
-            else -> {
-                Logger.w("undefined widget action")
-            }
+            else -> error("undefined widget action")
         }
     }
 }
