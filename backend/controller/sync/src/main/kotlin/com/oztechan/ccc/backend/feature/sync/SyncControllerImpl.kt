@@ -16,7 +16,7 @@ internal class SyncControllerImpl(
 ) : SyncController {
 
     override suspend fun syncPopularCurrencies() {
-        Logger.i { "ClientControllerImpl syncPopularCurrencies" }
+        Logger.i { "SyncControllerImpl syncPopularCurrencies" }
 
         CurrencyType.getPopularCurrencies().forEach { currencyType ->
 
@@ -40,7 +40,7 @@ internal class SyncControllerImpl(
     }
 
     override suspend fun syncUnPopularCurrencies() {
-        Logger.i { "ClientControllerImpl syncUnPopularCurrencies" }
+        Logger.i { "SyncControllerImpl syncUnPopularCurrencies" }
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
