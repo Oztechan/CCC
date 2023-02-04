@@ -27,6 +27,10 @@ object Modules {
             const val free = ":backend:service:free"
             const val premium = ":backend:service:premium"
         }
+
+        object Controller {
+            const val sync = ":backend:controller:sync"
+        }
     }
 
     object Common {

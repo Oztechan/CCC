@@ -1,6 +1,6 @@
-package com.oztechan.ccc.backend.controller.client
+package com.oztechan.ccc.backend.feature.sync
 
-interface ClientController {
+interface SyncController {
     suspend fun syncPopularCurrencies()
     suspend fun syncUnPopularCurrencies()
 }

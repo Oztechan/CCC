@@ -47,6 +47,10 @@ dependencies {
         implementation(project(premium))
     }
 
+    Modules.Backend.Controller.apply {
+        implementation(project(sync))
+    }
+
     Modules.Common.DataSource.apply {
         implementation(project(conversion))
     }
