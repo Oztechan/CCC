@@ -65,7 +65,6 @@ dependencies {
             implementation(koinAndroid)
             implementation(koinCompose)
             implementation(lifecycleRuntime)
-            implementation(workRuntime) // android 12 crash fix
             implementation(splashScreen)
         }
 

@@ -5,7 +5,6 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.INT
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformType
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
@@ -106,12 +105,6 @@ tasks.register<Jar>("fatJar") {
 @Suppress("UnstableApiUsage")
 tasks.named<ProcessResources>("jvmProcessResources") {
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
-    }
 }
 
 configure<BuildKonfigExtension> {
