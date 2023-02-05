@@ -39,6 +39,7 @@ include(
     ":android:core:ad", // android only ad module
     ":android:ui:mobile", // android mobile app
     ":android:ui:widget", // android widget
+    ":android:viewmodel:widget",
 
     ":ios:provider",
 
@@ -80,7 +81,6 @@ include(
     ":client:viewmodel:selectcurrency",
     ":client:viewmodel:premium",
     ":client:viewmodel:watchers",
-    ":client:viewmodel:widget",
 
     // submodules
     ":submodule:logmob", // KMP, logger library

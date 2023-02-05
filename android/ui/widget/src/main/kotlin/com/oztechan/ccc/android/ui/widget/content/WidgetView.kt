@@ -13,7 +13,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.oztechan.ccc.android.ui.widget.R
-import com.oztechan.ccc.client.viewmodel.widget.WidgetState
+import com.oztechan.ccc.android.viewmodel.widget.WidgetState
 
 @Composable
 fun WidgetView(state: WidgetState) {

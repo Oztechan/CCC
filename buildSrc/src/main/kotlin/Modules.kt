@@ -14,6 +14,10 @@ object Modules {
             const val billing = ":android:core:billing"
             const val ad = ":android:core:ad"
         }
+
+        object ViewModel {
+            const val widget = ":android:viewmodel:widget"
+        }
     }
 
     object IOS {
@@ -91,7 +95,6 @@ object Modules {
             const val selectCurrency = ":client:viewmodel:selectcurrency"
             const val premium = ":client:viewmodel:premium"
             const val watchers = ":client:viewmodel:watchers"
-            const val widget = ":client:viewmodel:widget"
         }
     }
 
