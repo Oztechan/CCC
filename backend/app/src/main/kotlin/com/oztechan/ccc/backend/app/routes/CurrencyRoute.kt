@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.backend.routes
+package com.oztechan.ccc.backend.app.routes
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.api.APIController

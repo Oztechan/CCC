@@ -13,7 +13,7 @@ ProjectSettings.apply {
 }
 
 application {
-    mainClass.set("${Modules.Backend.self.packageName}.ApplicationKt")
+    mainClass.set("${Modules.Backend.app.packageName}.ApplicationKt")
 }
 
 dependencies {
@@ -27,19 +27,12 @@ dependencies {
         implementation(ktorServerContentNegotiation)
         implementation(ktorJson)
         implementation(kermit)
-
-        testImplementation(mockative)
-        testImplementation(coroutinesTest)
-        testImplementation(test)
-
-        ksp(libs.processors.mockative)
     }
 
     Modules.Common.Core.apply {
         implementation(project(database))
         implementation(project(network))
         implementation(project(infrastructure))
-        implementation(project(model))
     }
 
     Modules.Backend.Service.apply {
@@ -59,14 +52,10 @@ dependencies {
     implementation(project(Modules.Submodules.logmob))
 }
 
-ksp {
-    arg("mockative.stubsUnitByDefault", "true")
-}
-
 tasks.withType<Jar> {
     manifest {
         attributes["Implementation-Version"] = ProjectSettings.getVersionName(project)
-        attributes["Main-Class"] = "${Modules.Backend.self.packageName}.ApplicationKt"
+        attributes["Main-Class"] = "${Modules.Backend.app.packageName}.ApplicationKt"
     }
     from(
         configurations.runtimeClasspath.get().map {
