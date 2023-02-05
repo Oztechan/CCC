@@ -21,7 +21,7 @@ object Modules {
     }
 
     object Backend {
-        const val self = ":backend"
+        const val app = ":backend:app"
 
         object Service {
             const val free = ":backend:service:free"

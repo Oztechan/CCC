@@ -1,11 +1,11 @@
-package com.oztechan.ccc.backend.module
+package com.oztechan.ccc.backend.app.module
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.backend.app.routes.getCurrencyByName
+import com.oztechan.ccc.backend.app.routes.getError
+import com.oztechan.ccc.backend.app.routes.getRoot
+import com.oztechan.ccc.backend.app.routes.getVersion
 import com.oztechan.ccc.backend.controller.api.APIController
-import com.oztechan.ccc.backend.routes.getCurrencyByName
-import com.oztechan.ccc.backend.routes.getError
-import com.oztechan.ccc.backend.routes.getRoot
-import com.oztechan.ccc.backend.routes.getVersion
 import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application

@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.backend
+package com.oztechan.ccc.backend.app
 
 import co.touchlab.kermit.Logger
 import io.ktor.server.engine.commandLineEnvironment
