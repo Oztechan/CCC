@@ -27,19 +27,12 @@ dependencies {
         implementation(ktorServerContentNegotiation)
         implementation(ktorJson)
         implementation(kermit)
-
-        testImplementation(mockative)
-        testImplementation(coroutinesTest)
-        testImplementation(test)
-
-        ksp(libs.processors.mockative)
     }
 
     Modules.Common.Core.apply {
         implementation(project(database))
         implementation(project(network))
         implementation(project(infrastructure))
-        implementation(project(model))
     }
 
     Modules.Backend.Service.apply {
@@ -57,10 +50,6 @@ dependencies {
     }
 
     implementation(project(Modules.Submodules.logmob))
-}
-
-ksp {
-    arg("mockative.stubsUnitByDefault", "true")
 }
 
 tasks.withType<Jar> {
