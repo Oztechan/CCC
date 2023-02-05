@@ -140,7 +140,7 @@ dependencies {
         implementation(project(widget))
     }
 
-    Modules.Android.Feature.apply {
+    Modules.Android.UI.apply {
         implementation(project(mobile))
         implementation(project(widget))
     }

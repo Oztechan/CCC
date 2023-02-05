@@ -37,8 +37,8 @@ include(
     ":android:app", // android app
     ":android:core:billing", // android only billing module
     ":android:core:ad", // android only ad module
-    ":android:feature:mobile", // android mobile app
-    ":android:feature:widget", // android widget
+    ":android:ui:mobile", // android mobile app
+    ":android:ui:widget", // android widget
 
     ":ios:provider",
 

@@ -5,9 +5,9 @@ object Modules {
     object Android {
         const val app = ":android:app"
 
-        object Feature {
-            const val mobile = ":android:feature:mobile"
-            const val widget = ":android:feature:widget"
+        object UI {
+            const val mobile = ":android:ui:mobile"
+            const val widget = ":android:ui:widget"
         }
 
         object Core {
