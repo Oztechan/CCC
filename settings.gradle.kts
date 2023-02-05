@@ -93,3 +93,22 @@ project(":submodule:logmob").projectDir = file("submodule/logmob/logmob")
 project(":submodule:scopemob").projectDir = file("submodule/scopemob/scopemob")
 project(":submodule:basemob").projectDir = file("submodule/basemob/basemob")
 project(":submodule:parsermob").projectDir = file("submodule/parsermob/parsermob")
+
+rootProject.name = "CCC"
+rootProject.updateBuildFileNames()
+
+fun ProjectDescriptor.updateBuildFileNames() {
+    if (name.startsWith("submodule")) return
+
+    buildFileName = if (this == rootProject) {
+        rootProject.name
+    } else {
+        path.drop(1).replace(":", "-")
+    }.let {
+        "$it.gradle.kts"
+    }
+
+    if (children.isNotEmpty()) {
+        children.forEach { it.updateBuildFileNames() }
+    }
+}
