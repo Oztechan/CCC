@@ -135,11 +135,11 @@ dependencies {
         implementation(project(currencies))
         implementation(project(settings))
         implementation(project(selectCurrency))
-        implementation(project(premium))
         implementation(project(watchers))
     }
 
     Modules.Android.ViewModel.apply {
+        implementation(project(premium))
         implementation(project(widget))
     }
 

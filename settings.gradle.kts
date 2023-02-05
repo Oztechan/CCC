@@ -39,6 +39,7 @@ include(
     ":android:core:ad", // android only ad module
     ":android:ui:mobile", // android mobile app
     ":android:ui:widget", // android widget
+    ":android:viewmodel:premium",
     ":android:viewmodel:widget",
 
     ":ios:provider",
@@ -79,7 +80,6 @@ include(
     ":client:viewmodel:currencies",
     ":client:viewmodel:settings",
     ":client:viewmodel:selectcurrency",
-    ":client:viewmodel:premium",
     ":client:viewmodel:watchers",
 
     // submodules
