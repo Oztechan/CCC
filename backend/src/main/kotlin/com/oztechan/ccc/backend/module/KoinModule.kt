@@ -1,6 +1,7 @@
 package com.oztechan.ccc.backend.module
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.backend.controller.sync.di.backendControllerSyncModule
 import com.oztechan.ccc.backend.di.backendModule
 import com.oztechan.ccc.backend.service.free.di.backendServiceFreeModule
 import com.oztechan.ccc.backend.service.premium.di.backendServicePremiumModule
@@ -22,6 +23,7 @@ internal fun Application.koinModule() {
 
             backendServiceFreeModule,
             backendServicePremiumModule,
+            backendControllerSyncModule,
 
             commonCoreDatabaseModule,
             commonCoreNetworkModule,

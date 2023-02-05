@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.controller.client
+package com.oztechan.ccc.backend.controller.sync
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.service.free.FreeApiService
@@ -9,14 +9,14 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
-internal class ClientControllerImpl(
+internal class SyncControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val conversionDataSource: ConversionDataSource
-) : ClientController {
+) : SyncController {
 
     override suspend fun syncPopularCurrencies() {
-        Logger.i { "ClientControllerImpl syncPopularCurrencies" }
+        Logger.i { "SyncControllerImpl syncPopularCurrencies" }
 
         CurrencyType.getPopularCurrencies().forEach { currencyType ->
 
@@ -40,7 +40,7 @@ internal class ClientControllerImpl(
     }
 
     override suspend fun syncUnPopularCurrencies() {
-        Logger.i { "ClientControllerImpl syncUnPopularCurrencies" }
+        Logger.i { "SyncControllerImpl syncUnPopularCurrencies" }
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
