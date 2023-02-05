@@ -1,6 +1,9 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
-    id(libs.plugins.jvm.get().pluginId)
+    libs.plugins.apply {
+        id(jvm.get().pluginId)
+        alias(ksp)
+    }
 }
 
 dependencies {
@@ -12,6 +15,8 @@ dependencies {
         testImplementation(coroutinesTest)
         testImplementation(test)
     }
+
+    kspTest(libs.processors.mockative)
 
     Modules.Common.Core.apply {
         implementation(project(network))
