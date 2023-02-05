@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.routes
+package com.oztechan.ccc.backend.app.routes
 
 import co.touchlab.kermit.Logger
 import io.ktor.http.ContentType

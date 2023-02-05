@@ -64,7 +64,7 @@ jobs:
       - name: Generate Artifacts
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :android:app:bundleRelease :backend:jar --parallel
+          arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
         uses: actions/upload-artifact@v3
@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: backendJar
-          path: backend/build/libs/backend-*.jar
+          path: backend/app/build/libs/app-*.jar
 
       - name: Set Job Status
         id: status

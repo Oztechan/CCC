@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.module
+package com.oztechan.ccc.backend.app.module
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.controller.api.di.backendControllerAPIModule

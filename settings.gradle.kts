@@ -42,7 +42,7 @@ include(
 
     ":ios:provider",
 
-    ":backend", // backend app
+    ":backend:app", // backend app
     ":backend:service:free",
     ":backend:service:premium",
     ":backend:controller:sync",
