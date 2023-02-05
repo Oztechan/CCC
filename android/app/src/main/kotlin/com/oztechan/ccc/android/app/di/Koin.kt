@@ -6,6 +6,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.android.app.BuildConfig
 import com.oztechan.ccc.android.core.ad.di.androidCoreAdModule
 import com.oztechan.ccc.android.core.billing.di.androidCoreBillingModule
+import com.oztechan.ccc.android.viewmodel.widget.di.androidViewModelWidgetModule
 import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
@@ -26,7 +27,6 @@ import com.oztechan.ccc.client.viewmodel.premium.di.clientViewModelPremiumModule
 import com.oztechan.ccc.client.viewmodel.selectcurrency.di.clientViewModelSelectCurrencyModule
 import com.oztechan.ccc.client.viewmodel.settings.di.clientViewModelSettingsModule
 import com.oztechan.ccc.client.viewmodel.watchers.di.clientViewModelWatchersModule
-import com.oztechan.ccc.client.viewmodel.widget.di.clientViewModelWidgetModule
 import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
 import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureModule
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
@@ -65,7 +65,7 @@ fun initKoin(context: Context) = startKoin {
         clientViewModelSelectCurrencyModule,
         clientViewModelPremiumModule,
         clientViewModelWatchersModule,
-        clientViewModelWidgetModule,
+        androidViewModelWidgetModule,
 
         // common
         commonCoreDatabaseModule,

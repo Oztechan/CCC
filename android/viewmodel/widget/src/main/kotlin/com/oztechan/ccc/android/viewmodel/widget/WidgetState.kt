@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.viewmodel.widget
+package com.oztechan.ccc.android.viewmodel.widget
 
 import com.oztechan.ccc.common.core.model.Currency
 

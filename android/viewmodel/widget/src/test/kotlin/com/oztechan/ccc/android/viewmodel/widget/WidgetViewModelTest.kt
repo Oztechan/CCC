@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.viewmodel.widget
+package com.oztechan.ccc.android.viewmodel.widget
 
 import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
@@ -25,7 +25,12 @@ import kotlin.time.Duration.Companion.days
 class WidgetViewModelTest {
 
     private val viewModel: WidgetViewModel by lazy {
-        WidgetViewModel(calculationStorage, backendApiService, currencyDataSource, appStorage)
+        WidgetViewModel(
+            calculationStorage = calculationStorage,
+            backendApiService = backendApiService,
+            currencyDataSource = currencyDataSource,
+            appStorage = appStorage
+        )
     }
 
     @Mock

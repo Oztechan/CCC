@@ -137,6 +137,9 @@ dependencies {
         implementation(project(selectCurrency))
         implementation(project(premium))
         implementation(project(watchers))
+    }
+
+    Modules.Android.ViewModel.apply {
         implementation(project(widget))
     }
 

@@ -39,7 +39,7 @@ dependencies {
         }
     }
 
-    implementation(project(Modules.Client.ViewModel.widget))
+    implementation(project(Modules.Android.ViewModel.widget))
 
     implementation(project(Modules.Common.Core.model))
 

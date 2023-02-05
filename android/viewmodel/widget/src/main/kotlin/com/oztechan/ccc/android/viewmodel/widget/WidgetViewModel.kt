@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.viewmodel.widget
+package com.oztechan.ccc.android.viewmodel.widget
 
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode

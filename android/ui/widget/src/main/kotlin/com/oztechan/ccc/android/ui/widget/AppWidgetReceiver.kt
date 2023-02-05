@@ -8,7 +8,7 @@ import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.oztechan.ccc.android.ui.widget.action.WidgetAction
 import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.getWidgetActionOrNull
-import com.oztechan.ccc.client.viewmodel.widget.WidgetViewModel
+import com.oztechan.ccc.android.viewmodel.widget.WidgetViewModel
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
