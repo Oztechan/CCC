@@ -93,19 +93,14 @@ include(
     // DataSource modules
     ":common:datasource:conversion",
     // endregion
-
-    // region Git Submodules independent modules and project hosted in different repository
-    ":submodule:logmob", // KMP, logger library
-    ":submodule:scopemob", // KMP, hand scope functions
-    ":submodule:basemob", // Android only base classes
-    ":submodule:parsermob" // KMP, parsing library
-    // endregion
 )
 
-project(":submodule:logmob").projectDir = file("submodule/logmob/logmob")
-project(":submodule:scopemob").projectDir = file("submodule/scopemob/scopemob")
-project(":submodule:basemob").projectDir = file("submodule/basemob/basemob")
-project(":submodule:parsermob").projectDir = file("submodule/parsermob/parsermob")
+// region Git Submodules independent modules and project hosted in different repository
+includeBuild("submodule/logmob") // KMP, logger library
+includeBuild("submodule/scopemob") // KMP, hand scope functions
+includeBuild("submodule/basemob") // Android only base classes
+includeBuild("submodule/parsermob") // KMP, parsing library
+// endregion
 
 rootProject.name = "CCC"
 rootProject.updateBuildFileNames()

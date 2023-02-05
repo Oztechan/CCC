@@ -100,7 +100,7 @@ dependencies {
     }
 
     Modules.Submodules.apply {
-        implementation(project(scopemob))
-        implementation(project(basemob))
+        implementation(scopemob)
+        implementation(basemob)
     }
 }

@@ -47,8 +47,8 @@ kotlin {
                     implementation(project(conversion))
                 }
                 Modules.Submodules.apply {
-                    implementation(project(scopemob))
-                    implementation(project(parsermob))
+                    implementation(scopemob)
+                    implementation(parsermob)
                 }
             }
         }

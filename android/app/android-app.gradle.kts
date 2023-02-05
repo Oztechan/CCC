@@ -158,6 +158,6 @@ dependencies {
     }
 
     Modules.Submodules.apply {
-        implementation(project(logmob))
+        implementation(logmob)
     }
 }
