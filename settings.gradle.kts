@@ -42,6 +42,7 @@ include(
     ":android:viewmodel:widget",
 
     ":ios:provider",
+    ":ios:repository:background",
 
     ":backend:app", // backend app
     ":backend:service:free",
@@ -72,7 +73,6 @@ include(
     ":client:configservice:review",
     ":client:configservice:update",
     ":client:repository:adcontrol",
-    ":client:repository:background",
     ":client:repository:appconfig",
     ":client:viewmodel:main",
     ":client:viewmodel:calculator",

@@ -21,8 +21,8 @@ kotlin {
 
         framework {
             baseName = Modules.IOS.provider.frameworkName
+            export(project(Modules.IOS.Repository.background))
             export(project(Modules.Client.Core.viewModel))
-            export(project(Modules.Client.Repository.background))
             export(project(Modules.Client.Core.analytics))
             export(project(Modules.Common.Core.model))
 
@@ -53,8 +53,8 @@ kotlin {
                     implementation(kermit)
                 }
 
+                api(project(Modules.IOS.Repository.background))
                 api(project(Modules.Client.Core.viewModel))
-                api(project(Modules.Client.Repository.background))
                 api(project(Modules.Client.Core.analytics))
                 api(project(Modules.Common.Core.model))
 
@@ -101,7 +101,6 @@ kotlin {
 
                 Modules.Client.Repository.apply {
                     implementation(project(adControl))
-                    implementation(project(background))
                     implementation(project(appConfig))
                 }
 

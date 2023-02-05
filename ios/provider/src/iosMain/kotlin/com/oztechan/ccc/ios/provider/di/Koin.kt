@@ -19,7 +19,6 @@ import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyMo
 import com.oztechan.ccc.client.datasource.watcher.di.clientDataSourceWatcherModule
 import com.oztechan.ccc.client.repository.adcontrol.di.clientRepositoryAdControlModule
 import com.oztechan.ccc.client.repository.appconfig.di.clientRepositoryAppConfigModule
-import com.oztechan.ccc.client.repository.background.di.clientRepositoryBackgroundModule
 import com.oztechan.ccc.client.service.backend.di.clientServiceBackendModule
 import com.oztechan.ccc.client.storage.app.di.clientStorageAppModule
 import com.oztechan.ccc.client.storage.calculation.di.clientStorageCalculationModule
@@ -33,6 +32,7 @@ import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
 import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureModule
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.datasource.conversion.di.commonDataSourceConversionModule
+import com.oztechan.ccc.ios.repository.background.di.iosRepositoryBackgroundModule
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.ObjCObject
 import kotlinx.cinterop.ObjCProtocol
@@ -62,7 +62,7 @@ fun initKoin(
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,
         clientRepositoryAdControlModule,
-        clientRepositoryBackgroundModule,
+        iosRepositoryBackgroundModule,
         clientViewModelMainModule,
         clientViewModelCalculatorModule,
         clientViewModelCurrenciesModule,
