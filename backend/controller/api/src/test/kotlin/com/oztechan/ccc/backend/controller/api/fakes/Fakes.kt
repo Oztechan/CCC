@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.fakes
+package com.oztechan.ccc.backend.controller.api.fakes
 
 import com.oztechan.ccc.common.core.model.Conversion
 

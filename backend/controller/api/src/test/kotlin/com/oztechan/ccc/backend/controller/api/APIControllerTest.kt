@@ -1,8 +1,6 @@
-package com.oztechan.ccc.backend.controller
+package com.oztechan.ccc.backend.controller.api
 
-import com.oztechan.ccc.backend.controller.server.ServerController
-import com.oztechan.ccc.backend.controller.server.ServerControllerImpl
-import com.oztechan.ccc.backend.mapper.toExchangeRateAPIModel
+import com.oztechan.ccc.backend.controller.api.mapper.toExchangeRateAPIModel
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
@@ -15,9 +13,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @Suppress("OPT_IN_USAGE")
-internal class ServerControllerTest {
-    private val subject: ServerController by lazy {
-        ServerControllerImpl(conversionDataSource)
+internal class APIControllerTest {
+    private val subject: APIController by lazy {
+        APIControllerImpl(conversionDataSource)
     }
 
     @Mock

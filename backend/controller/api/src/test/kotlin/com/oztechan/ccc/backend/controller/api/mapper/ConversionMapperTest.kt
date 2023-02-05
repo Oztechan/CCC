@@ -1,6 +1,6 @@
-package com.oztechan.ccc.backend.mapper
+package com.oztechan.ccc.backend.controller.api.mapper
 
-import com.oztechan.ccc.backend.fakes.Fakes
+import com.oztechan.ccc.backend.controller.api.fakes.Fakes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

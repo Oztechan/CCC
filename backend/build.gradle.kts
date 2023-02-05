@@ -49,6 +49,7 @@ dependencies {
 
     Modules.Backend.Controller.apply {
         implementation(project(sync))
+        implementation(project(api))
     }
 
     Modules.Common.DataSource.apply {

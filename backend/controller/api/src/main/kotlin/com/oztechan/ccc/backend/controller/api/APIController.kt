@@ -1,7 +1,7 @@
-package com.oztechan.ccc.backend.controller.server
+package com.oztechan.ccc.backend.controller.api
 
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 
-internal interface ServerController {
+interface APIController {
     suspend fun getExchangeRateByBase(base: String): ExchangeRate?
 }

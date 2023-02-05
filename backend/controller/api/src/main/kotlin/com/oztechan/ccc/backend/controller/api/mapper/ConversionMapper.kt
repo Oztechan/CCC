@@ -1,4 +1,4 @@
-package com.oztechan.ccc.backend.mapper
+package com.oztechan.ccc.backend.controller.api.mapper
 
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.network.model.Conversion as ConversionAPIModel

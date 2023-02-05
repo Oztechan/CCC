@@ -5,7 +5,7 @@
 package com.oztechan.ccc.backend.routes
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.controller.server.ServerController
+import com.oztechan.ccc.backend.controller.api.APIController
 import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.call
 import io.ktor.server.response.respond
@@ -16,14 +16,14 @@ private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
 internal suspend fun Route.getCurrencyByName(
-    serverController: ServerController
+    apiController: APIController
 ) = get(PATH_BY_BASE) {
     Logger.i { "GET Request $PATH_BY_BASE" }
 
     call.parameters[PARAMETER_BASE]?.let { base ->
         Logger.i { "Parameter: $PARAMETER_BASE $base" }
 
-        serverController.getExchangeRateByBase(base)
+        apiController.getExchangeRateByBase(base)
             ?.let { call.respond(HttpStatusCode.OK, it) }
             ?: call.respond(HttpStatusCode.NotFound)
     } ?: call.respond(HttpStatusCode.BadRequest)

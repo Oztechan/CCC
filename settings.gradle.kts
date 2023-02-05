@@ -46,6 +46,7 @@ include(
     ":backend:service:free",
     ":backend:service:premium",
     ":backend:controller:sync",
+    ":backend:controller:api",
 
     // KMP modules
     // Shared with all FE & BE targets
