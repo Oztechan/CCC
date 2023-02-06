@@ -122,7 +122,7 @@ jobs:
           appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: app-google-release.apk
+          file: google/release/app-google-release.apk
 
       - name: Firebase App Distribution Huawei
         uses: wzieba/Firebase-Distribution-Github-Action@v1
@@ -130,7 +130,7 @@ jobs:
           appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: app-huawei-release.apk
+          file: huawei/release/app-huawei-release.apk
 
       - name: Delete Google APK
         uses: geekyeggo/delete-artifact@v2
