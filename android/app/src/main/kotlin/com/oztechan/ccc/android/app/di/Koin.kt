@@ -11,7 +11,7 @@ import com.oztechan.ccc.android.viewmodel.widget.di.androidViewModelWidgetModule
 import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
-import com.oztechan.ccc.client.core.analytics.di.analyticsModule
+import com.oztechan.ccc.client.core.analytics.di.clientCoreAnalyticsModule
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
@@ -40,44 +40,61 @@ fun initKoin(context: Context) = startKoin {
     androidContext(context)
 
     modules(
-        getAndroidModule(),
-        analyticsModule,
+        // region Platform modules
+        getAndroidPlatformModule(),
+        // endregion
 
+        // region Android modules
+        // Core modules
         androidCoreAdModule,
         androidCoreBillingModule,
+        // ViewModel modules
+        androidViewModelWidgetModule,
+        androidViewModelPremiumModule,
+        // endregion
 
-        // client
+        // region Client modules
+        // Core modules
+        clientCoreAnalyticsModule,
         clientCorePersistenceModule,
+        // Storage modules
         clientStorageAppModule,
         clientStorageCalculationModule,
+        // Service modules
         clientServiceBackendModule,
+        // ConfigService modules
         clientConfigServiceAdModule,
         clientConfigServiceUpdateModule,
         clientConfigServiceReviewModel,
+        // DataSource modules
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,
+        // Repository modules
         clientRepositoryAdControlModule,
         clientRepositoryAppConfigModule,
+        // Viewmodel modules
         clientViewModelMainModule,
         clientViewModelCalculatorModule,
         clientViewModelCurrenciesModule,
         clientViewModelSettingsModule,
         clientViewModelSelectCurrencyModule,
-        androidViewModelPremiumModule,
         clientViewModelWatchersModule,
-        androidViewModelWidgetModule,
+        // endregion
 
-        // common
+        // region Common modules
+        // Core modules
         commonCoreDatabaseModule,
         commonCoreNetworkModule,
         commonCoreInfrastructureModule,
+        // DataSource modules
         commonDataSourceConversionModule
+        // endregion
     )
 }.also {
     Logger.i { "Koin initialised" }
 }
 
-private fun getAndroidModule() = module { singleOf(::provideDevice) }
+private fun getAndroidPlatformModule() = module { singleOf(::provideDevice) }
 
 private const val FLAVOR_HUAWEI = "huawei"
 private const val FLAVOR_GOOGLE = "google"
