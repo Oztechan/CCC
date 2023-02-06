@@ -1,47 +1,27 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
+        id(jvm.get().pluginId)
         alias(ksp)
     }
 }
 
-kotlin {
-    jvm()
-
-    @Suppress("UNUSED_VARIABLE")
-    sourceSets {
-
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(koinCore)
-                    implementation(coroutines)
-                    implementation(kermit)
-                }
-                Modules.Common.Core.apply {
-                    implementation(project(network))
-                    implementation(project(model))
-                    implementation(project(infrastructure))
-                }
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(test)
-                    implementation(mockative)
-                    implementation(coroutinesTest)
-                }
-            }
-        }
-    }
-}
-
 dependencies {
-    ksp(libs.processors.mockative)
-}
+    libs.common.apply {
+        implementation(koinCore)
+        implementation(coroutines)
+        implementation(kermit)
 
-ksp {
-    arg("mockative.stubsUnitByDefault", "true")
+        testImplementation(mockative)
+        testImplementation(coroutinesTest)
+        testImplementation(test)
+    }
+
+    kspTest(libs.processors.mockative)
+
+    Modules.Common.Core.apply {
+        implementation(project(network))
+        implementation(project(model))
+        implementation(project(infrastructure))
+    }
 }
