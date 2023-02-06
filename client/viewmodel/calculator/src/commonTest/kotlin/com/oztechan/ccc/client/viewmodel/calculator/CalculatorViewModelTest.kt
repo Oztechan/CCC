@@ -26,6 +26,7 @@ import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -59,7 +60,7 @@ internal class CalculatorViewModelTest {
     }
 
     @Mock
-    private val calculationStorage = mock(classOf<CalculationStorage>())
+    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -68,13 +69,13 @@ internal class CalculatorViewModelTest {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val conversionDataSource = mock(classOf<ConversionDataSource>())
+    private val conversionDataSource = configure(mock(classOf<ConversionDataSource>())) { stubsUnitByDefault = true }
 
     @Mock
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = mock(classOf<AnalyticsManager>())
+    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private val currency1 = Currency("USD", "Dollar", "$", 12345.678, true)
     private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)

@@ -9,6 +9,7 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Compan
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_PRECISION
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -23,7 +24,7 @@ internal class CalculationStorageTest {
     }
 
     @Mock
-    private val persistence = mock(classOf<Persistence>())
+    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
 
     // defaults
     @Test

@@ -11,6 +11,7 @@ import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -39,7 +40,7 @@ internal class WatchersViewModelTest {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val watcherDataSource = mock(classOf<WatcherDataSource>())
+    private val watcherDataSource = configure(mock(classOf<WatcherDataSource>())) { stubsUnitByDefault = true }
 
     @Mock
     private val adControlRepository = mock(classOf<AdControlRepository>())

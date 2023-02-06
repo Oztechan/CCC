@@ -44,9 +44,7 @@ internal class PremiumViewModelTest {
     }
 
     @Mock
-    private val appStorage = configure(mock(classOf<AppStorage>())) {
-        stubsUnitByDefault = true
-    }
+    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
 
     @BeforeTest
     fun setup() {

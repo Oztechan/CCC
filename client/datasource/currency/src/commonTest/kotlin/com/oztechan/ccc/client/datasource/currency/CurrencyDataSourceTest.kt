@@ -10,6 +10,7 @@ import com.squareup.sqldelight.db.SqlCursor
 import com.squareup.sqldelight.db.SqlDriver
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -27,13 +28,13 @@ internal class CurrencyDataSourceTest {
     }
 
     @Mock
-    private val currencyQueries = mock(classOf<CurrencyQueries>())
+    private val currencyQueries = configure(mock(classOf<CurrencyQueries>())) { stubsUnitByDefault = true }
 
     @Mock
     private val sqlDriver = mock(classOf<SqlDriver>())
 
     @Mock
-    private val sqlCursor = mock(classOf<SqlCursor>())
+    private val sqlCursor = configure(mock(classOf<SqlCursor>())) { stubsUnitByDefault = true }
 
     private val currency = Currency("EUR", "", "", 0.0, 0L)
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
