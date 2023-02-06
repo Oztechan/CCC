@@ -22,6 +22,10 @@ object Modules {
 
     object IOS {
         const val provider = ":ios:provider"
+
+        object Repository {
+            const val background = ":ios:repository:background"
+        }
     }
 
     object Backend {
@@ -83,7 +87,6 @@ object Modules {
 
         object Repository {
             const val adControl = ":client:repository:adcontrol"
-            const val background = ":client:repository:background"
             const val appConfig = ":client:repository:appconfig"
         }
 

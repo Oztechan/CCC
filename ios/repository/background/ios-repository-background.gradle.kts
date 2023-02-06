@@ -1,15 +1,12 @@
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
-        id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
         alias(ksp)
     }
 }
 
 kotlin {
-    android()
-
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -40,9 +37,6 @@ kotlin {
             }
         }
 
-        val androidMain by getting
-        val androidTest by getting
-
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -66,21 +60,4 @@ kotlin {
 
 dependencies {
     ksp(libs.processors.mockative)
-}
-
-ksp {
-    arg("mockative.stubsUnitByDefault", "true")
-}
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Repository.background.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        @Suppress("UnstableApiUsage")
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-    }
 }

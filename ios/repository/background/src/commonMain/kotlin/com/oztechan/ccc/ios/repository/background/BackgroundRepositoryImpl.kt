@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.repository.background
+package com.oztechan.ccc.ios.repository.background
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
