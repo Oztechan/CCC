@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.viewmodel.premium
+package com.oztechan.ccc.android.viewmodel.premium
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
@@ -55,7 +55,7 @@ class PremiumViewModel(
         }?.whether(
             { !type.calculatePremiumEnd(date).isItOver() },
             { date > appStorage.premiumEndDate },
-            { PremiumType.getPurchaseIds().any { it == type.data.id } }
+            { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
         )?.apply {
             updatePremiumEndDate(
                 adType = PremiumType.getById(type.data.id),

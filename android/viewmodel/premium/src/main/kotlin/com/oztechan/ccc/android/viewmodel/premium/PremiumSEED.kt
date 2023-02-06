@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.viewmodel.premium
+package com.oztechan.ccc.android.viewmodel.premium
 
 import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect

@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.viewmodel.premium
+package com.oztechan.ccc.android.viewmodel.premium
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.storage.app.AppStorage
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -43,7 +44,9 @@ internal class PremiumViewModelTest {
     }
 
     @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val appStorage = configure(mock(classOf<AppStorage>())) {
+        stubsUnitByDefault = true
+    }
 
     @BeforeTest
     fun setup() {
