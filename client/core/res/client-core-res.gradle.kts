@@ -24,6 +24,7 @@ kotlin {
         }
         framework {
             baseName = Modules.Client.Core.res.frameworkName
+            isStatic = true
         }
     }
 
