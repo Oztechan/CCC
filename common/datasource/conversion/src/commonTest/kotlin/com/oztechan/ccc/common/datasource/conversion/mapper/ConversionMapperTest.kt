@@ -1,6 +1,6 @@
-package com.oztechan.ccc.common.core.database.mapper
+package com.oztechan.ccc.common.datasource.conversion.mapper
 
-import com.oztechan.ccc.common.core.database.fakes.Fakes
+import com.oztechan.ccc.common.datasource.conversion.fakes.Fakes
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
