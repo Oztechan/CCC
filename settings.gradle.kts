@@ -18,6 +18,12 @@ gradleEnterprise {
         termsOfServiceUrl = "https://gradle.com/terms-of-service"
         termsOfServiceAgree = "yes"
         publishAlways()
+
+        obfuscation {
+            username { null }
+            hostname { null }
+            ipAddresses { null }
+        }
     }
 }
 

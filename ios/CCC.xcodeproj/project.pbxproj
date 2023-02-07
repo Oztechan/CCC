@@ -438,9 +438,9 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
-				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */,
 				5CF0622C28AD93CE00C579F6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */,
+				5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -775,7 +775,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */ = {
+		5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
@@ -783,7 +783,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
@@ -812,12 +812,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		5C34B8C9295903AD009C84AB /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */;
+			package = 5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */;
 			productName = PopupView;
 		};
 		5C3EB6D728775AFF001E822A /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */;
 			productName = GoogleMobileAds;
 		};
 		5C5C0BA32874B8450061AEF9 /* NavigationStack */ = {
