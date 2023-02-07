@@ -28,6 +28,7 @@ import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
@@ -67,10 +68,10 @@ internal class SettingsViewModelTest {
     }
 
     @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
 
     @Mock
-    private val calculationStorage = mock(classOf<CalculationStorage>())
+    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -91,7 +92,7 @@ internal class SettingsViewModelTest {
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = mock(classOf<AnalyticsManager>())
+    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private val currencyList = listOf(
         Currency("", "", ""),

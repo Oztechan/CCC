@@ -81,11 +81,11 @@ kotlin {
 }
 
 dependencies {
-    ksp(libs.processors.mockative)
-}
-
-ksp {
-    arg("mockative.stubsUnitByDefault", "true")
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, libs.processors.mockative)
+        }
 }
 
 @Suppress("UnstableApiUsage")

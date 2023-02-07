@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -44,19 +45,19 @@ internal class CurrenciesViewModelTest {
     }
 
     @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
 
     @Mock
-    private val calculationStorage = mock(classOf<CalculationStorage>())
+    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
-    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+    private val currencyDataSource = configure(mock(classOf<CurrencyDataSource>())) { stubsUnitByDefault = true }
 
     @Mock
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = mock(classOf<AnalyticsManager>())
+    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private var currency1 = Currency("EUR", "Euro", "€", isActive = true)
     private val currency2 = Currency("USD", "Dollar", "$", isActive = true)

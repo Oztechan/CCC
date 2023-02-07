@@ -59,5 +59,9 @@ kotlin {
 }
 
 dependencies {
-    ksp(libs.processors.mockative)
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, libs.processors.mockative)
+        }
 }

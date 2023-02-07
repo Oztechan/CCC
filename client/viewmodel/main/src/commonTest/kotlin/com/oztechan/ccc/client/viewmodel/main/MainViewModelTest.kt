@@ -20,6 +20,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -54,7 +55,7 @@ internal class MainViewModelTest {
     }
 
     @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val reviewConfigService = mock(classOf<ReviewConfigService>())
@@ -69,7 +70,7 @@ internal class MainViewModelTest {
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = mock(classOf<AnalyticsManager>())
+    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private val appThemeValue = Random.nextInt()
     private val mockDevice = Device.IOS
