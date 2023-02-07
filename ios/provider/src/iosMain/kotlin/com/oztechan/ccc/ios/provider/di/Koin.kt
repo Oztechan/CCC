@@ -83,7 +83,7 @@ fun initKoin(
 
 private fun getIOSModule(userDefaults: NSUserDefaults) = module {
     single { NativeDependencyWrapper(userDefaults) }
-    single { Device.IOS }
+    single<Device> { Device.IOS }
 }
 
 fun <T> Koin.getDependency(objCObject: ObjCObject): T = when (objCObject) {

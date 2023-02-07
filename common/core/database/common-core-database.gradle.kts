@@ -94,5 +94,6 @@ sqldelight {
     database("CurrencyConverterCalculatorDatabase") {
         packageName = "${Modules.Common.Core.database.packageName}.sql"
         sourceFolders = listOf("sql")
+        linkSqlite = true
     }
 }

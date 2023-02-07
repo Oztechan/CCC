@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
@@ -35,6 +38,12 @@ kotlin {
                 export(project(settings))
                 export(project(selectCurrency))
                 export(project(watchers))
+            }
+        }
+
+        targets.withType<KotlinNativeTarget> {
+            binaries.withType<Framework> {
+                linkerOpts.add("-lsqlite3")
             }
         }
     }
