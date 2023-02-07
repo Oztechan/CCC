@@ -76,8 +76,8 @@ internal class CalculatorViewModelTest {
     @Mock
     private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
-    private val currency1 = Currency("USD", "Dollar", "$", 12345.678, true)
-    private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
+    private val currency1 = Currency("USD", "Dollar", "$", "12345.678", true)
+    private val currency2 = Currency("EUR", "Dollar", "$", "12345.678", true)
     private val currencyList = listOf(currency1, currency2)
     private val conversion = Conversion(currency1.code, "12.12.2121")
 
@@ -160,7 +160,7 @@ internal class CalculatorViewModelTest {
             val result = currencyList.onEach { currency ->
                 currency.rate = conversion.calculateRate(currency.code, it.output)
                     .getFormatted(calculationStorage.precision)
-                    .toStandardDigits().toDoubleOrNull() ?: 0.0
+                    .toStandardDigits()
             }
 
             assertEquals(result, it.currencyList)
@@ -321,39 +321,38 @@ internal class CalculatorViewModelTest {
         }
     }
 
-    // todo need to refactor
-//    @Test
-//    fun onItemClick() {
-//        var currency = currency1
-//        subject.state.onSubscription {
-//            subject.event.onItemClick(currency1)
-//        }.firstOrNull().let {
-//            assertNotNull(it)
-//            assertEquals(currency1.code, it.base)
-//            assertEquals(currency1.rate, it.input)
-//        }
-//
-//        // when last digit is . it should be removed
-//        currency = currency.copy(rate = "123.")
-//
-//        subject.state.onSubscription {
-//            subject.event.onItemClick(currency)
-//        }.firstOrNull().let {
-//            assertNotNull(it)
-//            assertEquals(currency.code, it.base)
-//            assertEquals("123", it.input)
-//        }
-//
-//        currency = currency.copy(rate = "123 456.78")
-//
-//        subject.state.onSubscription {
-//            subject.event.onItemClick(currency)
-//        }.firstOrNull().let {
-//            assertNotNull(it)
-//            assertEquals(currency.code, it.base)
-//            assertEquals("123456.78", it.input)
-//        }
-//    }
+    @Test
+    fun onItemClick() = runTest {
+        var currency = currency1
+        viewModel.state.onSubscription {
+            viewModel.event.onItemClick(currency1)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency1.code, it.base)
+            assertEquals(currency1.rate, it.input)
+        }
+
+        // when last digit is . it should be removed
+        currency = currency.copy(rate = "123.")
+
+        viewModel.state.onSubscription {
+            viewModel.event.onItemClick(currency)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency.code, it.base)
+            assertEquals("123", it.input)
+        }
+
+        currency = currency.copy(rate = "123 456.78")
+
+        viewModel.state.onSubscription {
+            viewModel.event.onItemClick(currency)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency.code, it.base)
+            assertEquals("123456.78", it.input)
+        }
+    }
 
     @Test
     fun onItemImageLongClick() = runTest {
@@ -379,10 +378,10 @@ internal class CalculatorViewModelTest {
     @Test
     fun onItemAmountLongClick() = runTest {
         viewModel.effect.onSubscription {
-            viewModel.event.onItemAmountLongClick(currency1.rate.toString())
+            viewModel.event.onItemAmountLongClick(currency1.rate)
         }.firstOrNull().let {
             assertEquals(
-                CalculatorEffect.CopyToClipboard(currency1.rate.toString()),
+                CalculatorEffect.CopyToClipboard(currency1.rate),
                 it
             )
 

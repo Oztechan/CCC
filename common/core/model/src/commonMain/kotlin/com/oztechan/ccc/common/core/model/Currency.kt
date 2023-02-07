@@ -8,7 +8,7 @@ data class Currency(
     val code: String,
     val name: String,
     val symbol: String,
-    var rate: Double = 0.0,
+    var rate: String = "",
     val isActive: Boolean = false
 ) {
     fun getVariablesOneLine() = "$code $name $symbol"

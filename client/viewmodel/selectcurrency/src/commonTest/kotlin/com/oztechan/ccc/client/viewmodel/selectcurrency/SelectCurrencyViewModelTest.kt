@@ -38,8 +38,8 @@ internal class SelectCurrencyViewModelTest {
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
-    private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", 0.0, true)
-    private val currencyEuro = CurrencyCommon("Eur", "Euro", "", 0.0, true)
+    private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
+    private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
 
     private val currencyListNotEnough = listOf(currencyDollar)
     private val currencyListEnough = listOf(currencyDollar, currencyEuro)

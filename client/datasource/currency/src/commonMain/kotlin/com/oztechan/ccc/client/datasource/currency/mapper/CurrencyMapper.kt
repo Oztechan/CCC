@@ -12,6 +12,6 @@ internal fun CurrencyDBModel.toCurrencyModel() = CurrencyModel(
     code = code,
     name = name,
     symbol = symbol,
-    rate = rate,
+    rate = rate.toString(),
     isActive = isActive.toBoolean()
 )
