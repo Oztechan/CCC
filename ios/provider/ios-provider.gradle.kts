@@ -21,6 +21,8 @@ kotlin {
 
         framework {
             baseName = Modules.IOS.provider.frameworkName
+            isStatic = true
+
             export(project(Modules.IOS.Repository.background))
             export(project(Modules.Client.Core.viewModel))
             export(project(Modules.Client.Core.analytics))
