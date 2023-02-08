@@ -1,9 +1,9 @@
 package com.oztechan.ccc.client.datasource.watcher
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.client.datasource.watcher.mapper.toWatcherModel
 import com.oztechan.ccc.common.core.database.base.BaseDBDataSource
 import com.oztechan.ccc.common.core.database.mapper.toLong
-import com.oztechan.ccc.common.core.database.mapper.toWatcherModel
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
 import com.oztechan.ccc.common.core.model.Watcher
 import kotlinx.coroutines.CoroutineDispatcher

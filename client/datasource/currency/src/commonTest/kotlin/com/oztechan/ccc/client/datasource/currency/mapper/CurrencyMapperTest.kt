@@ -1,6 +1,7 @@
-package com.oztechan.ccc.common.core.database.mapper
+package com.oztechan.ccc.client.datasource.currency.mapper
 
-import com.oztechan.ccc.common.core.database.fakes.Fakes
+import com.oztechan.ccc.client.datasource.currency.fakes.Fakes
+import com.oztechan.ccc.common.core.database.mapper.toBoolean
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
