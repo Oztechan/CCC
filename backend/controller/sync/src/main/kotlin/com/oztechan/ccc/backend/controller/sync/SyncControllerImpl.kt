@@ -32,9 +32,7 @@ internal class SyncControllerImpl(
                         .onFailure { Logger.e(it) { it.message.toString() } }
                         .onSuccess { premiumConversion ->
                             conversionDataSource.insertConversion(
-                                premiumConversion.fillMissingRatesWith(
-                                    freeConversion
-                                )
+                                premiumConversion.fillMissingRatesWith(freeConversion)
                             )
                         }
                 }
