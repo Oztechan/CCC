@@ -96,11 +96,14 @@ internal class PersistenceTest {
     }
 
     @Test
-    fun `setValue throw UnsupportedPersistenceException when unsupported type tried to saved`() {
-        val someObject = object {}
+    fun `setValue throw UnsupportedPersistenceException when unsupported type tried to saved or read`() {
+        val mockObject = object {}
 
-        assertFailsWith<UnsupportedPersistenceException> {
-            persistence.setValue(key, someObject)
+        assertFailsWith(UnsupportedPersistenceException::class) {
+            persistence.setValue(key, mockObject)
+        }
+        assertFailsWith(UnsupportedPersistenceException::class) {
+            persistence.getValue(key, mockObject)
         }
     }
 }
