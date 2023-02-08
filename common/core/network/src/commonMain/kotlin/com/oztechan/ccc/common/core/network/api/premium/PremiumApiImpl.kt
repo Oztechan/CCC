@@ -13,7 +13,7 @@ import io.ktor.http.takeFrom
 
 internal class PremiumApiImpl(private val client: HttpClient) : PremiumApi {
 
-    override suspend fun getConversion(base: String): ExchangeRate = client.get {
+    override suspend fun getExchangeRate(base: String): ExchangeRate = client.get {
         url {
             takeFrom(BuildKonfig.BASE_URL_API_PREMIUM)
             path(PATH_PREMIUM_VERSION, BuildKonfig.API_KEY_PREMIUM, PATH_LATEST, base)

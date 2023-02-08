@@ -6,7 +6,7 @@ package com.oztechan.ccc.backend.service.premium
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
 import com.oztechan.ccc.common.core.network.base.BaseNetworkService
-import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
+import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import kotlinx.coroutines.CoroutineDispatcher
 
 internal class PremiumApiServiceImpl(
@@ -18,6 +18,9 @@ internal class PremiumApiServiceImpl(
         base: String
     ) = apiRequest {
         Logger.v { "PremiumApiServiceImpl getConversion $base" }
-        premiumAPI.getConversion(withEmptyParameterCheck(base)).toExchangeRateModel(base)
+
+        premiumAPI.getExchangeRate(withEmptyParameterCheck(base))
+            .conversion
+            .toConversionModel()
     }
 }
