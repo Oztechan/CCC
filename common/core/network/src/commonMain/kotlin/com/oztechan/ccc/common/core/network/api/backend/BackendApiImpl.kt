@@ -11,7 +11,7 @@ import io.ktor.http.takeFrom
 
 internal class BackendApiImpl(private val client: HttpClient) : BackendApi {
 
-    override suspend fun getConversion(base: String): ExchangeRate = client.get {
+    override suspend fun getExchangeRate(base: String): ExchangeRate = client.get {
         url {
             takeFrom(BuildKonfig.BASE_URL_BACKEND)
             path(PATH_CURRENCY, PATH_BY_BASE)

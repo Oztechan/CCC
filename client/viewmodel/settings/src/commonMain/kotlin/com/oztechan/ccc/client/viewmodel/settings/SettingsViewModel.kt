@@ -87,7 +87,7 @@ class SettingsViewModel(
 
                 runCatching { backendApiService.getConversion(name) }
                     .onFailure { error -> Logger.e(error) { error.message.toString() } }
-                    .onSuccess { conversionDataSource.insertConversion(it.conversion) }
+                    .onSuccess { conversionDataSource.insertConversion(it) }
             }
 
         _effect.emit(SettingsEffect.Synchronised)

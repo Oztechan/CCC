@@ -8,7 +8,6 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.common.core.model.ExchangeRate
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.given
@@ -48,7 +47,7 @@ class WidgetViewModelTest {
     private val base = "EUR"
 
     private val currency = Currency(code = base, name = "Euro", symbol = "€")
-    private val exchangeRate = ExchangeRate(base = base, conversion = Conversion(base = base))
+    private val conversion = Conversion(base = base)
 
     @BeforeTest
     fun setup() {
@@ -77,7 +76,7 @@ class WidgetViewModelTest {
 
         given(backendApiService)
             .coroutine { getConversion(base) }
-            .thenReturn(exchangeRate)
+            .thenReturn(conversion)
 
         given(currencyDataSource)
             .coroutine { getActiveCurrencies() }

@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.constants.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.client.core.shared.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.core.shared.util.getFormatted
+import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
@@ -28,14 +29,11 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_OUTPUT
-import com.oztechan.ccc.client.viewmodel.calculator.mapper.toConversion
-import com.oztechan.ccc.client.viewmodel.calculator.mapper.toTodayResponse
 import com.oztechan.ccc.client.viewmodel.calculator.model.ConversionState
 import com.oztechan.ccc.client.viewmodel.calculator.util.calculateRate
 import com.oztechan.ccc.client.viewmodel.calculator.util.getConversionStringFromBase
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -120,13 +118,13 @@ class CalculatorViewModel(
             }
     }
 
-    private fun fetchConversionSuccess(exchangeRate: ExchangeRate) = exchangeRate
-        .toConversion().let {
+    private fun fetchConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
+        .let {
             data.conversion = it
             calculateConversions(it, ConversionState.Online(it.date))
-        }.also {
+
             viewModelScope.launch {
-                conversionDataSource.insertConversion(exchangeRate.toTodayResponse().conversion)
+                conversionDataSource.insertConversion(it)
             }
         }
 
