@@ -1,7 +1,7 @@
 package com.oztechan.ccc.backend.service.free
 
 import com.oztechan.ccc.common.core.network.api.free.FreeApi
-import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
+import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.mockative.Mock
@@ -72,7 +72,7 @@ internal class FreeApiServiceTest {
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
-            assertEquals(exchangeRate.toExchangeRateModel(), it.getOrNull())
+            assertEquals(exchangeRate.conversion.toConversionModel(), it.getOrNull())
         }
 
         verify(freeApi)

@@ -126,7 +126,7 @@ class CalculatorViewModel(
             calculateConversions(it, ConversionState.Online(it.date))
         }.also {
             viewModelScope.launch {
-                conversionDataSource.insertConversion(exchangeRate.toTodayResponse())
+                conversionDataSource.insertConversion(exchangeRate.toTodayResponse().conversion)
             }
         }
 

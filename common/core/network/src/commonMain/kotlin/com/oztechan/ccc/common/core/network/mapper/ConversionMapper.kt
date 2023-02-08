@@ -3,7 +3,7 @@ package com.oztechan.ccc.common.core.network.mapper
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.network.model.Conversion as ConversionAPIModel
 
-internal fun ConversionAPIModel.toConversionModel() = Conversion(
+fun ConversionAPIModel.toConversionModel() = Conversion(
     base, date, aed, afn, all, amd, ang, aoa, ars, aud, awg, azn, bam, bbd, bdt, bgn, bhd, bif,
     bmd, bnd, bob, brl, bsd, btc, btn, bwp, byn, bzd, cad, cdf, chf, clf, clp, cnh, cny, cop,
     crc, cuc, cup, cve, czk, djf, dkk, dop, dzd, egp, ern, etb, eur, fjd, fkp, gbp, gel, ggp,

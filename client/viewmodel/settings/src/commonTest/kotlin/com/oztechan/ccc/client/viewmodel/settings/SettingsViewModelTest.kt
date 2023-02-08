@@ -177,7 +177,7 @@ internal class SettingsViewModelTest {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(exchangeRate) }
+            .coroutine { conversionDataSource.insertConversion(exchangeRate.conversion) }
             .wasInvoked()
     }
 
@@ -200,7 +200,7 @@ internal class SettingsViewModelTest {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(ExchangeRate("", "", Conversion())) }
+            .coroutine { conversionDataSource.insertConversion(Conversion()) }
             .wasNotInvoked()
     }
 

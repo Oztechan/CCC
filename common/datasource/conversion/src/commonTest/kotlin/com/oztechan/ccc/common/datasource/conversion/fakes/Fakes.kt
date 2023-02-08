@@ -1,13 +1,12 @@
 package com.oztechan.ccc.common.datasource.conversion.fakes
 
-import com.oztechan.ccc.common.core.model.ExchangeRate
-import com.oztechan.ccc.common.datasource.conversion.mapper.toConversionModel
-import com.oztechan.ccc.common.core.database.sql.Conversion as ConversionDBModel
+import com.oztechan.ccc.common.core.model.Conversion
+import com.oztechan.ccc.common.datasource.conversion.mapper.toConversionDBModel
 
 object Fakes {
     private const val base = "EUR"
     private const val date = "12.12.2022"
-    val conversionDBModel = ConversionDBModel(
+    val conversionModel = Conversion(
         base, date, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0,
         13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0,
         27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0,
@@ -22,5 +21,5 @@ object Fakes {
         146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0, 157.0,
         158.0, 159.0, 160.0, 161.0, 162.0, 163.0, 164.0, 165.0, 166.0, 167.0, 168.0, 169.0, 170.0
     )
-    val exchangeRateModel = ExchangeRate(base, date, conversionDBModel.toConversionModel())
+    val conversionDBModel = conversionModel.toConversionDBModel()
 }
