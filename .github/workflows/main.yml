@@ -295,18 +295,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: coverageReport
+          path: build
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: report.xml
+          files: build/report.xml
 
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: report.xml
+          coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
@@ -317,7 +318,7 @@ jobs:
           args: >
             -Dsonar.organization=oztechan
             -Dsonar.projectKey=Oztechan_CCC
-            -Dsonar.coverage.jacoco.xmlReportPaths=report.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
 
       - name: Delete Coverage Report
         uses: geekyeggo/delete-artifact@v2
