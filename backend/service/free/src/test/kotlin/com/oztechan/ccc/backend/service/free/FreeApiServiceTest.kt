@@ -25,7 +25,7 @@ internal class FreeApiServiceTest {
     }
 
     @Mock
-    private val freeApi = mock(classOf<FreeApi>())
+    private val freeApi: FreeApi = mock(classOf())
 
     private val exchangeRate = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val throwable = Throwable("mock")
@@ -39,14 +39,14 @@ internal class FreeApiServiceTest {
         }
 
         verify(freeApi)
-            .coroutine { freeApi.getConversion("") }
+            .coroutine { freeApi.getExchangeRate("") }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion error`() = runTest {
         given(freeApi)
-            .coroutine { freeApi.getConversion(base) }
+            .coroutine { freeApi.getExchangeRate(base) }
             .thenThrow(throwable)
 
         runCatching { subject.getConversion(base) }.let {
@@ -59,14 +59,14 @@ internal class FreeApiServiceTest {
         }
 
         verify(freeApi)
-            .coroutine { getConversion(base) }
+            .coroutine { getExchangeRate(base) }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion success`() = runTest {
         given(freeApi)
-            .coroutine { freeApi.getConversion(base) }
+            .coroutine { freeApi.getExchangeRate(base) }
             .thenReturn(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
@@ -76,7 +76,7 @@ internal class FreeApiServiceTest {
         }
 
         verify(freeApi)
-            .coroutine { getConversion(base) }
+            .coroutine { getExchangeRate(base) }
             .wasInvoked()
     }
 }
