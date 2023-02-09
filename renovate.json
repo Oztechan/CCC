@@ -16,5 +16,15 @@
   "lockFileMaintenance": {
     "enabled": true,
     "commitMessageAction": "[Oztechan/CCC#1457] Lock file maintenance"
-  }
+  },
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "^org.jetbrains.kotlin",
+        "^com.google.devtools.ksp",
+        "^androidx.compose.compiler"
+      ],
+      "groupName": "kotlin"
+    }
+  ]
 }
