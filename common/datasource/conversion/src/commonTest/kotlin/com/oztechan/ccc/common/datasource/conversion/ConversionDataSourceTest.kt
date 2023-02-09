@@ -3,8 +3,7 @@ package com.oztechan.ccc.common.datasource.conversion
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.sql.ConversionQueries
-import com.oztechan.ccc.common.core.model.Conversion
-import com.oztechan.ccc.common.core.model.ExchangeRate
+import com.oztechan.ccc.common.datasource.conversion.fakes.Fakes
 import com.oztechan.ccc.common.datasource.conversion.mapper.toConversionDBModel
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.db.SqlCursor
@@ -36,10 +35,8 @@ internal class ConversionDataSourceTest {
     @Mock
     private val sqlCursor = configure(mock(classOf<SqlCursor>())) { stubsUnitByDefault = true }
 
-    private val exchangeRate = ExchangeRate("EUR", "12.21.2121", Conversion())
-
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        exchangeRate.toConversionDBModel()
+        Fakes.conversionModel.toConversionDBModel()
     }
 
     @BeforeTest
@@ -58,26 +55,26 @@ internal class ConversionDataSourceTest {
     @Test
     fun insertConversion() {
         runTest {
-            subject.insertConversion(exchangeRate)
+            subject.insertConversion(Fakes.conversionModel)
         }
 
         verify(conversionQueries)
-            .invocation { insertConversion(exchangeRate.toConversionDBModel()) }
+            .invocation { insertConversion(Fakes.conversionModel.toConversionDBModel()) }
             .wasInvoked()
     }
 
     @Test
     fun getConversionByBase() {
         given(conversionQueries)
-            .invocation { getConversionByBase(exchangeRate.base) }
+            .invocation { getConversionByBase(Fakes.conversionModel.base) }
             .then { query }
 
         runTest {
-            subject.getConversionByBase(exchangeRate.base)
+            subject.getConversionByBase(Fakes.conversionModel.base)
         }
 
         verify(conversionQueries)
-            .invocation { getConversionByBase(exchangeRate.base) }
+            .invocation { getConversionByBase(Fakes.conversionModel.base) }
             .wasInvoked()
     }
 }

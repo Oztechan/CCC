@@ -10,7 +10,7 @@ import io.ktor.http.path
 import io.ktor.http.takeFrom
 
 internal class FreeApiImpl(private val client: HttpClient) : FreeApi {
-    override suspend fun getConversion(base: String): ExchangeRate = client.get {
+    override suspend fun getExchangeRate(base: String): ExchangeRate = client.get {
         url {
             takeFrom(BuildKonfig.BASE_URL_API)
             path(PATH_LATEST)

@@ -3,6 +3,7 @@ package com.oztechan.ccc.backend.controller.sync
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.backend.service.free.FreeApiService
 import com.oztechan.ccc.backend.service.premium.PremiumApiService
+import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.CurrencyType
 import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
@@ -25,14 +26,14 @@ internal class SyncControllerImpl(
             // non premium call for filling null values
             runCatching { freeApiService.getConversion(currencyType.name) }
                 .onFailure { Logger.e(it) { it.message.toString() } }
-                .onSuccess { nonPremiumResponse ->
+                .onSuccess { freeConversion ->
 
                     // premium api call
                     runCatching { premiumApiService.getConversion(currencyType.name) }
                         .onFailure { Logger.e(it) { it.message.toString() } }
                         .onSuccess { premiumResponse ->
                             conversionDataSource.insertConversion(
-                                premiumResponse.fillMissingConversionWith(nonPremiumResponse)
+                                premiumResponse.fillMissingConversionWith(freeConversion).conversion
                             )
                         }
                 }
@@ -53,22 +54,22 @@ internal class SyncControllerImpl(
     }
 
     private fun ExchangeRate.fillMissingConversionWith(
-        nonPremiumResponse: ExchangeRate
+        nonPremiumConversion: Conversion
     ) = apply {
         conversion = conversion.copy(
-            btc = nonPremiumResponse.conversion.btc,
-            clf = nonPremiumResponse.conversion.clf,
-            cnh = nonPremiumResponse.conversion.cnh,
-            jep = nonPremiumResponse.conversion.jep,
-            kpw = nonPremiumResponse.conversion.kpw,
-            mro = nonPremiumResponse.conversion.mro,
-            std = nonPremiumResponse.conversion.std,
-            svc = nonPremiumResponse.conversion.svc,
-            xag = nonPremiumResponse.conversion.xag,
-            xau = nonPremiumResponse.conversion.xau,
-            xpd = nonPremiumResponse.conversion.xpd,
-            xpt = nonPremiumResponse.conversion.xpt,
-            zwl = nonPremiumResponse.conversion.zwl
+            btc = nonPremiumConversion.btc,
+            clf = nonPremiumConversion.clf,
+            cnh = nonPremiumConversion.cnh,
+            jep = nonPremiumConversion.jep,
+            kpw = nonPremiumConversion.kpw,
+            mro = nonPremiumConversion.mro,
+            std = nonPremiumConversion.std,
+            svc = nonPremiumConversion.svc,
+            xag = nonPremiumConversion.xag,
+            xau = nonPremiumConversion.xau,
+            xpd = nonPremiumConversion.xpd,
+            xpt = nonPremiumConversion.xpt,
+            zwl = nonPremiumConversion.zwl
         )
     }
 }

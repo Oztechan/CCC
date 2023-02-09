@@ -1,7 +1,7 @@
 package com.oztechan.ccc.backend.service.free
 
 import com.oztechan.ccc.common.core.network.api.free.FreeApi
-import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
+import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.mockative.Mock
@@ -25,7 +25,7 @@ internal class FreeApiServiceTest {
     }
 
     @Mock
-    private val freeApi = mock(classOf<FreeApi>())
+    private val freeApi: FreeApi = mock(classOf())
 
     private val exchangeRate = ExchangeRate("EUR", "12.21.2121", Conversion())
     private val throwable = Throwable("mock")
@@ -39,14 +39,14 @@ internal class FreeApiServiceTest {
         }
 
         verify(freeApi)
-            .coroutine { freeApi.getConversion("") }
+            .coroutine { freeApi.getExchangeRate("") }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion error`() = runTest {
         given(freeApi)
-            .coroutine { freeApi.getConversion(base) }
+            .coroutine { freeApi.getExchangeRate(base) }
             .thenThrow(throwable)
 
         runCatching { subject.getConversion(base) }.let {
@@ -59,24 +59,24 @@ internal class FreeApiServiceTest {
         }
 
         verify(freeApi)
-            .coroutine { getConversion(base) }
+            .coroutine { getExchangeRate(base) }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion success`() = runTest {
         given(freeApi)
-            .coroutine { freeApi.getConversion(base) }
+            .coroutine { freeApi.getExchangeRate(base) }
             .thenReturn(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
-            assertEquals(exchangeRate.toExchangeRateModel(), it.getOrNull())
+            assertEquals(exchangeRate.conversion.toConversionModel(), it.getOrNull())
         }
 
         verify(freeApi)
-            .coroutine { getConversion(base) }
+            .coroutine { getExchangeRate(base) }
             .wasInvoked()
     }
 }
