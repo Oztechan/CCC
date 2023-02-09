@@ -5,7 +5,6 @@ import com.oztechan.ccc.backend.service.free.FreeApiService
 import com.oztechan.ccc.backend.service.premium.PremiumApiService
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.CurrencyType
-import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
@@ -31,9 +30,11 @@ internal class SyncControllerImpl(
                     // premium api call
                     runCatching { premiumApiService.getConversion(currencyType.name) }
                         .onFailure { Logger.e(it) { it.message.toString() } }
-                        .onSuccess { premiumResponse ->
+                        .onSuccess { premiumConversion ->
                             conversionDataSource.insertConversion(
-                                premiumResponse.fillMissingConversionWith(freeConversion).conversion
+                                premiumConversion.fillMissingRatesWith(
+                                    freeConversion
+                                )
                             )
                         }
                 }
@@ -53,23 +54,19 @@ internal class SyncControllerImpl(
         }
     }
 
-    private fun ExchangeRate.fillMissingConversionWith(
-        nonPremiumConversion: Conversion
-    ) = apply {
-        conversion = conversion.copy(
-            btc = nonPremiumConversion.btc,
-            clf = nonPremiumConversion.clf,
-            cnh = nonPremiumConversion.cnh,
-            jep = nonPremiumConversion.jep,
-            kpw = nonPremiumConversion.kpw,
-            mro = nonPremiumConversion.mro,
-            std = nonPremiumConversion.std,
-            svc = nonPremiumConversion.svc,
-            xag = nonPremiumConversion.xag,
-            xau = nonPremiumConversion.xau,
-            xpd = nonPremiumConversion.xpd,
-            xpt = nonPremiumConversion.xpt,
-            zwl = nonPremiumConversion.zwl
-        )
+    private fun Conversion.fillMissingRatesWith(freeConversion: Conversion) = apply {
+        btc = freeConversion.btc
+        clf = freeConversion.clf
+        cnh = freeConversion.cnh
+        jep = freeConversion.jep
+        kpw = freeConversion.kpw
+        mro = freeConversion.mro
+        std = freeConversion.std
+        svc = freeConversion.svc
+        xag = freeConversion.xag
+        xau = freeConversion.xau
+        xpd = freeConversion.xpd
+        xpt = freeConversion.xpt
+        zwl = freeConversion.zwl
     }
 }
