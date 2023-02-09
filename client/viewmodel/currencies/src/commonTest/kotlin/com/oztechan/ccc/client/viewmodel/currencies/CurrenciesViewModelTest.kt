@@ -67,7 +67,7 @@ internal class CurrenciesViewModelTest {
 
     private val currencyListFlow = flowOf(currencyList)
 
-    private var dollar = Currency("USD", "American Dollar", "$", 1231.0)
+    private var dollar = Currency("USD", "American Dollar", "$", "1231")
 
     @BeforeTest
     fun setup() {

@@ -13,7 +13,7 @@ internal class CurrencyMapperTest {
         assertEquals(Fakes.currencyDBModel.code, model.code)
         assertEquals(Fakes.currencyDBModel.name, model.name)
         assertEquals(Fakes.currencyDBModel.symbol, model.symbol)
-        assertEquals(Fakes.currencyDBModel.rate, model.rate)
+        assertEquals(Fakes.currencyDBModel.rate.toString(), model.rate)
         assertEquals(Fakes.currencyDBModel.isActive.toBoolean(), model.isActive)
     }
 }

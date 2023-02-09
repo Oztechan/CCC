@@ -29,7 +29,7 @@ class CalculatorAdapter(
 
         override fun onItemBind(item: Currency) = with(itemBinding) {
             with(txtAmount) {
-                text = item.rate.toString()
+                text = item.rate
                 setOnLongClickListener { onOutputLongClick() }
                 setOnClickListener { root.callOnClick() }
             }

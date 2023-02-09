@@ -132,8 +132,8 @@ internal class WatchersViewModelTest {
 
     @Test
     fun onAddClick() = runTest {
-        val currency1 = Currency("USD", "Dollar", "", 1.2, true)
-        val currency2 = Currency("EUR", "EUR", "", 1.2, true)
+        val currency1 = Currency("USD", "Dollar", "", "", true)
+        val currency2 = Currency("EUR", "EUR", "", "", true)
 
         // when there is no active currency
         given(currencyDataSource)

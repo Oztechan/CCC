@@ -175,7 +175,7 @@ class CalculatorViewModel(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
                     .getFormatted(calculationStorage.precision)
-                    .toStandardDigits().toDoubleOrNull() ?: 0.0
+                    .toStandardDigits()
             },
             conversionState = conversionState
         )
@@ -220,7 +220,7 @@ class CalculatorViewModel(
     override fun onItemClick(currency: Currency) = with(currency) {
         Logger.d { "CalculatorViewModel onItemClick ${currency.code}" }
 
-        val newInput = rate.toString().toSupportedCharacters().let {
+        val newInput = rate.toSupportedCharacters().let {
             if (it.last() == CHAR_DOT) {
                 it.dropLast(1)
             } else {

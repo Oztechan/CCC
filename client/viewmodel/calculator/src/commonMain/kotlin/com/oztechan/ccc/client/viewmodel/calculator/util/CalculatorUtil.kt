@@ -21,7 +21,7 @@ internal fun Currency.getConversionStringFromBase(
 fun List<Currency>?.toValidList(currentBase: String) = this?.filter {
     it.code != currentBase &&
         it.isActive &&
-        it.rate.toString() != "NaN" &&
-        it.rate.toString() != "0.0" &&
-        it.rate.toString() != "0"
+        it.rate != "NaN" &&
+        it.rate != "0.0" &&
+        it.rate != "0"
 } ?: mutableListOf()
