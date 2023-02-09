@@ -32,7 +32,7 @@ internal class SyncControllerImpl(
                         .onFailure { Logger.e(it) { it.message.toString() } }
                         .onSuccess { premiumConversion ->
                             conversionDataSource.insertConversion(
-                                premiumConversion.fillMissingConversionWith(
+                                premiumConversion.fillMissingRatesWith(
                                     freeConversion
                                 )
                             )
@@ -54,7 +54,7 @@ internal class SyncControllerImpl(
         }
     }
 
-    private fun Conversion.fillMissingConversionWith(freeConversion: Conversion) = apply {
+    private fun Conversion.fillMissingRatesWith(freeConversion: Conversion) = apply {
         btc = freeConversion.btc
         clf = freeConversion.clf
         cnh = freeConversion.cnh
