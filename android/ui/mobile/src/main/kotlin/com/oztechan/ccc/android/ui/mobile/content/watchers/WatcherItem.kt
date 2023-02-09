@@ -29,14 +29,13 @@ import com.oztechan.ccc.android.ui.mobile.component.Preview
 import com.oztechan.ccc.android.ui.mobile.util.toPainter
 import com.oztechan.ccc.android.ui.mobile.util.toText
 import com.oztechan.ccc.client.core.res.getImageIdByName
+import com.oztechan.ccc.client.viewmodel.watchers.WatchersEvent
 import com.oztechan.ccc.common.core.model.Watcher
 
 @Composable
 fun WatcherItem(
     watcher: Watcher,
-    onRateChange: (String) -> Unit,
-    onBaseClick: () -> Unit,
-    onTargetClick: () -> Unit
+    event: WatchersEvent
 ) {
     val itemPadding: Dp = 2.dp
     val itemHeight: Dp = 36.dp
@@ -63,7 +62,7 @@ fun WatcherItem(
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
-                .clickable { onBaseClick() }
+                .clickable { event.onBaseClick(watcher) }
         )
 
         Text(
@@ -75,7 +74,7 @@ fun WatcherItem(
 
         OutlinedTextField(
             value = watcher.rate.toString(),
-            onValueChange = onRateChange,
+            onValueChange = { event.onRateChange(watcher, it) },
             modifier = Modifier
                 .padding(itemPadding)
                 .width(105.dp),
@@ -98,7 +97,7 @@ fun WatcherItem(
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
-                .clickable { onTargetClick() }
+                .clickable { event.onTargetClick(watcher) }
         )
     }
 }
@@ -114,8 +113,16 @@ fun WatcherItemPreview() = Preview {
             isGreater = false,
             rate = 123456789.0
         ),
-        onRateChange = {},
-        onBaseClick = {},
-        onTargetClick = {}
+        event = object : WatchersEvent {
+            override fun onBackClick() = Unit
+            override fun onBaseClick(watcher: Watcher) = Unit
+            override fun onTargetClick(watcher: Watcher) = Unit
+            override fun onBaseChanged(watcher: Watcher, newBase: String) = Unit
+            override fun onTargetChanged(watcher: Watcher, newTarget: String) = Unit
+            override fun onAddClick() = Unit
+            override fun onDeleteClick(watcher: Watcher) = Unit
+            override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = Unit
+            override fun onRateChange(watcher: Watcher, rate: String) = ""
+        }
     )
 }

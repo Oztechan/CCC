@@ -33,6 +33,7 @@ import com.oztechan.ccc.android.ui.mobile.util.toColor
 import com.oztechan.ccc.android.ui.mobile.util.toPainter
 import com.oztechan.ccc.android.ui.mobile.util.toText
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
+import com.oztechan.ccc.client.viewmodel.watchers.WatchersEvent
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import com.oztechan.ccc.common.core.model.Watcher
@@ -61,10 +62,7 @@ fun NavHostController.WatchersView(
     SnackViewHost(snackbarHostState) {
         WatchersViewContent(
             state = vm.state.collectAsState(),
-            onAddClick = vm.event::onAddClick,
-            onRateChange = vm.event::onRateChange,
-            onBaseClick = vm.event::onBaseClick,
-            onTargetClick = vm.event::onTargetClick
+            event = vm.event
         )
     }
 }
@@ -72,10 +70,7 @@ fun NavHostController.WatchersView(
 @Composable
 fun WatchersViewContent(
     state: State<WatchersState>,
-    onAddClick: () -> Unit,
-    onRateChange: (watcher: Watcher, rate: String) -> String,
-    onBaseClick: (watcher: Watcher) -> Unit,
-    onTargetClick: (watcher: Watcher) -> Unit,
+    event: WatchersEvent
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -95,15 +90,7 @@ fun WatchersViewContent(
             items(state.value.watcherList) {
                 WatcherItem(
                     watcher = it,
-                    onRateChange = { rate ->
-                        onRateChange(it, rate)
-                    },
-                    onBaseClick = {
-                        onBaseClick(it)
-                    },
-                    onTargetClick = {
-                        onTargetClick(it)
-                    }
+                    event = event
                 )
             }
         }
@@ -116,7 +103,7 @@ fun WatchersViewContent(
             contentAlignment = Alignment.Center
         ) {
             TextButton(
-                onClick = onAddClick,
+                onClick = event::onAddClick,
             ) {
                 ImageView(
                     painter = R.drawable.ic_plus.toPainter(),
@@ -146,9 +133,16 @@ fun WatchersViewContentPreview() = Preview {
                 )
             )
         ),
-        onAddClick = {},
-        onRateChange = { _, _ -> "" },
-        onBaseClick = {},
-        onTargetClick = {}
+        event = object : WatchersEvent {
+            override fun onBackClick() = Unit
+            override fun onBaseClick(watcher: Watcher) = Unit
+            override fun onTargetClick(watcher: Watcher) = Unit
+            override fun onBaseChanged(watcher: Watcher, newBase: String) = Unit
+            override fun onTargetChanged(watcher: Watcher, newTarget: String) = Unit
+            override fun onAddClick() = Unit
+            override fun onDeleteClick(watcher: Watcher) = Unit
+            override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = Unit
+            override fun onRateChange(watcher: Watcher, rate: String) = ""
+        }
     )
 }
