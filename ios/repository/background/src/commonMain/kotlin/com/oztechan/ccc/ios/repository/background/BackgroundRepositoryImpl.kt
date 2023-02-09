@@ -23,7 +23,6 @@ internal class BackgroundRepositoryImpl(
             watchersDataSource.getWatchers().forEach { watcher ->
                 backendApiService
                     .getConversion(watcher.base)
-                    .conversion
                     .getRateFromCode(watcher.target)
                     ?.let { rate ->
                         when {

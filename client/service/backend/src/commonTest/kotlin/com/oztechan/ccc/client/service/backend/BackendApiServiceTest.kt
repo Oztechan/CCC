@@ -3,7 +3,7 @@ package com.oztechan.ccc.client.service.backend
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
-import com.oztechan.ccc.common.core.network.mapper.toExchangeRateModel
+import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.mockative.Mock
@@ -30,9 +30,10 @@ internal class BackendApiServiceTest {
     @Mock
     private val backendApi = mock(classOf<BackendApi>())
 
-    private val exchangeRate = ExchangeRate("EUR", "12.21.2121", Conversion())
-    private val throwable = Throwable("mock")
     private val base = "EUR"
+    private val conversion = Conversion(base)
+    private val exchangeRate = ExchangeRate(base, "12.21.2121", conversion)
+    private val throwable = Throwable("mock")
 
     @BeforeTest
     fun setup() {
@@ -47,14 +48,14 @@ internal class BackendApiServiceTest {
         }
 
         verify(backendApi)
-            .coroutine { backendApi.getConversion("") }
+            .coroutine { backendApi.getExchangeRate("") }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion error`() = runTest {
         given(backendApi)
-            .coroutine { backendApi.getConversion(base) }
+            .coroutine { backendApi.getExchangeRate(base) }
             .thenThrow(throwable)
 
         runCatching { subject.getConversion(base) }.let {
@@ -67,24 +68,24 @@ internal class BackendApiServiceTest {
         }
 
         verify(backendApi)
-            .coroutine { getConversion(base) }
+            .coroutine { getExchangeRate(base) }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion success`() = runTest {
         given(backendApi)
-            .coroutine { backendApi.getConversion(base) }
+            .coroutine { backendApi.getExchangeRate(base) }
             .thenReturn(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
-            assertEquals(exchangeRate.toExchangeRateModel(), it.getOrNull())
+            assertEquals(conversion.toConversionModel(), it.getOrNull())
         }
 
         verify(backendApi)
-            .coroutine { getConversion(base) }
+            .coroutine { getExchangeRate(base) }
             .wasInvoked()
     }
 }

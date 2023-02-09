@@ -22,7 +22,6 @@ import com.oztechan.ccc.client.viewmodel.calculator.util.calculateRate
 import com.oztechan.ccc.client.viewmodel.calculator.util.getConversionStringFromBase
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
@@ -80,7 +79,7 @@ internal class CalculatorViewModelTest {
     private val currency1 = Currency("USD", "Dollar", "$", 12345.678, true)
     private val currency2 = Currency("EUR", "Dollar", "$", 12345.678, true)
     private val currencyList = listOf(currency1, currency2)
-    private val exchangeRate = ExchangeRate(currency1.code, null, Conversion())
+    private val conversion = Conversion(currency1.code, "12.12.2121")
 
     @BeforeTest
     fun setup() {
@@ -107,11 +106,11 @@ internal class CalculatorViewModelTest {
         runTest {
             given(conversionDataSource)
                 .coroutine { getConversionByBase(currency1.code) }
-                .thenReturn(exchangeRate.conversion)
+                .thenReturn(conversion)
 
             given(backendApiService)
                 .coroutine { getConversion(currency1.code) }
-                .thenReturn(exchangeRate)
+                .thenReturn(conversion)
 
             given(currencyDataSource)
                 .coroutine { getCurrencyByCode(currency1.code) }
@@ -156,10 +155,10 @@ internal class CalculatorViewModelTest {
         }.firstOrNull().let {
             assertNotNull(it)
             assertFalse { it.loading }
-            assertEquals(ConversionState.Offline(exchangeRate.conversion.date), it.conversionState)
+            assertEquals(ConversionState.Offline(conversion.date), it.conversionState)
 
             val result = currencyList.onEach { currency ->
-                currency.rate = exchangeRate.conversion.calculateRate(currency.code, it.output)
+                currency.rate = conversion.calculateRate(currency.code, it.output)
                     .getFormatted(calculationStorage.precision)
                     .toStandardDigits().toDoubleOrNull() ?: 0.0
             }
@@ -448,7 +447,7 @@ internal class CalculatorViewModelTest {
 
         given(backendApiService)
             .coroutine { getConversion(currency1.code) }
-            .thenReturn(exchangeRate)
+            .thenReturn(conversion)
 
         viewModel.state.onSubscription {
             viewModel.event.onBaseChange(currency1.code)

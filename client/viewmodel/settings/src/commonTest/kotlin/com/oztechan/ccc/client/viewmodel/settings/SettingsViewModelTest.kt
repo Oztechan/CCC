@@ -23,7 +23,6 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
-import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
@@ -159,8 +158,9 @@ internal class SettingsViewModelTest {
     fun `successful synchroniseConversions update the database`() = runTest {
         viewModel.data.synced = false
 
-        val exchangeRate = ExchangeRate("EUR", null, Conversion())
-        val currency = Currency("EUR", "", "")
+        val base = "EUR"
+        val conversion = Conversion(base)
+        val currency = Currency(base, "", "")
 
         given(currencyDataSource)
             .coroutine { currencyDataSource.getActiveCurrencies() }
@@ -168,7 +168,7 @@ internal class SettingsViewModelTest {
 
         given(backendApiService)
             .coroutine { getConversion(currency.code) }
-            .thenReturn(exchangeRate)
+            .thenReturn(conversion)
 
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
@@ -177,7 +177,7 @@ internal class SettingsViewModelTest {
         }
 
         verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(exchangeRate.conversion) }
+            .coroutine { conversionDataSource.insertConversion(conversion) }
             .wasInvoked()
     }
 

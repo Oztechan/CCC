@@ -41,7 +41,6 @@ class WidgetViewModel(
     private suspend fun getFreshWidgetData() {
         val conversion = backendApiService
             .getConversion(calculationStorage.currentBase)
-            .conversion
 
         currencyDataSource.getActiveCurrencies()
             .filterNot { it.code == calculationStorage.currentBase }

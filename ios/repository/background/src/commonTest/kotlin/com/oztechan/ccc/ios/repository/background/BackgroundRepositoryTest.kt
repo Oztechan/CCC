@@ -5,7 +5,6 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.common.core.model.Conversion
-import com.oztechan.ccc.common.core.model.ExchangeRate
 import com.oztechan.ccc.common.core.model.Watcher
 import io.mockative.Mock
 import io.mockative.classOf
@@ -82,7 +81,7 @@ internal class BackgroundRepositoryTest {
 
         given(backendApiService)
             .coroutine { getConversion(watcher.base) }
-            .thenReturn(ExchangeRate(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate + 1)))
+            .thenReturn(Conversion(base = watcher.base, usd = watcher.rate + 1))
 
         assertTrue { subject.shouldSendNotification() }
 
@@ -105,7 +104,7 @@ internal class BackgroundRepositoryTest {
 
         given(backendApiService)
             .coroutine { getConversion(watcher.base) }
-            .thenReturn(ExchangeRate(watcher.base, "", Conversion(base = watcher.base, usd = watcher.rate - 1)))
+            .thenReturn(Conversion(base = watcher.base, usd = watcher.rate - 1))
 
         assertTrue { subject.shouldSendNotification() }
 
