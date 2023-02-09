@@ -54,19 +54,19 @@ internal class SyncControllerImpl(
         }
     }
 
-    private fun Conversion.fillMissingConversionWith(nonPremiumConversion: Conversion) = apply {
-        btc = nonPremiumConversion.btc
-        clf = nonPremiumConversion.clf
-        cnh = nonPremiumConversion.cnh
-        jep = nonPremiumConversion.jep
-        kpw = nonPremiumConversion.kpw
-        mro = nonPremiumConversion.mro
-        std = nonPremiumConversion.std
-        svc = nonPremiumConversion.svc
-        xag = nonPremiumConversion.xag
-        xau = nonPremiumConversion.xau
-        xpd = nonPremiumConversion.xpd
-        xpt = nonPremiumConversion.xpt
-        zwl = nonPremiumConversion.zwl
+    private fun Conversion.fillMissingConversionWith(freeConversion: Conversion) = apply {
+        btc = freeConversion.btc
+        clf = freeConversion.clf
+        cnh = freeConversion.cnh
+        jep = freeConversion.jep
+        kpw = freeConversion.kpw
+        mro = freeConversion.mro
+        std = freeConversion.std
+        svc = freeConversion.svc
+        xag = freeConversion.xag
+        xau = freeConversion.xau
+        xpd = freeConversion.xpd
+        xpt = freeConversion.xpt
+        zwl = freeConversion.zwl
     }
 }
