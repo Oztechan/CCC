@@ -39,60 +39,83 @@ dependencyResolutionManagement {
 }
 
 include(
-    // Targets
-    ":android:app", // android app
-    ":android:core:billing", // android only billing module
-    ":android:core:ad", // android only ad module
-    ":android:ui:mobile", // android mobile app
-    ":android:ui:widget", // android widget
+    // region Android only modules
+    ":android:app",
+    // Core modules
+    ":android:core:billing",
+    ":android:core:ad",
+    // UI modules
+    ":android:ui:mobile",
+    ":android:ui:widget",
+    // ViewModel modules
     ":android:viewmodel:premium",
     ":android:viewmodel:widget",
+    // endregion
 
+    // region iOS only modules
     ":ios:provider",
+    // Repository modules
     ":ios:repository:background",
+    // endregion
 
-    ":backend:app", // backend app
+    // region Backend only modules
+    ":backend:app",
+    // Service modules
     ":backend:service:free",
     ":backend:service:premium",
+    // Controller modules
     ":backend:controller:sync",
     ":backend:controller:api",
+    // endregion
 
-    // KMP modules
-    // Shared with all FE & BE targets
-    ":common:core:database",
-    ":common:core:network",
-    ":common:core:infrastructure",
-    ":common:core:model",
-    ":common:datasource:conversion",
-
+    // region Client only modules Android+iOS
+    // Core modules
     ":client:core:viewmodel",
     ":client:core:shared",
     ":client:core:res",
     ":client:core:analytics",
     ":client:core:persistence",
     ":client:core:remoteconfig",
+    // Storage modules
     ":client:storage:app",
     ":client:storage:calculation",
+    // DataSource modules
     ":client:datasource:currency",
     ":client:datasource:watcher",
+    // Service modules
     ":client:service:backend",
+    // ConfigService modules
     ":client:configservice:ad",
     ":client:configservice:review",
     ":client:configservice:update",
+    // Repository modules
     ":client:repository:adcontrol",
     ":client:repository:appconfig",
+    // ViewModel modules
     ":client:viewmodel:main",
     ":client:viewmodel:calculator",
     ":client:viewmodel:currencies",
     ":client:viewmodel:settings",
     ":client:viewmodel:selectcurrency",
     ":client:viewmodel:watchers",
+    // endregion
 
-    // submodules
+    // region Common only modules Android+iOS+Backend
+    // Core modules
+    ":common:core:database",
+    ":common:core:network",
+    ":common:core:infrastructure",
+    ":common:core:model",
+    // DataSource modules
+    ":common:datasource:conversion",
+    // endregion
+
+    // region Git Submodules independent modules and project hosted in different repository
     ":submodule:logmob", // KMP, logger library
     ":submodule:scopemob", // KMP, hand scope functions
-    ":submodule:basemob", // android only
+    ":submodule:basemob", // Android only base classes
     ":submodule:parsermob" // KMP, parsing library
+    // endregion
 )
 
 project(":submodule:logmob").projectDir = file("submodule/logmob/logmob")

@@ -19,15 +19,23 @@ internal fun Application.koinModule() {
 
     install(Koin) {
         modules(
+            // region Backend modules
+            // Service modules
             backendServiceFreeModule,
             backendServicePremiumModule,
+            // Controller modules
             backendControllerSyncModule,
             backendControllerAPIModule,
+            // endregion
 
+            // region Common modules
+            // Core modules
             commonCoreDatabaseModule,
             commonCoreNetworkModule,
             commonCoreInfrastructureModule,
+            // DataSource Modules
             commonDataSourceConversionModule
+            // endregion
         )
     }.also {
         Logger.i { "Koin initialised" }

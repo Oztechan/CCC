@@ -11,7 +11,7 @@ import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
-import com.oztechan.ccc.client.core.analytics.di.getAnalyticsModule
+import com.oztechan.ccc.client.core.analytics.di.getClientCoreAnalyticsModule
 import com.oztechan.ccc.client.core.persistence.di.NativeDependencyWrapper
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
@@ -48,40 +48,58 @@ fun initKoin(
     analyticsManager: AnalyticsManager
 ) = startKoin {
     modules(
-        getIOSModule(userDefaults),
-        getAnalyticsModule(analyticsManager),
+        // region Platform modules
+        getIOSPlatformModule(userDefaults),
+        // endregion
 
-        // client
+        // region iOS modules
+        // Repository modules
+        iosRepositoryBackgroundModule,
+        // endregion
+
+        // region Client modules
+        // Core modules
+        getClientCoreAnalyticsModule(analyticsManager),
         clientCorePersistenceModule,
+        // Storage modules
         clientStorageAppModule,
         clientStorageCalculationModule,
+        // Service modules
         clientServiceBackendModule,
+        // ConfigService modules
         clientConfigServiceAdModule,
         clientConfigServiceReviewModel,
         clientConfigServiceUpdateModule,
+        // DataSource modules
         clientDataSourceCurrencyModule,
         clientDataSourceWatcherModule,
+        // Service modules
         clientRepositoryAdControlModule,
-        iosRepositoryBackgroundModule,
+        // ViewModel modules
         clientViewModelMainModule,
         clientViewModelCalculatorModule,
         clientViewModelCurrenciesModule,
         clientViewModelSettingsModule,
         clientViewModelSelectCurrencyModule,
-        clientRepositoryAppConfigModule,
         clientViewModelWatchersModule,
+        // Repository modules
+        clientRepositoryAppConfigModule,
+        // endregion
 
-        // common
+        // region Common modules
+        // Core modules
         commonCoreDatabaseModule,
         commonCoreNetworkModule,
         commonCoreInfrastructureModule,
+        // DataSource modules
         commonDataSourceConversionModule
+        // endregion
     )
 }.also {
     Logger.i { "Koin initialised" }
 }
 
-private fun getIOSModule(userDefaults: NSUserDefaults) = module {
+private fun getIOSPlatformModule(userDefaults: NSUserDefaults) = module {
     single { NativeDependencyWrapper(userDefaults) }
     single<Device> { Device.IOS }
 }
