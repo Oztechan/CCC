@@ -216,14 +216,12 @@ jobs:
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
-      - name: Install Cocoapods
-        run: cd ios/CCC; pod install --repo-update
-
       - name: Publish
-        uses: maierj/fastlane-action@v2.3.0
-        with:
-          lane: 'publish'
-          subdirectory: 'ios'
+        run: |
+          cd ios/CCC
+          pod install --repo-update
+          cd ..
+          fastlane publish
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
