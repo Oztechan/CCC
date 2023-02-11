@@ -7,7 +7,7 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.oztechan.ccc.android.ui.widget.action.WidgetAction
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.getWidgetActionOrNull
+import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.mapToWidgetAction
 import com.oztechan.ccc.android.viewmodel.widget.WidgetViewModel
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
@@ -43,7 +43,8 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        when (intent.action.getWidgetActionOrNull()) {
+        when (intent.action.mapToWidgetAction()) {
+            WidgetAction.IDLE -> Unit
             WidgetAction.REFRESH -> refreshData(context)
             WidgetAction.NEXT_BASE -> refreshData(context, true)
             WidgetAction.PREVIOUS_BASE -> refreshData(context, false)
