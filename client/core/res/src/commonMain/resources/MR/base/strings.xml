@@ -101,7 +101,7 @@
     <string name="settings_item_premium_title">Premium</string>
     <string name="settings_item_premium_sub_title_no_ads">No ads</string>
     <string name="settings_item_premium_sub_title_no_ads_and_widget">Widget and no ads</string>
-    <string name="settings_item_premium_value_expired">Expired\n</string>
+    <string name="settings_item_premium_value_expired_on">Expired on\n%s</string>
     <string name="settings_item_premium_value_will_expire">Will expire\n%s</string>
     <string name="txt_you_already_have_premium">You already have premium</string>
 
