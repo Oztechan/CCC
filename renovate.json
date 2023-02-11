@@ -25,6 +25,12 @@
         "^androidx.compose.compiler"
       ],
       "groupName": "kotlin"
+    },
+    {
+      "matchPackagePatterns": [
+        "^io.insert-koin"
+      ],
+      "groupName": "koin"
     }
   ]
 }
