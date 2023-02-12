@@ -202,7 +202,7 @@ struct SettingsView: View {
             return ""
         } else {
             if observable.viewModel.isPremiumExpired() {
-                return Res.strings().settings_item_premium_value_expired_on.get(
+                return Res.strings().settings_item_premium_value_expired.get(
                     parameter: observable.state.premiumEndDate
                 )
             } else {

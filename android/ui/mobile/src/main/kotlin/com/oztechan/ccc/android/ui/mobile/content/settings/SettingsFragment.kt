@@ -148,7 +148,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 binding.itemDisableAds.settingsItemValue.text = when {
                     settingsViewModel.isPremiumEverActivated() -> ""
                     settingsViewModel.isPremiumExpired() -> getString(
-                        R.string.settings_item_premium_value_expired_on,
+                        R.string.settings_item_premium_value_expired,
                         premiumEndDate
                     )
 
