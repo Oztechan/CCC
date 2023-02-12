@@ -11,7 +11,7 @@ internal class PersistenceImpl(private val settings: Settings) : Persistence {
         is Int -> settings.getInt(key, defaultValue) as T
         is Boolean -> settings.getBoolean(key, defaultValue) as T
         is Float -> settings.getFloat(key, defaultValue) as T
-        else -> defaultValue
+        else -> throw UnsupportedPersistenceException()
     }
 
     override fun <T : Any> setValue(key: String, value: T) = when (value) {

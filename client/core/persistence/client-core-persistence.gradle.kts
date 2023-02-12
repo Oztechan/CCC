@@ -3,6 +3,7 @@ plugins {
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(androidLib.get().pluginId)
+        alias(ksp)
     }
 }
 kotlin {
@@ -22,7 +23,14 @@ kotlin {
                 }
             }
         }
-        val commonTest by getting
+        val commonTest by getting {
+            dependencies {
+                libs.common.apply {
+                    implementation(test)
+                    implementation(mockative)
+                }
+            }
+        }
 
         val androidMain by getting
         val androidUnitTest by getting
@@ -46,6 +54,14 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
     }
+}
+
+dependencies {
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, libs.processors.mockative)
+        }
 }
 
 @Suppress("UnstableApiUsage")
