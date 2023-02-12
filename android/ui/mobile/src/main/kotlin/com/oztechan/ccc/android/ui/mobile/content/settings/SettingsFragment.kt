@@ -145,17 +145,17 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 binding.itemTheme.settingsItemValue.text = appThemeType.themeName
                 binding.itemVersion.settingsItemValue.text = version
 
-                binding.itemDisableAds.settingsItemValue.text = if (settingsViewModel.isPremiumEverActivated()) {
-                    ""
-                } else {
-                    if (settingsViewModel.isPremiumExpired()) {
-                        getString(R.string.settings_item_premium_value_expired)
-                    } else {
-                        getString(
-                            R.string.settings_item_premium_value_will_expire,
-                            premiumEndDate
-                        )
-                    }
+                binding.itemDisableAds.settingsItemValue.text = when {
+                    settingsViewModel.isPremiumEverActivated() -> ""
+                    settingsViewModel.isPremiumExpired() -> getString(
+                        R.string.settings_item_premium_value_expired,
+                        premiumEndDate
+                    )
+
+                    else -> getString(
+                        R.string.settings_item_premium_value_will_expire,
+                        premiumEndDate
+                    )
                 }
 
                 binding.itemPrecision.settingsItemValue.text = requireContext().getString(
