@@ -74,9 +74,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Client.DataSource.currency.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.DataSource.currency.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

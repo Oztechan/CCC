@@ -88,9 +88,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Client.ViewModel.main.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.ViewModel.main.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

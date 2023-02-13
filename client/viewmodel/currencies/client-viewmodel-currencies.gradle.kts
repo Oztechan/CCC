@@ -93,9 +93,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Client.ViewModel.currencies.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.ViewModel.currencies.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

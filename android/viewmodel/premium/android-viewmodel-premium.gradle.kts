@@ -8,9 +8,8 @@ plugins {
 }
 
 android {
-    namespace = Modules.Android.ViewModel.premium.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Android.ViewModel.premium.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

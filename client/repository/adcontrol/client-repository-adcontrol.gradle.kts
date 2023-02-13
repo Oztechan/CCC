@@ -67,9 +67,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Client.Repository.adControl.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.Repository.adControl.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

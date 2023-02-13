@@ -52,9 +52,8 @@ kotlin {
 }
 
 android {
-    namespace = Modules.Client.Core.remoteConfig.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.Core.remoteConfig.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

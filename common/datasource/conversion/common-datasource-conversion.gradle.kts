@@ -79,9 +79,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Common.DataSource.conversion.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Common.DataSource.conversion.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

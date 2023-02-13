@@ -63,9 +63,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Client.Storage.calculation.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.Storage.calculation.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

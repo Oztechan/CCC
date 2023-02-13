@@ -65,9 +65,8 @@ dependencies {
 }
 
 android {
-    namespace = Modules.Client.Core.persistence.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Client.Core.persistence.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }

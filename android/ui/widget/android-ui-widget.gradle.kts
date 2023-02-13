@@ -8,9 +8,8 @@ plugins {
 
 @Suppress("UnstableApiUsage")
 android {
-    namespace = Modules.Android.UI.widget.packageName
-
     ProjectSettings.apply {
+        namespace = Modules.Android.UI.widget.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
     }
