@@ -69,18 +69,13 @@ android {
     ProjectSettings.apply {
         namespace = Modules.Client.Core.res.packageName
         compileSdk = COMPILE_SDK_VERSION
-
-        @Suppress("UnstableApiUsage")
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-
-        // todo can be removed after
-        // https://github.com/icerockdev/moko-resources/issues/384
-        // https://github.com/icerockdev/moko-resources/issues/353
-        sourceSets["main"].res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
+        defaultConfig.minSdk = MIN_SDK_VERSION
     }
+
+    // todo can be removed after
+    // https://github.com/icerockdev/moko-resources/issues/384
+    // https://github.com/icerockdev/moko-resources/issues/353
+    sourceSets["main"].res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
 }
 
 multiplatformResources {

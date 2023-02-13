@@ -15,11 +15,7 @@ android {
     ProjectSettings.apply {
         namespace = Modules.Android.Core.ad.packageName
         compileSdk = COMPILE_SDK_VERSION
-
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
+        defaultConfig.minSdk = MIN_SDK_VERSION
     }
 
     DeviceFlavour.apply {

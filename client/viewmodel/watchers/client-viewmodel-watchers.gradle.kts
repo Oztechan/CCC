@@ -88,15 +88,10 @@ dependencies {
         }
 }
 
-@Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
         namespace = Modules.Client.ViewModel.watchers.packageName
         compileSdk = COMPILE_SDK_VERSION
-
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
+        defaultConfig.minSdk = MIN_SDK_VERSION
     }
 }
