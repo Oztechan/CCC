@@ -67,7 +67,11 @@ kotlin {
 
 android {
     namespace = Modules.Client.Core.res.packageName
-    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+
+    ProjectSettings.apply {
+        compileSdk = COMPILE_SDK_VERSION
+        defaultConfig.minSdk = MIN_SDK_VERSION
+    }
 
     // todo can be removed after
     // https://github.com/icerockdev/moko-resources/issues/384

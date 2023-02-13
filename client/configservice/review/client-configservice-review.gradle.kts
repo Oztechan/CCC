@@ -58,5 +58,9 @@ kotlin {
 
 android {
     namespace = Modules.Client.ConfigService.review.packageName
-    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+
+    ProjectSettings.apply {
+        compileSdk = COMPILE_SDK_VERSION
+        defaultConfig.minSdk = MIN_SDK_VERSION
+    }
 }

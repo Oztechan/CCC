@@ -60,6 +60,11 @@ kotlin {
 
 android {
     namespace = Modules.Client.Core.analytics.packageName
-    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+
+    ProjectSettings.apply {
+        compileSdk = COMPILE_SDK_VERSION
+        defaultConfig.minSdk = MIN_SDK_VERSION
+    }
+
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }
