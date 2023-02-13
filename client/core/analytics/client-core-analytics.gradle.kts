@@ -58,17 +58,8 @@ kotlin {
     }
 }
 
-@Suppress("UnstableApiUsage")
 android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Core.analytics.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-
-        sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    }
+    namespace = Modules.Client.Core.analytics.packageName
+    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }

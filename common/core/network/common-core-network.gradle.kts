@@ -84,16 +84,8 @@ kotlin {
 }
 
 android {
-    ProjectSettings.apply {
-        namespace = Modules.Common.Core.network.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        @Suppress("UnstableApiUsage")
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-    }
+    namespace = Modules.Common.Core.network.packageName
+    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
 }
 
 configure<BuildKonfigExtension> {

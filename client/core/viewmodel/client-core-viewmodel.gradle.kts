@@ -56,15 +56,7 @@ kotlin {
     }
 }
 
-@Suppress("UnstableApiUsage")
 android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Core.viewModel.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-    }
+    namespace = Modules.Client.Core.viewModel.packageName
+    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
 }

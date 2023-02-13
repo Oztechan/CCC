@@ -79,14 +79,6 @@ dependencies {
 }
 
 android {
-    ProjectSettings.apply {
-        namespace = Modules.Common.DataSource.conversion.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        @Suppress("UnstableApiUsage")
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-    }
+    namespace = Modules.Common.DataSource.conversion.packageName
+    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
 }

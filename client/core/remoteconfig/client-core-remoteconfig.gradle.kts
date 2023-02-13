@@ -52,14 +52,6 @@ kotlin {
 }
 
 android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Core.remoteConfig.packageName
-        compileSdk = COMPILE_SDK_VERSION
-
-        @Suppress("UnstableApiUsage")
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
-        }
-    }
+    namespace = Modules.Client.Core.remoteConfig.packageName
+    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
 }
