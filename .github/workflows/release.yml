@@ -238,9 +238,25 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  Notify:
+  PublishRelease:
     runs-on: ubuntu-latest
     needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: PublishRelease
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  Notify:
+    runs-on: ubuntu-latest
+    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore, PublishRelease ]
     if: always()
     steps:
 
@@ -249,7 +265,8 @@ jobs:
           needs.UploadGooglePlay.outputs.status == 'success' &&
           needs.UploadHuaweiAppGallery.outputs.status == 'success' &&
           needs.ServerDeployment.outputs.status == 'success' &&
-          needs.PublishAppStore.outputs.status == 'success'
+          needs.PublishAppStore.outputs.status == 'success' &&
+          needs.PublishRelease.outputs.status == 'success'
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v2
@@ -263,7 +280,8 @@ jobs:
           false == (needs.UploadGooglePlay.outputs.status == 'success') ||
           false == (needs.UploadHuaweiAppGallery.outputs.status == 'success') ||
           false == (needs.ServerDeployment.outputs.status == 'success') ||
-          false == (needs.PublishAppStore.outputs.status == 'success')
+          false == (needs.PublishAppStore.outputs.status == 'success') ||
+          false == (needs.PublishRelease.outputs.status == 'success')
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         uses: voxmedia/github-action-slack-notify-build@v2
