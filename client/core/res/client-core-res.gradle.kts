@@ -70,6 +70,11 @@ android {
         namespace = Modules.Client.Core.res.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
+
+        compileOptions {
+            sourceCompatibility = JAVA_VERSION
+            targetCompatibility = JAVA_VERSION
+        }
     }
 
     // todo can be removed after
@@ -83,3 +88,12 @@ multiplatformResources {
     disableStaticFrameworkWarning = true
     multiplatformResourcesClassName = Modules.Client.Core.res.frameworkName
 }
+
+tasks.findByName("iosSimulatorArm64ProcessResources")?.dependsOn("generateMRcommonMain")
+tasks.findByName("iosSimulatorArm64ProcessResources")?.dependsOn("generateMRiosSimulatorArm64Main")
+
+tasks.findByName("iosX64ProcessResources")?.dependsOn("generateMRcommonMain")
+tasks.findByName("iosX64ProcessResources")?.dependsOn("generateMRiosX64Main")
+
+tasks.findByName("iosArmX64ProcessResources")?.dependsOn("generateMRcommonMain")
+tasks.findByName("iosArmX64ProcessResources")?.dependsOn("generateMRiosArmX64Main")
