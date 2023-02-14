@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -27,6 +28,8 @@ object ProjectSettings {
     const val TARGET_SDK_VERSION = 33
 
     const val IOS_DEPLOYMENT_TARGET = "14.0"
+
+    val JAVA_VERSION = JavaVersion.VERSION_11
 
     @Suppress("TooGenericExceptionCaught", "SwallowedException")
     fun getVersionCode(project: Project) = try {
