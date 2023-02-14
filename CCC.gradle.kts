@@ -63,8 +63,11 @@ allprojects {
                 it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
             }
         }
-        tasks.register("detektAll") {
-            dependsOn(tasks.withType<Detekt>())
+
+        if (project.path != Modules.Client.Core.res) {
+            tasks.register("detektAll") {
+                dependsOn(tasks.withType<Detekt>())
+            }
         }
 
         dependencies {
