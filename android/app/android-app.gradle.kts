@@ -30,6 +30,11 @@ android {
             versionCode = getVersionCode(project)
             versionName = getVersionName(project)
         }
+
+        compileOptions {
+            sourceCompatibility = JAVA_VERSION
+            targetCompatibility = JAVA_VERSION
+        }
     }
 
     signingConfigs {
