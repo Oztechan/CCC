@@ -22,13 +22,11 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         context: Context,
         changeBaseToNext: Boolean? = null
     ) = runBlocking {
+        viewModel.refreshWidgetData(changeBaseToNext)
+
         GlanceAppWidgetManager(context)
             .getGlanceIds(AppWidget::class.java)
-            .firstOrNull()
-            ?.let { glanceId ->
-                viewModel.refreshWidgetData(changeBaseToNext)
-                glanceAppWidget.update(context, glanceId)
-            }
+            .forEach { glanceAppWidget.update(context, it) }
     }
 
     override fun onUpdate(
