@@ -70,6 +70,11 @@ android {
         namespace = Modules.Client.Core.res.packageName
         compileSdk = COMPILE_SDK_VERSION
         defaultConfig.minSdk = MIN_SDK_VERSION
+
+        compileOptions {
+            sourceCompatibility = JAVA_VERSION
+            targetCompatibility = JAVA_VERSION
+        }
     }
 
     // todo can be removed after
