@@ -12,6 +12,6 @@ internal class AdControlRepositoryImpl(
         appStorage.premiumEndDate.isItOver() &&
         appStorage.sessionCount > adConfigService.config.bannerAdSessionCount
 
-    override fun shouldShowInterstitialAd() =
+    override fun shouldShowInterstitialAd() = appStorage.premiumEndDate.isItOver() &&
         appStorage.sessionCount > adConfigService.config.interstitialAdSessionCount
 }

@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.core.shared.model.AppTheme
+import com.oztechan.ccc.client.core.shared.util.isItOver
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
@@ -108,7 +109,7 @@ internal class MainViewModelTest {
         viewModel // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.IsPremium(viewModel.isPremium().toString())) }
+            .invocation { setUserProperty(UserProperty.IsPremium((!appStorage.premiumEndDate.isItOver()).toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
@@ -153,32 +154,6 @@ internal class MainViewModelTest {
 
         verify(appStorage)
             .invocation { appTheme }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isPremium for future should return true`() {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .then { nowAsLong() + 1.seconds.inWholeMilliseconds }
-
-        assertTrue { viewModel.isPremium() }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isPremium for future should return false`() {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .then { nowAsLong() - 1.seconds.inWholeMilliseconds }
-
-        assertFalse { viewModel.isPremium() }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
             .wasInvoked()
     }
 
