@@ -2,7 +2,7 @@ package com.oztechan.ccc.android.viewmodel.widget
 
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
-import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
@@ -18,7 +18,7 @@ class WidgetViewModel(
 
     var state = WidgetState(
         currentBase = calculationStorage.currentBase,
-        isPremium = !appStorage.premiumEndDate.isItOver()
+        isPremium = appStorage.premiumEndDate.isNotPassed()
     )
 
     suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null) {
@@ -30,7 +30,7 @@ class WidgetViewModel(
             currencyList = listOf(),
             lastUpdate = "",
             currentBase = calculationStorage.currentBase,
-            isPremium = !appStorage.premiumEndDate.isItOver()
+            isPremium = appStorage.premiumEndDate.isNotPassed()
         )
 
         if (state.isPremium) {

@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.indexToNumber
-import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.core.shared.util.toDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
@@ -103,7 +103,7 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
-    fun isPremiumExpired() = appStorage.premiumEndDate.isItOver()
+    fun isPremiumExpired() = appStorage.premiumEndDate.isPassed()
 
     fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
 

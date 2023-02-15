@@ -9,7 +9,7 @@ import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.BaseState
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -43,7 +43,7 @@ class MainViewModel(
 
     init {
         with(analyticsManager) {
-            setUserProperty(UserProperty.IsPremium((!appStorage.premiumEndDate.isItOver()).toString()))
+            setUserProperty(UserProperty.IsPremium(appStorage.premiumEndDate.isNotPassed().toString()))
             setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
             setUserProperty(
                 UserProperty.AppTheme(

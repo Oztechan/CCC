@@ -14,7 +14,7 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
@@ -109,7 +109,7 @@ internal class MainViewModelTest {
         viewModel // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.IsPremium((!appStorage.premiumEndDate.isItOver()).toString())) }
+            .invocation { setUserProperty(UserProperty.IsPremium(appStorage.premiumEndDate.isNotPassed().toString())) }
             .wasInvoked()
         verify(analyticsManager)
             .invocation { setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }

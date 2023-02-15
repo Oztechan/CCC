@@ -11,9 +11,11 @@ fun nowAsLong() = nowAsInstant().toEpochMilliseconds()
 
 fun nowAsDateString() = nowAsInstant().toDateString()
 
-fun Long.isItOver(): Boolean {
+fun Long.isPassed(): Boolean {
     return nowAsLong() >= this
 }
+
+fun Long.isNotPassed(): Boolean = !isPassed()
 
 fun Long.toInstant() = Instant.fromEpochMilliseconds(this)
 

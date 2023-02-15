@@ -31,11 +31,19 @@ internal class DateUtilTest {
     }
 
     @Test
-    fun isItOver() {
-        assertTrue { (nowAsLong() - 1.days.inWholeMilliseconds).isItOver() }
-        assertTrue { (nowAsLong() - 1.seconds.inWholeMilliseconds).isItOver() }
-        assertFalse { (nowAsLong() + 1.days.inWholeMilliseconds).isItOver() }
-        assertFalse { (nowAsLong() + 1.seconds.inWholeMilliseconds).isItOver() }
+    fun isPassed() {
+        assertTrue { (nowAsLong() - 1.days.inWholeMilliseconds).isPassed() }
+        assertTrue { (nowAsLong() - 1.seconds.inWholeMilliseconds).isPassed() }
+        assertFalse { (nowAsLong() + 1.days.inWholeMilliseconds).isPassed() }
+        assertFalse { (nowAsLong() + 1.seconds.inWholeMilliseconds).isPassed() }
+    }
+
+    @Test
+    fun isNotPassed() {
+        assertFalse { (nowAsLong() - 1.days.inWholeMilliseconds).isNotPassed() }
+        assertFalse { (nowAsLong() - 1.seconds.inWholeMilliseconds).isNotPassed() }
+        assertTrue { (nowAsLong() + 1.days.inWholeMilliseconds).isNotPassed() }
+        assertTrue { (nowAsLong() + 1.seconds.inWholeMilliseconds).isNotPassed() }
     }
 
     @Test

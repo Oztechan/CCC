@@ -10,7 +10,7 @@ import com.oztechan.ccc.client.core.shared.model.OldPurchase
 import com.oztechan.ccc.client.core.shared.model.PremiumData
 import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
-import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
@@ -53,7 +53,7 @@ class PremiumViewModel(
         .maxByOrNull {
             it.type.calculatePremiumEnd(it.date)
         }?.whether(
-            { !type.calculatePremiumEnd(date).isItOver() },
+            { type.calculatePremiumEnd(date).isNotPassed() },
             { date > appStorage.premiumEndDate },
             { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
         )?.apply {
