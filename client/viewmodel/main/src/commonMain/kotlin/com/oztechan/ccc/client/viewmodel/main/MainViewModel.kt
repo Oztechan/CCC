@@ -43,7 +43,7 @@ class MainViewModel(
 
     init {
         with(analyticsManager) {
-            setUserProperty(UserProperty.IsPremium(isPremium().toString()))
+            setUserProperty(UserProperty.IsPremium((!appStorage.premiumEndDate.isItOver()).toString()))
             setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
             setUserProperty(
                 UserProperty.AppTheme(
@@ -64,7 +64,7 @@ class MainViewModel(
             delay(adConfigService.config.interstitialAdInitialDelay)
 
             while (isActive && adControlRepository.shouldShowInterstitialAd()) {
-                if (data.adVisibility && !isPremium()) {
+                if (data.adVisibility) {
                     _effect.emit(MainEffect.ShowInterstitialAd)
                 }
                 delay(adConfigService.config.interstitialAdPeriod)
@@ -100,8 +100,6 @@ class MainViewModel(
     fun isFistRun() = appStorage.firstRun
 
     fun getAppTheme() = appStorage.appTheme
-
-    fun isPremium() = !appStorage.premiumEndDate.isItOver()
 
     // region Event
     override fun onPause() {
