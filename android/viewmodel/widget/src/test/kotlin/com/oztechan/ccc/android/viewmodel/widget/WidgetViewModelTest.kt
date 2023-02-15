@@ -1,5 +1,6 @@
 package com.oztechan.ccc.android.viewmodel.widget
 
+import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
@@ -65,7 +66,7 @@ class WidgetViewModelTest {
             .thenReturn(mockEndDate)
 
         assertEquals(base, viewModel.state.currentBase)
-        assertEquals(!appStorage.premiumEndDate.isPassed(), viewModel.state.isPremium)
+        assertEquals(appStorage.premiumEndDate.isNotPassed(), viewModel.state.isPremium)
     }
 
     @Test
