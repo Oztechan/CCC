@@ -1,7 +1,6 @@
 package com.oztechan.ccc.android.viewmodel.widget
 
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
-import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
