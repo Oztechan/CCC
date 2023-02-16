@@ -14,6 +14,7 @@ struct InputView: View {
 
     var input: String
     var onSettingsClick: () -> Void
+    var onInputLongClick: () -> Void
 
     var body: some View {
         HStack {
@@ -26,6 +27,9 @@ struct InputView: View {
                 .foregroundColor(Res.colors().text.get())
                 .font(relative: .title2)
                 .animation(.none)
+                .onLongPressGesture {
+                    onInputLongClick()
+                }
 
             Spacer()
 
