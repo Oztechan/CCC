@@ -264,6 +264,21 @@ class CalculatorViewModel(
         }
     }
 
+    override fun onOutputLongClick() = viewModelScope.launchIgnored {
+        Logger.d { "CalculatorViewModel onOutputLongClick" }
+        _effect.emit(CalculatorEffect.CopyToClipboard(state.value.output))
+    }
+
+    override fun onInputLongClick() = viewModelScope.launchIgnored {
+        Logger.d { "CalculatorViewModel onInputLongClick" }
+        _effect.emit(CalculatorEffect.ShowPasteRequest)
+    }
+
+    override fun pasteToInput(text: String) {
+        Logger.d { "CalculatorViewModel pasteToInput $text" }
+        _state.update { copy(input = text.toSupportedCharacters()) }
+    }
+
     override fun onBarClick() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onBarClick" }
         _effect.emit(CalculatorEffect.OpenBar)

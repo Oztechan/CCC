@@ -50,6 +50,8 @@
     <string name="copied_to_clipboard">Copied to clipboard!</string>
     <string name="text_invalid_input">Invalid input!</string>
     <string name="text_maximum_number_of_watchers">Maximum number of watchers exceeded</string>
+    <string name="text_paste_request">Do you want to paste from clipboard?</string>
+    <string name="text_paste">Paste</string>
 
     <!--Dialog-->
     <string name="rate_and_support">You can rate us and review our app in the market :)</string>

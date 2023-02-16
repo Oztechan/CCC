@@ -143,4 +143,9 @@ fun View.copyToClipBoard(text: String) {
     }
 }
 
+fun Context.getFromClipBoard() = ContextCompat.getSystemService(
+    this,
+    ClipboardManager::class.java
+)?.primaryClip?.getItemAt(0)?.text?.toString().orEmpty()
+
 fun ImageView.setBackgroundByName(name: String) = setImageResource(name.getImageIdByName())
