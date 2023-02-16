@@ -266,6 +266,9 @@ class CalculatorViewModel(
 
     override fun onOutputLongClick() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onOutputLongClick" }
+
+        analyticsManager.trackEvent(Event.CopyClipboard)
+
         _effect.emit(CalculatorEffect.CopyToClipboard(state.value.output))
     }
 
@@ -276,6 +279,9 @@ class CalculatorViewModel(
 
     override fun pasteToInput(text: String) {
         Logger.d { "CalculatorViewModel pasteToInput $text" }
+
+        analyticsManager.trackEvent(Event.PasteFromClipboard)
+
         _state.update { copy(input = text.toSupportedCharacters()) }
     }
 
