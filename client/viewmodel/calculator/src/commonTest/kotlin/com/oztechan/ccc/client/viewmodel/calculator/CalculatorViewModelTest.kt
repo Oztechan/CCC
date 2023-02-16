@@ -11,6 +11,7 @@ import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
+import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
@@ -387,6 +388,62 @@ internal class CalculatorViewModelTest {
 
             verify(analyticsManager)
                 .invocation { trackEvent(Event.CopyClipboard) }
+                .wasInvoked()
+        }
+    }
+
+    @Test
+    fun onOutputLongClick() = runTest {
+        val output = "5"
+        viewModel.effect.onSubscription {
+            viewModel.event.onKeyPress(output)
+            viewModel.event.onOutputLongClick()
+        }.firstOrNull().let {
+            assertEquals(CalculatorEffect.CopyToClipboard(output), it)
+
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.CopyClipboard) }
+                .wasInvoked()
+        }
+    }
+
+    @Test
+    fun onInputLongClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onInputLongClick()
+        }.firstOrNull().let {
+            assertEquals(CalculatorEffect.ShowPasteRequest, it)
+
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.CopyClipboard) }
+                .wasInvoked()
+        }
+    }
+
+    @Test
+    fun pasteToInput() = runTest {
+        val text = "mock"
+        val text2 = "mock 2"
+
+        viewModel.state.onSubscription {
+            viewModel.event.pasteToInput(text)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(text, it.input)
+
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.PasteFromClipboard) }
+                .wasInvoked()
+        }
+
+        viewModel.state.onSubscription {
+            viewModel.event.pasteToInput(text2)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(text2.toSupportedCharacters(), it.input)
+
+            verify(analyticsManager)
+                .invocation { trackEvent(Event.PasteFromClipboard) }
                 .wasInvoked()
         }
     }
