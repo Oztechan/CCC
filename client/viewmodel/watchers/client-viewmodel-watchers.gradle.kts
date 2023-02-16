@@ -28,6 +28,7 @@ kotlin {
                 }
 
                 Modules.Client.Core.apply {
+                    implementation(project(analytics))
                     implementation(project(viewModel))
                     implementation(project(shared))
                 }

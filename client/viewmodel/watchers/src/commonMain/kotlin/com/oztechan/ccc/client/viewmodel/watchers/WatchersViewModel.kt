@@ -1,6 +1,8 @@
 package com.oztechan.ccc.client.viewmodel.watchers
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
@@ -23,7 +25,8 @@ import kotlinx.coroutines.launch
 class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val watcherDataSource: WatcherDataSource,
-    private val adControlRepository: AdControlRepository
+    private val adControlRepository: AdControlRepository,
+    private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
     // region SEED
     private val _state = MutableStateFlow(WatchersState())
@@ -35,16 +38,19 @@ class WatchersViewModel(
     override val event = this as WatchersEvent
 
     override val data = WatchersData()
+    // endregion
 
     init {
         watcherDataSource.getWatchersFlow()
             .onEach {
                 _state.update { copy(watcherList = it) }
+                analyticsManager.setUserProperty(UserProperty.WatcherCount(it.count().toString()))
             }.launchIn(viewModelScope)
     }
 
     fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
+    // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBackClick" }
         _effect.emit(WatchersEffect.Back)
