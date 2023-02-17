@@ -34,6 +34,8 @@ android {
         compileOptions {
             sourceCompatibility = JAVA_VERSION
             targetCompatibility = JAVA_VERSION
+
+            isCoreLibraryDesugaringEnabled = true
         }
     }
 
@@ -84,6 +86,7 @@ dependencies {
         implementation(koinAndroid)
         implementation(firebasePer)
         debugImplementation(leakCanary)
+        coreLibraryDesugaring(androidDesugaring)
     }
 
     implementation(libs.common.kermit)
