@@ -31,6 +31,7 @@ import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onSubscription
@@ -44,6 +45,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
+import kotlin.time.Duration.Companion.seconds
 
 @Suppress("OPT_IN_USAGE", "TooManyFunctions")
 internal class CalculatorViewModelTest {
@@ -265,6 +267,7 @@ internal class CalculatorViewModelTest {
         viewModel.state.onSubscription {
             viewModel.event.onKeyPress("AC") // clean input
             viewModel.event.onKeyPress("1/1")
+            delay(1.seconds)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("1", it.output)
@@ -272,6 +275,7 @@ internal class CalculatorViewModelTest {
         viewModel.state.onSubscription {
             viewModel.event.onKeyPress("AC") // clean input
             viewModel.event.onKeyPress("1111/1")
+            delay(1.seconds)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals("1 111", it.output)

@@ -25,6 +25,7 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.CHAR_DOT
+import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.DEBOUNCE_DELAY
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_AC
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.KEY_DEL
 import com.oztechan.ccc.client.viewmodel.calculator.CalculatorData.Companion.MAXIMUM_INPUT
@@ -39,6 +40,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -46,7 +48,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-@Suppress("TooManyFunctions")
+@Suppress("TooManyFunctions", "OPT_IN_USAGE")
 class CalculatorViewModel(
     private val calculationStorage: CalculationStorage,
     private val backendApiService: BackendApiService,
@@ -81,7 +83,7 @@ class CalculatorViewModel(
                 observeInput()
             }
             .onEach {
-                Logger.d { "CalculatorViewModel currencyList changed\n${it.joinToString("\n")}" }
+                Logger.d { "CalculatorViewModel currencyList changed: ${it.joinToString(",")}" }
                 _state.update { copy(currencyList = it) }
 
                 analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
@@ -91,6 +93,7 @@ class CalculatorViewModel(
 
     private fun observeBase() = state.map { it.base }
         .distinctUntilChanged()
+        .debounce(DEBOUNCE_DELAY)
         .onEach {
             Logger.d { "CalculatorViewModel observeBase $it" }
             currentBaseChanged(it, true)
@@ -99,6 +102,7 @@ class CalculatorViewModel(
 
     private fun observeInput() = state.map { it.input }
         .distinctUntilChanged()
+        .debounce(DEBOUNCE_DELAY)
         .onEach {
             Logger.d { "CalculatorViewModel observeInput $it" }
             calculationStorage.lastInput = it
