@@ -74,13 +74,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_currencies_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_currencies_sub_title)
         }
-
-        if (BuildConfig.DEBUG) {
-            with(itemWatchers) {
-                imgSettingsItem.setBackgroundResource(R.drawable.ic_watchers)
-                settingsItemTitle.text = getString(R.string.settings_item_watchers_title)
-                settingsItemSubTitle.text = getString(R.string.settings_item_watchers_sub_title)
-            }
+        with(itemWatchers) {
+            root.visibleIf(BuildConfig.DEBUG)
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_watchers)
+            settingsItemTitle.text = getString(R.string.settings_item_watchers_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_watchers_sub_title)
         }
 
         with(itemTheme) {
