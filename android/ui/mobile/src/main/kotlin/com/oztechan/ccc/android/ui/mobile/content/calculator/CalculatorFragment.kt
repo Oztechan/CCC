@@ -17,6 +17,7 @@ import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCalculatorBinding
 import com.oztechan.ccc.android.ui.mobile.util.copyToClipBoard
 import com.oztechan.ccc.android.ui.mobile.util.dataState
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
+import com.oztechan.ccc.android.ui.mobile.util.getFromClipBoard
 import com.oztechan.ccc.android.ui.mobile.util.getNavigationResult
 import com.oztechan.ccc.android.ui.mobile.util.setBackgroundByName
 import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
@@ -132,6 +133,15 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     CalculatorFragmentDirections.actionCalculatorFragmentToSettingsFragment()
                 )
 
+                CalculatorEffect.ShowPasteRequest -> view?.let {
+                    it.showSnack(
+                        text = R.string.text_paste_request,
+                        actionText = R.string.text_paste
+                    ) {
+                        calculatorViewModel.pasteToInput(it.context.getFromClipBoard())
+                    }
+                }
+
                 is CalculatorEffect.CopyToClipboard -> view?.copyToClipBoard(viewEffect.amount)
                 is CalculatorEffect.ShowConversion -> view?.showSnack(
                     viewEffect.text,
@@ -144,6 +154,16 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         with(calculatorViewModel.event) {
             btnSettings.setOnClickListener { onSettingsClicked() }
             layoutBar.root.setOnClickListener { onBarClick() }
+
+            layoutBar.txtOutput.setOnLongClickListener {
+                onOutputLongClick()
+                true
+            }
+
+            txtInput.setOnLongClickListener {
+                onInputLongClick()
+                true
+            }
 
             with(layoutKeyboard) {
                 one.setKeyboardListener()
