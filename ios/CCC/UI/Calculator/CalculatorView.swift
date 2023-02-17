@@ -27,6 +27,7 @@ struct CalculatorView: View {
     @State var isGenericErrorSnackShown = false
     @State var isFewCurrencySnackShown = false
     @State var isCopyClipboardSnackShown = false
+    @State var isPasteRequestSnackShown = false
 
     @State var isConversionSnackShown = false
     static var conversionText: String?
@@ -42,14 +43,16 @@ struct CalculatorView: View {
                 VStack {
                     InputView(
                         input: observable.state.input,
-                        onSettingsClick: observable.event.onSettingsClicked
+                        onSettingsClick: observable.event.onSettingsClicked,
+                        onInputLongClick: observable.event.onInputLongClick
                     )
 
                     OutputView(
                         baseCurrency: observable.state.base,
                         output: observable.state.output,
                         symbol: observable.state.symbol,
-                        onBarClick: { observable.event.onBarClick() }
+                        onBarClick: observable.event.onBarClick,
+                        onOutputLongClick: observable.event.onOutputLongClick
                     )
 
                     if observable.state.loading {
@@ -103,6 +106,18 @@ struct CalculatorView: View {
             autohideIn: 2.0
         ) {
             SnackView(text: Res.strings().text_too_big_number.get())
+        }
+        .popup(isPresented: $isPasteRequestSnackShown,
+               type: .toast,
+               autohideIn: 2.0
+        ) {
+            SnackView(
+                text: Res.strings().text_paste_request.get(),
+                buttonText: Res.strings().text_paste.get(),
+                buttonAction: {
+                    observable.event.pasteToInput(text: UIPasteboard.general.string ?? "")
+                }
+            )
         }
         .popup(
             isPresented: $isGenericErrorSnackShown,
@@ -173,6 +188,8 @@ struct CalculatorView: View {
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
             navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+        case is CalculatorEffect.ShowPasteRequest:
+            isPasteRequestSnackShown.toggle()
         // swiftlint:disable force_cast
         case is CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general

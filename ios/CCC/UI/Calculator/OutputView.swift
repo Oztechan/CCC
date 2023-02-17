@@ -14,6 +14,7 @@ struct OutputView: View {
     var output: String
     var symbol: String
     var onBarClick: () -> Void
+    var onOutputLongClick: () -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,6 +29,9 @@ struct OutputView: View {
                     Text("=  \(output)")
                         .foregroundColor(Res.colors().text.get())
                         .font(relative: .body)
+                        .onLongPressGesture {
+                            onOutputLongClick()
+                        }
                 }
 
                 Text(symbol)
