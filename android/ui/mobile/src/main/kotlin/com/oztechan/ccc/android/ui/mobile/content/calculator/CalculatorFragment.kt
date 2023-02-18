@@ -155,6 +155,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             btnSettings.setOnClickListener { onSettingsClicked() }
             layoutBar.root.setOnClickListener { onBarClick() }
 
+            layoutBar.txtOutput.setOnClickListener { onBarClick() }
             layoutBar.txtOutput.setOnLongClickListener {
                 onOutputLongClick()
                 true

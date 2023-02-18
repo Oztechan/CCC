@@ -29,6 +29,9 @@ struct OutputView: View {
                     Text("=  \(output)")
                         .foregroundColor(Res.colors().text.get())
                         .font(relative: .body)
+                        .onTapGesture {
+                            onBarClick()
+                        }
                         .onLongPressGesture {
                             onOutputLongClick()
                         }
