@@ -31,7 +31,7 @@ fun HeaderView(currentBase: String) {
         ImageView(
             provider = ImageProvider(R.drawable.ic_back),
             modifier = GlanceModifier
-                .size(16.dp)
+                .size(20.dp)
                 .clickable(WidgetAction.PREVIOUS_BASE.toActionCallback())
         )
 
@@ -46,7 +46,7 @@ fun HeaderView(currentBase: String) {
 
         Text(
             text = currentBase,
-            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 13.sp),
+            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 15.sp),
             modifier = GlanceModifier.padding(horizontal = 2.dp)
         )
 
@@ -55,7 +55,7 @@ fun HeaderView(currentBase: String) {
         ImageView(
             provider = ImageProvider(R.drawable.ic_next),
             modifier = GlanceModifier
-                .size(16.dp)
+                .size(20.dp)
                 .clickable(WidgetAction.NEXT_BASE.toActionCallback())
         )
     }
