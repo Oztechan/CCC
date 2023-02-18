@@ -16,7 +16,6 @@ internal class BackendApiServiceImpl(
         Logger.v { "BackendApiServiceImpl getConversion $base" }
 
         backendApi.getExchangeRate(withEmptyParameterCheck(base))
-            .conversion
             .toConversionModel()
     }
 }

@@ -72,7 +72,8 @@ internal class FreeApiServiceTest {
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
-            assertEquals(exchangeRate.conversion.toConversionModel(), it.getOrNull())
+            assertNotNull(it.getOrNull())
+            assertEquals(exchangeRate.toConversionModel(), it.getOrNull())
         }
 
         verify(freeApi)

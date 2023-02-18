@@ -31,8 +31,7 @@ internal class BackendApiServiceTest {
     private val backendApi = mock(classOf<BackendApi>())
 
     private val base = "EUR"
-    private val conversion = Conversion(base)
-    private val exchangeRate = ExchangeRate(base, "12.21.2121", conversion)
+    private val exchangeRate = ExchangeRate(base, "12.21.2121", Conversion(base))
     private val throwable = Throwable("mock")
 
     @BeforeTest
@@ -81,7 +80,8 @@ internal class BackendApiServiceTest {
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
             assertFalse { it.isFailure }
-            assertEquals(conversion.toConversionModel(), it.getOrNull())
+            assertNotNull(it.getOrNull())
+            assertEquals(exchangeRate.toConversionModel(), it.getOrNull())
         }
 
         verify(backendApi)
