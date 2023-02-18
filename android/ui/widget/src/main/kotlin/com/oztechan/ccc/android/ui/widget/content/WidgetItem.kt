@@ -31,8 +31,11 @@ fun WidgetItem(
         horizontalAlignment = Alignment.Start
     ) {
         Text(
-            text = item.rate.toString(),
-            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 12.sp),
+            text = item.rate,
+            style = TextStyle(
+                color = ColorProvider(R.color.text),
+                fontSize = 13.sp
+            ),
             modifier = GlanceModifier.padding(horizontal = 2.dp)
         )
 
@@ -40,7 +43,10 @@ fun WidgetItem(
 
         Text(
             text = item.code,
-            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 10.sp),
+            style = TextStyle(
+                color = ColorProvider(R.color.text),
+                fontSize = 12.sp
+            ),
             modifier = GlanceModifier.padding(horizontal = 2.dp)
         )
 

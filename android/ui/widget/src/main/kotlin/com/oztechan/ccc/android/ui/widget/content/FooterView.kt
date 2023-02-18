@@ -29,7 +29,7 @@ fun FooterView(lastUpdate: String) {
         ImageView(
             provider = ImageProvider(R.drawable.ic_sync_widget),
             modifier = GlanceModifier
-                .size(20.dp)
+                .size(22.dp)
                 .clickable(WidgetAction.REFRESH.toActionCallback())
         )
 
@@ -37,7 +37,10 @@ fun FooterView(lastUpdate: String) {
 
         Text(
             text = lastUpdate,
-            style = TextStyle(color = ColorProvider(R.color.text), fontSize = 9.sp),
+            style = TextStyle(
+                color = ColorProvider(R.color.text),
+                fontSize = 10.sp
+            ),
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())
