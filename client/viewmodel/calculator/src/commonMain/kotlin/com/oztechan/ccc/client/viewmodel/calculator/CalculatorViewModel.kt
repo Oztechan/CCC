@@ -141,10 +141,7 @@ class CalculatorViewModel(
         } ?: run {
             Logger.w(Exception("No offline conversion")) { this@CalculatorViewModel::class.simpleName.toString() }
 
-            state.value.currencyList.size
-                .whether { it > 1 }
-                ?.let { _effect.emit(CalculatorEffect.Error) }
-                ?: run { _effect.emit(CalculatorEffect.FewCurrency) }
+            _effect.emit(CalculatorEffect.Error)
 
             _state.update {
                 copy(conversionState = ConversionState.Error)
