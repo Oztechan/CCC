@@ -401,6 +401,7 @@ internal class CalculatorViewModelTest {
         val output = "5"
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress(output)
+            delay(1.seconds)
             viewModel.event.onOutputLongClick()
         }.firstOrNull().let {
             assertEquals(CalculatorEffect.CopyToClipboard(output), it)
