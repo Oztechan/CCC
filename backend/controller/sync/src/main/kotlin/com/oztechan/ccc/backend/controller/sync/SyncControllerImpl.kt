@@ -52,11 +52,11 @@ internal class SyncControllerImpl(
         }
     }
 
+    // unsupported currencies by premium API
     private fun Conversion.fillMissingRatesWith(freeConversion: Conversion) = apply {
         btc = freeConversion.btc
         clf = freeConversion.clf
         cnh = freeConversion.cnh
-        jep = freeConversion.jep
         kpw = freeConversion.kpw
         mro = freeConversion.mro
         std = freeConversion.std
@@ -65,6 +65,5 @@ internal class SyncControllerImpl(
         xau = freeConversion.xau
         xpd = freeConversion.xpd
         xpt = freeConversion.xpt
-        zwl = freeConversion.zwl
     }
 }

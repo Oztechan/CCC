@@ -17,18 +17,14 @@ enum class CurrencyType {
 
     companion object {
         fun getPopularCurrencies() = listOf(
-            EUR, USD, TRY, GBP, JPY, AUD, CAD, CHF, CNY, HKD,
-            KRW, SGD, MXN, INR, RUB, ZAR, AZN, IQD, NGN, DZD,
-            GHS, PKR, UZS, MAD, PHP, AOA, XAF, ILS, MZN, BDT,
-            EGP, ZMW, LBP, UAH, KES, COP, GEL, BRL, IRR, BYN
+            USD, EUR, TRY, CNH, INR, AED, COP, THB, CNY, RUB,
+            GBP, MXN, BRL, IDR, VND, SAR, AUD, ARS, CAD, UZS,
+            AOA, JPY, PKR, PLN, XOF, EGP, ZAR, MYR, KZT, CLP,
+            XAF, KRW, MAD, CRC, PHP, LRD, AZN, KWD, DZD, HUF,
         )
 
         fun getNonPopularCurrencies() = values().filterNot {
             getPopularCurrencies().contains(it)
         }
-
-        fun getUnsortedCurrencies() = listOf(
-            BTC, CLF, CNH, JEP, KPW, MRO, STD, SVC, XAG, XAU, XPD, XPT, ZWL
-        )
     }
 }
