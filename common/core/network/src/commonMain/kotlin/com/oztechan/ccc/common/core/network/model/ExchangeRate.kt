@@ -12,5 +12,14 @@ import kotlinx.serialization.json.JsonNames
 data class ExchangeRate(
     @JsonNames("base", "base_code") var base: String,
     @SerialName("date") var date: String? = null,
-    @JsonNames("rates", "conversion_rates") var conversion: Conversion
+
+    // backend response
+    @SerialName("rates")
+    // accepted ones for client
+    @JsonNames(
+        "rates",
+        "conversion_rates",
+        "conversion"
+    )
+    var conversion: Conversion
 )
