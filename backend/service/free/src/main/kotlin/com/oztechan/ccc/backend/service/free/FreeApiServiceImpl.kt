@@ -16,7 +16,6 @@ internal class FreeApiServiceImpl(
         Logger.v { "FreeApiServiceImpl getConversion $base" }
 
         freeApi.getExchangeRate(withEmptyParameterCheck(base))
-            .conversion
             .toConversionModel()
     }
 }

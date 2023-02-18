@@ -20,7 +20,6 @@ internal class PremiumApiServiceImpl(
         Logger.v { "PremiumApiServiceImpl getConversion $base" }
 
         premiumAPI.getExchangeRate(withEmptyParameterCheck(base))
-            .conversion
             .toConversionModel()
     }
 }
