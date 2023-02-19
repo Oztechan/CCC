@@ -35,7 +35,7 @@
 		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
 		5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71E82922BBD200733C49 /* ViewExt.swift */; };
 		5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EA2922BC0300733C49 /* ResourceExt.swift */; };
-		5C5C71ED2922BFC400733C49 /* ConversionStateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */; };
+		5C5C71ED2922BFC400733C49 /* ConversionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EC2922BFC400733C49 /* ConversionState.swift */; };
 		5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71EE2922C06F00733C49 /* SecretUtil.swift */; };
 		5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09322562EB9E00DA9C4A /* Application.swift */; };
 		5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5D09352562EBDE00DA9C4A /* Koin.swift */; };
@@ -103,7 +103,7 @@
 		5C5B0E7B28A4084200FACFDE /* AnalyticsManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerImpl.swift; sourceTree = "<group>"; };
 		5C5C71E82922BBD200733C49 /* ViewExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExt.swift; sourceTree = "<group>"; };
 		5C5C71EA2922BC0300733C49 /* ResourceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceExt.swift; sourceTree = "<group>"; };
-		5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionStateExt.swift; sourceTree = "<group>"; };
+		5C5C71EC2922BFC400733C49 /* ConversionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionState.swift; sourceTree = "<group>"; };
 		5C5C71EE2922C06F00733C49 /* SecretUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecretUtil.swift; sourceTree = "<group>"; };
 		5C5D09322562EB9E00DA9C4A /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5C5D09352562EBDE00DA9C4A /* Koin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Koin.swift; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 				5C5C71EE2922C06F00733C49 /* SecretUtil.swift */,
 				5C5C71E82922BBD200733C49 /* ViewExt.swift */,
 				5C5C71EA2922BC0300733C49 /* ResourceExt.swift */,
-				5C5C71EC2922BFC400733C49 /* ConversionStateExt.swift */,
+				5C5C71EC2922BFC400733C49 /* ConversionState.swift */,
 				5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */,
 			);
 			path = Util;
@@ -438,9 +438,9 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
-				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */,
 				5CF0622C28AD93CE00C579F6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */,
+				5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -501,7 +501,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=$PLATFORM_NAME \\\n    -Pmoko.resources.CONFIGURATION=$CONFIGURATION \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=$BUILT_PRODUCTS_DIR \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=$CONTENTS_FOLDER_PATH\n";
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :client:core:res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=$PLATFORM_NAME \\\n    -Pmoko.resources.CONFIGURATION=$CONFIGURATION \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=$BUILT_PRODUCTS_DIR \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=$CONTENTS_FOLDER_PATH\n";
 		};
 		ABAB7B6EBA5C48167F3A008C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -564,7 +564,7 @@
 				5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */,
 				5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,
-				5C5C71ED2922BFC400733C49 /* ConversionStateExt.swift in Sources */,
+				5C5C71ED2922BFC400733C49 /* ConversionState.swift in Sources */,
 				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
 				5C31E4342814306D008C42B9 /* SettingsToolbarView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,
@@ -775,7 +775,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */ = {
+		5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
@@ -783,7 +783,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
@@ -812,12 +812,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		5C34B8C9295903AD009C84AB /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */;
+			package = 5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */;
 			productName = PopupView;
 		};
 		5C3EB6D728775AFF001E822A /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */;
 			productName = GoogleMobileAds;
 		};
 		5C5C0BA32874B8450061AEF9 /* NavigationStack */ = {

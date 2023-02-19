@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
+  -->
+<resources>
+    <!--
+    ~ Material colours are used: https://m2.material.io/resources/color
+    ~ 200 variant for dark mode
+    ~ 500 variant for light mode
+    -->
+    <color name="primary"><!--teal-->
+        <light>#009688ff</light>
+        <dark>#80cbc4ff</dark>
+    </color>
+    <color name="secondary"><!--cyan-->
+        <light>#00bcd4ff</light>
+        <dark>#80deeaff</dark>
+    </color>
+    <color name="tertiary"><!--light blue-->
+        <light>#03a9f4ff</light>
+        <dark>#81d4faff</dark>
+    </color>
+
+    <color name="success"><!--green-->
+        <light>#4caf50ff</light>
+        <dark>#a5d6a7ff</dark>
+    </color>
+    <color name="info"><!--blue-->
+        <light>#2196f3ff</light>
+        <dark>#90caf9ff</dark>
+    </color>
+    <color name="warning"><!--orange-->
+        <light>#ff9800ff</light>
+        <dark>#ffcc80ff</dark>
+    </color>
+    <color name="error"><!--red-->
+        <light>#f44336ff</light>
+        <dark>#ef9a9aff</dark>
+    </color>
+
+    <!--text colors are fully custom-->
+    <color name="text">
+        <light>#212121ff</light>
+        <dark>#e0e0e0ff</dark>
+    </color>
+    <color name="text_weak">
+        <light>#757575ff</light>
+        <dark>#86888aff</dark>
+    </color>
+
+    <!--Backgrounds are fully custom-->
+    <color name="background_weak">
+        <light>#e0e0e0ff</light>
+        <dark>#414a51ff</dark>
+    </color>
+    <color name="background">
+        <light>#f2f2f2ff</light>
+        <dark>#1c272dff</dark>
+    </color>
+    <color name="background_strong">
+        <light>#ffffffff</light>
+        <dark>#101d25ff</dark>
+    </color>
+
+    <color name="transparent">#00000000</color>
+</resources>

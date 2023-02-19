@@ -6,12 +6,11 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
 import GoogleMobileAds
+import SwiftUI
 import UIKit
 
 struct AdaptiveBannerAdView: UIViewControllerRepresentable {
-
     private var unitID: String
 
     private let adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(
@@ -25,7 +24,6 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
     let bannerView = GADBannerView(adSize: GADAdSizeBanner)
 
     func makeUIViewController(context: Context) -> UIViewController {
-
         let viewController = UIViewController()
 
         bannerView.adUnitID = unitID
@@ -49,5 +47,7 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
     func updateUIViewController(
         _ uiViewController: UIViewController,
         context: Context
-    ) {}
+    ) {
+        // no impl
+    }
 }

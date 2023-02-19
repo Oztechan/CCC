@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct SnackView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
@@ -19,11 +19,11 @@ struct SnackView: View {
 
     var body: some View {
         HStack {
-            Image(uiImage: iconName?.getImage() ?? MR.images().ic_app_logo.get())
+            Image(uiImage: iconName?.getImage() ?? Res.images().ic_app_logo.get())
                 .resize(widthAndHeight: 48.cp())
 
             Text(text)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(Res.colors().text.get())
                 .font(relative: .subheadline)
                 .padding(leading: 5.cp())
 
@@ -38,7 +38,7 @@ struct SnackView: View {
             }
         }
         .padding(10.cp())
-        .background(MR.colors().background_weak.get())
+        .background(Res.colors().background_weak.get())
         .cornerRadius(10.cp())
         .shadow(radius: 5)
         .padding(10.cp())

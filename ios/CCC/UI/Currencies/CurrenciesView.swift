@@ -6,13 +6,12 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
 import NavigationStack
+import Provider
+import Res
+import SwiftUI
 
 struct CurrenciesView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         CurrenciesState,
         CurrenciesEffect,
@@ -30,10 +29,9 @@ struct CurrenciesView: View {
 
     var body: some View {
         ZStack {
-            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
-
                 if observable.state.selectionVisibility {
                     SelectionView(
                         onCloseClick: observable.event.onCloseClick,
@@ -60,15 +58,15 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(MR.colors().background.get())
+                        .listRowBackground(Res.colors().background.get())
                     }
-                    .withClearBackground(color: MR.colors().background.get())
+                    .withClearBackground(color: Res.colors().background.get())
                 }
 
                 if observable.viewModel.isFirstRun() {
                     SelectCurrenciesBottomView(
-                        text: MR.strings().txt_select_currencies.get(),
-                        buttonText: MR.strings().btn_done.get(),
+                        text: Res.strings().txt_select_currencies.get(),
+                        buttonText: Res.strings().btn_done.get(),
                         onButtonClick: observable.event.onDoneClick
                     )
                 }
@@ -76,7 +74,6 @@ struct CurrenciesView: View {
                 if observable.viewModel.shouldShowBannerAd() {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adapt()
                 }
-
             }
             .animation(.default)
             .navigationBarHidden(true)
@@ -86,7 +83,7 @@ struct CurrenciesView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().choose_at_least_two_currency.get())
+            SnackView(text: Res.strings().choose_at_least_two_currency.get())
         }
         .onAppear {
             observable.startObserving()
@@ -97,7 +94,7 @@ struct CurrenciesView: View {
     }
 
     private func onEffect(effect: CurrenciesEffect) {
-        logger.i(message: {"CurrenciesView onEffect \(effect.description)"})
+        logger.i(message: { "CurrenciesView onEffect \(effect.description)" })
         switch effect {
         case is CurrenciesEffect.FewCurrency:
             isFewCurrencySnackShown.toggle()
@@ -109,7 +106,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.ChangeBase:
             onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
-            logger.i(message: {"CurrenciesView unknown effect"})
+            logger.i(message: { "CurrenciesView unknown effect" })
         }
     }
 }

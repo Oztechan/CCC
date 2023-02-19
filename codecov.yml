@@ -6,6 +6,9 @@ coverage:
     project:
       default:
         target: auto
-        threshold: 1%
-    patch: false
-comment: false
+        threshold: 0.5%
+    patch:
+      default:
+        informational: true
+comment: # this is a top-level key
+  layout: "diff, reach, files"

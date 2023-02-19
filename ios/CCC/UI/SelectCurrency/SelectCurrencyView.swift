@@ -6,13 +6,12 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
 import NavigationStack
+import Provider
+import Res
+import SwiftUI
 
 struct SelectCurrencyView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         SelectCurrencyState,
         SelectCurrencyEffect,
@@ -29,15 +28,12 @@ struct SelectCurrencyView: View {
     var onCurrencySelected: (String) -> Void
 
     var body: some View {
-
         NavigationView {
-
             ZStack {
-
-                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
-                    Text(MR.strings().txt_select_base_currency.get())
+                    Text(Res.strings().txt_select_base_currency.get())
                         .font(relative: .title2)
                         .padding(4.cp())
                         .padding(.top, 10.cp())
@@ -52,22 +48,22 @@ struct SelectCurrencyView: View {
                                     .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                             }
                             .listRowInsets(.init())
-                            .listRowBackground(MR.colors().background.get())
+                            .listRowBackground(Res.colors().background.get())
                         }
-                        .withClearBackground(color: MR.colors().background.get())
+                        .withClearBackground(color: Res.colors().background.get())
                     }
 
                     Spacer()
 
                     SelectCurrenciesBottomView(
                         text: observable.state.enoughCurrency ?
-                        MR.strings().txt_update_favorite_currencies.get() :
-                            MR.strings().choose_at_least_two_currency.get(),
+                        Res.strings().txt_update_favorite_currencies.get() :
+                            Res.strings().choose_at_least_two_currency.get(),
                         buttonText: observable.state.enoughCurrency ?
-                        MR.strings().update.get() :
-                            MR.strings().select.get(),
+                        Res.strings().update.get() :
+                            Res.strings().select.get(),
                         onButtonClick: observable.event.onSelectClick
-                    ).listRowBackground(MR.colors().background.get())
+                    ).listRowBackground(Res.colors().background.get())
                 }.navigationBarHidden(true)
             }
         }
@@ -80,7 +76,7 @@ struct SelectCurrencyView: View {
     }
 
     private func onEffect(effect: SelectCurrencyEffect) {
-        logger.i(message: {"SelectCurrencyView onEffect \(effect.description)"})
+        logger.i(message: { "SelectCurrencyView onEffect \(effect.description)" })
         switch effect {
         // swiftlint:disable force_cast
         case is SelectCurrencyEffect.CurrencyChange:
@@ -89,7 +85,7 @@ struct SelectCurrencyView: View {
         case is SelectCurrencyEffect.OpenCurrencies:
             navigationStack.push(CurrenciesView(onBaseChange: onCurrencySelected))
         default:
-            logger.i(message: {"BarView unknown effect"})
+            logger.i(message: { "BarView unknown effect" })
         }
     }
 }

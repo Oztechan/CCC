@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<resources>
+    <!--Text Sizes-->
+    <dimen name="text_size_xs">11sp</dimen>
+    <dimen name="text_size_s">15sp</dimen>
+    <dimen name="text_size">17sp</dimen>
+    <dimen name="text_size_l">19sp</dimen>
+    <dimen name="text_size_xl">22sp</dimen>
+    <dimen name="text_size_xxl">25sp</dimen>
+
+    <!--Match Parent-->
+    <dimen name="fit">0dp</dimen>
+
+    <!--Margin Sizes-->
+    <dimen name="margin_zero">0dp</dimen>
+    <dimen name="margin_two">2dp</dimen>
+    <dimen name="margin_four">4dp</dimen>
+    <dimen name="margin_eight">8dp</dimen>
+    <dimen name="margin_twelve">12dp</dimen>
+    <dimen name="margin_sixteen">16dp</dimen>
+
+    <dimen name="height_separator">0.33dp</dimen>
+
+    <!-- Settings -->
+    <dimen name="height_settings_item_layout">72dp</dimen>
+    <dimen name="height_settings_item_row">64dp</dimen>
+    <dimen name="width_height_settings_icon">32dp</dimen>
+    <dimen name="margin_start_settings_item_separator">56dp</dimen>
+
+    <!--Currency Icon Size-->
+    <dimen name="currency_icon_size">36dp</dimen>
+
+    <!-- Snack Bar -->
+    <dimen name="snack_icon_size">56dp</dimen>
+
+    <dimen name="dots_height">36dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+
+    <!-- Slide -->
+    <dimen name="padding_bottom_slide_layout">48dp</dimen>
+    <dimen name="height_width_app_logo">200dp</dimen>
+    <dimen name="margin_top_slide_items">20dp</dimen>
+    <dimen name="padding_left_right_slide_item">36dp</dimen>
+
+    <!-- Search View -->
+    <dimen name="max_width_search_view">256dp</dimen>
+
+    <!-- Premium -->
+    <dimen name="padding_premium_item_layout">16dp</dimen>
+
+    <!-- Splash  -->
+    <dimen name="padding_splash_icon">32dp</dimen>
+</resources>

@@ -7,15 +7,13 @@
 //
 
 import MessageUI
-import SwiftUI
 import Res
+import SwiftUI
 
 struct MailView: UIViewControllerRepresentable {
-
     @Binding var isShowing: Bool
 
     class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
-
         @Binding var isShowing: Bool
 
         init(isShowing: Binding<Bool>) {
@@ -42,9 +40,9 @@ struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = context.coordinator
-        controller.setToRecipients([MR.strings().mail_developer.get()])
-        controller.setSubject(MR.strings().mail_feedback_subject.get())
-        controller.setMessageBody(MR.strings().mail_extra_text.get(), isHTML: false)
+        controller.setToRecipients([Res.strings().mail_developer.get()])
+        controller.setSubject(Res.strings().mail_feedback_subject.get())
+        controller.setMessageBody(Res.strings().mail_extra_text.get(), isHTML: false)
         return controller
     }
 
@@ -52,6 +50,6 @@ struct MailView: UIViewControllerRepresentable {
         _ uiViewController: MFMailComposeViewController,
         context: UIViewControllerRepresentableContext<MailView>
     ) {
-
+        // no impl
     }
 }

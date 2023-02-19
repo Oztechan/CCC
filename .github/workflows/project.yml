@@ -1,0 +1,19 @@
+name: Project Automations
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  ProjectAutomations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Add issue to project'
+        if: github.event_name == 'issues' && github.event.action == 'opened'
+        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.issue.node_id }}
+          custom_field_values: ${{ secrets.CUSTOM_FIELD_VALUES }}

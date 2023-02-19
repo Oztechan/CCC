@@ -6,14 +6,13 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
 import NavigationStack
 import PopupView
+import Provider
+import Res
+import SwiftUI
 
 struct CalculatorView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         CalculatorState,
         CalculatorEffect,
@@ -28,6 +27,7 @@ struct CalculatorView: View {
     @State var isGenericErrorSnackShown = false
     @State var isFewCurrencySnackShown = false
     @State var isCopyClipboardSnackShown = false
+    @State var isPasteRequestSnackShown = false
 
     @State var isConversionSnackShown = false
     static var conversionText: String?
@@ -38,20 +38,21 @@ struct CalculatorView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
                 VStack {
-
                     InputView(
                         input: observable.state.input,
-                        onSettingsClick: observable.event.onSettingsClicked
+                        onSettingsClick: observable.event.onSettingsClicked,
+                        onInputLongClick: observable.event.onInputLongClick
                     )
 
                     OutputView(
                         baseCurrency: observable.state.base,
                         output: observable.state.output,
                         symbol: observable.state.symbol,
-                        onBarClick: { observable.event.onBarClick() }
+                        onBarClick: observable.event.onBarClick,
+                        onOutputLongClick: observable.event.onOutputLongClick
                     )
 
                     if observable.state.loading {
@@ -74,10 +75,10 @@ struct CalculatorView: View {
                                 )
                             }
                             .listRowInsets(.init())
-                            .listRowBackground(MR.colors().background.get())
+                            .listRowBackground(Res.colors().background.get())
                             .animation(.default)
                         }
-                        .withClearBackground(color: MR.colors().background.get())
+                        .withClearBackground(color: Res.colors().background.get())
                         .padding(bottom: 4.cp())
                     }
 
@@ -93,10 +94,9 @@ struct CalculatorView: View {
                     if observable.viewModel.shouldShowBannerAd() {
                         AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adapt()
                     }
-
                 }
             }
-            .background(MR.colors().background_strong.get())
+            .background(Res.colors().background_strong.get())
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
@@ -105,14 +105,26 @@ struct CalculatorView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().text_too_big_number.get())
+            SnackView(text: Res.strings().text_too_big_number.get())
+        }
+        .popup(isPresented: $isPasteRequestSnackShown,
+               type: .toast,
+               autohideIn: 2.0
+        ) {
+            SnackView(
+                text: Res.strings().text_paste_request.get(),
+                buttonText: Res.strings().text_paste.get(),
+                buttonAction: {
+                    observable.event.pasteToInput(text: UIPasteboard.general.string ?? "")
+                }
+            )
         }
         .popup(
             isPresented: $isGenericErrorSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().error_text_unknown.get())
+            SnackView(text: Res.strings().error_text_unknown.get())
         }
         .popup(
             isPresented: $isFewCurrencySnackShown,
@@ -120,8 +132,8 @@ struct CalculatorView: View {
             autohideIn: 2.0
         ) {
             SnackView(
-                text: MR.strings().choose_at_least_two_currency.get(),
-                buttonText: MR.strings().select.get(),
+                text: Res.strings().choose_at_least_two_currency.get(),
+                buttonText: Res.strings().select.get(),
                 buttonAction: {
                     navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
@@ -132,7 +144,7 @@ struct CalculatorView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().copied_to_clipboard.get())
+            SnackView(text: Res.strings().copied_to_clipboard.get())
         }
         .popup(
             isPresented: $isConversionSnackShown,
@@ -151,7 +163,7 @@ struct CalculatorView: View {
             content: {
                 SelectCurrencyView(
                     isBarShown: $isBarShown,
-                    onCurrencySelected: { observable.event.onBaseChange(base: $0)}
+                    onCurrencySelected: { observable.event.onBaseChange(base: $0) }
                 ).environmentObject(navigationStack)
             }
         )
@@ -164,7 +176,7 @@ struct CalculatorView: View {
     }
 
     private func onEffect(effect: CalculatorEffect) {
-        logger.i(message: {"CalculatorView onEffect \(effect.description)"})
+        logger.i(message: { "CalculatorView onEffect \(effect.description)" })
         switch effect {
         case is CalculatorEffect.Error:
             isGenericErrorSnackShown.toggle()
@@ -176,6 +188,8 @@ struct CalculatorView: View {
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
             navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+        case is CalculatorEffect.ShowPasteRequest:
+            isPasteRequestSnackShown.toggle()
         // swiftlint:disable force_cast
         case is CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general
@@ -187,7 +201,7 @@ struct CalculatorView: View {
             CalculatorView.conversionCode = (effect as! CalculatorEffect.ShowConversion).code
             isConversionSnackShown.toggle()
         default:
-            logger.i(message: {"CalculatorView unknown effect"})
+            logger.i(message: { "CalculatorView unknown effect" })
         }
     }
 }

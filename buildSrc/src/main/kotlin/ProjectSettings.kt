@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -8,10 +9,10 @@ import java.io.File
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 8
+    private const val MINOR_VERSION = 9
 
     // git rev-list --first-parent --count origin/master +1
-    private const val VERSION_DIF = 742
+    private const val VERSION_DIF = 750
     private const val BASE_VERSION_CODE = 937
 
     const val PROJECT_NAME = "CCC"
@@ -27,6 +28,8 @@ object ProjectSettings {
     const val TARGET_SDK_VERSION = 33
 
     const val IOS_DEPLOYMENT_TARGET = "14.0"
+
+    val JAVA_VERSION = JavaVersion.VERSION_11
 
     @Suppress("TooGenericExceptionCaught", "SwallowedException")
     fun getVersionCode(project: Project) = try {

@@ -9,6 +9,23 @@ pluginManagement {
         maven("https://dl.bintray.com/icerockdev/plugins")
     }
 }
+plugins {
+    id("com.gradle.enterprise") version ("3.12.3")
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        publishAlways()
+
+        obfuscation {
+            username { null }
+            hostname { null }
+            ipAddresses { null }
+        }
+    }
+}
 
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
@@ -22,35 +39,105 @@ dependencyResolutionManagement {
 }
 
 include(
-    // Targets
-    ":android", // android app
-    ":backend", // backend app
-    // ios -> not a gradle module
+    // region Android only modules
+    ":android:app",
+    // Core modules
+    ":android:core:billing",
+    ":android:core:ad",
+    // UI modules
+    ":android:ui:mobile",
+    ":android:ui:widget",
+    // ViewModel modules
+    ":android:viewmodel:premium",
+    ":android:viewmodel:widget",
+    // endregion
 
-    // KMP modules
-    ":common", // Shared with all FE & BE targets
-    ":client", // Shared with all FE targets
+    // region iOS only modules
+    ":ios:provider",
+    // Repository modules
+    ":ios:repository:background",
+    // endregion
 
-    ":res", // Shared with all FE targets for resources
+    // region Backend only modules
+    ":backend:app",
+    // Service modules
+    ":backend:service:free",
+    ":backend:service:premium",
+    // Controller modules
+    ":backend:controller:sync",
+    ":backend:controller:api",
+    // endregion
 
-    ":config", // Shared with all FE targets for Firebase Remote Config
-    ":analytics", // Shared with all FE targets for Google Analytics
+    // region Client only modules Android+iOS
+    // Core modules
+    ":client:core:viewmodel",
+    ":client:core:shared",
+    ":client:core:res",
+    ":client:core:analytics",
+    ":client:core:persistence",
+    ":client:core:remoteconfig",
+    // Storage modules
+    ":client:storage:app",
+    ":client:storage:calculation",
+    // DataSource modules
+    ":client:datasource:currency",
+    ":client:datasource:watcher",
+    // Service modules
+    ":client:service:backend",
+    // ConfigService modules
+    ":client:configservice:ad",
+    ":client:configservice:review",
+    ":client:configservice:update",
+    // Repository modules
+    ":client:repository:adcontrol",
+    ":client:repository:appconfig",
+    // ViewModel modules
+    ":client:viewmodel:main",
+    ":client:viewmodel:calculator",
+    ":client:viewmodel:currencies",
+    ":client:viewmodel:settings",
+    ":client:viewmodel:selectcurrency",
+    ":client:viewmodel:watchers",
+    // endregion
 
-    ":test", // common test classes
+    // region Common only modules Android+iOS+Backend
+    // Core modules
+    ":common:core:database",
+    ":common:core:network",
+    ":common:core:infrastructure",
+    ":common:core:model",
+    // DataSource modules
+    ":common:datasource:conversion",
+    // endregion
 
-    ":provider", // umbrella framework for iOS libraries
-
-    ":billing", // android only billing module
-    ":ad", // android only ad module
-
-    // submodules
-    ":logmob", // KMP, logger library
-    ":scopemob", // KMP, hand scope functions
-    ":basemob", // android only
-    ":parsermob" // KMP, parsing library
+    // region Git Submodules independent modules and project hosted in different repository
+    ":submodule:logmob", // KMP, logger library
+    ":submodule:scopemob", // KMP, hand scope functions
+    ":submodule:basemob", // Android only base classes
+    ":submodule:parsermob" // KMP, parsing library
+    // endregion
 )
 
-project(":logmob").projectDir = file("logmob/logmob")
-project(":scopemob").projectDir = file("scopemob/scopemob")
-project(":basemob").projectDir = file("basemob/basemob")
-project(":parsermob").projectDir = file("parsermob/parsermob")
+project(":submodule:logmob").projectDir = file("submodule/logmob/logmob")
+project(":submodule:scopemob").projectDir = file("submodule/scopemob/scopemob")
+project(":submodule:basemob").projectDir = file("submodule/basemob/basemob")
+project(":submodule:parsermob").projectDir = file("submodule/parsermob/parsermob")
+
+rootProject.name = "CCC"
+rootProject.updateBuildFileNames()
+
+fun ProjectDescriptor.updateBuildFileNames() {
+    if (name.startsWith("submodule")) return
+
+    buildFileName = if (this == rootProject) {
+        rootProject.name
+    } else {
+        path.drop(1).replace(":", "-")
+    }.let {
+        "$it.gradle.kts"
+    }
+
+    if (children.isNotEmpty()) {
+        children.forEach { it.updateBuildFileNames() }
+    }
+}

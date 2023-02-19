@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct SlideView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -21,9 +21,8 @@ struct SlideView: View {
 
     var body: some View {
         ZStack {
-            Color(MR.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
             VStack {
-
                 Spacer()
 
                 Text(title)
@@ -32,7 +31,7 @@ struct SlideView: View {
 
                 image
                     .resize(widthAndHeight: 144.cp())
-                    .accentColor(MR.colors().text.get())
+                    .accentColor(Res.colors().text.get())
                     .padding(4.cp())
 
                 Text(subTitle1)
@@ -60,7 +59,7 @@ struct SlideView: View {
                         label: {
                             Text(buttonText)
                                 .font(relative: .body)
-                                .foregroundColor(MR.colors().text.get())
+                                .foregroundColor(Res.colors().text.get())
                         }
                     ).padding(top: 10.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 15.cp())
                 }

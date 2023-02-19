@@ -6,15 +6,14 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
-import NavigationStack
 import GoogleMobileAds
+import NavigationStack
 import PopupView
+import Provider
+import Res
+import SwiftUI
 
 struct SettingsView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         SettingsState,
         SettingsEffect,
@@ -24,37 +23,31 @@ struct SettingsView: View {
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
-    @State var emailViewVisibility: Bool = false
-    @State var webViewVisibility: Bool = false
-    @State var isRemoveAdsDialogShown: Bool = false
-    @State var isAdsAlreadyDisabledSnackShown: Bool = false
-    @State var isAlreadySyncedSnackShown: Bool = false
-    @State var isSynchronisingShown: Bool = false
-    @State var isSyncedSnackShown: Bool = false
+    @State var emailViewVisibility = false
+    @State var webViewVisibility = false
+    @State var isPremiumDialogShown = false
+    @State var isAdsAlreadyDisabledSnackShown = false
+    @State var isAlreadySyncedSnackShown = false
+    @State var isSynchronisingShown = false
+    @State var isSyncedSnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
-
-    enum Dialogs {
-        case removeAd, error
-    }
 
     var onBaseChange: ((String) -> Void)
 
     var body: some View {
-
         ZStack {
-            MR.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
-
                 SettingsToolbarView(backEvent: observable.event.onBackClick)
 
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
-                        title: MR.strings().settings_item_currencies_title.get(),
-                        subTitle: MR.strings().settings_item_currencies_sub_title.get(),
-                        value: MR.strings().settings_active_item_value.get(
+                        title: Res.strings().settings_item_currencies_title.get(),
+                        subTitle: Res.strings().settings_item_currencies_sub_title.get(),
+                        value: Res.strings().settings_active_item_value.get(
                             parameter: observable.state.activeCurrencyCount
                         ),
                         onClick: observable.event.onCurrenciesClick
@@ -62,28 +55,26 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "eyeglasses",
-                        title: MR.strings().settings_item_watchers_title.get(),
-                        subTitle: MR.strings().settings_item_watchers_sub_title.get(),
-                        value: MR.strings().settings_active_item_value.get(
+                        title: Res.strings().settings_item_watchers_title.get(),
+                        subTitle: Res.strings().settings_item_watchers_sub_title.get(),
+                        value: Res.strings().settings_active_item_value.get(
                             parameter: observable.state.activeWatcherCount
                         ),
-                        onClick: observable.event.onWatchersClicked
+                        onClick: observable.event.onWatchersClick
                     )
 
-                    if observable.viewModel.shouldShowRemoveAds() {
-                        SettingsItemView(
-                            imgName: "eye.slash.fill",
-                            title: MR.strings().settings_item_remove_ads_title.get(),
-                            subTitle: MR.strings().settings_item_remove_ads_sub_title.get(),
-                            value: getAdFreeText(),
-                            onClick: observable.event.onRemoveAdsClick
-                        )
-                    }
+                    SettingsItemView(
+                        imgName: "crown.fill",
+                        title: Res.strings().settings_item_premium_title.get(),
+                        subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
+                        value: getPremiumText(),
+                        onClick: observable.event.onPremiumClick
+                    )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
-                        title: MR.strings().settings_item_sync_title.get(),
-                        subTitle: MR.strings().settings_item_sync_sub_title.get(),
+                        title: Res.strings().settings_item_sync_title.get(),
+                        subTitle: Res.strings().settings_item_sync_sub_title.get(),
                         value: "",
                         onClick: observable.event.onSyncClick
                     )
@@ -91,8 +82,8 @@ struct SettingsView: View {
                     if MailView.canSendEmail() {
                         SettingsItemView(
                             imgName: "envelope.fill",
-                            title: MR.strings().settings_item_feedback_title.get(),
-                            subTitle: MR.strings().settings_item_feedback_sub_title.get(),
+                            title: Res.strings().settings_item_feedback_title.get(),
+                            subTitle: Res.strings().settings_item_feedback_sub_title.get(),
                             value: "",
                             onClick: observable.event.onFeedBackClick
                         )
@@ -100,26 +91,25 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
-                        title: MR.strings().settings_item_on_github_title.get(),
-                        subTitle: MR.strings().settings_item_on_github_sub_title.get(),
+                        title: Res.strings().settings_item_on_github_title.get(),
+                        subTitle: Res.strings().settings_item_on_github_sub_title.get(),
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
 
                     SettingsItemView(
                         imgName: "textformat.123",
-                        title: MR.strings().settings_item_version_title.get(),
-                        subTitle: MR.strings().settings_item_version_sub_title.get(),
+                        title: Res.strings().settings_item_version_title.get(),
+                        subTitle: Res.strings().settings_item_version_sub_title.get(),
                         value: observable.state.version,
                         onClick: {}
                     )
                 }.edgesIgnoringSafeArea(.bottom)
-                    .withClearBackground(color: MR.colors().background.get())
+                    .withClearBackground(color: Res.colors().background.get())
 
                 if observable.viewModel.shouldShowBannerAd() {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()
                 }
-
             }
             .navigationBarHidden(true)
         }
@@ -128,37 +118,37 @@ struct SettingsView: View {
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().txt_ads_already_disabled.get())
+            SnackView(text: Res.strings().txt_you_already_have_premium.get())
         }
         .popup(
             isPresented: $isAlreadySyncedSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().txt_already_synced.get())
+            SnackView(text: Res.strings().txt_already_synced.get())
         }
         .popup(
             isPresented: $isSynchronisingShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().txt_synchronising.get())
+            SnackView(text: Res.strings().txt_synchronising.get())
         }
         .popup(
             isPresented: $isSyncedSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: MR.strings().txt_synced.get())
+            SnackView(text: Res.strings().txt_synced.get())
         }
-        .popup(isPresented: $isRemoveAdsDialogShown) {
+        .popup(isPresented: $isPremiumDialogShown) {
             AlertView(
-                title: MR.strings().txt_remove_ads.get(),
-                message: MR.strings().txt_remove_ads_text.get(),
-                buttonText: MR.strings().txt_watch.get(),
+                title: Res.strings().txt_premium.get(),
+                message: Res.strings().txt_premium_text.get(),
+                buttonText: Res.strings().txt_watch.get(),
                 buttonAction: {
                     RewardedAd(
-                        onReward: { observable.viewModel.updateAddFreeDate() }
+                        onReward: { observable.viewModel.updatePremiumEndDate() }
                     ).show()
                 }
             )
@@ -167,7 +157,7 @@ struct SettingsView: View {
             MailView(isShowing: $emailViewVisibility)
         }
         .sheet(isPresented: $webViewVisibility) {
-            WebView(url: NSURL(string: MR.strings().github_url.get())! as URL)
+            WebView(url: NSURL(string: Res.strings().github_url.get())! as URL)
         }
         .onAppear {
             observable.startObserving()
@@ -179,7 +169,7 @@ struct SettingsView: View {
 
     // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
-        logger.i(message: {"SettingsView onEffect \(effect.description)"})
+        logger.i(message: { "SettingsView onEffect \(effect.description)" })
         switch effect {
         case is SettingsEffect.Back:
             navigationStack.pop()
@@ -197,24 +187,27 @@ struct SettingsView: View {
             isSyncedSnackShown.toggle()
         case is SettingsEffect.OnlyOneTimeSync:
             isAlreadySyncedSnackShown.toggle()
-        case is SettingsEffect.AlreadyAdFree:
+        case is SettingsEffect.AlreadyPremium:
             isAdsAlreadyDisabledSnackShown.toggle()
-        case is SettingsEffect.RemoveAds:
-            isRemoveAdsDialogShown.toggle()
+        case is SettingsEffect.Premium:
+            isPremiumDialogShown.toggle()
         default:
-            logger.i(message: {"SettingsView unknown effect"})
+            logger.i(message: { "SettingsView unknown effect" })
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 
-    private func getAdFreeText() -> String {
-        if observable.viewModel.isAdFreeNeverActivated() {
+    private func getPremiumText() -> String {
+        if observable.viewModel.isPremiumEverActivated() {
             return ""
         } else {
-            if observable.viewModel.isRewardExpired() {
-                return MR.strings().settings_item_remove_ads_value_expired.get()
+            if observable.viewModel.isPremiumExpired() {
+                return Res.strings().settings_item_premium_value_expired.get(
+                    parameter: observable.state.premiumEndDate
+                )
             } else {
-                return MR.strings().settings_item_remove_ads_value_will_expire.get(
-                    parameter: observable.state.addFreeEndDate
+                return Res.strings().settings_item_premium_value_will_expire.get(
+                    parameter: observable.state.premiumEndDate
                 )
             }
         }

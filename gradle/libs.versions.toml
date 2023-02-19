@@ -1,41 +1,45 @@
 [versions]
 
-kotlin = "1.7.22"
-ksp = "1.7.22-1.0.8"
+kotlin = "1.8.10"
+ksp = "1.8.10-1.0.9"
 detekt = "1.22.0"
-androidGradlePlugin = "7.3.1"
-androidMaterial = "1.7.0"
+androidGradlePlugin = "7.4.1"
+composeCompiler = "1.4.2"
+compose = "1.3.3"
+glance = "1.0.0-alpha05"
+material3 = "1.0.1"
+androidDesugaring = "2.0.2"
+androidMaterial = "1.8.0"
+composeActivity = "1.6.1"
 constraintLayout = "2.1.4"
-koinCore = "3.3.2"
-koinAndroid = "3.3.2"
-koinKtor = "3.3.0"
-ktor = "2.2.1"
-multiplatformSettings = "0.9"
+koinCore = "3.3.3"
+koinCompose = "3.4.2"
+koinAndroid = "3.3.3"
+koinKtor = "3.3.1"
+ktor = "2.2.3"
+multiplatformSettings = "1.0.0"
 firebaseAnalytics = "21.2.0"
-firebaseRemoteConfig = "21.2.0"
-desugaring = "1.2.2"
-gsm = "4.3.14"
-firebasePer = "20.3.0"
+firebaseRemoteConfig = "21.2.1"
+gsm = "4.3.15"
+firebasePer = "20.3.1"
 firebasePerPlugin = "1.4.2"
-crashlytics = "2.9.2"
-admob = "21.4.0"
+crashlytics = "2.9.4"
+admob = "21.5.0"
 navigation = "2.5.3"
 playCore = "1.10.3"
 kotlinXDateTime = "0.4.0"
 coroutines = "1.6.4"
 billing = "5.1.0"
 leakCanary = "2.10"
-sqlDelight = "1.5.4"
+sqlDelight = "1.5.5"
 lifecycle = "2.5.1"
 mokoResources = "0.20.1"
-dependencyUpdates = "0.44.0"
 buildKonfig = "0.13.3"
-workRuntime = "2.7.1"
 splashScreen = "1.0.0"
 kover = "0.6.1"
 rootBeer = "0.1.0"
-mockative = "1.3.0"
-firebaseCrashlytics = "18.3.2"
+mockative = "1.3.1"
+firebaseCrashlytics = "18.3.5"
 anrWatchDog = "1.4.0"
 kermit = "1.2.2"
 
@@ -48,10 +52,9 @@ common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings"
 common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinXDateTime" }
 common-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 common-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
-common-ktorContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+common-ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 common-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 common-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-common-sqlDelightRuntime = { module = "com.squareup.sqldelight:runtime", version.ref = "sqlDelight" }
 common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
@@ -60,20 +63,27 @@ common-kermitCrashlytics = { module = "co.touchlab:kermit-crashlytics", version.
 common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 
 # ANDROID
+android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugaring" }
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
+android-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+android-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
+android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
+android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+android-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+android-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
+android-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 android-koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 android-firebaseAnalytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
 android-firebaseRemoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebaseRemoteConfig" }
 android-firebasePer = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebasePer" }
-android-desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
 android-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
-android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 android-ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
-android-sqlDelight = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
+android-sqlliteDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
 android-leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
-android-workRuntime = { module = "androidx.work:work-runtime", version.ref = "workRuntime" }
 android-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 android-rootBeer = { module = "com.scottyab:rootbeer-lib", version.ref = "rootBeer" }
 android-firebaseCrashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebaseCrashlytics" }
@@ -86,13 +96,14 @@ android-google-playCore = { module = "com.google.android.play:core", version.ref
 
 # IOS
 ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
-ios-sqlDelight = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
+ios-sqlliteDriver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
 
 # JVM
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-ktorCore = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 jvm-ktorNetty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
+common-ktorServerContentNegotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
@@ -116,6 +127,7 @@ classpaths-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kove
 
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
 android = { id = "org.jetbrains.kotlin.android" }
+jvm = { id = "org.jetbrains.kotlin.jvm" }
 cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods" }
 androidApp = { id = "com.android.application" }
 androidLib = { id = "com.android.library" }
@@ -127,7 +139,6 @@ firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
 kotlinXSerialization = { id = "kotlinx-serialization" }
 sqlDelight = { id = "com.squareup.sqldelight" }
 mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
-dependencyUpdates = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdates" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

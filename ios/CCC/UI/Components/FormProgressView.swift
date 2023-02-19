@@ -6,8 +6,8 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct FormProgressView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -27,6 +27,6 @@ struct FormProgressView: View {
             Spacer()
         }
         .padding(.top, 20.cp())
-        .background(MR.colors().background.get())
+        .background(Res.colors().background.get())
     }
 }

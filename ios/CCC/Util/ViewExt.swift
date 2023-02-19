@@ -80,6 +80,7 @@ extension View {
             fatalError("Expected to have a valid style")
         }
     }
+    // swiftlint:enable cyclomatic_complexity
 }
 
 extension Double {

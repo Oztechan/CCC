@@ -6,43 +6,39 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
     // swiftlint:disable line_length
     let keys = [
-        [MR.strings().seven.get(), MR.strings().eight.get(), MR.strings().nine.get(), MR.strings().multiply.get()],
-        [MR.strings().four.get(), MR.strings().five.get(), MR.strings().six.get(), MR.strings().divide.get()],
-        [MR.strings().one.get(), MR.strings().two.get(), MR.strings().three.get(), MR.strings().minus.get()],
-        [MR.strings().dot.get(), MR.strings().zero.get(), MR.strings().percent.get(), MR.strings().plus.get()],
-        [MR.strings().open_parentheses.get(), MR.strings().triple_zero.get(), MR.strings().ac.get(), MR.strings().delete_.get(), MR.strings().close_parentheses.get()]
+        [Res.strings().seven.get(), Res.strings().eight.get(), Res.strings().nine.get(), Res.strings().multiply.get()],
+        [Res.strings().four.get(), Res.strings().five.get(), Res.strings().six.get(), Res.strings().divide.get()],
+        [Res.strings().one.get(), Res.strings().two.get(), Res.strings().three.get(), Res.strings().minus.get()],
+        [Res.strings().dot.get(), Res.strings().zero.get(), Res.strings().percent.get(), Res.strings().plus.get()],
+        [Res.strings().open_parentheses.get(), Res.strings().triple_zero.get(), Res.strings().ac.get(), Res.strings().delete_.get(), Res.strings().close_parentheses.get()]
     ]
+    // swiftlint:enable line_length
 
     var body: some View {
-
         VStack(alignment: .center) {
             ForEach(keys, id: \.self) { items in
-
                 HStack(alignment: .center) {
                     ForEach(items, id: \.self) { item in
-
                         Button(
-                            action: { onKeyPress(item)},
+                            action: { onKeyPress(item) },
                             label: {
                                 Text(item)
                                     .font(relative: .title2)
-                                    .foregroundColor(MR.colors().text.get())
+                                    .foregroundColor(Res.colors().text.get())
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }
                         )
-
                     }
                 }
-
             }
-        }.background(MR.colors().background_strong.get())
+        }.background(Res.colors().background_strong.get())
     }
 }

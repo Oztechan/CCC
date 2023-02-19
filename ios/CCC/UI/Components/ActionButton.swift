@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct ActionButton: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
@@ -43,20 +43,20 @@ struct ActionButton: View {
     private func getBackgroundColor() -> Color {
         switch state {
         case .primary:
-            return MR.colors().accent.get()
+            return Res.colors().primary.get()
         case .secondary:
-            return MR.colors().text.get()
+            return Res.colors().text.get()
         case .neutral:
-            return MR.colors().background_weak.get()
+            return Res.colors().background_weak.get()
         }
     }
 
     private func getTextColor() -> Color {
         switch state {
         case .primary, .secondary:
-            return MR.colors().background_weak.get()
+            return Res.colors().background_weak.get()
         case .neutral:
-            return MR.colors().text.get()
+            return Res.colors().text.get()
         }
     }
 }

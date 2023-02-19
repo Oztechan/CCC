@@ -6,8 +6,8 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct SelectCurrenciesBottomView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -18,9 +18,8 @@ struct SelectCurrenciesBottomView: View {
 
     var body: some View {
         HStack {
-
             Text(text)
-                .foregroundColor(MR.colors().text.get())
+                .foregroundColor(Res.colors().text.get())
                 .font(relative: .subheadline)
 
             Spacer()
