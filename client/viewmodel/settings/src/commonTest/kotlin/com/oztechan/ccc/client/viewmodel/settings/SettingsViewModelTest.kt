@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.indexToNumber
-import com.oztechan.ccc.client.core.shared.util.isItOver
+import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
@@ -239,7 +239,7 @@ internal class SettingsViewModelTest {
     @Test
     fun isPremiumExpired() {
         assertEquals(
-            appStorage.premiumEndDate.isItOver(),
+            appStorage.premiumEndDate.isPassed(),
             viewModel.isPremiumExpired()
         )
         verify(appStorage)
