@@ -2,6 +2,8 @@ package com.oztechan.ccc.client.viewmodel.watchers
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
@@ -33,7 +35,7 @@ import kotlin.test.assertNotNull
 internal class WatchersViewModelTest {
 
     private val viewModel: WatchersViewModel by lazy {
-        WatchersViewModel(currencyDataSource, watcherDataSource, adControlRepository)
+        WatchersViewModel(currencyDataSource, watcherDataSource, adControlRepository, analyticsManager)
     }
 
     @Mock
@@ -45,7 +47,12 @@ internal class WatchersViewModelTest {
     @Mock
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
+    @Mock
+    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+
     private val watcher = Watcher(1, "EUR", "USD", true, 1.1)
+
+    private val watcherList = listOf(watcher, watcher)
 
     @BeforeTest
     fun setup() {
@@ -55,7 +62,17 @@ internal class WatchersViewModelTest {
 
         given(watcherDataSource)
             .invocation { getWatchersFlow() }
-            .thenReturn(flowOf(listOf(watcher)))
+            .thenReturn(flowOf(watcherList))
+    }
+
+    // Analytics
+    @Test
+    fun ifUserPropertiesSetCorrect() {
+        viewModel // init
+
+        verify(analyticsManager)
+            .invocation { setUserProperty(UserProperty.WatcherCount(watcherList.count().toString())) }
+            .wasInvoked()
     }
 
     @Test

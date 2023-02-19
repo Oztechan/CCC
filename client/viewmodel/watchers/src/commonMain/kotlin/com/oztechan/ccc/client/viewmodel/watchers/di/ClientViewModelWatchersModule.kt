@@ -5,5 +5,5 @@ import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import org.koin.dsl.module
 
 val clientViewModelWatchersModule = module {
-    viewModelDefinition { WatchersViewModel(get(), get(), get()) }
+    viewModelDefinition { WatchersViewModel(get(), get(), get(), get()) }
 }
