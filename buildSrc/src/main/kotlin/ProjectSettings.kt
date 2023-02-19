@@ -9,10 +9,10 @@ import java.io.File
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 8
+    private const val MINOR_VERSION = 9
 
     // git rev-list --first-parent --count origin/master +1
-    private const val VERSION_DIF = 742
+    private const val VERSION_DIF = 750
     private const val BASE_VERSION_CODE = 937
 
     const val PROJECT_NAME = "CCC"
