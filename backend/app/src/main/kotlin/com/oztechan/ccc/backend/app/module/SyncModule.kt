@@ -23,8 +23,22 @@ internal fun Application.syncModule() {
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
-            syncController.syncPopularCurrencies()
+            syncController.syncPrimaryCurrencies()
             delay(1.hours.inWholeMilliseconds)
+        }
+    }
+
+    globalScope.launch(ioDispatcher) {
+        while (isActive) {
+            syncController.syncSecondaryCurrencies()
+            delay(2.hours.inWholeMilliseconds)
+        }
+    }
+
+    globalScope.launch(ioDispatcher) {
+        while (isActive) {
+            syncController.syncTertiaryCurrencies()
+            delay(3.hours.inWholeMilliseconds)
         }
     }
 

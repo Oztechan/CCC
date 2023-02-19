@@ -16,15 +16,25 @@ enum class CurrencyType {
     UZS, VES, VND, VUV, WST, XAF, XAG, XAU, XCD, XDR, XOF, XPD, XPF, XPT, YER, ZAR, ZMW, ZWL;
 
     companion object {
-        fun getPopularCurrencies() = listOf(
-            USD, EUR, TRY, CNH, INR, AED, COP, THB, CNY, RUB,
-            GBP, MXN, BRL, IDR, VND, SAR, AUD, ARS, CAD, UZS,
-            AOA, JPY, PKR, PLN, XOF, EGP, ZAR, MYR, KZT, CLP,
-            XAF, KRW, MAD, CRC, PHP, LRD, AZN, KWD, DZD, HUF,
+        fun getPrimaryCurrencies() = listOf(
+            USD, EUR, TRY, INR, AED, COP, THB, CNY, RUB, GBP, MXN, BRL, IDR
+        )
+
+        fun getSecondaryCurrencies() = listOf(
+            VND, SAR, AUD, ARS, CAD, UZS, AOA, JPY, PKR, PLN, XOF, EGP, ZAR,
+            MYR, KZT, CLP, XAF, KRW, MAD, CRC, PHP, LRD, AZN, KWD, DZD, HUF,
+        )
+
+        fun getTertiaryCurrencies() = listOf(
+            TZS, NGN, GHS, IQD, QAR, CZK, ILS, GEL, BDT, KES, SGD, ZMW, OMR,
+            TND, RON, MZN, DKK, KGS, GNF, NPR, CHF, LKR, RSD, UGX, JOD, LAK,
+            UAH, SEK, BHD, AMD, GTQ, NZD, PEN, DOP, XPF, UYU, BWP, IRR, HRK
         )
 
         fun getNonPopularCurrencies() = values().filterNot {
-            getPopularCurrencies().contains(it)
+            getPrimaryCurrencies().contains(it) ||
+                getSecondaryCurrencies().contains(it) ||
+                getTertiaryCurrencies().contains(it)
         }
     }
 }

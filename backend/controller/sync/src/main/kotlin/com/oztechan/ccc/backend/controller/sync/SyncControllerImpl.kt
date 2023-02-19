@@ -9,34 +9,46 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
+@Suppress("unused")
 internal class SyncControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
     private val conversionDataSource: ConversionDataSource
 ) : SyncController {
 
-    override suspend fun syncPopularCurrencies() {
-        Logger.i { "SyncControllerImpl syncPopularCurrencies" }
+    override suspend fun syncPrimaryCurrencies() {
+        Logger.i { "SyncControllerImpl syncPrimaryCurrencies" }
+        CurrencyType.getPrimaryCurrencies().syncCrossAPI()
+    }
 
-        CurrencyType.getPopularCurrencies().forEach { currencyType ->
+    override suspend fun syncSecondaryCurrencies() {
+        Logger.i { "SyncControllerImpl syncSecondaryCurrencies" }
+        CurrencyType.getSecondaryCurrencies().syncCrossAPI()
+    }
 
-            delay(1.seconds.inWholeMilliseconds)
+    override suspend fun syncTertiaryCurrencies() {
+        Logger.i { "SyncControllerImpl syncTertiaryCurrencies" }
+        CurrencyType.getTertiaryCurrencies().syncCrossAPI()
+    }
 
-            // non premium call for filling null values
-            runCatching { freeApiService.getConversion(currencyType.name) }
-                .onFailure { Logger.e(it) { it.message.toString() } }
-                .onSuccess { freeConversion ->
+    private suspend fun List<CurrencyType>.syncCrossAPI() = forEach { currencyType ->
 
-                    // premium api call
-                    runCatching { premiumApiService.getConversion(currencyType.name) }
-                        .onFailure { Logger.e(it) { it.message.toString() } }
-                        .onSuccess { premiumConversion ->
-                            conversionDataSource.insertConversion(
-                                premiumConversion.fillMissingRatesWith(freeConversion)
-                            )
-                        }
-                }
-        }
+        delay(1.seconds.inWholeMilliseconds)
+
+        // non premium call for filling null values
+        runCatching { freeApiService.getConversion(currencyType.name) }
+            .onFailure { Logger.e(it) { it.message.toString() } }
+            .onSuccess { freeConversion ->
+
+                // premium api call
+                runCatching { premiumApiService.getConversion(currencyType.name) }
+                    .onFailure { Logger.e(it) { it.message.toString() } }
+                    .onSuccess { premiumConversion ->
+                        conversionDataSource.insertConversion(
+                            premiumConversion.fillMissingRatesWith(freeConversion)
+                        )
+                    }
+            }
     }
 
     override suspend fun syncUnPopularCurrencies() {
