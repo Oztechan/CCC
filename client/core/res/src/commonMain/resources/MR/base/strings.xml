@@ -157,4 +157,8 @@
     <string name="txt_update_dialog_title">New Version Available</string>
     <string name="txt_update_dialog_description">Looks like you have an older version of the app. Please update to get latest features and bug fixes to get best experience.</string>
 
+    <!-- Widget -->
+    <string name="txt_currency_board">Currency board</string>
+    <string name="txt_widget_available_only_premium">Widget is only available in Premium</string>
+
 </resources>
