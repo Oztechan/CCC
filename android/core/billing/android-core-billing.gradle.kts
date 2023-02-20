@@ -1,4 +1,5 @@
 import config.DeviceFlavour
+import config.DeviceFlavour.Companion.implementation
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -47,7 +48,7 @@ dependencies {
             implementation(lifecycleRuntime)
 
             google.apply {
-                DeviceFlavour.googleImplementation(billing)
+                DeviceFlavour.GOOGLE.implementation(billing)
             }
         }
     }

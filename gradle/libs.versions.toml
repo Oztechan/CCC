@@ -24,7 +24,8 @@ gsm = "4.3.15"
 firebasePer = "20.3.1"
 firebasePerPlugin = "1.4.2"
 crashlytics = "2.9.4"
-admob = "21.5.0"
+googleAds = "21.5.0"
+huaweiAds = "3.4.61.300"
 navigation = "2.5.3"
 playCore = "1.10.3"
 kotlinXDateTime = "0.4.0"
@@ -91,8 +92,11 @@ android-anrWatchDog = { module = "com.github.anrwatchdog:anrwatchdog", version.r
 
 # ANDROID GOOGLE
 android-google-billing = { module = "com.android.billingclient:billing", version.ref = "billing" }
-android-google-admob = { module = "com.google.android.gms:play-services-ads", version.ref = "admob" }
+android-google-googleAds = { module = "com.google.android.gms:play-services-ads", version.ref = "googleAds" }
 android-google-playCore = { module = "com.google.android.play:core", version.ref = "playCore" }
+
+# ANDROID HUAWEI
+android-huawei-huaweiAds = { module = "com.huawei.hms:ads-prime", version.ref = "huaweiAds" }
 
 # IOS
 ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }

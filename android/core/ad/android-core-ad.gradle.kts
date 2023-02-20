@@ -1,5 +1,6 @@
 import config.BuildType
 import config.DeviceFlavour
+import config.DeviceFlavour.Companion.implementation
 import config.Keys
 
 plugins {
@@ -68,5 +69,12 @@ dependencies {
         implementation(kermit)
     }
 
-    DeviceFlavour.googleImplementation(libs.android.google.admob)
+    libs.android.apply {
+        google.apply {
+            DeviceFlavour.GOOGLE.implementation(googleAds)
+        }
+        huawei.apply {
+            DeviceFlavour.HUAWEI.implementation(huaweiAds)
+        }
+    }
 }

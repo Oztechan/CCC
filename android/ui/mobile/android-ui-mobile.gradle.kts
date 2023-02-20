@@ -1,5 +1,5 @@
 import config.DeviceFlavour
-import config.DeviceFlavour.Companion.googleImplementation
+import config.DeviceFlavour.Companion.implementation
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -70,7 +70,7 @@ dependencies {
         }
 
         android.google.apply {
-            googleImplementation(playCore)
+            DeviceFlavour.GOOGLE.implementation(playCore)
         }
     }
 
