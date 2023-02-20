@@ -1,7 +1,5 @@
 package config
 
-import java.util.Locale
-
 enum class DeviceFlavour {
     GOOGLE,
     HUAWEI;

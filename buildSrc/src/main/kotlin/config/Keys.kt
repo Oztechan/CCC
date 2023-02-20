@@ -2,7 +2,6 @@ package config
 
 import getSecret
 import org.gradle.api.Project
-import java.util.Locale
 
 class Keys(private val project: Project) {
 
