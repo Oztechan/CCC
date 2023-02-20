@@ -17,6 +17,10 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 @Suppress("VisibleForTests")
 internal class AdManagerImpl : AdManager {
 
+    private val adRequest: AdRequest by lazy {
+        AdRequest.Builder().build()
+    }
+
     init {
         Logger.i { "AdManagerImpl init" }
         MobileAds.setAppVolume(0.0f)
@@ -51,7 +55,7 @@ internal class AdManagerImpl : AdManager {
                     onAdLoaded(adSize?.height?.times(resources.displayMetrics.density)?.toInt())
                 }
             }
-            loadAd(getAdRequest())
+            loadAd(adRequest)
         }
         return BannerAdView(context, banner = adView) { adView.destroy() }
     }
@@ -59,24 +63,24 @@ internal class AdManagerImpl : AdManager {
     override fun showInterstitialAd(
         activity: Activity,
         adId: String
-    ) = InterstitialAd.load(
-        activity,
-        adId,
-        getAdRequest(),
-        object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.w(Exception(adError.message)) {
-                    "AdManagerImpl onAdFailedToLoad ${adError.message}"
+    ) {
+        Logger.i { "AdManagerImpl showInterstitialAd" }
+
+        InterstitialAd.load(
+            activity,
+            adId,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    Logger.w { "AdManagerImpl showInterstitialAd onAdFailedToLoad ${adError.message}" }
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Logger.i { "AdManagerImpl showInterstitialAd onAdLoaded" }
+                    interstitialAd.show(activity)
                 }
             }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Logger.i { "AdManagerImpl onAdLoaded" }
-                interstitialAd.show(activity)
-            }
-        }
-    ).also {
-        Logger.i { "AdManagerImpl showInterstitialAd" }
+        )
     }
 
     override fun showRewardedAd(
