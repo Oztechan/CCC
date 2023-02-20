@@ -2,7 +2,6 @@ package config
 
 import getSecret
 import org.gradle.api.Project
-import java.util.Locale
 
 class Keys(private val project: Project) {
 
@@ -90,7 +89,7 @@ class Keys(private val project: Project) {
             getVariantKey().removeVariant()
         }
         val resourceKey: String by lazy {
-            key.toLowerCase(Locale.ROOT)
+            key.lowercase()
         }
         val value: String by lazy {
             project.getSecret(getVariantKey(), fakeKey)

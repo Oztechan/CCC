@@ -70,7 +70,6 @@ dependencies {
         }
 
         android.google.apply {
-            @Suppress("UnstableApiUsage")
             googleImplementation(playCore)
         }
     }

@@ -10,7 +10,6 @@ plugins {
     }
 }
 
-@Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
         namespace = Modules.Android.Core.ad.packageName
@@ -24,6 +23,7 @@ android {
     }
 
     DeviceFlavour.apply {
+        @Suppress("UnstableApiUsage")
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -68,6 +68,5 @@ dependencies {
         implementation(kermit)
     }
 
-    @Suppress("UnstableApiUsage")
     DeviceFlavour.googleImplementation(libs.android.google.admob)
 }
