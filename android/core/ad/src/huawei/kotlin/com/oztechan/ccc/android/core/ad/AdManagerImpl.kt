@@ -31,7 +31,7 @@ internal class AdManagerImpl : AdManager {
         Logger.i { "AdManagerImpl getBannerAd" }
 
         val adView = BannerView(context).apply {
-            this.adId = "testw6vs28auh3"
+            this.adId = adId
             bannerAdSize = BannerAdSize.BANNER_SIZE_SMART
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
@@ -51,7 +51,7 @@ internal class AdManagerImpl : AdManager {
     ) {
         Logger.i { "AdManagerImpl showInterstitialAd" }
         InterstitialAd(activity).apply {
-            this.adId = "testb4znbuh3n2"
+            this.adId = adId
             adListener = object : AdListener() {
                 override fun onAdFailed(adError: Int) {
                     super.onAdFailed(adError)
