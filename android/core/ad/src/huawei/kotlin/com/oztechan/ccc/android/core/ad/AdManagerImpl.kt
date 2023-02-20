@@ -9,6 +9,10 @@ import com.huawei.hms.ads.BannerAdSize
 import com.huawei.hms.ads.HwAds
 import com.huawei.hms.ads.InterstitialAd
 import com.huawei.hms.ads.banner.BannerView
+import com.huawei.hms.ads.reward.Reward
+import com.huawei.hms.ads.reward.RewardAd
+import com.huawei.hms.ads.reward.RewardAdLoadListener
+import com.huawei.hms.ads.reward.RewardAdStatusListener
 
 internal class AdManagerImpl : AdManager {
 
@@ -76,5 +80,35 @@ internal class AdManagerImpl : AdManager {
         onReward: () -> Unit
     ) {
         Logger.i { "AdManagerImpl showRewardedAd" }
+
+        RewardAd(activity, "testx9dtjwj8hp").apply {
+            loadAd(
+                adParam,
+                object : RewardAdLoadListener() {
+                    override fun onRewardAdFailedToLoad(adError: Int) {
+                        super.onRewardAdFailedToLoad(adError)
+                        Logger.w { "AdManagerImpl showRewardedAd onRewardAdFailedToLoad $adError" }
+                        onAdFailedToLoad()
+                    }
+
+                    override fun onRewardedLoaded() {
+                        super.onRewardedLoaded()
+                        Logger.i { "AdManagerImpl showRewardedAd onRewardedLoaded" }
+                        onAdLoaded()
+
+                        show(
+                            activity,
+                            object : RewardAdStatusListener() {
+                                override fun onRewarded(reward: Reward?) {
+                                    super.onRewarded(reward)
+                                    Logger.i { "AdManagerImpl showRewardedAd onRewardedLoaded onRewarded" }
+                                    onReward()
+                                }
+                            }
+                        )
+                    }
+                }
+            )
+        }
     }
 }
