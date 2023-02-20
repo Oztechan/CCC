@@ -7,7 +7,7 @@ enum class BuildType {
     RELEASE;
 
     companion object {
-        val debug = DEBUG.name.toLowerCase(Locale.ROOT)
-        val release = RELEASE.name.toLowerCase(Locale.ROOT)
+        val debug = DEBUG.name.lowercase()
+        val release = RELEASE.name.lowercase()
     }
 }

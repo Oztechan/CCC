@@ -8,8 +8,8 @@ enum class DeviceFlavour {
 
     @Suppress("unused")
     companion object {
-        val google = GOOGLE.name.toLowerCase(Locale.ROOT)
-        val huawei = HUAWEI.name.toLowerCase(Locale.ROOT)
+        val google = GOOGLE.name.lowercase()
+        val huawei = HUAWEI.name.lowercase()
 
         val flavorDimension = DeviceFlavour::class.simpleName.toString()
 
