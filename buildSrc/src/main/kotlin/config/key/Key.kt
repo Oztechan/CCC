@@ -1,0 +1,15 @@
+package config.key
+
+enum class Key(
+    val default: String = ""
+) {
+    BASE_URL_BACKEND(Fakes.PRIVATE_URL),
+    BASE_URL_API(Fakes.PRIVATE_URL),
+    BASE_URL_API_PREMIUM(Fakes.PRIVATE_URL),
+    API_KEY_PREMIUM(Fakes.PRIVATE_URL),
+
+    ANDROID_KEY_STORE_PATH(Fakes.PRIVATE_PATH),
+    ANDROID_STORE_PASSWORD,
+    ANDROID_KEY_ALIAS,
+    ANDROID_KEY_PASSWORD
+}
