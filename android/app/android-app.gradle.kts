@@ -4,7 +4,8 @@
 import com.google.firebase.perf.plugin.FirebasePerfExtension
 import config.BuildType
 import config.DeviceFlavour
-import config.Keys
+import config.key.Key
+import config.key.secret
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -41,12 +42,10 @@ android {
 
     signingConfigs {
         create(BuildType.release) {
-            Keys(project).apply {
-                storeFile = file(androidKeyStorePath.value)
-                storePassword = androidStorePassword.value
-                keyAlias = androidKeyAlias.value
-                keyPassword = androidKeyPassword.value
-            }
+            storeFile = file(secret(Key.ANDROID_KEY_STORE_PATH))
+            storePassword = secret(Key.ANDROID_STORE_PASSWORD)
+            keyAlias = secret(Key.ANDROID_KEY_ALIAS)
+            keyPassword = secret(Key.ANDROID_KEY_PASSWORD)
         }
     }
 
