@@ -13,6 +13,7 @@ import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.core.billing.BillingEffect
 import com.oztechan.ccc.android.core.billing.BillingManager
+import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.BottomSheetPremiumBinding
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
@@ -132,7 +133,11 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
     private fun showRewardedAd() {
         adManager.showRewardedAd(
             activity = requireActivity(),
-            adId = getString(R.string.android_rewarded_ad_unit_id),
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.rewarded_ad_unit_id_debug)
+            } else {
+                getString(R.string.rewarded_ad_unit_id_release)
+            },
             onAdFailedToLoad = {
                 premiumViewModel.showLoadingView(false)
                 view?.showSnack(R.string.error_text_unknown)

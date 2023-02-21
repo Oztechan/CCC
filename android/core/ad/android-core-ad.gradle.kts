@@ -1,6 +1,6 @@
 import config.BuildType
 import config.DeviceFlavour
-import config.Keys
+import config.key.FlavoredKey
 import config.key.TypedKey
 import config.key.resId
 import config.key.secret
@@ -33,10 +33,18 @@ android {
         productFlavors {
             create(google) {
                 dimension = flavorDimension
+
+                FlavoredKey.values().forEach {
+                    resValue(string, it.name.resId, secret(it, DeviceFlavour.GOOGLE))
+                }
             }
 
             create(huawei) {
                 dimension = flavorDimension
+
+                FlavoredKey.values().forEach {
+                    resValue(string, it.name.resId, secret(it, DeviceFlavour.HUAWEI))
+                }
             }
         }
     }
@@ -46,25 +54,11 @@ android {
             TypedKey.values().forEach {
                 resValue(string, it.name.resId, secret(it, BuildType.RELEASE))
             }
-            Keys(project, BuildType.RELEASE).apply {
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
-            }
         }
 
         getByName(BuildType.debug) {
             TypedKey.values().forEach {
                 resValue(string, it.name.resId, secret(it, BuildType.DEBUG))
-            }
-            Keys(project, BuildType.DEBUG).apply {
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
             }
         }
     }

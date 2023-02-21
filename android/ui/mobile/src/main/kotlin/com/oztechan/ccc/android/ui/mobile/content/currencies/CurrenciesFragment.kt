@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.android.core.ad.AdManager
+import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.content.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCurrenciesBinding
@@ -66,7 +67,11 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
             adManager = adManager,
-            adId = getString(R.string.android_banner_ad_unit_id_currencies),
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_currencies_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_currencies_release)
+            },
             shouldShowAd = currenciesViewModel.shouldShowBannerAd()
         )
 

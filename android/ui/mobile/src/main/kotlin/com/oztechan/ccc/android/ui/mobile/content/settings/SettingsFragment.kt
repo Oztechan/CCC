@@ -66,7 +66,11 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
             adManager = adManager,
-            adId = getString(R.string.android_banner_ad_unit_id_settings),
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_settings_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_settings_release)
+            },
             shouldShowAd = settingsViewModel.shouldShowBannerAd()
         )
         with(itemCurrencies) {
