@@ -75,6 +75,7 @@ dependencies {
         }
         huawei.apply {
             DeviceFlavour.HUAWEI.implementation(huaweiAds)
+            DeviceFlavour.HUAWEI.implementation(huaweiOsm)
         }
     }
 }

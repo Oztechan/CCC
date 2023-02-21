@@ -26,6 +26,7 @@ firebasePerPlugin = "1.4.2"
 crashlytics = "2.9.4"
 googleAds = "21.5.0"
 huaweiAds = "3.4.61.300"
+huaweiOsm="1.3.35"
 navigation = "2.5.3"
 playCore = "1.10.3"
 kotlinXDateTime = "0.4.0"
@@ -97,6 +98,7 @@ android-google-playCore = { module = "com.google.android.play:core", version.ref
 
 # ANDROID HUAWEI
 android-huawei-huaweiAds = { module = "com.huawei.hms:ads-prime", version.ref = "huaweiAds" }
+android-huawei-huaweiOsm = { module = "com.huawei.hms:ads-omsdk", version.ref = "huaweiOsm" }
 
 # IOS
 ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
