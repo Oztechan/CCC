@@ -11,7 +11,7 @@ enum class DeviceFlavour {
 
         val flavorDimension = DeviceFlavour::class.simpleName.toString()
 
-        val googleImplementation = "${google}Implementation"
-        val huaweiImplementation = "${huawei}iImplementation"
+        val DeviceFlavour.implementation: String
+            get() = "${name.lowercase()}Implementation"
     }
 }
