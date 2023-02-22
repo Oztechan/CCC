@@ -32,7 +32,6 @@ internal class AdManagerImpl : AdManager {
         Logger.i { "AdManagerImpl getBannerAd" }
 
         val adView = AdView(context).apply {
-
             val adWidthPixels = if (width == 0) {
                 context.resources.displayMetrics.widthPixels.toFloat()
             } else {
