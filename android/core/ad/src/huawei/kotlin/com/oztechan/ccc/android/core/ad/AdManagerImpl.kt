@@ -4,8 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import co.touchlab.kermit.Logger
+import com.huawei.hms.ads.HwAds
 
 internal class AdManagerImpl : AdManager {
+
+    init {
+        HwAds.setVideoVolume(0f)
+        HwAds.setVideoMuted(true)
+    }
 
     override fun getBannerAd(
         context: Context,
