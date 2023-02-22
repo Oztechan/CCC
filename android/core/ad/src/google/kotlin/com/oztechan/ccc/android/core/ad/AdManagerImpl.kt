@@ -72,10 +72,12 @@ internal class AdManagerImpl : AdManager {
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
+                    super.onAdFailedToLoad(adError)
                     Logger.w { "AdManagerImpl showInterstitialAd onAdFailedToLoad ${adError.message}" }
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    super.onAdLoaded(interstitialAd)
                     Logger.i { "AdManagerImpl showInterstitialAd onAdLoaded" }
                     interstitialAd.show(activity)
                 }
@@ -89,29 +91,31 @@ internal class AdManagerImpl : AdManager {
         onAdFailedToLoad: () -> Unit,
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
-    ) = RewardedAd.load(
-        activity,
-        adId,
-        adRequest,
-        object : RewardedAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.w(Exception(adError.message)) {
-                    "AdManagerImpl onAdFailedToLoad ${adError.message}"
-                }
-                onAdFailedToLoad()
-            }
-
-            override fun onAdLoaded(rewardedAd: RewardedAd) {
-                Logger.i { "AdManagerImpl onAdLoaded" }
-                onAdLoaded()
-
-                rewardedAd.show(activity) {
-                    Logger.i { "AdManagerImpl onUserEarnedReward" }
-                    onReward()
-                }
-            }
-        }
-    ).also {
+    ) {
         Logger.i { "AdManagerImpl showRewardedAd" }
+
+        RewardedAd.load(
+            activity,
+            adId,
+            adRequest,
+            object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    super.onAdFailedToLoad(adError)
+                    Logger.w { "AdManagerImpl showRewardedAd onAdFailedToLoad ${adError.message}" }
+                    onAdFailedToLoad()
+                }
+
+                override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    super.onAdLoaded(rewardedAd)
+                    Logger.i { "AdManagerImpl showRewardedAd onAdLoaded" }
+                    onAdLoaded()
+
+                    rewardedAd.show(activity) {
+                        Logger.i { "AdManagerImpl showRewardedAd onUserEarnedReward" }
+                        onReward()
+                    }
+                }
+            }
+        )
     }
 }
