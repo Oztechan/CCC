@@ -2,6 +2,10 @@ import config.BuildType
 import config.DeviceFlavour
 import config.DeviceFlavour.Companion.implementation
 import config.Keys
+import config.key.TypedKey
+import config.key.resId
+import config.key.secret
+import config.key.string
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -40,8 +44,10 @@ android {
 
     buildTypes {
         getByName(BuildType.release) {
+            TypedKey.values().forEach {
+                resValue(string, it.name.resId, secret(it, BuildType.RELEASE))
+            }
             Keys(project, BuildType.RELEASE).apply {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
                 resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
                 resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
                 resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
@@ -51,8 +57,10 @@ android {
         }
 
         getByName(BuildType.debug) {
+            TypedKey.values().forEach {
+                resValue(string, it.name.resId, secret(it, BuildType.DEBUG))
+            }
             Keys(project, BuildType.DEBUG).apply {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
                 resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
                 resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
                 resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
