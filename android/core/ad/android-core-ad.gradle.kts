@@ -1,5 +1,6 @@
 import config.BuildType
 import config.DeviceFlavour
+import config.DeviceFlavour.Companion.implementation
 import config.key.FlavoredKey
 import config.key.TypedKey
 import config.key.resId
