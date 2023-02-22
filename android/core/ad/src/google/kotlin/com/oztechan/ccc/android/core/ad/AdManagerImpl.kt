@@ -29,9 +29,9 @@ internal class AdManagerImpl : AdManager {
         adId: String,
         onAdLoaded: (Int?) -> Unit
     ): BannerAdView {
-        val adView = AdView(context).apply {
-            Logger.i { "AdManagerImpl getBannerAd" }
+        Logger.i { "AdManagerImpl getBannerAd" }
 
+        val adView = AdView(context).apply {
             val adWidthPixels = if (width == 0) {
                 context.resources.displayMetrics.widthPixels.toFloat()
             } else {
