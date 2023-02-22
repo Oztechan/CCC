@@ -81,7 +81,7 @@ internal class AdManagerImpl : AdManager {
     ) {
         Logger.i { "AdManagerImpl showRewardedAd" }
 
-        RewardAd(activity, "testx9dtjwj8hp").apply {
+        RewardAd(activity, adId).apply {
             loadAd(
                 adParam,
                 object : RewardAdLoadListener() {
