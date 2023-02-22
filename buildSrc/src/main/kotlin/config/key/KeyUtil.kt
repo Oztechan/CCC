@@ -1,6 +1,7 @@
 package config.key
 
 import config.BuildType
+import config.DeviceFlavour
 import getSecret
 import org.gradle.api.Project
 
@@ -21,4 +22,15 @@ fun Project.secret(
 ) = getSecret(
     key = "${buildType.name}_${key.name}",
     default = key.default
+)
+
+fun Project.secret(
+    key: FlavoredKey,
+    flavour: DeviceFlavour
+) = getSecret(
+    key = "${flavour.name}_${key.name}",
+    default = when (flavour) {
+        DeviceFlavour.GOOGLE -> key.googleDefault
+        DeviceFlavour.HUAWEI -> key.huaweiDefault
+    }
 )

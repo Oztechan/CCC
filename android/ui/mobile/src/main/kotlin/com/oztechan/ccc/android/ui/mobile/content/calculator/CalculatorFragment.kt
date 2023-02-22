@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.android.core.ad.AdManager
+import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCalculatorBinding
 import com.oztechan.ccc.android.ui.mobile.util.copyToClipBoard
@@ -80,7 +81,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun initViews() = with(binding) {
         adViewContainer.setBannerAd(
             adManager = adManager,
-            adId = getString(R.string.android_banner_ad_unit_id_calculator),
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_calculator_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_calculator_release)
+            },
             shouldShowAd = calculatorViewModel.shouldShowBannerAd()
         )
         recyclerViewMain.adapter = calculatorAdapter
