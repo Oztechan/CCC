@@ -92,7 +92,7 @@ internal class AdManagerImpl : AdManager {
     ) = RewardedAd.load(
         activity,
         adId,
-        getAdRequest(),
+        adRequest,
         object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 Logger.w(Exception(adError.message)) {
@@ -114,6 +114,4 @@ internal class AdManagerImpl : AdManager {
     ).also {
         Logger.i { "AdManagerImpl showRewardedAd" }
     }
-
-    private fun getAdRequest() = AdRequest.Builder().build()
 }
