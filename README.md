@@ -29,11 +29,14 @@ You can quickly convert and make mathematical operations between currencies.
 
 ```mermaid
 graph TD;
+
     client-->android(android)
     client-->ios(ios)
 
     common-->client
     common-->backend(backend)
+    
+    submodule{submodule}
 ```
 
 All the modules in the project are grouped into 6 targets:
@@ -41,7 +44,7 @@ All the modules in the project are grouped into 6 targets:
 - `android`, `ios` and `backend` are app modules that contains platform only codes
 - `client` is a KMM module that shared between `ios` and `android`.
 - `common` is a KMP modules that shared between all the platforms (`android`, `ios` and `backend`)
-- `submodule` these are different git repositories and can be used in any of these modules.
+- `submodule` these are different git repositories and can be used in any of these modules. (arrows are not shown for the sake of simplicity)
 
 ## How to clone
 
