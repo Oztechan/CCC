@@ -41,7 +41,7 @@ jobs:
 
       - name: 'Move Related Issue to "🏗 PR Review"'
         if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'ready_for_review' || github.event.action == 'reopened')
-        uses: leonsteinhaeuser/project-beta-automations@feat/move-related-issues
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -52,7 +52,7 @@ jobs:
 
       - name: 'Move Related Issue to "🚧 In Progress"'
         if: github.event_name == 'pull_request' && github.event.action == 'converted_to_draft'
-        uses: leonsteinhaeuser/project-beta-automations@feat/move-related-issues
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -63,7 +63,7 @@ jobs:
 
       - name: 'Move Related Issue to "✅ Done"'
         if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
-        uses: leonsteinhaeuser/project-beta-automations@feat/move-related-issues
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
