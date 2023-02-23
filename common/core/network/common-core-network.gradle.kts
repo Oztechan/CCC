@@ -1,6 +1,7 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
-import config.Keys
+import config.key.Key
+import config.key.secret
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -100,11 +101,9 @@ configure<BuildKonfigExtension> {
     packageName = Modules.Common.Core.network.packageName
 
     defaultConfigs {
-        Keys(project).apply {
-            buildConfigField(STRING, baseUrlBackend.key, baseUrlBackend.value, const = true)
-            buildConfigField(STRING, baseUrlApi.key, baseUrlApi.value, const = true)
-            buildConfigField(STRING, baseUrlApiPremium.key, baseUrlApiPremium.value, const = true)
-            buildConfigField(STRING, apiKeyPremium.key, apiKeyPremium.value, const = true)
-        }
+        buildConfigField(STRING, Key.BASE_URL_BACKEND.name, secret(Key.BASE_URL_BACKEND), const = true)
+        buildConfigField(STRING, Key.BASE_URL_API.name, secret(Key.BASE_URL_API), const = true)
+        buildConfigField(STRING, Key.BASE_URL_API_PREMIUM.name, secret(Key.BASE_URL_API_PREMIUM), const = true)
+        buildConfigField(STRING, Key.API_KEY_PREMIUM.name, secret(Key.API_KEY_PREMIUM), const = true)
     }
 }

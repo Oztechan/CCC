@@ -17,6 +17,10 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 @Suppress("VisibleForTests")
 internal class AdManagerImpl : AdManager {
 
+    private val adRequest: AdRequest by lazy {
+        AdRequest.Builder().build()
+    }
+
     init {
         Logger.i { "AdManagerImpl init" }
         MobileAds.setAppVolume(0.0f)
@@ -29,9 +33,9 @@ internal class AdManagerImpl : AdManager {
         adId: String,
         onAdLoaded: (Int?) -> Unit
     ): BannerAdView {
-        val adView = AdView(context).apply {
-            Logger.i { "AdManagerImpl getBannerAd" }
+        Logger.i { "AdManagerImpl getBannerAd" }
 
+        val adView = AdView(context).apply {
             val adWidthPixels = if (width == 0) {
                 context.resources.displayMetrics.widthPixels.toFloat()
             } else {
@@ -51,7 +55,7 @@ internal class AdManagerImpl : AdManager {
                     onAdLoaded(adSize?.height?.times(resources.displayMetrics.density)?.toInt())
                 }
             }
-            loadAd(getAdRequest())
+            loadAd(adRequest)
         }
         return BannerAdView(context, banner = adView) { adView.destroy() }
     }
@@ -59,24 +63,26 @@ internal class AdManagerImpl : AdManager {
     override fun showInterstitialAd(
         activity: Activity,
         adId: String
-    ) = InterstitialAd.load(
-        activity,
-        adId,
-        getAdRequest(),
-        object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.w(Exception(adError.message)) {
-                    "AdManagerImpl onAdFailedToLoad ${adError.message}"
+    ) {
+        Logger.i { "AdManagerImpl showInterstitialAd" }
+
+        InterstitialAd.load(
+            activity,
+            adId,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    super.onAdFailedToLoad(adError)
+                    Logger.w { "AdManagerImpl showInterstitialAd onAdFailedToLoad ${adError.message}" }
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    super.onAdLoaded(interstitialAd)
+                    Logger.i { "AdManagerImpl showInterstitialAd onAdLoaded" }
+                    interstitialAd.show(activity)
                 }
             }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Logger.i { "AdManagerImpl onAdLoaded" }
-                interstitialAd.show(activity)
-            }
-        }
-    ).also {
-        Logger.i { "AdManagerImpl showInterstitialAd" }
+        )
     }
 
     override fun showRewardedAd(
@@ -85,31 +91,31 @@ internal class AdManagerImpl : AdManager {
         onAdFailedToLoad: () -> Unit,
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
-    ) = RewardedAd.load(
-        activity,
-        adId,
-        getAdRequest(),
-        object : RewardedAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                Logger.w(Exception(adError.message)) {
-                    "AdManagerImpl onAdFailedToLoad ${adError.message}"
-                }
-                onAdFailedToLoad()
-            }
-
-            override fun onAdLoaded(rewardedAd: RewardedAd) {
-                Logger.i { "AdManagerImpl onAdLoaded" }
-                onAdLoaded()
-
-                rewardedAd.show(activity) {
-                    Logger.i { "AdManagerImpl onUserEarnedReward" }
-                    onReward()
-                }
-            }
-        }
-    ).also {
+    ) {
         Logger.i { "AdManagerImpl showRewardedAd" }
-    }
 
-    private fun getAdRequest() = AdRequest.Builder().build()
+        RewardedAd.load(
+            activity,
+            adId,
+            adRequest,
+            object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    super.onAdFailedToLoad(adError)
+                    Logger.w { "AdManagerImpl showRewardedAd onAdFailedToLoad ${adError.message}" }
+                    onAdFailedToLoad()
+                }
+
+                override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    super.onAdLoaded(rewardedAd)
+                    Logger.i { "AdManagerImpl showRewardedAd onAdLoaded" }
+                    onAdLoaded()
+
+                    rewardedAd.show(activity) {
+                        Logger.i { "AdManagerImpl showRewardedAd onUserEarnedReward" }
+                        onReward()
+                    }
+                }
+            }
+        )
+    }
 }

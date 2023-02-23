@@ -1,6 +1,11 @@
 import config.BuildType
 import config.DeviceFlavour
-import config.Keys
+import config.DeviceFlavour.Companion.implementation
+import config.key.FlavoredKey
+import config.key.TypedKey
+import config.key.resId
+import config.key.secret
+import config.key.string
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -29,34 +34,32 @@ android {
         productFlavors {
             create(google) {
                 dimension = flavorDimension
+
+                FlavoredKey.values().forEach {
+                    resValue(string, it.name.resId, secret(it, DeviceFlavour.GOOGLE))
+                }
             }
 
             create(huawei) {
                 dimension = flavorDimension
+
+                FlavoredKey.values().forEach {
+                    resValue(string, it.name.resId, secret(it, DeviceFlavour.HUAWEI))
+                }
             }
         }
     }
 
     buildTypes {
         getByName(BuildType.release) {
-            Keys(project, BuildType.RELEASE).apply {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
+            TypedKey.values().forEach {
+                resValue(string, it.name.resId, secret(it, BuildType.RELEASE))
             }
         }
 
         getByName(BuildType.debug) {
-            Keys(project, BuildType.DEBUG).apply {
-                resValue(typeString, admobAppId.resourceKey, admobAppId.value)
-                resValue(typeString, bannerAdIdCalculator.resourceKey, bannerAdIdCalculator.value)
-                resValue(typeString, bannerAdIdSettings.resourceKey, bannerAdIdSettings.value)
-                resValue(typeString, bannerAdIdCurrencies.resourceKey, bannerAdIdCurrencies.value)
-                resValue(typeString, interstitialAdId.resourceKey, interstitialAdId.value)
-                resValue(typeString, rewardedAdId.resourceKey, rewardedAdId.value)
+            TypedKey.values().forEach {
+                resValue(string, it.name.resId, secret(it, BuildType.DEBUG))
             }
         }
     }
@@ -68,5 +71,13 @@ dependencies {
         implementation(kermit)
     }
 
-    DeviceFlavour.googleImplementation(libs.android.google.admob)
+    libs.android.apply {
+        google.apply {
+            DeviceFlavour.GOOGLE.implementation(googleAds)
+        }
+        huawei.apply {
+            DeviceFlavour.HUAWEI.implementation(huaweiAds)
+            DeviceFlavour.HUAWEI.implementation(huaweiOsm)
+        }
+    }
 }

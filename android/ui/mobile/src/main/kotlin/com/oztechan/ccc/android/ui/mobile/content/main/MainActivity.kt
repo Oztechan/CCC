@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.android.core.ad.AdManager
+import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
 import com.oztechan.ccc.android.ui.mobile.util.requestAppReview
@@ -61,7 +62,11 @@ class MainActivity : BaseActivity() {
             when (viewEffect) {
                 MainEffect.ShowInterstitialAd -> adManager.showInterstitialAd(
                     this@MainActivity,
-                    getString(R.string.android_interstitial_ad_id)
+                    if (BuildConfig.DEBUG) {
+                        getString(R.string.interstitial_ad_id_debug)
+                    } else {
+                        getString(R.string.interstitial_ad_id_release)
+                    }
                 )
 
                 MainEffect.RequestReview -> requestAppReview(this)
