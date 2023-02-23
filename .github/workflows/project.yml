@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: 'Add issue to project and into "📖 To do"'
         if: github.event_name == 'issues' && (github.event.action == 'opened' ||  github.event.action == 'reopened')
-        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
@@ -31,7 +31,7 @@ jobs:
 
       - name: 'Move issue to "✅ Done"'
         if: github.event_name == 'issues' && github.event.action == 'closed'
-        uses: leonsteinhaeuser/project-beta-automations@v2.0.1
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           organization: Oztechan
