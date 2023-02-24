@@ -64,10 +64,8 @@ allprojects {
             }
         }
 
-        if (project.path != Modules.Client.Core.res) {
-            tasks.register("detektAll") {
-                dependsOn(tasks.withType<Detekt>())
-            }
+        tasks.register("detektAll") {
+            dependsOn(tasks.withType<Detekt>())
         }
 
         dependencies {

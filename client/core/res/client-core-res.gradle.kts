@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
@@ -93,3 +95,8 @@ multiplatformResources {
 tasks.findByName("iosSimulatorArm64ProcessResources")?.dependsOn("generateMRiosSimulatorArm64Main")
 tasks.findByName("iosX64ProcessResources")?.dependsOn("generateMRiosX64Main")
 tasks.findByName("iosArmX64ProcessResources")?.dependsOn("generateMRiosArmX64Main")
+
+// todo https://github.com/icerockdev/moko-resources/issues/421
+tasks.withType<Detekt> {
+    dependsOn("generateMRcommonMain")
+}
