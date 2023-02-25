@@ -9,7 +9,9 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
+import io.mockative.anything
 import io.mockative.classOf
+import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
@@ -107,6 +109,20 @@ class WidgetViewModelTest {
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
+            .wasNotInvoked()
+    }
+
+    @Test
+    fun `when refreshWidgetData called with null base is not updated`() = runTest {
+        viewModel.refreshWidgetData()
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasNotInvoked()
+
+        verify(calculationStorage)
+            .setter(calculationStorage::currentBase)
+            .with(eq(anything<String>()))
             .wasNotInvoked()
     }
 }
