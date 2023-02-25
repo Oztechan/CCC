@@ -53,6 +53,12 @@ class WidgetViewModelTest {
 
     @BeforeTest
     fun setup() {
+        val mockEndDate = Random.nextLong()
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(mockEndDate)
+
         given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(base)
@@ -60,12 +66,6 @@ class WidgetViewModelTest {
 
     @Test
     fun `init sets isPremium and currentBase`() {
-        val mockEndDate = Random.nextLong()
-
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(mockEndDate)
-
         assertEquals(base, viewModel.state.currentBase)
         assertEquals(appStorage.premiumEndDate.isNotPassed(), viewModel.state.isPremium)
     }
