@@ -143,10 +143,10 @@ dependencies {
         implementation(project(settings))
         implementation(project(selectCurrency))
         implementation(project(watchers))
+        implementation(project(premium))
     }
 
     Modules.Android.ViewModel.apply {
-        implementation(project(premium))
         implementation(project(widget))
     }
 

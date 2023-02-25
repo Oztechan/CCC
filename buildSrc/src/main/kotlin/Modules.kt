@@ -16,7 +16,6 @@ object Modules {
         }
 
         object ViewModel {
-            const val premium = ":android:viewmodel:premium"
             const val widget = ":android:viewmodel:widget"
         }
     }
@@ -98,6 +97,7 @@ object Modules {
             const val settings = ":client:viewmodel:settings"
             const val selectCurrency = ":client:viewmodel:selectcurrency"
             const val watchers = ":client:viewmodel:watchers"
+            const val premium = ":client:viewmodel:premium"
         }
     }
 
