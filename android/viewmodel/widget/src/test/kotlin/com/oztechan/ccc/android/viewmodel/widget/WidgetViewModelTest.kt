@@ -23,6 +23,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.days
 
 @Suppress("OPT_IN_USAGE")
@@ -54,12 +55,12 @@ class WidgetViewModelTest {
     private val lastBase = "TRY"
 
     private val activeCurrencyList = listOf(
-        Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true, rate = "1.2"),
-        Currency(code = base, name = "Euro", symbol = "€", isActive = true, rate = "2.3"),
-        Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true, rate = "3.4")
+        Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true),
+        Currency(code = base, name = "Euro", symbol = "€", isActive = true),
+        Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true)
     )
 
-    private val conversion = Conversion(base = base, eur = 1.0, usd = 2.0, `try` = 3.0)
+    private val conversion = Conversion(base = base, eur = 1.111111, usd = 2.222222, `try` = 3.333333)
 
     @BeforeTest
     fun setup() {
@@ -137,11 +138,11 @@ class WidgetViewModelTest {
         viewModel.refreshWidgetData()
 
         viewModel.state.currencyList
-            .forEach {
-                assertEquals(
-                    conversion.getRateFromCode(it.code)?.getFormatted(calculationStorage.precision).orEmpty(),
-                    it.rate
-                )
+            .forEach { currency ->
+                conversion.getRateFromCode(currency.code).let {
+                    assertNotNull(it)
+                    assertEquals(it.getFormatted(calculationStorage.precision), currency.rate)
+                }
             }
     }
 
