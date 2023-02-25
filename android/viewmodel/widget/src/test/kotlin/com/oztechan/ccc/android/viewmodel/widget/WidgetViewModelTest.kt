@@ -123,7 +123,7 @@ class WidgetViewModelTest {
     }
 
     @Test
-    fun `when refreshWidgetData called with null base is not updated`() = runTest {
+    fun `when refreshWidgetData called with null, base is not updated`() = runTest {
         // to not invoke getFreshWidgetData
         given(appStorage)
             .invocation { premiumEndDate }
@@ -142,7 +142,7 @@ class WidgetViewModelTest {
     }
 
     @Test
-    fun `when refreshWidgetData called with true base is updated next or the first active currency`() = runTest {
+    fun `when refreshWidgetData called with true, base is updated next or the first active currency`() = runTest {
         // to not invoke getFreshWidgetData
         given(appStorage)
             .invocation { premiumEndDate }
@@ -172,7 +172,7 @@ class WidgetViewModelTest {
     }
 
     @Test
-    fun `when refreshWidgetData called with false base is updated previous or the last active currency`() = runTest {
+    fun `when refreshWidgetData called with false, base is updated previous or the last active currency`() = runTest {
         // to not invoke getFreshWidgetData
         given(appStorage)
             .invocation { premiumEndDate }
