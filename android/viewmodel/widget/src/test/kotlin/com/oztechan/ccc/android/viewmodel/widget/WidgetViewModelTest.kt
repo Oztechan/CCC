@@ -11,6 +11,7 @@ import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
 import io.mockative.anything
 import io.mockative.classOf
+import io.mockative.configure
 import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
@@ -35,7 +36,7 @@ class WidgetViewModelTest {
     }
 
     @Mock
-    private val calculationStorage = mock(classOf<CalculationStorage>())
+    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -47,8 +48,15 @@ class WidgetViewModelTest {
     private val appStorage = mock(classOf<AppStorage>())
 
     private val base = "EUR"
+    private val fistBase = "USD"
+    private val lastBase = "TRY"
 
-    private val currency = Currency(code = base, name = "Euro", symbol = "€")
+    private val activeCurrencyList = listOf(
+        Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true),
+        Currency(code = base, name = "Euro", symbol = "€", isActive = true),
+        Currency(lastBase, "Turkish Lira", "₺", isActive = true)
+    )
+
     private val conversion = Conversion(base = base)
 
     @BeforeTest
@@ -62,6 +70,16 @@ class WidgetViewModelTest {
         given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(base)
+
+        runTest {
+            given(backendApiService)
+                .coroutine { getConversion(base) }
+                .thenReturn(conversion)
+
+            given(currencyDataSource)
+                .coroutine { getActiveCurrencies() }
+                .thenReturn(activeCurrencyList)
+        }
     }
 
     @Test
@@ -75,14 +93,6 @@ class WidgetViewModelTest {
         given(appStorage)
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
-
-        given(backendApiService)
-            .coroutine { getConversion(base) }
-            .thenReturn(conversion)
-
-        given(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .thenReturn(listOf(currency))
 
         viewModel.refreshWidgetData()
 
@@ -124,5 +134,55 @@ class WidgetViewModelTest {
             .setter(calculationStorage::currentBase)
             .with(eq(anything<String>()))
             .wasNotInvoked()
+    }
+
+    @Test
+    fun `when refreshWidgetData called with true base is updated next or the first active currency`() = runTest {
+        viewModel.refreshWidgetData(true)
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .setter(calculationStorage::currentBase)
+            .with(eq(fistBase))
+            .wasInvoked()
+
+        viewModel.refreshWidgetData(true)
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .setter(calculationStorage::currentBase)
+            .with(eq(lastBase))
+            .wasInvoked()
+    }
+
+    @Test
+    fun `when refreshWidgetData called with false base is updated previous or the last active currency`() = runTest {
+        viewModel.refreshWidgetData(false)
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .setter(calculationStorage::currentBase)
+            .with(eq(lastBase))
+            .wasInvoked()
+
+        viewModel.refreshWidgetData(false)
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .setter(calculationStorage::currentBase)
+            .with(eq(fistBase))
+            .wasInvoked()
     }
 }
