@@ -54,7 +54,7 @@ class WidgetViewModelTest {
     private val activeCurrencyList = listOf(
         Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true),
         Currency(code = base, name = "Euro", symbol = "€", isActive = true),
-        Currency(lastBase, "Turkish Lira", "₺", isActive = true)
+        Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true)
     )
 
     private val conversion = Conversion(base = base)
