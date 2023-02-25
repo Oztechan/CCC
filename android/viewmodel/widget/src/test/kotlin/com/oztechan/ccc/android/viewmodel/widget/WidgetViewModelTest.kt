@@ -1,5 +1,7 @@
 package com.oztechan.ccc.android.viewmodel.widget
 
+import com.oztechan.ccc.client.core.shared.util.getFormatted
+import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
@@ -52,12 +54,12 @@ class WidgetViewModelTest {
     private val lastBase = "TRY"
 
     private val activeCurrencyList = listOf(
-        Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true),
-        Currency(code = base, name = "Euro", symbol = "€", isActive = true),
-        Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true)
+        Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true, rate = "1.2"),
+        Currency(code = base, name = "Euro", symbol = "€", isActive = true, rate = "2.3"),
+        Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true, rate = "3.4")
     )
 
-    private val conversion = Conversion(base = base)
+    private val conversion = Conversion(base = base, eur = 1.0, usd = 2.0, `try` = 3.0)
 
     @BeforeTest
     fun setup() {
@@ -70,6 +72,10 @@ class WidgetViewModelTest {
         given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(base)
+
+        given(calculationStorage)
+            .invocation { precision }
+            .thenReturn(3)
 
         runTest {
             given(backendApiService)
@@ -120,6 +126,23 @@ class WidgetViewModelTest {
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
             .wasNotInvoked()
+    }
+
+    @Test
+    fun `when refreshWidgetData called all the conversion rates for currentBase is calculated`() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+
+        viewModel.refreshWidgetData()
+
+        viewModel.state.currencyList
+            .forEach {
+                assertEquals(
+                    conversion.getRateFromCode(it.code)?.getFormatted(calculationStorage.precision).orEmpty(),
+                    it.rate
+                )
+            }
     }
 
     @Test
