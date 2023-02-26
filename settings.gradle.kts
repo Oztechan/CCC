@@ -49,7 +49,6 @@ include(
     ":android:ui:mobile",
     ":android:ui:widget",
     // ViewModel modules
-    ":android:viewmodel:premium",
     ":android:viewmodel:widget",
     // endregion
 
@@ -99,6 +98,7 @@ include(
     ":client:viewmodel:settings",
     ":client:viewmodel:selectcurrency",
     ":client:viewmodel:watchers",
+    ":client:viewmodel:premium",
     // endregion
 
     // region Common only modules Android+iOS+Backend

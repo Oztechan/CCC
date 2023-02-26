@@ -88,10 +88,6 @@ dependencies {
         implementation(project(analytics))
     }
 
-    Modules.Android.ViewModel.apply {
-        implementation(project(premium))
-    }
-
     Modules.Client.ViewModel.apply {
         implementation(project(main))
         implementation(project(calculator))
@@ -99,6 +95,7 @@ dependencies {
         implementation(project(settings))
         implementation(project(selectCurrency))
         implementation(project(watchers))
+        implementation(project(premium))
     }
 
     Modules.Submodules.apply {

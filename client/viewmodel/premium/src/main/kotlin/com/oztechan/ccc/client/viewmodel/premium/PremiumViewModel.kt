@@ -2,7 +2,7 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.android.viewmodel.premium
+package com.oztechan.ccc.client.viewmodel.premium
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
