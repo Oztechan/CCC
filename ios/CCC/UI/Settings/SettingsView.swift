@@ -23,9 +23,9 @@ struct SettingsView: View {
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State var premiumViewVisibility = false
     @State var emailViewVisibility = false
     @State var webViewVisibility = false
-    @State var isPremiumDialogShown = false
     @State var isAdsAlreadyDisabledSnackShown = false
     @State var isAlreadySyncedSnackShown = false
     @State var isSynchronisingShown = false
@@ -141,17 +141,8 @@ struct SettingsView: View {
         ) {
             SnackView(text: Res.strings().txt_synced.get())
         }
-        .popup(isPresented: $isPremiumDialogShown) {
-            AlertView(
-                title: Res.strings().txt_premium.get(),
-                message: Res.strings().txt_premium_text.get(),
-                buttonText: Res.strings().txt_watch.get(),
-                buttonAction: {
-                    RewardedAd {
-                        observable.viewModel.updatePremiumEndDate()
-                    }.show()
-                }
-            )
+        .sheet(isPresented: $premiumViewVisibility) {
+            PremiumView(premiumViewVisibility: $premiumViewVisibility)
         }
         .sheet(isPresented: $emailViewVisibility) {
             MailView(isShowing: $emailViewVisibility)
@@ -190,7 +181,7 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyPremium:
             isAdsAlreadyDisabledSnackShown.toggle()
         case is SettingsEffect.Premium:
-            isPremiumDialogShown.toggle()
+            premiumViewVisibility.toggle()
         default:
             logger.i(message: { "SettingsView unknown effect" })
         }

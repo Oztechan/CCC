@@ -9,8 +9,6 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.model.PremiumType
-import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.indexToNumber
 import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
@@ -286,20 +284,6 @@ internal class SettingsViewModelTest {
         verify(appStorage)
             .invocation { premiumEndDate }
             .wasInvoked()
-    }
-
-    @Test
-    fun updatePremiumEndDate() = runTest {
-        viewModel.state.onSubscription {
-            viewModel.updatePremiumEndDate()
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertTrue { it.premiumEndDate.isNotEmpty() }
-
-            verify(appStorage)
-                .invocation { premiumEndDate = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()) }
-                .wasInvoked()
-        }
     }
 
     @Test
