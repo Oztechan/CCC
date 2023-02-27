@@ -7,18 +7,14 @@ import kotlinx.serialization.json.Json
 import com.oztechan.ccc.client.configservice.review.ReviewConfig as ReviewConfigRCModel
 import com.oztechan.ccc.client.configservice.review.model.ReviewConfig as ReviewConfigModel
 
-internal class ReviewConfigServiceImpl :
-    BaseConfigService<ReviewConfigModel>(
-        KEY_AD_CONFIG,
-        ReviewConfigRCModel().toReviewConfigModel()
-    ),
-    ReviewConfigService {
-
-    private val json = Json { ignoreUnknownKeys = true }
+internal class ReviewConfigServiceImpl : BaseConfigService<ReviewConfigModel>(
+    KEY_AD_CONFIG,
+    ReviewConfigRCModel().toReviewConfigModel()
+), ReviewConfigService {
 
     override fun decode(
         value: String
-    ) = json
+    ) = Json
         .decodeFromString<ReviewConfigRCModel>(value)
         .toReviewConfigModel()
 

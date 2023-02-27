@@ -7,18 +7,15 @@ import kotlinx.serialization.json.Json
 import com.oztechan.ccc.client.configservice.ad.AdConfig as AdConfigRCModel
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig as AdConfigModel
 
-internal class AdConfigServiceImpl :
-    BaseConfigService<AdConfigModel>(
-        KEY_AD_CONFIG,
-        AdConfigRCModel().toAdConfigModel()
-    ),
-    AdConfigService {
-
-    private val json = Json { ignoreUnknownKeys = true }
+internal class AdConfigServiceImpl : BaseConfigService<AdConfigModel>(
+    KEY_AD_CONFIG,
+    AdConfigRCModel().toAdConfigModel()
+), AdConfigService {
 
     override fun decode(
         value: String
-    ) = json.decodeFromString<AdConfigRCModel>(value)
+    ) = Json
+        .decodeFromString<AdConfigRCModel>(value)
         .toAdConfigModel()
 
     companion object {
