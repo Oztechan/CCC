@@ -22,7 +22,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
 
                 interstitialAd?.fullScreenContentDelegate = self
                 interstitialAd?.present(
-                    fromRootViewController: UIApplication.shared.windows.first!.rootViewController!
+                    fromRootViewController: WindowUtil.getCurrentController()
                 )
             }
         )
