@@ -10,8 +10,9 @@ import GoogleMobileAds
 import Res
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
-    var onReward: () -> Void
 
+    // below variables have to be local otherwise userDidEarnRewardHandler is not called
+    let onReward: () -> Void
     var rewardedAd: GADRewardedAd?
 
     init(onReward: @escaping () -> Void) {

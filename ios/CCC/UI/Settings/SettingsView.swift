@@ -147,9 +147,9 @@ struct SettingsView: View {
                 message: Res.strings().txt_premium_text.get(),
                 buttonText: Res.strings().txt_watch.get(),
                 buttonAction: {
-                    RewardedAd(
-                        onReward: { observable.viewModel.updatePremiumEndDate() }
-                    ).show()
+                    RewardedAd {
+                        observable.viewModel.updatePremiumEndDate()
+                    }.show()
                 }
             )
         }
