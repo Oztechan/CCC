@@ -10,9 +10,16 @@ import GoogleMobileAds
 import Res
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
-    func show(
-        onReward: @escaping () -> Void
-    ) {
+    
+    // below variables have to be local otherwise userDidEarnRewardHandler is not called
+    let onReward: () -> Void
+    var rewardedAd: GADRewardedAd?
+
+    init(onReward: @escaping () -> Void) {
+        self.onReward = onReward
+    }
+
+    func show() {
         GADRewardedAd.load(
             withAdUnitID: SecretUtil.getSecret(key: "REWARDED_AD_UNIT_ID"),
             request: GADRequest(),
@@ -22,13 +29,14 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                     return
                 }
 
-                rewardedAd?.fullScreenContentDelegate = self
+                self.rewardedAd = rewardedAd
+                self.rewardedAd?.fullScreenContentDelegate = self
 
-                rewardedAd?.present(
+                self.rewardedAd?.present(
                     fromRootViewController: UIApplication.shared.windows.first!.rootViewController!,
                     userDidEarnRewardHandler: {
                         logger.i(message: { "RewardedAd userDidEarnReward" })
-                        onReward()
+                        self.onReward()
                     }
                 )
             }
