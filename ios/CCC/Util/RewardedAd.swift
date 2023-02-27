@@ -10,7 +10,7 @@ import GoogleMobileAds
 import Res
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
-    
+
     // below variables have to be local otherwise userDidEarnRewardHandler is not called
     let onReward: () -> Void
     var rewardedAd: GADRewardedAd?
