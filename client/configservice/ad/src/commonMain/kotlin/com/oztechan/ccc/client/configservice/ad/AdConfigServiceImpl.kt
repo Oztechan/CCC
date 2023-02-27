@@ -7,10 +7,12 @@ import kotlinx.serialization.json.Json
 import com.oztechan.ccc.client.configservice.ad.AdConfig as AdConfigRCModel
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig as AdConfigModel
 
-internal class AdConfigServiceImpl : BaseConfigService<AdConfigModel>(
-    KEY_AD_CONFIG,
-    AdConfigRCModel().toAdConfigModel()
-), AdConfigService {
+internal class AdConfigServiceImpl :
+    BaseConfigService<AdConfigModel>(
+        KEY_AD_CONFIG,
+        AdConfigRCModel().toAdConfigModel()
+    ),
+    AdConfigService {
 
     override fun decode(
         value: String
