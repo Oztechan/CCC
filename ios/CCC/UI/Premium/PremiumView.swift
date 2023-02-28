@@ -27,6 +27,7 @@ struct PremiumView: View {
         NavigationView {
             ZStack {
                 Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+                VStack {
                     Spacer()
                 }.navigationBarHidden(true)
             }
