@@ -287,6 +287,8 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
+      - name: Clone Repo # Codecov requires it
+        uses: actions/checkout@v3
 
       - name: Download Coverage Report
         uses: actions/download-artifact@v3
