@@ -47,6 +47,10 @@ struct PremiumView: View {
                             }
                             .listRowInsets(.init())
                             .listRowBackground(Res.colors().background.get())
+
+                            PremiumItemView(item: nil)
+                                .listRowInsets(.init())
+                                .listRowBackground(Res.colors().background.get())
                         }
                         .withClearBackground(color: Res.colors().background.get())
                     }
