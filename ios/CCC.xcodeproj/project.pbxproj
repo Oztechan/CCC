@@ -11,6 +11,7 @@
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
 		5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23124429ABF754002D6892 /* WindowUtil.swift */; };
+		5C3037B929AB874E00AFFAAF /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037B829AB874E00AFFAAF /* PremiumView.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
 		5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41D28141C7B008C42B9 /* InputView.swift */; };
 		5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41F28141CA4008C42B9 /* OutputView.swift */; };
@@ -83,6 +84,7 @@
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C23124429ABF754002D6892 /* WindowUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowUtil.swift; sourceTree = "<group>"; };
+		5C3037B829AB874E00AFFAAF /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C31E41D28141C7B008C42B9 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		5C31E41F28141CA4008C42B9 /* OutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputView.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				5C31E41C28141C61008C42B9 /* Calculator */,
 				5C31E42B28142033008C42B9 /* Currencies */,
 				5C31E4322814304F008C42B9 /* Settings */,
+				5CC0025429AA094600A09D64 /* Premium */,
 				5C4B53652818053E00D10185 /* Watchers */,
 				5C4B536E28184AEA00D10185 /* SelectCurrency */,
 				5C039FD425C1B6A2008350A3 /* Components */,
@@ -323,6 +326,14 @@
 			children = (
 			);
 			path = Debug;
+			sourceTree = "<group>";
+		};
+		5CC0025429AA094600A09D64 /* Premium */ = {
+			isa = PBXGroup;
+			children = (
+				5C3037B829AB874E00AFFAAF /* PremiumView.swift */,
+			);
+			path = Premium;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -441,9 +452,9 @@
 			mainGroup = 7555FF72242A565900829871;
 			packageReferences = (
 				5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */,
-				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */,
+				5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 				5CF0622C28AD93CE00C579F6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */,
+				5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 7555FF7C242A565900829871 /* Products */;
 			projectDirPath = "";
@@ -546,6 +557,7 @@
 				5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */,
 				5C31E4362814308B008C42B9 /* SettingsItemView.swift in Sources */,
 				5C4B53692818057F00D10185 /* WatchersView.swift in Sources */,
+				5C3037B929AB874E00AFFAAF /* PremiumView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
 				5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */,
 				5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */,
@@ -779,7 +791,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */ = {
+		5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
@@ -787,7 +799,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */ = {
+		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
@@ -816,12 +828,12 @@
 /* Begin XCSwiftPackageProductDependency section */
 		5C34B8C9295903AD009C84AB /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView.git" */;
+			package = 5C34B8C8295903AC009C84AB /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
 		};
 		5C3EB6D728775AFF001E822A /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads.git" */;
+			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
 		};
 		5C5C0BA32874B8450061AEF9 /* NavigationStack */ = {

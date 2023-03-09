@@ -7,11 +7,8 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.model.PremiumType
-import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.indexToNumber
 import com.oztechan.ccc.client.core.shared.util.isPassed
-import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.core.shared.util.toDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
@@ -108,12 +105,6 @@ class SettingsViewModel(
     fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
 
     fun getAppTheme() = appStorage.appTheme
-
-    @Suppress("unused") // used in iOS
-    fun updatePremiumEndDate() = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()).let {
-        appStorage.premiumEndDate = it
-        _state.update { copy(premiumEndDate = it.toDateString()) }
-    }
 
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
