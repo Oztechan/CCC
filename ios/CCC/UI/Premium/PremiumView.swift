@@ -27,7 +27,30 @@ struct PremiumView: View {
         NavigationView {
             ZStack {
                 Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+
                 VStack {
+                    Text(Res.strings().txt_premium.get())
+                        .font(relative: .title2)
+                        .padding(4.cp())
+                        .padding(.top, 10.cp())
+
+                    if observable.state.loading {
+                        FormProgressView()
+                    } else {
+                        Form {
+                            List(observable.state.premiumTypes, id: \.data) { premiumType in
+                                PremiumItemView(item: premiumType)
+                                    .onTapGesture {
+                                        observable.event.onPremiumItemClick(type: premiumType)
+                                    }
+                                    .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                            }
+                            .listRowInsets(.init())
+                            .listRowBackground(Res.colors().background.get())
+                        }
+                        .withClearBackground(color: Res.colors().background.get())
+                    }
+
                     Spacer()
                 }.navigationBarHidden(true)
             }
