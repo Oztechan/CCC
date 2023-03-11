@@ -11,26 +11,49 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
-  ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
-  ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS }}
-  ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES }}
-  ANDROID_RELEASE_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_RELEASE_INTERSTITIAL_AD_ID }}
-  ANDROID_RELEASE_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_RELEASE_REWARDED_AD_UNIT_ID }}
-  ANDROID_DEBUG_ADMOB_APP_ID: ${{ secrets.ANDROID_DEBUG_ADMOB_APP_ID }}
-  ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR }}
-  ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS }}
-  ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES }}
-  ANDROID_DEBUG_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_DEBUG_INTERSTITIAL_AD_ID }}
-  ANDROID_DEBUG_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_DEBUG_REWARDED_AD_UNIT_ID }}
-  ANDROID_KEY_STORE_PATH: ${{ secrets.ANDROID_KEY_STORE_PATH }}
-  ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
-  ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-  ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
   BASE_URL_API_PREMIUM: ${{ secrets.BASE_URL_API_PREMIUM }}
   API_KEY_PREMIUM: ${{ secrets.API_KEY_PREMIUM }}
+  ANDROID_KEY_STORE_PATH: ${{ secrets.ANDROID_KEY_STORE_PATH }}
+  ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+  ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+  ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+  RELEASE_ADVERTISEMENT_ID_GOOGLE: ${{ secrets.RELEASE_ADVERTISEMENT_ID_GOOGLE }}
+  DEBUG_ADVERTISEMENT_ID_GOOGLE: ${{ secrets.DEBUG_ADVERTISEMENT_ID_GOOGLE }}
+  RELEASE_ADVERTISEMENT_ID_HUAWEI: ${{ secrets.RELEASE_ADVERTISEMENT_ID_HUAWEI }}
+  DEBUG_ADVERTISEMENT_ID_HUAWEI: ${{ secrets.DEBUG_ADVERTISEMENT_ID_HUAWEI }}
+  GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE }}
+  GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_RELEASE: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_RELEASE }}
+  GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE }}
+  GOOGLE_INTERSTITIAL_AD_ID_RELEASE: ${{ secrets.GOOGLE_INTERSTITIAL_AD_ID_RELEASE }}
+  GOOGLE_REWARDED_AD_UNIT_ID_RELEASE: ${{ secrets.GOOGLE_REWARDED_AD_UNIT_ID_RELEASE }}
+  GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG }}
+  GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_DEBUG: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_DEBUG }}
+  GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG }}
+  GOOGLE_INTERSTITIAL_AD_ID_DEBUG: ${{ secrets.GOOGLE_INTERSTITIAL_AD_ID_DEBUG }}
+  GOOGLE_REWARDED_AD_UNIT_ID_DEBUG: ${{ secrets.GOOGLE_REWARDED_AD_UNIT_ID_DEBUG }}
+  HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE }}
+  HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_RELEASE: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_RELEASE }}
+  HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE }}
+  HUAWEI_INTERSTITIAL_AD_ID_RELEASE: ${{ secrets.HUAWEI_INTERSTITIAL_AD_ID_RELEASE }}
+  HUAWEI_REWARDED_AD_UNIT_ID_RELEASE: ${{ secrets.HUAWEI_REWARDED_AD_UNIT_ID_RELEASE }}
+  HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG }}
+  HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_DEBUG: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_DEBUG }}
+  HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG }}
+  HUAWEI_INTERSTITIAL_AD_ID_DEBUG: ${{ secrets.HUAWEI_INTERSTITIAL_AD_ID_DEBUG }}
+  HUAWEI_REWARDED_AD_UNIT_ID_DEBUG: ${{ secrets.HUAWEI_REWARDED_AD_UNIT_ID_DEBUG }}
+  APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+  APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+  APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+  IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+  FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+  GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+  SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
+  FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
   CI: true
 
 jobs:
@@ -45,19 +68,20 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
+          fetch-depth: 0
 
       - name: Adding secret files
         run: |
           echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
-          mkdir android/src/release
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
+          mkdir android/app/src/release
           echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
-          mkdir android/src/debug
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
+          mkdir android/app/src/debug
           echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -69,6 +93,57 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: assemble
+
+      - name: Upload Android Artifacts
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'push'
+        with:
+          name: androidArtifacts
+          path: |
+            android/app/build/outputs/apk/google/release/app-google-release.apk
+            android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.3
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  DistributeAndroid:
+    runs-on: ubuntu-latest
+    needs: [ GradleBuild ]
+    if: github.event_name == 'push'
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Download Google APK
+        uses: actions/download-artifact@v3
+        with:
+          name: androidArtifacts
+
+      - name: Firebase App Distribution Google
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: google/release/app-google-release.apk
+
+      - name: Firebase App Distribution Huawei
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: huawei/release/app-huawei-release.apk
+
+      - name: Delete Google APK
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: androidArtifacts
 
       - name: Set Job Status
         id: status
@@ -84,19 +159,20 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
+          fetch-depth: 0
 
       - name: Adding secret files
         run: |
           echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
-          mkdir android/src/release
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
+          mkdir android/app/src/release
           echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
-          mkdir android/src/debug
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
+          mkdir android/app/src/debug
           echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
           echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
           mkdir ios/CCC/Resources/Release
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
@@ -113,27 +189,57 @@ jobs:
       - name: Generate Pods
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: provider:podGenIOS res:podGenIOS --parallel
-
-      - name: Install Pods
-        run: cd ios/CCC; pod install --repo-update
+          arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
       - name: Build
-        uses: maierj/fastlane-action@v2.3.0
+        run: |
+          cd ios/CCC
+          pod install --repo-update
+          cd ..
+          fastlane build
+
+      - name: Upload iOS Artifacts
+        uses: actions/upload-artifact@v3
+        if: github.event_name == 'push'
         with:
-          lane: 'build'
-          subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
-          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
+          name: iOSArtifacts
+          path: |
+            ios/CCC.ipa
+            ios/CCC.app.dSYM.zip
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.3
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  DistributeIOS:
+    runs-on: macos-12
+    needs: [ XCodeBuild ]
+    if: github.event_name == 'push'
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      - name: Download iOS IPA
+        uses: actions/download-artifact@v3
+        with:
+          name: iOSArtifacts
+          path: ios
+
+      - name: Distribute
+        run: |
+          cd ios
+          fastlane distribute
+
+      - name: Delete iOS IPA
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: iOSArtifacts
 
       - name: Set Job Status
         id: status
@@ -149,7 +255,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           submodules: 'recursive'
-          fetch-depth: 0
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -160,22 +265,97 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: check koverMergedXmlReport detektAll sonar --parallel
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          arguments: check koverMergedXmlReport --parallel
+
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverageReport
+          path: build/reports/kover/merged/xml/report.xml
+
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.3
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  UploadQualityReports:
+    runs-on: ubuntu-latest
+    needs: [ Quality ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+      - name: Clone Repo # Codecov requires it
+        uses: actions/checkout@v3
+
+      - name: Download Coverage Report
+        uses: actions/download-artifact@v3
+        with:
+          name: coverageReport
+          path: build
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/reports/kover/merged/xml/report.xml
+          files: build/report.xml
 
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/reports/kover/merged/xml/report.xml
+          coverage-reports: build/report.xml
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=oztechan
+            -Dsonar.projectKey=Oztechan_CCC
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
+
+      - name: Delete Coverage Report
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: coverageReport
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  CodeAnalysis:
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: Clone Repo
+        uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: 11
+          distribution: 'temurin'
+
+      - name: Detekt
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: detektAll
+
+      - name: SwiftLint
+        uses: norio-nomura/action-swiftlint@3.2.1
+        env:
+          WORKING_DIRECTORY: ios
+        with:
+          args: --strict
 
       - name: Set Job Status
         id: status
@@ -183,16 +363,18 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GradleBuild, XCodeBuild, Quality ]
+    needs: [ GradleBuild, XCodeBuild, Quality, CodeAnalysis, DistributeAndroid, DistributeIOS, UploadQualityReports ]
     if: always()
     steps:
 
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          false == (needs.Quality.outputs.status == 'success')
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          false == (needs.Quality.outputs.status == 'success') ||
+          false == (needs.CodeAnalysis.outputs.status == 'success') ||
+          false == (needs.UploadQualityReports.outputs.status == 'success') ||
+          (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
+          (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github

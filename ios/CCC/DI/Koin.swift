@@ -6,8 +6,8 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Provider
+import SwiftUI
 
 var koin: Koin_coreKoin = {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!

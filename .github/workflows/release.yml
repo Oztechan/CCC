@@ -6,26 +6,49 @@ on:
       - master
 
 env:
-  ANDROID_RELEASE_ADMOB_APP_ID: ${{ secrets.ANDROID_RELEASE_ADMOB_APP_ID }}
-  ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CALCULATOR }}
-  ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_SETTINGS }}
-  ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_RELEASE_BANNER_AD_UNIT_ID_CURRENCIES }}
-  ANDROID_RELEASE_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_RELEASE_INTERSTITIAL_AD_ID }}
-  ANDROID_RELEASE_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_RELEASE_REWARDED_AD_UNIT_ID }}
-  ANDROID_DEBUG_ADMOB_APP_ID: ${{ secrets.ANDROID_DEBUG_ADMOB_APP_ID }}
-  ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CALCULATOR }}
-  ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_SETTINGS }}
-  ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES: ${{ secrets.ANDROID_DEBUG_BANNER_AD_UNIT_ID_CURRENCIES }}
-  ANDROID_DEBUG_INTERSTITIAL_AD_ID: ${{ secrets.ANDROID_DEBUG_INTERSTITIAL_AD_ID }}
-  ANDROID_DEBUG_REWARDED_AD_UNIT_ID: ${{ secrets.ANDROID_DEBUG_REWARDED_AD_UNIT_ID }}
-  ANDROID_KEY_STORE_PATH: ${{ secrets.ANDROID_KEY_STORE_PATH }}
-  ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
-  ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-  ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
   BASE_URL_API_PREMIUM: ${{ secrets.BASE_URL_API_PREMIUM }}
   API_KEY_PREMIUM: ${{ secrets.API_KEY_PREMIUM }}
+  ANDROID_KEY_STORE_PATH: ${{ secrets.ANDROID_KEY_STORE_PATH }}
+  ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+  ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+  ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+  RELEASE_ADVERTISEMENT_ID_GOOGLE: ${{ secrets.RELEASE_ADVERTISEMENT_ID_GOOGLE }}
+  DEBUG_ADVERTISEMENT_ID_GOOGLE: ${{ secrets.DEBUG_ADVERTISEMENT_ID_GOOGLE }}
+  RELEASE_ADVERTISEMENT_ID_HUAWEI: ${{ secrets.RELEASE_ADVERTISEMENT_ID_HUAWEI }}
+  DEBUG_ADVERTISEMENT_ID_HUAWEI: ${{ secrets.DEBUG_ADVERTISEMENT_ID_HUAWEI }}
+  GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE }}
+  GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_RELEASE: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_RELEASE }}
+  GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE }}
+  GOOGLE_INTERSTITIAL_AD_ID_RELEASE: ${{ secrets.GOOGLE_INTERSTITIAL_AD_ID_RELEASE }}
+  GOOGLE_REWARDED_AD_UNIT_ID_RELEASE: ${{ secrets.GOOGLE_REWARDED_AD_UNIT_ID_RELEASE }}
+  GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG }}
+  GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_DEBUG: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_SETTINGS_DEBUG }}
+  GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG: ${{ secrets.GOOGLE_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG }}
+  GOOGLE_INTERSTITIAL_AD_ID_DEBUG: ${{ secrets.GOOGLE_INTERSTITIAL_AD_ID_DEBUG }}
+  GOOGLE_REWARDED_AD_UNIT_ID_DEBUG: ${{ secrets.GOOGLE_REWARDED_AD_UNIT_ID_DEBUG }}
+  HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_RELEASE }}
+  HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_RELEASE: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_RELEASE }}
+  HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_RELEASE }}
+  HUAWEI_INTERSTITIAL_AD_ID_RELEASE: ${{ secrets.HUAWEI_INTERSTITIAL_AD_ID_RELEASE }}
+  HUAWEI_REWARDED_AD_UNIT_ID_RELEASE: ${{ secrets.HUAWEI_REWARDED_AD_UNIT_ID_RELEASE }}
+  HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CALCULATOR_DEBUG }}
+  HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_DEBUG: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_SETTINGS_DEBUG }}
+  HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG: ${{ secrets.HUAWEI_BANNER_AD_UNIT_ID_CURRENCIES_DEBUG }}
+  HUAWEI_INTERSTITIAL_AD_ID_DEBUG: ${{ secrets.HUAWEI_INTERSTITIAL_AD_ID_DEBUG }}
+  HUAWEI_REWARDED_AD_UNIT_ID_DEBUG: ${{ secrets.HUAWEI_REWARDED_AD_UNIT_ID_DEBUG }}
+  APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+  APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+  APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+  IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+  FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
+  GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
+  SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
+  FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
   CI: true
 
 jobs:
@@ -45,15 +68,15 @@ jobs:
       - name: Adding secret files
         run: |
           echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/release.keystore
-          mkdir android/src/release
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
+          mkdir android/app/src/release
           echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/release/google-services.json
-          mkdir android/src/debug
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
+          mkdir android/app/src/debug
           echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/src/debug/google-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/src/release/agconnect-services.json
+          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -64,25 +87,25 @@ jobs:
       - name: Generate Artifacts
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: :android:bundleRelease :backend:fatJar --parallel
+          arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
         uses: actions/upload-artifact@v3
         with:
           name: googleBundle
-          path: android/build/outputs/bundle/googleRelease/android-google-release.aab
+          path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
         uses: actions/upload-artifact@v3
         with:
           name: huaweiBundle
-          path: android/build/outputs/bundle/huaweiRelease/android-huawei-release.aab
+          path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
         uses: actions/upload-artifact@v3
         with:
           name: backendJar
-          path: backend/build/libs/backend-fat-*.jar
+          path: backend/app/build/libs/app-*.jar
 
       - name: Set Job Status
         id: status
@@ -106,11 +129,11 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
 
       - name: Upload Artifact to Google Play Console
-        uses: r0adkll/upload-google-play@v1.0.19
+        uses: r0adkll/upload-google-play@v1.1.1
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
-          releaseFiles: android-google-release.aab
+          releaseFiles: app-google-release.aab
           track: internal
           status: completed
 
@@ -142,8 +165,8 @@ jobs:
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
           app-id: ${{secrets.HUAWEI_APP_ID}}
           file-extension: "aab"
-          file-path: "android-huawei-release.aab"
-          file-name: "android-huawei-release"
+          file-path: "app-huawei-release.aab"
+          file-name: "app-huawei-release"
 
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v2
@@ -214,27 +237,30 @@ jobs:
       - name: Generate Pods
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: provider:podGenIOS res:podGenIOS --parallel
-
-      - name: Install Cocoapods
-        run: cd ios/CCC; pod install --repo-update
+          arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
       - name: Publish
-        uses: maierj/fastlane-action@v2.3.0
+        run: |
+          cd ios/CCC
+          pod install --repo-update
+          cd ..
+          fastlane publish
+
+      - name: Set Job Status
+        id: status
+        run: echo "::set-output name=status::success"
+
+  PublishRelease:
+    runs-on: ubuntu-latest
+    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore ]
+    outputs:
+      status: ${{ steps.status.outputs.status }}
+    steps:
+
+      - name: PublishRelease
+        uses: marvinpinto/action-automatic-releases@v1.2.1
         with:
-          lane: 'publish'
-          subdirectory: 'ios'
-        env:
-          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
-          FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
-          GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          MATCH_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
-          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set Job Status
         id: status
@@ -242,7 +268,7 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore ]
+    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore, PublishRelease ]
     if: always()
     steps:
 
@@ -251,9 +277,8 @@ jobs:
           needs.UploadGooglePlay.outputs.status == 'success' &&
           needs.UploadHuaweiAppGallery.outputs.status == 'success' &&
           needs.ServerDeployment.outputs.status == 'success' &&
-          needs.PublishAppStore.outputs.status == 'success'
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          needs.PublishAppStore.outputs.status == 'success' &&
+          needs.PublishRelease.outputs.status == 'success'
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
@@ -265,9 +290,8 @@ jobs:
           false == (needs.UploadGooglePlay.outputs.status == 'success') ||
           false == (needs.UploadHuaweiAppGallery.outputs.status == 'success') ||
           false == (needs.ServerDeployment.outputs.status == 'success') ||
-          false == (needs.PublishAppStore.outputs.status == 'success')
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          false == (needs.PublishAppStore.outputs.status == 'success') ||
+          false == (needs.PublishRelease.outputs.status == 'success')
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github

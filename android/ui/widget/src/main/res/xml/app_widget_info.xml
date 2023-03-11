@@ -1,0 +1,7 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="120dp"
+    android:minHeight="120dp"
+    android:minResizeWidth="120dp"
+    android:minResizeHeight="120dp"
+    android:description="@string/txt_currency_board"
+    android:resizeMode="horizontal|vertical" />

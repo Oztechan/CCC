@@ -6,13 +6,12 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
 import NavigationStack
+import Provider
+import Res
+import SwiftUI
 
 struct CurrenciesView: View {
-
     @StateObject var observable = ObservableSEEDViewModel<
         CurrenciesState,
         CurrenciesEffect,
@@ -33,7 +32,6 @@ struct CurrenciesView: View {
             Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
 
             VStack {
-
                 if observable.state.selectionVisibility {
                     SelectionView(
                         onCloseClick: observable.event.onCloseClick,
@@ -76,7 +74,6 @@ struct CurrenciesView: View {
                 if observable.viewModel.shouldShowBannerAd() {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adapt()
                 }
-
             }
             .animation(.default)
             .navigationBarHidden(true)
@@ -97,7 +94,7 @@ struct CurrenciesView: View {
     }
 
     private func onEffect(effect: CurrenciesEffect) {
-        logger.i(message: {"CurrenciesView onEffect \(effect.description)"})
+        logger.i(message: { "CurrenciesView onEffect \(effect.description)" })
         switch effect {
         case is CurrenciesEffect.FewCurrency:
             isFewCurrencySnackShown.toggle()
@@ -109,7 +106,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.ChangeBase:
             onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
         default:
-            logger.i(message: {"CurrenciesView unknown effect"})
+            logger.i(message: { "CurrenciesView unknown effect" })
         }
     }
 }

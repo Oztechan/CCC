@@ -8,7 +8,7 @@
 
 import UIKit
 
-struct DeviceUtil {
+public struct DeviceUtil {
     public static func getBottomNotchHeight() -> Double {
         return Double(
             UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0

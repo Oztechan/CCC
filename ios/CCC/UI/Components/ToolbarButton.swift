@@ -6,8 +6,8 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct ToolbarButton: View {
     @Environment(\.colorScheme) var colorScheme

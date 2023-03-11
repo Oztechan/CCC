@@ -6,8 +6,8 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct SelectionView: View {
     var onCloseClick: () -> Void
@@ -15,7 +15,6 @@ struct SelectionView: View {
 
     var body: some View {
         HStack {
-
             ToolbarButton(clickEvent: onCloseClick, imgName: "xmark")
 
             Spacer()
@@ -37,7 +36,6 @@ struct SelectionView: View {
                         .foregroundColor(Res.colors().text.get())
                 }
             )
-
         }
         .padding(top: 20.cp(), leading: 10.cp(), bottom: 20.cp(), trailing: 20.cp())
         .background(Res.colors().background_weak.get())

@@ -1,0 +1,61 @@
+name: Project Automations
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - closed
+      - converted_to_draft
+
+jobs:
+  ProjectAutomations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Add issue to project'
+        if: github.event_name == 'issues' && (github.event.action == 'opened' ||  github.event.action == 'reopened')
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.issue.node_id }}
+          operation_mode: custom_field
+          custom_field_values: '[{\"name\": \"Iteration\",\"type\": \"iteration\",\"value\": \"@current\"}]'
+
+      - name: 'Move Related Issue to "🏗 PR Review"'
+        if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'ready_for_review' || github.event.action == 'reopened')
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "🏗 PR Review"
+          move_related_issues: true
+
+      - name: 'Move Related Issue to "🚧 In Progress"'
+        if: github.event_name == 'pull_request' && github.event.action == 'converted_to_draft'
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "🚧 In Progress"
+          move_related_issues: true
+
+      - name: 'Move Related Issue to "✅ Done"'
+        if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          status_value: "✅ Done"
+          move_related_issues: true

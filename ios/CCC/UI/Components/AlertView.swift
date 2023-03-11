@@ -6,22 +6,19 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct AlertView: View {
-
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     let title: String
     let message: String
     let buttonText: String
     var buttonAction: (() -> Void) = { }
-    var isCancellable: Bool = true
+    var isCancellable = true
 
     var body: some View {
-
         VStack {
-
             Text(title)
                 .foregroundColor(Res.colors().text.get())
                 .font(relative: .headline)

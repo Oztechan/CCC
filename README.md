@@ -23,91 +23,28 @@ You can quickly convert and make mathematical operations between currencies.
 
 <a href='https://ko-fi.com/B0B2TZMH' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
-## Module Graph
-
-```mermaid
-graph TD;
-
-ad-->android
-
-billing-->android
-
-BASEMOB --> android
-
-test --> config
-test --> client
-test --> android
-test --> res
-test --> analytics
-test --> backend
-test --> common
-
-PARSERMOB --> client
-
-SCOPEMOB --> billing
-SCOPEMOB --> android
-SCOPEMOB --> client
-
-config-->client
-
-analytics-->client
-analytics --> android
-analytics --> provider
-analytics --> ios
-
-client-->android
-client --> ios
-client-->provider
-
-provider --> ios
-
-res-->android
-res-->ios
-
-LOGMOB --> ad
-LOGMOB --> billing
-LOGMOB --> android
-LOGMOB --> provider
-LOGMOB --> ios
-LOGMOB --> client
-LOGMOB --> config
-LOGMOB --> test
-LOGMOB --> common
-LOGMOB --> backend
-
-common-->client
-common-->backend
-
-LOGMOB{LOGMOB}
-test{test}
-analytics{analytics}
-common{common}
-client{client}
-SCOPEMOB{SCOPEMOB}
-config{config}
-res{res}
-PARSERMOB{PARSERMOB}
-provider{provider}
-
-ad
-billing
-BASEMOB
-
-android(android)
-ios(ios)
-backend(backend)
-```
-
-```mermaid
-graph TD;
-target(target)
-kmp_library{kmp_library}
-KMP_SUBMODULE_LIBRARY{KMP_SUBMODULE_LIBRARY}
-library
-SUBMODULE_LIBRARY
-```
-
 </div>
+
+## Modularization
+
+```mermaid
+graph TD;
+
+    client-->android(android)
+    client-->ios(ios)
+
+    common-->client
+    common-->backend(backend)
+    
+    submodule{submodule}
+```
+
+All the modules in the project are grouped into 6 targets:
+
+- `android`, `ios` and `backend` are app modules that contains platform only codes
+- `client` is a KMM module that shared between `ios` and `android`.
+- `common` is a KMP modules that shared between all the platforms (`android`, `ios` and `backend`)
+- `submodule` these are different git repositories and can be used in any of these modules. (arrows are not shown for the sake of simplicity)
 
 ## How to clone
 
@@ -132,12 +69,12 @@ Be sure that you have latest Android Studio Canary build installed and XCode 13.
 
 ### Android
 
-Open CCC folder with Android Studio and select `android` from configurations and run
+Open CCC folder with Android Studio and select `android:app` from configurations and run
 
 ### iOS
 
 ```shell
-./gradlew :provider:podspec :res:podspec --parallel &&
+./gradlew :ios:provider:podspec :client:core:res:podspec --parallel &&
 cd ios/CCC &&
 pod install --repo-update
 ```
@@ -154,9 +91,9 @@ Then open `CCC/ios/CCC.xcworkspace` with XCode after the packages are resolved y
 
 After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. Please replace all the `getConversion` methods in
 
-- `com.oztechan.ccc.common.api.backend.BackendApiImpl`
-- `com.oztechan.ccc.common.api.free.FreeApiImpl`
-- `com.oztechan.ccc.common.api.premium.PremiumApiImpl`
+- `com.oztechan.ccc.common.core.network.api.backend.BackendApiImpl`
+- `com.oztechan.ccc.common.core.network.api.free.FreeApiImpl`
+- `com.oztechan.ccc.common.core.network.api.premium.PremiumApiImpl`
 
 with below;
 
@@ -172,27 +109,38 @@ override suspend fun getConversion(base: String): ExchangeRate = client.get {
 
 ```mermaid
 graph TD;
-
-Persistence(Persistence) --> Storage
-Database(Database) --> DataSource
-
-API(API) --> Service
-RemoteConfig(RemoteConfig) --> ConfigService
-
-Storage --> ViewModel
-DataSource --> ViewModel
-
-Repository --> ViewModel
-
-Storage --> Repository
-DataSource --> Repository
-Service --> Repository
-ConfigService --> Repository
-
-Service --> ViewModel
-ConfigService --> ViewModel
-
-ViewModel --> View
+    subgraph Backend[Backend]
+        database(database) --> datasource
+        api(api) --> service
+    
+        datasource --> Controller
+        service --> Controller
+    
+        Controller --> App
+    end
+    
+    subgraph Mobile[Mobile]
+        Persistence(Persistence) --> Storage
+        Database(Database) --> DataSource
+    
+        API(API) --> Service
+        RemoteConfig(RemoteConfig) --> ConfigService
+    
+        Storage --> ViewModel
+        DataSource --> ViewModel
+    
+        Repository --> ViewModel
+    
+        Storage --> Repository
+        DataSource --> Repository
+        Service --> Repository
+        ConfigService --> Repository
+    
+        Service --> ViewModel
+        ConfigService --> ViewModel
+    
+        ViewModel --> Views
+    end
 ```
 
 ## Android Preview

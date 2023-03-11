@@ -6,11 +6,10 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Provider
 import FirebaseAnalytics
+import Provider
 
 class AnalyticsManagerImpl: AnalyticsManager {
-
     func setUserProperty(userProperty: UserProperty) {
         Analytics.setUserProperty(userProperty.value, forName: userProperty.key)
     }
@@ -19,7 +18,6 @@ class AnalyticsManagerImpl: AnalyticsManager {
         if event.getParams() == nil {
             Analytics.logEvent(event.key, parameters: nil)
         } else {
-
             var analyticsParams = [String: String]()
             for (key, value) in event.getParams()! {
                 analyticsParams[key] = value

@@ -6,19 +6,18 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct OutputView: View {
-
     var baseCurrency: String
     var output: String
     var symbol: String
     var onBarClick: () -> Void
+    var onOutputLongClick: () -> Void
 
     var body: some View {
         VStack(alignment: .leading) {
-
             HStack {
                 CurrencyImageView(imageName: baseCurrency)
 
@@ -30,6 +29,12 @@ struct OutputView: View {
                     Text("=  \(output)")
                         .foregroundColor(Res.colors().text.get())
                         .font(relative: .body)
+                        .onTapGesture {
+                            onBarClick()
+                        }
+                        .onLongPressGesture {
+                            onOutputLongClick()
+                        }
                 }
 
                 Text(symbol)
@@ -39,7 +44,6 @@ struct OutputView: View {
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
             .padding(.horizontal, 20.cp())
             .animation(.default)
-
         }
         .contentShape(Rectangle())
         .lineLimit(1)

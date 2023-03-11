@@ -1,8 +1,8 @@
 *.iml
 .gradle
+build
 /local.properties
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 /.idea
@@ -19,7 +19,29 @@ local.properties
 secret.properties
 
 # submodules
-/logmob
-/scopemob
-/basemob
-/parsermob
+/submodule
+
+# Pods files
+client/core/res/res.podspec
+ios/provider/provider.podspec
+
+# iOS Project
+ios/Pods/
+ios/CCC/Resources/Release/
+ios/CCC/Resources/GoogleService-Info.plist
+ios/CCC/Resources/Config.xcconfig
+ios/fastlane/.env
+ios/fastlane/README.md
+ios/fastlane/report.xml
+xcuserdata
+
+# Android secrets
+android/app/release.keystore
+android/app/src/debug/google-services.json
+android/app/src/debug/google-services.json.asc
+android/app/src/debug/agconnect-services.json
+android/app/src/debug/agconnect-services.json.asc
+android/app/src/release/google-services.json
+android/app/src/release/google-services.json.asc
+android/app/src/release/agconnect-services.json
+android/app/src/release/agconnect-services.json.asc

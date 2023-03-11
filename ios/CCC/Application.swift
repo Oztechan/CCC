@@ -6,13 +6,13 @@
 //  Copyright © 2020 orgName. All rights reserved.
 //
 
-import SwiftUI
-import Res
-import Provider
+import BackgroundTasks
 import FirebaseCore
 import GoogleMobileAds
-import BackgroundTasks
 import PopupView
+import Provider
+import Res
+import SwiftUI
 
 var logger: KermitLogger = {
     return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
@@ -28,14 +28,14 @@ struct Application: App {
     private let taskID = "com.oztechan.ccc.CCC.fetch"
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
 
-    @State private var isWatcherAlertShown: Bool = false
+    @State private var isWatcherAlertShown = false
 
     init() {
         if EnvironmentUtil.isRelease {
             FirebaseApp.configure()
         }
 
-        logger.i(message: {"Application init"})
+        logger.i(message: { "Application init" })
 
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 
@@ -64,7 +64,7 @@ struct Application: App {
                     )
                 }
         }.onChange(of: scenePhase) { phase in
-            logger.i(message: {"Application onChange scenePhase \(phase)"})
+            logger.i(message: { "Application onChange scenePhase \(phase)" })
 
             if phase == .background {
                 scheduleAppRefresh()
@@ -73,7 +73,7 @@ struct Application: App {
     }
 
     private func scheduleAppRefresh() {
-        logger.i(message: {"Application scheduleAppRefresh"})
+        logger.i(message: { "Application scheduleAppRefresh" })
 
         let request = BGAppRefreshTaskRequest(identifier: taskID)
         request.earliestBeginDate = Date(timeIntervalSinceNow: earliestTaskPeriod)
@@ -81,12 +81,12 @@ struct Application: App {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            logger.i(message: {"Application scheduleAppRefresh Could not schedule app refresh: \(error)"})
+            logger.i(message: { "Application scheduleAppRefresh Could not schedule app refresh: \(error)" })
         }
     }
 
     private func registerAppRefresh() {
-        logger.i(message: {"Application registerAppRefresh"})
+        logger.i(message: { "Application registerAppRefresh" })
 
         BGTaskScheduler.shared.cancelAllTaskRequests()
 
@@ -95,7 +95,7 @@ struct Application: App {
             handleAppRefresh(task: task as! BGAppRefreshTask)
 
             task.expirationHandler = {
-                logger.i(message: {"Application registerAppRefresh BackgroundTask Expired"})
+                logger.i(message: { "Application registerAppRefresh BackgroundTask Expired" })
 
                 task.setTaskCompleted(success: false)
             }
@@ -103,12 +103,11 @@ struct Application: App {
     }
 
     private func handleAppRefresh(task: BGAppRefreshTask) {
-        logger.i(message: {"Application handleAppRefresh"})
+        logger.i(message: { "Application handleAppRefresh" })
 
         scheduleAppRefresh()
 
         if backgroundRepository.shouldSendNotification() {
-
             if scenePhase == .background {
                 self.notificationManager.sendNotification(
                     title: Res.strings().txt_watcher_alert_title.get(),

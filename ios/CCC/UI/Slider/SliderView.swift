@@ -5,10 +5,10 @@
 //  Created by Mustafa Ozhan on 30/01/2021.
 //  Copyright © 2021 orgName. All rights reserved.
 //
-import SwiftUI
-import Res
 import NavigationStack
 import Provider
+import Res
+import SwiftUI
 
 struct SliderView: View {
     @EnvironmentObject private var navigationStack: NavigationStackCompat
@@ -16,9 +16,7 @@ struct SliderView: View {
     private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
-
         VStack {
-
             SlideView(
                 title: Res.strings().slide_intro_title.get(),
                 image: Image(uiImage: Res.images().ic_app_logo.get()),
@@ -27,7 +25,6 @@ struct SliderView: View {
                 buttonText: Res.strings().next.get(),
                 buttonAction: {
                     navigationStack.push(
-
                         SlideView(
                             title: Res.strings().slide_premium_title.get(),
                             image: Image(systemName: "crown.fill"),
@@ -36,7 +33,6 @@ struct SliderView: View {
                             buttonText: Res.strings().next.get(),
                             buttonAction: {
                                 navigationStack.push(
-
                                     SlideView(
                                         title: Res.strings().slide_bug_report_title.get(),
                                         image: Image(systemName: "ant.fill"),
@@ -51,13 +47,11 @@ struct SliderView: View {
                                     ).onAppear {
                                         analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 2))
                                     }
-
                                 )
                             }
                         ).onAppear {
                             analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 1))
                         }
-
                     )
                 }
             ).onAppear {

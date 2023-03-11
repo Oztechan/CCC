@@ -6,18 +6,18 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import SwiftUI
 import Res
+import SwiftUI
 
 struct InputView: View {
     @Environment(\.colorScheme) var colorScheme
 
     var input: String
     var onSettingsClick: () -> Void
+    var onInputLongClick: () -> Void
 
     var body: some View {
         HStack {
-
             Spacer()
 
             Text(input)
@@ -27,6 +27,9 @@ struct InputView: View {
                 .foregroundColor(Res.colors().text.get())
                 .font(relative: .title2)
                 .animation(.none)
+                .onLongPressGesture {
+                    onInputLongClick()
+                }
 
             Spacer()
 
@@ -34,7 +37,6 @@ struct InputView: View {
                 clickEvent: onSettingsClick,
                 imgName: "gear"
             ).padding(.trailing, 5.cp())
-
         }
         .frame(width: .none, height: 36.cp(), alignment: .center)
         .padding(.top, 4.cp())

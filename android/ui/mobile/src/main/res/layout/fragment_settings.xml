@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
+  -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/SettingsLayoutStyle">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_fragment_currencies"
+        style="@style/BaseToolbarStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
+
+            <ImageView
+                android:id="@+id/back_button"
+                style="@style/BackButtonStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/txt_currencies_toolbar"
+                style="@style/SettingsToolbarTextStyle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/back_button"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        style="@style/SettingsScrollViewStyle"
+        app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_fragment_currencies">
+
+        <androidx.constraintlayout.widget.ConstraintLayout style="@style/MatchStyle">
+
+            <include
+                android:id="@+id/item_currencies"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                android:id="@+id/item_watchers"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_currencies" />
+
+            <include
+                android:id="@+id/item_theme"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_watchers" />
+
+            <include
+                android:id="@+id/item_disable_ads"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_theme" />
+
+            <include
+                android:id="@+id/item_precision"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_disable_ads" />
+
+            <include
+                android:id="@+id/item_sync"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_precision" />
+
+            <include
+                android:id="@+id/item_support_us"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_sync" />
+
+            <include
+                android:id="@+id/item_feedback"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_support_us" />
+
+            <include
+                android:id="@+id/item_share"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_feedback" />
+
+            <include
+                android:id="@+id/item_on_github"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_share" />
+
+            <include
+                android:id="@+id/item_version"
+                style="@style/WideFitStyle"
+                layout="@layout/item_settings"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_on_github" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        style="@style/BaseBannerAdStyle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
