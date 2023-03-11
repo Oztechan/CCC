@@ -235,17 +235,6 @@ internal class SettingsViewModelTest {
     }
 
     @Test
-    fun isPremiumExpired() {
-        assertEquals(
-            appStorage.premiumEndDate.isPassed(),
-            viewModel.isPremiumExpired()
-        )
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
@@ -257,32 +246,6 @@ internal class SettingsViewModelTest {
 
         verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isPremiumEverActivated returns false when premiumEndDate is not zero`() {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(1)
-
-        assertFalse { viewModel.isPremiumEverActivated() }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isPremiumEverActivated returns true when premiumEndDate is zero`() {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(0)
-
-        assertTrue { viewModel.isPremiumEverActivated() }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
             .wasInvoked()
     }
 

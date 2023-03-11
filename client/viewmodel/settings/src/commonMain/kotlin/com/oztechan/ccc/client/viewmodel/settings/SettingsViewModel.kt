@@ -59,7 +59,6 @@ class SettingsViewModel(
         _state.update {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
-                premiumEndDate = appStorage.premiumEndDate.toDateString(),
                 premiumStatus = appStorage.premiumEndDate.getPremiumState(),
                 precision = calculationStorage.precision,
                 version = appConfigRepository.getVersion()
@@ -108,10 +107,6 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
-    fun isPremiumExpired() = appStorage.premiumEndDate.isPassed()
-
-    fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
-
     fun getAppTheme() = appStorage.appTheme
 
     // region Event
@@ -152,7 +147,7 @@ class SettingsViewModel(
 
     override fun onPremiumClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        if (isPremiumExpired()) {
+        if (appStorage.premiumEndDate.isPassed()) {
             _effect.emit(SettingsEffect.Premium)
         } else {
             _effect.emit(SettingsEffect.AlreadyPremium)
