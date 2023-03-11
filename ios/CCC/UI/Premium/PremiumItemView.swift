@@ -17,15 +17,25 @@ struct PremiumItemView: View {
 
     var body: some View {
         HStack {
-            Text(item!.data.duration)
-                .font(relative: .callout)
-                .foregroundColor(Res.colors().text.get())
+            if item == nil {
+                Spacer()
 
-            Spacer()
+                Text(Res.strings().txt_more_options_are_coming.get())
+                    .font(relative: .footnote)
+                    .foregroundColor(Res.colors().text.get())
 
-            Text(item!.data.cost)
-                .font(relative: .callout)
-                .foregroundColor(Res.colors().text.get())
+                Spacer()
+            } else {
+                Text(item!.data.duration)
+                    .font(relative: .callout)
+                    .foregroundColor(Res.colors().text.get())
+
+                Spacer()
+
+                Text(item!.data.cost)
+                    .font(relative: .callout)
+                    .foregroundColor(Res.colors().text.get())
+            }
         }
         .contentShape(Rectangle())
         .padding(4.cp())
