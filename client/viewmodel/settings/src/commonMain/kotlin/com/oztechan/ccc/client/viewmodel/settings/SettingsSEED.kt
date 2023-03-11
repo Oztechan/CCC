@@ -5,12 +5,14 @@ import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
 import com.oztechan.ccc.client.core.viewmodel.BaseState
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 
 // State
 data class SettingsState(
     val activeCurrencyCount: Int = 0,
     val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
+    val premiumStatus: PremiumStatus = PremiumStatus.NeverActivated,
     val premiumEndDate: String = "",
     val precision: Int = 0,
     val version: String = ""

@@ -21,6 +21,7 @@ import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -59,6 +60,7 @@ class SettingsViewModel(
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
                 premiumEndDate = appStorage.premiumEndDate.toDateString(),
+                premiumStatus = appStorage.premiumEndDate.getPremiumState(),
                 precision = calculationStorage.precision,
                 version = appConfigRepository.getVersion()
             )
@@ -73,6 +75,12 @@ class SettingsViewModel(
             .onEach {
                 _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
+    }
+
+    private fun Long.getPremiumState(): PremiumStatus = when {
+        this == 0.toLong() -> PremiumStatus.NeverActivated
+        isPassed() -> PremiumStatus.Expired(toDateString())
+        else -> PremiumStatus.Active(toDateString())
     }
 
     private suspend fun synchroniseConversions() {
