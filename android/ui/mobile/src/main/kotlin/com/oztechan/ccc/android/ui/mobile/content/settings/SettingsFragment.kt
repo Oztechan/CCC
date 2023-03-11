@@ -33,6 +33,7 @@ import com.oztechan.ccc.client.core.shared.util.MAXIMUM_FLOATING_POINT
 import com.oztechan.ccc.client.core.shared.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -147,17 +148,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 binding.itemTheme.settingsItemValue.text = appThemeType.themeName
                 binding.itemVersion.settingsItemValue.text = version
 
-                binding.itemDisableAds.settingsItemValue.text = when {
-                    settingsViewModel.isPremiumEverActivated() -> ""
-                    settingsViewModel.isPremiumExpired() -> getString(
-                        R.string.settings_item_premium_value_expired,
-                        premiumEndDate
-                    )
-
-                    else -> getString(
-                        R.string.settings_item_premium_value_will_expire,
-                        premiumEndDate
-                    )
+                binding.itemDisableAds.settingsItemValue.text = when (val state = it.premiumStatus) {
+                    PremiumStatus.NeverActivated -> ""
+                    is PremiumStatus.Active -> getString(R.string.settings_item_premium_value_will_expire, state.until)
+                    is PremiumStatus.Expired -> getString(R.string.settings_item_premium_value_expired, state.at)
                 }
 
                 binding.itemPrecision.settingsItemValue.text = requireContext().getString(
