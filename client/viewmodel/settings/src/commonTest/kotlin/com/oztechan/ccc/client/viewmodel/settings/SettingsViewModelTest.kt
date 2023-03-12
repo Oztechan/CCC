@@ -152,7 +152,7 @@ internal class SettingsViewModelTest {
     }
 
     @Test
-    fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest{
+    fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest {
         given(appStorage)
             .invocation { premiumEndDate }
             .thenReturn(0)
