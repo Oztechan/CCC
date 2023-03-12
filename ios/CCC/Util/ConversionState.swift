@@ -14,16 +14,12 @@ extension ConversionState {
     func getText() -> String {
         // swiftlint:disable force_cast
         switch self {
-        case is ConversionState.Online:
-            return Res.strings().text_online_last_updated.get(
-                parameter: (self as! ConversionState.Online).lastUpdate ?? ""
-            )
-        case is ConversionState.Cached:
-            return Res.strings().text_cached_last_updated.get(
-                parameter: (self as! ConversionState.Cached).lastUpdate ?? ""
-            )
-        case is ConversionState.Offline:
-            if let date = (self as! ConversionState.Offline).lastUpdate {
+        case let onlineState as ConversionState.Online:
+            return Res.strings().text_online_last_updated.get(parameter: onlineState.lastUpdate ?? "")
+        case let cachedState as ConversionState.Cached:
+            return Res.strings().text_cached_last_updated.get(parameter: cachedState.lastUpdate ?? "")
+        case let offlineState as ConversionState.Offline:
+            if let date = offlineState.lastUpdate {
                 return Res.strings().text_offline_last_updated.get(parameter: date)
             } else {
                 return Res.strings().text_offline.get()

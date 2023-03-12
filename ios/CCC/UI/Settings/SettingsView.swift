@@ -195,14 +195,10 @@ struct SettingsView: View {
         switch premiumStatus {
         case is PremiumStatus.NeverActivated:
             return ""
-        case is PremiumStatus.Active:
-            return Res.strings().settings_item_premium_value_will_expire.get(
-                parameter: (premiumStatus as! PremiumStatus.Active).until
-            )
-        case is PremiumStatus.Expired:
-            return Res.strings().settings_item_premium_value_expired.get(
-                parameter: (premiumStatus as! PremiumStatus.Expired).at
-            )
+        case let activateStatus as PremiumStatus.Active:
+            return Res.strings().settings_item_premium_value_will_expire.get(parameter: activateStatus.until)
+        case let expiredStatus as PremiumStatus.Expired:
+            return Res.strings().settings_item_premium_value_expired.get(parameter: expiredStatus.at)
         default:
             return ""
         }
