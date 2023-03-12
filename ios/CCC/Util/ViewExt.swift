@@ -51,7 +51,7 @@ extension View {
         return self.font(.system(size: size))
     }
 
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     private func getSizeFromStyle(style: Font.TextStyle) -> Double {
         switch style {
         case .largeTitle:
@@ -80,7 +80,6 @@ extension View {
             fatalError("Expected to have a valid style")
         }
     }
-    // swiftlint:enable cyclomatic_complexity
 }
 
 extension Double {

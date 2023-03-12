@@ -184,11 +184,9 @@ struct WatchersView: View {
         switch effect {
         case is WatchersEffect.Back:
             navigationStack.pop()
-        // swiftlint:disable force_cast
         case let selectBaseEffect as WatchersEffect.SelectBase:
             baseBarInfo.watcher = selectBaseEffect.watcher
             baseBarInfo.isShown.toggle()
-        // swiftlint:disable force_cast
         case let selectTargetEffect as WatchersEffect.SelectTarget:
             targetBarInfo.watcher = selectTargetEffect.watcher
             targetBarInfo.isShown.toggle()

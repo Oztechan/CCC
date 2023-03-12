@@ -190,12 +190,10 @@ struct CalculatorView: View {
             navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
         case is CalculatorEffect.ShowPasteRequest:
             isPasteRequestSnackShown.toggle()
-        // swiftlint:disable force_cast
         case let copyToClipboardEffect as CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general
             pasteBoard.string = copyToClipboardEffect.amount
             isCopyClipboardSnackShown.toggle()
-        // swiftlint:disable force_cast
         case let showConversionEffect as CalculatorEffect.ShowConversion:
             CalculatorView.conversionText = showConversionEffect.text
             CalculatorView.conversionCode = showConversionEffect.code

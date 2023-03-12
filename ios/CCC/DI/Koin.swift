@@ -19,8 +19,8 @@ var koin: Koin_coreKoin = {
 }()
 
 extension Koin_coreKoin {
-    // swiftlint:disable force_cast
     func get<T>() -> T {
+        // swiftlint:disable:next force_cast
         return koin.getDependency(objCObject: T.self) as! T
     }
 }

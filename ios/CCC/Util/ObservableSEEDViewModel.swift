@@ -28,7 +28,6 @@ final class ObservableSEEDViewModel<
     private var stateClosable: Closeable?
     private var effectClosable: Closeable?
 
-    // swiftlint:disable force_cast
     init() {
         logger.i(message: { "ObservableSEED \(ViewModel.description()) init" })
 
@@ -46,11 +45,13 @@ final class ObservableSEEDViewModel<
 
         if viewModel.state != nil {
             stateClosable = IOSCoroutineUtilKt.observeWithCloseable(viewModel.state!, onChange: {
+                // swiftlint:disable:next force_cast
                 self.state = $0 as! State
             })
         }
         if viewModel.effect != nil {
             effectClosable = IOSCoroutineUtilKt.observeWithCloseable(viewModel.effect!, onChange: {
+                // swiftlint:disable:next force_cast
                 self.effect.send($0 as! Effect)
             })
         }

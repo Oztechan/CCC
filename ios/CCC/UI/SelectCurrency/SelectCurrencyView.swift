@@ -78,7 +78,6 @@ struct SelectCurrencyView: View {
     private func onEffect(effect: SelectCurrencyEffect) {
         logger.i(message: { "SelectCurrencyView onEffect \(effect.description)" })
         switch effect {
-        // swiftlint:disable force_cast
         case let currencyChangeEffect as SelectCurrencyEffect.CurrencyChange:
             onCurrencySelected(currencyChangeEffect.newBase)
             isBarShown = false

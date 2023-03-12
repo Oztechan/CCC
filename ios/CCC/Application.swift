@@ -90,8 +90,8 @@ struct Application: App {
 
         BGTaskScheduler.shared.cancelAllTaskRequests()
 
-        // swiftlint:disable force_cast
         BGTaskScheduler.shared.register(forTaskWithIdentifier: taskID, using: nil) { task in
+            // swiftlint:disable:next force_cast
             handleAppRefresh(task: task as! BGAppRefreshTask)
 
             task.expirationHandler = {

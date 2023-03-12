@@ -158,7 +158,7 @@ struct SettingsView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
         logger.i(message: { "SettingsView onEffect \(effect.description)" })
         switch effect {
@@ -186,9 +186,7 @@ struct SettingsView: View {
             logger.i(message: { "SettingsView unknown effect" })
         }
     }
-    // swiftlint:enable cyclomatic_complexity
 
-    // swiftlint:disable force_cast
     private func getPremiumText(premiumStatus: PremiumStatus) -> String {
         logger.i(message: { "SettingsView getPremiumText \(premiumStatus.description)" })
 
