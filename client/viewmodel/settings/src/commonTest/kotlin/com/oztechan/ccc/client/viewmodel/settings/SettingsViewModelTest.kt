@@ -18,6 +18,7 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
@@ -147,6 +148,42 @@ internal class SettingsViewModelTest {
             assertEquals(watcherLists.size, it.activeWatcherCount)
             assertEquals(mockedPrecision, it.precision)
             assertEquals(version, it.version)
+        }
+    }
+
+    @Test
+    fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest{
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(0)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumStatus.NeverActivated>(it.premiumStatus)
+        }
+    }
+
+    @Test
+    fun `when premiumEndDate is passed PremiumStatus is Expired`() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumStatus.Expired>(it.premiumStatus)
+        }
+    }
+
+    @Test
+    fun `when premiumEndDate is not passed PremiumStatus is Active`() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumStatus.Active>(it.premiumStatus)
         }
     }
 
