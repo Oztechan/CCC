@@ -59,7 +59,7 @@ class SettingsViewModel(
         _state.update {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
-                premiumStatus = appStorage.premiumEndDate.getPremiumState(),
+                premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
                 precision = calculationStorage.precision,
                 version = appConfigRepository.getVersion()
             )
@@ -76,7 +76,7 @@ class SettingsViewModel(
             }.launchIn(viewModelScope)
     }
 
-    private fun Long.getPremiumState(): PremiumStatus = when {
+    private fun Long.toPremiumStatus(): PremiumStatus = when {
         this == 0.toLong() -> PremiumStatus.NeverActivated
         isPassed() -> PremiumStatus.Expired(toDateString())
         else -> PremiumStatus.Active(toDateString())
