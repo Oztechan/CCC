@@ -67,7 +67,7 @@ struct SettingsView: View {
                         imgName: "crown.fill",
                         title: Res.strings().settings_item_premium_title.get(),
                         subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
-                        value: getPremiumText(),
+                        value: getPremiumText(premiumStatus: observable.state.premiumStatus),
                         onClick: observable.event.onPremiumClick
                     )
 
@@ -188,19 +188,23 @@ struct SettingsView: View {
     }
     // swiftlint:enable cyclomatic_complexity
 
-    private func getPremiumText() -> String {
-        if observable.viewModel.isPremiumEverActivated() {
+    // swiftlint:disable force_cast
+    private func getPremiumText(premiumStatus: PremiumStatus) -> String {
+        logger.i(message: { "SettingsView getPremiumText \(premiumStatus.description)" })
+
+        switch premiumStatus {
+        case is PremiumStatus.NeverActivated:
             return ""
-        } else {
-            if observable.viewModel.isPremiumExpired() {
-                return Res.strings().settings_item_premium_value_expired.get(
-                    parameter: observable.state.premiumEndDate
-                )
-            } else {
-                return Res.strings().settings_item_premium_value_will_expire.get(
-                    parameter: observable.state.premiumEndDate
-                )
-            }
+        case is PremiumStatus.Active:
+            return Res.strings().settings_item_premium_value_will_expire.get(
+                parameter: (premiumStatus as! PremiumStatus.Active).until
+            )
+        case is PremiumStatus.Expired:
+            return Res.strings().settings_item_premium_value_expired.get(
+                parameter: (premiumStatus as! PremiumStatus.Expired).at
+            )
+        default:
+            return ""
         }
     }
 }
