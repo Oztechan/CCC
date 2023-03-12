@@ -75,6 +75,9 @@ struct PremiumView: View {
                                 startDate: DateUtilKt.nowAsLong(),
                                 isRestorePurchase: false
                             )
+                        },
+                        onError: {
+                            observable.viewModel.showLoadingView(shouldShow: false)
                         }
                     ).show()
                 }
@@ -82,6 +85,7 @@ struct PremiumView: View {
         }
         .onAppear {
             observable.startObserving()
+            observable.viewModel.showLoadingView(shouldShow: false)
             analyticsManager.trackScreen(screenName: ScreenName.Premium())
         }
         .onDisappear { observable.stopObserving() }
