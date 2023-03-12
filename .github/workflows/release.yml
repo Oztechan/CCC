@@ -239,12 +239,12 @@ jobs:
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
-      - name: Publish
+      - name: StoreBuild
         run: |
           cd ios/CCC
           pod install --repo-update
           cd ..
-          fastlane publish
+          fastlane store_build
 
       - name: Set Job Status
         id: status
