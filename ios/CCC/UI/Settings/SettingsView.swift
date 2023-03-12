@@ -30,18 +30,18 @@ struct SettingsView: View {
     @State var isAlreadySyncedSnackShown = false
     @State var isSynchronisingShown = false
     @State var isSyncedSnackShown = false
-    
+
     private let analyticsManager: AnalyticsManager = koin.get()
-    
+
     var onBaseChange: ((String) -> Void)
-    
+
     var body: some View {
         ZStack {
             Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
-            
+
             VStack {
                 SettingsToolbarView(backEvent: observable.event.onBackClick)
-                
+
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
@@ -52,7 +52,7 @@ struct SettingsView: View {
                         ),
                         onClick: observable.event.onCurrenciesClick
                     )
-                    
+
                     SettingsItemView(
                         imgName: "eyeglasses",
                         title: Res.strings().settings_item_watchers_title.get(),
@@ -62,7 +62,7 @@ struct SettingsView: View {
                         ),
                         onClick: observable.event.onWatchersClick
                     )
-                    
+
                     SettingsItemView(
                         imgName: "crown.fill",
                         title: Res.strings().settings_item_premium_title.get(),
@@ -70,7 +70,7 @@ struct SettingsView: View {
                         value: getPremiumText(premiumStatus: observable.state.premiumStatus),
                         onClick: observable.event.onPremiumClick
                     )
-                    
+
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
                         title: Res.strings().settings_item_sync_title.get(),
@@ -78,7 +78,7 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onSyncClick
                     )
-                    
+
                     if MailView.canSendEmail() {
                         SettingsItemView(
                             imgName: "envelope.fill",
@@ -88,7 +88,7 @@ struct SettingsView: View {
                             onClick: observable.event.onFeedBackClick
                         )
                     }
-                    
+
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
                         title: Res.strings().settings_item_on_github_title.get(),
@@ -96,7 +96,7 @@ struct SettingsView: View {
                         value: "",
                         onClick: observable.event.onOnGitHubClick
                     )
-                    
+
                     SettingsItemView(
                         imgName: "textformat.123",
                         title: Res.strings().settings_item_version_title.get(),
@@ -106,7 +106,7 @@ struct SettingsView: View {
                     )
                 }.edgesIgnoringSafeArea(.bottom)
                     .withClearBackground(color: Res.colors().background.get())
-                
+
                 if observable.viewModel.shouldShowBannerAd() {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()
                 }
@@ -157,7 +157,7 @@ struct SettingsView: View {
         .onDisappear { observable.stopObserving() }
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
-    
+
     // swiftlint:disable cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
         logger.i(message: { "SettingsView onEffect \(effect.description)" })
@@ -187,11 +187,11 @@ struct SettingsView: View {
         }
     }
     // swiftlint:enable cyclomatic_complexity
-    
+
     // swiftlint:disable force_cast
     private func getPremiumText(premiumStatus: PremiumStatus) -> String {
         logger.i(message: { "SettingsView getPremiumText \(premiumStatus.description)" })
-        
+
         switch premiumStatus {
         case is PremiumStatus.NeverActivated:
             return ""
