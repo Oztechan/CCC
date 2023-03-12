@@ -119,7 +119,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Download Google APK
+      - name: Download Android Artifacts
         uses: actions/download-artifact@v3
         with:
           name: androidArtifacts
