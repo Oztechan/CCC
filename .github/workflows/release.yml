@@ -111,7 +111,7 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  UploadGooglePlay:
+  UploadToGooglePlay:
     runs-on: ubuntu-latest
     needs: [ GenerateGradleArtifacts ]
     outputs:
@@ -146,7 +146,7 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  UploadHuaweiAppGallery:
+  UploadToHuaweiAppGallery:
     runs-on: ubuntu-latest
     needs: [ GenerateGradleArtifacts ]
     outputs:
@@ -177,7 +177,7 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  ServerDeployment:
+  DeployToServer:
     runs-on: ubuntu-latest
     needs: [ GenerateGradleArtifacts ]
     outputs:
@@ -208,7 +208,7 @@ jobs:
         id: status
         run: echo "::set-output name=status::success"
 
-  PublishAppStore:
+  UploadToAppStore:
     runs-on: macos-12
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -252,7 +252,7 @@ jobs:
 
   PublishRelease:
     runs-on: ubuntu-latest
-    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore ]
+    needs: [ GenerateGradleArtifacts, UploadToGooglePlay, UploadToHuaweiAppGallery, DeployToServer, UploadToAppStore ]
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -268,17 +268,16 @@ jobs:
 
   Notify:
     runs-on: ubuntu-latest
-    needs: [ GenerateGradleArtifacts, UploadGooglePlay, UploadHuaweiAppGallery, ServerDeployment, PublishAppStore, PublishRelease ]
+    needs: [ GenerateGradleArtifacts, UploadToGooglePlay, UploadToHuaweiAppGallery, DeployToServer, UploadToAppStore ]
     if: always()
     steps:
 
       - name: Notify slack success
         if: needs.GenerateGradleArtifacts.outputs.status == 'success' &&
-          needs.UploadGooglePlay.outputs.status == 'success' &&
-          needs.UploadHuaweiAppGallery.outputs.status == 'success' &&
-          needs.ServerDeployment.outputs.status == 'success' &&
-          needs.PublishAppStore.outputs.status == 'success' &&
-          needs.PublishRelease.outputs.status == 'success'
+          needs.UploadToGooglePlay.outputs.status == 'success' &&
+          needs.UploadToHuaweiAppGallery.outputs.status == 'success' &&
+          needs.DeployToServer.outputs.status == 'success' &&
+          needs.UploadToAppStore.outputs.status == 'success'
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
@@ -287,11 +286,10 @@ jobs:
 
       - name: Notify slack fail
         if: false == (needs.GenerateGradleArtifacts.outputs.status == 'success') ||
-          false == (needs.UploadGooglePlay.outputs.status == 'success') ||
-          false == (needs.UploadHuaweiAppGallery.outputs.status == 'success') ||
-          false == (needs.ServerDeployment.outputs.status == 'success') ||
-          false == (needs.PublishAppStore.outputs.status == 'success') ||
-          false == (needs.PublishRelease.outputs.status == 'success')
+          false == (needs.UploadToGooglePlay.outputs.status == 'success') ||
+          false == (needs.UploadToHuaweiAppGallery.outputs.status == 'success') ||
+          false == (needs.DeployToServer.outputs.status == 'success') ||
+          false == (needs.UploadToAppStore.outputs.status == 'success')
         uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
