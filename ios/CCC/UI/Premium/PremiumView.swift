@@ -96,8 +96,8 @@ struct PremiumView: View {
         logger.i(message: { "PremiumView onEffect \(effect.description)" })
         switch effect {
         // swiftlint:disable force_cast
-        case is PremiumEffect.LaunchActivatePremiumFlow:
-            if (effect as! PremiumEffect.LaunchActivatePremiumFlow).premiumType == PremiumType.video {
+        case let launchActivatePremiumFlowEffect as PremiumEffect.LaunchActivatePremiumFlow:
+            if launchActivatePremiumFlowEffect.premiumType == PremiumType.video {
                 isPremiumDialogShown.toggle()
             }
         default:
