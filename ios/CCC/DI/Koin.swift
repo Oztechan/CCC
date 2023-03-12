@@ -21,6 +21,6 @@ var koin: Koin_coreKoin = {
 extension Koin_coreKoin {
     func get<T>() -> T {
         // swiftlint:disable:next force_cast
-        return koin.getDependency(objCObject: T.self) as! T
+        return koin.getDependency(objCObject: T.self) `as! T
     }
 }

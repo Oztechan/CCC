@@ -102,7 +102,6 @@ struct CurrenciesView: View {
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
             navigationStack.pop()
-        // swiftlint:disable force_cast
         case let changeBaseEffect as CurrenciesEffect.ChangeBase:
             onBaseChange(changeBaseEffect.newBase)
         default:
