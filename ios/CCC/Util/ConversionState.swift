@@ -12,7 +12,6 @@ import SwiftUI
 
 extension ConversionState {
     func getText() -> String {
-        // swiftlint:disable force_cast
         switch self {
         case let onlineState as ConversionState.Online:
             return Res.strings().text_online_last_updated.get(parameter: onlineState.lastUpdate ?? "")

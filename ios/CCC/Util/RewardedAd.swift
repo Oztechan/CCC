@@ -30,7 +30,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: {rewardedAd, error in
                 if error != nil {
-                    logger.w(message: { "RewardedAd show error: \(error?.localizedDescription)" })
+                    logger.w(message: { "RewardedAd show error: \(String(describing: error?.localizedDescription))" })
                     self.onError()
                     return
                 }
