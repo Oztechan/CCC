@@ -36,7 +36,7 @@ struct InputView: View {
             ToolbarButton(
                 clickEvent: onSettingsClick,
                 imgName: "gear"
-            ).padding(.trailing, 5.cp())
+            ).padding(8.cp())
         }
         .frame(width: .none, height: 36.cp(), alignment: .center)
         .padding(.top, 4.cp())
