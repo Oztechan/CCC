@@ -29,6 +29,7 @@ struct CurrenciesToolbarView: View {
                 TextField(Res.strings().search.get(), text: $query)
                     .font(relative: .headline)
                     .onChange(of: query) { onQueryChange($0) }
+                    .padding(8.cp())
                     .background(
                         RoundedRectangle(cornerRadius: 3.cp())
                             .fill(Res.colors().background.get())
