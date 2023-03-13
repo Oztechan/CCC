@@ -36,7 +36,7 @@ struct CurrenciesToolbarView: View {
                     )
                     .disableAutocorrection(true)
                     .multilineTextAlignment(.center)
-                    .padding(1.cp())
+                    .frame(height: 24.cp())
 
                 Spacer()
 
