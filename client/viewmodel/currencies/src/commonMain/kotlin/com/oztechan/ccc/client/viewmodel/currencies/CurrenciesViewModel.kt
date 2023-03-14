@@ -53,17 +53,13 @@ class CurrenciesViewModel(
             .onEach { currencyList ->
 
                 _state.update {
-                    copy(
-                        currencyList = currencyList,
-                        selectionVisibility = false
-                    )
+                    copy(currencyList = currencyList)
                 }
                 data.unFilteredList = currencyList.toMutableList()
+                filterList(data.query)
 
                 verifyListSize()
                 verifyCurrentBase()
-
-                filterList(data.query)
 
                 currencyList.filter { it.isActive }
                     .let {
