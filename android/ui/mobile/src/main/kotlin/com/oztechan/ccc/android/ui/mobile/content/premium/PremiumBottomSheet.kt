@@ -49,8 +49,8 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "PremiumBottomSheet onViewCreated" }
         billingManager.startConnection(viewLifecycleOwner.lifecycleScope, PremiumType.getPurchaseIds())
-        initViews()
-        observeStates()
+        binding.initViews()
+        binding.observeStates()
         observeEffects()
         observeBillingEffects()
     }
@@ -67,15 +67,15 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         analyticsManager.trackScreen(ScreenName.Premium)
     }
 
-    private fun initViews() {
-        binding.recyclerViewPremium.adapter = premiumAdapter
+    private fun BottomSheetPremiumBinding.initViews() {
+        recyclerViewPremium.adapter = premiumAdapter
     }
 
-    private fun observeStates() = premiumViewModel.state
+    private fun BottomSheetPremiumBinding.observeStates() = premiumViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                binding.loadingView.visibleIf(loading, true)
+                loadingView.visibleIf(loading, true)
                 premiumAdapter.submitList(premiumTypes)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

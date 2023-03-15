@@ -40,8 +40,8 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "SliderFragment onViewCreated" }
-        addBottomDots(0)
-        setListeners()
+        binding.addBottomDots(0)
+        binding.setListeners()
     }
 
     override fun onResume() {
@@ -52,8 +52,8 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
         binding.progressBar.isGone = true
     }
 
-    private fun setListeners() {
-        binding.viewPager.apply {
+    private fun FragmentSliderBinding.setListeners() {
+        viewPager.apply {
             adapter = SliderPagerAdapter(requireContext(), layouts)
             addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
@@ -64,7 +64,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
                     addBottomDots(position)
 
-                    binding.btnNext.text = if (position == layouts.size - 1) {
+                    btnNext.text = if (position == layouts.size - 1) {
                         getString(R.string.got_it)
                     } else {
                         getString(R.string.next)
@@ -76,13 +76,13 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             })
         }
 
-        binding.btnNext.setOnClickListener {
+        btnNext.setOnClickListener {
             getNextItem()
                 .whether { this < layouts.size }
-                ?.let { position -> binding.viewPager.currentItem = position }
+                ?.let { position -> viewPager.currentItem = position }
                 ?: run {
-                    binding.bottomBarSeparator.isGone = true
-                    binding.progressBar.isVisible = true
+                    bottomBarSeparator.isGone = true
+                    progressBar.isVisible = true
                     navigate(
                         R.id.sliderFragment,
                         SliderFragmentDirections.actionSliderFragmentToCurrenciesFragment()
@@ -91,8 +91,9 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
         }
     }
 
-    private fun addBottomDots(currentPage: Int) {
-        binding.layoutDots.removeAllViews()
+    private fun FragmentSliderBinding.addBottomDots(currentPage: Int) {
+        layoutDots.removeAllViews()
+
         val dots = arrayListOf<TextView>().apply {
             repeat(layouts.size) {
                 add(TextView(requireContext()))
@@ -108,7 +109,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
                     R.color.background_weak
                 )
             )
-            binding.layoutDots.addView(textView)
+            layoutDots.addView(textView)
         }
 
         if (dots.size > 0) {

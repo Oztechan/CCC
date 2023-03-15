@@ -38,10 +38,10 @@ class SelectCurrencyBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "SelectCurrencyBottomSheet onViewCreated" }
-        initViews()
-        observeStates()
+        binding.initViews()
+        binding.observeStates()
+        binding.setListeners()
         observeEffects()
-        setListeners()
     }
 
     override fun onDestroyView() {
@@ -55,30 +55,28 @@ class SelectCurrencyBottomSheet :
         analyticsManager.trackScreen(ScreenName.SelectCurrency)
     }
 
-    private fun initViews() {
-        binding.recyclerViewSelectCurrency.adapter = selectCurrencyAdapter
+    private fun BottomSheetSelectCurrencyBinding.initViews() {
+        recyclerViewSelectCurrency.adapter = selectCurrencyAdapter
     }
 
-    private fun observeStates() = selectCurrencyViewModel.state
+    private fun BottomSheetSelectCurrencyBinding.observeStates() = selectCurrencyViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
                 selectCurrencyAdapter.submitList(currencyList)
 
-                with(binding) {
-                    loadingView.visibleIf(loading, true)
+                loadingView.visibleIf(loading, true)
 
-                    txtNoEnoughCurrency.text = getString(
-                        if (it.enoughCurrency) {
-                            R.string.txt_update_favorite_currencies
-                        } else {
-                            R.string.choose_at_least_two_currency
-                        }
-                    )
-                    btnSelect.text = getString(
-                        if (it.enoughCurrency) R.string.update else R.string.select
-                    )
-                }
+                txtNoEnoughCurrency.text = getString(
+                    if (it.enoughCurrency) {
+                        R.string.txt_update_favorite_currencies
+                    } else {
+                        R.string.choose_at_least_two_currency
+                    }
+                )
+                btnSelect.text = getString(
+                    if (it.enoughCurrency) R.string.update else R.string.select
+                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -103,7 +101,7 @@ class SelectCurrencyBottomSheet :
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun setListeners() = binding.btnSelect.setOnClickListener {
+    private fun BottomSheetSelectCurrencyBinding.setListeners() = btnSelect.setOnClickListener {
         selectCurrencyViewModel.event.onSelectClick()
     }
 }
