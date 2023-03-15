@@ -140,7 +140,7 @@ jobs:
           groups: QA
           file: huawei/release/app-huawei-release.apk
 
-      - name: Delete Google APK
+      - name: Delete Android Artifacts
         uses: geekyeggo/delete-artifact@v2
         with:
           name: androidArtifacts
