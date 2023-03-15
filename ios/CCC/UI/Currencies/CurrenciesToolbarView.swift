@@ -19,7 +19,9 @@ struct CurrenciesToolbarView: View {
 
     var body: some View {
         HStack {
-            if !firstRun {
+            if firstRun {
+                Text("").padding(trailing: 8.cp())
+            } else {
                 ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")
             }
 
