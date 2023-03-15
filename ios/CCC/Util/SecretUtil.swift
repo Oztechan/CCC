@@ -9,7 +9,7 @@
 import Foundation
 
 public struct SecretUtil {
-    public static  func getSecret(key: String) -> String {
+    public static func getSecret(key: String) -> String {
         (Bundle.main.infoDictionary?[key] as? String) ?? "this is a secret value"
     }
 }

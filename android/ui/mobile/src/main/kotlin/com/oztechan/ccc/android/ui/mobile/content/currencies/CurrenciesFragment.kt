@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.android.core.ad.AdManager
+import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.content.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCurrenciesBinding
@@ -50,10 +51,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "CurrenciesFragment onViewCreated" }
-        initViews()
-        observeStates()
+        binding.initViews()
+        binding.observeStates()
+        binding.setListeners()
         observeEffects()
-        setListeners()
     }
 
     override fun onDestroyView() {
@@ -63,10 +64,14 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         super.onDestroyView()
     }
 
-    private fun initViews() = with(binding) {
+    private fun FragmentCurrenciesBinding.initViews() {
         adViewContainer.setBannerAd(
             adManager = adManager,
-            adId = getString(R.string.android_banner_ad_unit_id_currencies),
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_currencies_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_currencies_release)
+            },
             shouldShowAd = currenciesViewModel.shouldShowBannerAd()
         )
 
@@ -81,15 +86,15 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
-    private fun observeStates() = currenciesViewModel.state
+    private fun FragmentCurrenciesBinding.observeStates() = currenciesViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
 
-                binding.loadingView.visibleIf(loading, true)
+                loadingView.visibleIf(loading, true)
 
-                with(binding.layoutCurrenciesToolbar) {
+                with(layoutCurrenciesToolbar) {
                     searchView.visibleIf(!selectionVisibility)
                     txtCurrenciesToolbar.visibleIf(!selectionVisibility)
                     btnSelectAll.visibleIf(selectionVisibility)
@@ -136,24 +141,22 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun setListeners() = with(binding) {
-        with(currenciesViewModel.event) {
-            btnDone.setOnClickListener { onDoneClick() }
+    private fun FragmentCurrenciesBinding.setListeners() = with(currenciesViewModel.event) {
+        btnDone.setOnClickListener { onDoneClick() }
 
-            with(layoutCurrenciesToolbar) {
-                backButton.setOnClickListener { onCloseClick() }
-                btnSelectAll.setOnClickListener { updateAllCurrenciesState(true) }
-                btnDeSelectAll.setOnClickListener { updateAllCurrenciesState(false) }
+        with(layoutCurrenciesToolbar) {
+            backButton.setOnClickListener { onCloseClick() }
+            btnSelectAll.setOnClickListener { updateAllCurrenciesState(true) }
+            btnDeSelectAll.setOnClickListener { updateAllCurrenciesState(false) }
 
-                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String) = false
-                    override fun onQueryTextChange(newText: String): Boolean {
-                        Logger.i { "CurrenciesFragment onQueryTextChange $newText" }
-                        currenciesViewModel.event.onQueryChange(newText)
-                        return true
-                    }
-                })
-            }
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String) = false
+                override fun onQueryTextChange(newText: String): Boolean {
+                    Logger.i { "CurrenciesFragment onQueryTextChange $newText" }
+                    currenciesViewModel.event.onQueryChange(newText)
+                    return true
+                }
+            })
         }
     }
 

@@ -1,5 +1,5 @@
 import config.DeviceFlavour
-import config.DeviceFlavour.Companion.googleImplementation
+import config.DeviceFlavour.Companion.implementation
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -70,8 +70,7 @@ dependencies {
         }
 
         android.google.apply {
-            @Suppress("UnstableApiUsage")
-            googleImplementation(playCore)
+            DeviceFlavour.GOOGLE.implementation(playCore)
         }
     }
 
@@ -89,10 +88,6 @@ dependencies {
         implementation(project(analytics))
     }
 
-    Modules.Android.ViewModel.apply {
-        implementation(project(premium))
-    }
-
     Modules.Client.ViewModel.apply {
         implementation(project(main))
         implementation(project(calculator))
@@ -100,6 +95,7 @@ dependencies {
         implementation(project(settings))
         implementation(project(selectCurrency))
         implementation(project(watchers))
+        implementation(project(premium))
     }
 
     Modules.Submodules.apply {

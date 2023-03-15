@@ -7,11 +7,8 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.model.PremiumType
-import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.indexToNumber
 import com.oztechan.ccc.client.core.shared.util.isPassed
-import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.core.shared.util.toDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
@@ -24,6 +21,7 @@ import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -61,7 +59,7 @@ class SettingsViewModel(
         _state.update {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
-                premiumEndDate = appStorage.premiumEndDate.toDateString(),
+                premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
                 precision = calculationStorage.precision,
                 version = appConfigRepository.getVersion()
             )
@@ -76,6 +74,12 @@ class SettingsViewModel(
             .onEach {
                 _state.update { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
+    }
+
+    private fun Long.toPremiumStatus(): PremiumStatus = when {
+        this == 0.toLong() -> PremiumStatus.NeverActivated
+        isPassed() -> PremiumStatus.Expired(toDateString())
+        else -> PremiumStatus.Active(toDateString())
     }
 
     private suspend fun synchroniseConversions() {
@@ -103,17 +107,7 @@ class SettingsViewModel(
 
     fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
-    fun isPremiumExpired() = appStorage.premiumEndDate.isPassed()
-
-    fun isPremiumEverActivated() = appStorage.premiumEndDate == 0.toLong()
-
     fun getAppTheme() = appStorage.appTheme
-
-    @Suppress("unused") // used in iOS
-    fun updatePremiumEndDate() = PremiumType.VIDEO.calculatePremiumEnd(nowAsLong()).let {
-        appStorage.premiumEndDate = it
-        _state.update { copy(premiumEndDate = it.toDateString()) }
-    }
 
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
@@ -153,7 +147,7 @@ class SettingsViewModel(
 
     override fun onPremiumClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        if (isPremiumExpired()) {
+        if (appStorage.premiumEndDate.isPassed()) {
             _effect.emit(SettingsEffect.Premium)
         } else {
             _effect.emit(SettingsEffect.AlreadyPremium)

@@ -54,6 +54,17 @@ platform :ios do
             )
         end
 
+        lane :store_build do
+            install_certificate_and_profile(match_type: "appstore")
+            add_test_devices
+            build_project(
+                match_type: "appstore",
+                profile: "match AppStore com.oztechan.ccc"
+            )
+            pilot(skip_waiting_for_build_processing: true)
+            upload_crashlytics_symbols
+        end
+
         lane :distribute do
             firebase_app_distribution(
                 app: ENV["IOS_GOOGLE_FIREBASE_APP_ID"],
@@ -62,17 +73,6 @@ platform :ios do
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC.ipa"
             )
-            upload_crashlytics_symbols
-        end
-
-        lane :publish do
-            install_certificate_and_profile(match_type: "appstore")
-            add_test_devices
-            build_project(
-                match_type: "appstore",
-                profile: "match AppStore com.oztechan.ccc"
-            )
-            pilot(skip_waiting_for_build_processing: true)
             upload_crashlytics_symbols
         end
 

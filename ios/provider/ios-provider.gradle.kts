@@ -27,9 +27,13 @@ kotlin {
             isStatic = true
 
             export(project(Modules.IOS.Repository.background))
-            export(project(Modules.Client.Core.viewModel))
-            export(project(Modules.Client.Core.analytics))
             export(project(Modules.Common.Core.model))
+
+            Modules.Client.Core.apply {
+                export(project(viewModel))
+                export(project(analytics))
+                export(project(shared))
+            }
 
             Modules.Client.ViewModel.apply {
                 export(project(main))
@@ -38,6 +42,8 @@ kotlin {
                 export(project(settings))
                 export(project(selectCurrency))
                 export(project(watchers))
+                export(project(premium))
+                export(project(premium))
             }
         }
 
@@ -65,9 +71,13 @@ kotlin {
                 }
 
                 api(project(Modules.IOS.Repository.background))
-                api(project(Modules.Client.Core.viewModel))
-                api(project(Modules.Client.Core.analytics))
                 api(project(Modules.Common.Core.model))
+
+                Modules.Client.Core.apply {
+                    api(project(viewModel))
+                    api(project(analytics))
+                    api(project(shared))
+                }
 
                 Modules.Client.ViewModel.apply {
                     api(project(main))
@@ -76,6 +86,7 @@ kotlin {
                     api(project(settings))
                     api(project(selectCurrency))
                     api(project(watchers))
+                    api(project(premium))
                 }
 
                 Modules.Common.Core.apply {
@@ -90,7 +101,6 @@ kotlin {
 
                 Modules.Client.Core.apply {
                     implementation(project(persistence))
-                    implementation(project(shared))
                 }
                 Modules.Client.Storage.apply {
                     implementation(project(app))

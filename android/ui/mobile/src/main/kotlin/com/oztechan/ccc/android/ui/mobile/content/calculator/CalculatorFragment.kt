@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.android.core.ad.AdManager
+import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCalculatorBinding
 import com.oztechan.ccc.android.ui.mobile.util.copyToClipBoard
@@ -50,11 +51,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "CalculatorFragment onViewCreated" }
-        initViews()
-        observeNavigationResults()
-        observeStates()
+        binding.initViews()
+        binding.observeStates()
+        binding.setListeners()
         observeEffects()
-        setListeners()
+        observeNavigationResults()
     }
 
     override fun onResume() {
@@ -77,32 +78,36 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.event.onBaseChange(it)
     }
 
-    private fun initViews() = with(binding) {
+    private fun FragmentCalculatorBinding.initViews() {
         adViewContainer.setBannerAd(
             adManager = adManager,
-            adId = getString(R.string.android_banner_ad_unit_id_calculator),
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_calculator_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_calculator_release)
+            },
             shouldShowAd = calculatorViewModel.shouldShowBannerAd()
         )
         recyclerViewMain.adapter = calculatorAdapter
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeStates() = calculatorViewModel.state
+    private fun FragmentCalculatorBinding.observeStates() = calculatorViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
                 calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
 
-                binding.txtInput.text = input
-                with(binding.layoutBar) {
+                txtInput.text = input
+                with(layoutBar) {
                     ivBase.setBackgroundByName(base)
                     txtBase.text = if (base.isEmpty()) base else "  $base"
                     txtOutput.text = if (output.isNotEmpty()) " = $output" else ""
                     txtSymbol.text = " $symbol"
                 }
 
-                binding.loadingView.visibleIf(loading, true)
-                binding.txtAppStatus.dataState(conversionState)
+                loadingView.visibleIf(loading, true)
+                txtAppStatus.dataState(conversionState)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -150,45 +155,43 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun setListeners() = with(binding) {
-        with(calculatorViewModel.event) {
-            btnSettings.setOnClickListener { onSettingsClicked() }
-            layoutBar.root.setOnClickListener { onBarClick() }
+    private fun FragmentCalculatorBinding.setListeners() = with(calculatorViewModel.event) {
+        btnSettings.setOnClickListener { onSettingsClicked() }
+        layoutBar.root.setOnClickListener { onBarClick() }
 
-            layoutBar.txtOutput.setOnClickListener { onBarClick() }
-            layoutBar.txtOutput.setOnLongClickListener {
-                onOutputLongClick()
-                true
-            }
+        layoutBar.txtOutput.setOnClickListener { onBarClick() }
+        layoutBar.txtOutput.setOnLongClickListener {
+            onOutputLongClick()
+            true
+        }
 
-            txtInput.setOnLongClickListener {
-                onInputLongClick()
-                true
-            }
+        txtInput.setOnLongClickListener {
+            onInputLongClick()
+            true
+        }
 
-            with(layoutKeyboard) {
-                one.setKeyboardListener()
-                two.setKeyboardListener()
-                three.setKeyboardListener()
-                four.setKeyboardListener()
-                five.setKeyboardListener()
-                six.setKeyboardListener()
-                seven.setKeyboardListener()
-                eight.setKeyboardListener()
-                nine.setKeyboardListener()
-                zero.setKeyboardListener()
-                tripleZero.setKeyboardListener()
-                multiply.setKeyboardListener()
-                divide.setKeyboardListener()
-                minus.setKeyboardListener()
-                plus.setKeyboardListener()
-                percent.setKeyboardListener()
-                dot.setKeyboardListener()
-                openParentheses.setKeyboardListener()
-                closeParentheses.setKeyboardListener()
-                ac.setKeyboardListener()
-                del.setKeyboardListener()
-            }
+        with(layoutKeyboard) {
+            one.setKeyboardListener()
+            two.setKeyboardListener()
+            three.setKeyboardListener()
+            four.setKeyboardListener()
+            five.setKeyboardListener()
+            six.setKeyboardListener()
+            seven.setKeyboardListener()
+            eight.setKeyboardListener()
+            nine.setKeyboardListener()
+            zero.setKeyboardListener()
+            tripleZero.setKeyboardListener()
+            multiply.setKeyboardListener()
+            divide.setKeyboardListener()
+            minus.setKeyboardListener()
+            plus.setKeyboardListener()
+            percent.setKeyboardListener()
+            dot.setKeyboardListener()
+            openParentheses.setKeyboardListener()
+            closeParentheses.setKeyboardListener()
+            ac.setKeyboardListener()
+            del.setKeyboardListener()
         }
     }
 

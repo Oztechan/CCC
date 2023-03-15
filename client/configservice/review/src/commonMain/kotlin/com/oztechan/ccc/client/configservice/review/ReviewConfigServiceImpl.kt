@@ -14,11 +14,9 @@ internal class ReviewConfigServiceImpl :
     ),
     ReviewConfigService {
 
-    private val json = Json { ignoreUnknownKeys = true }
-
     override fun decode(
         value: String
-    ) = json
+    ) = Json
         .decodeFromString<ReviewConfigRCModel>(value)
         .toReviewConfigModel()
 

@@ -23,9 +23,9 @@ struct SettingsView: View {
     >()
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
+    @State var premiumViewVisibility = false
     @State var emailViewVisibility = false
     @State var webViewVisibility = false
-    @State var isPremiumDialogShown = false
     @State var isAdsAlreadyDisabledSnackShown = false
     @State var isAlreadySyncedSnackShown = false
     @State var isSynchronisingShown = false
@@ -67,7 +67,7 @@ struct SettingsView: View {
                         imgName: "crown.fill",
                         title: Res.strings().settings_item_premium_title.get(),
                         subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
-                        value: getPremiumText(),
+                        value: getPremiumText(premiumStatus: observable.state.premiumStatus),
                         onClick: observable.event.onPremiumClick
                     )
 
@@ -141,17 +141,8 @@ struct SettingsView: View {
         ) {
             SnackView(text: Res.strings().txt_synced.get())
         }
-        .popup(isPresented: $isPremiumDialogShown) {
-            AlertView(
-                title: Res.strings().txt_premium.get(),
-                message: Res.strings().txt_premium_text.get(),
-                buttonText: Res.strings().txt_watch.get(),
-                buttonAction: {
-                    RewardedAd(
-                        onReward: { observable.viewModel.updatePremiumEndDate() }
-                    ).show()
-                }
-            )
+        .sheet(isPresented: $premiumViewVisibility) {
+            PremiumView(premiumViewVisibility: $premiumViewVisibility)
         }
         .sheet(isPresented: $emailViewVisibility) {
             MailView(isShowing: $emailViewVisibility)
@@ -167,7 +158,7 @@ struct SettingsView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    // swiftlint:disable cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity
     private func onEffect(effect: SettingsEffect) {
         logger.i(message: { "SettingsView onEffect \(effect.description)" })
         switch effect {
@@ -190,26 +181,24 @@ struct SettingsView: View {
         case is SettingsEffect.AlreadyPremium:
             isAdsAlreadyDisabledSnackShown.toggle()
         case is SettingsEffect.Premium:
-            isPremiumDialogShown.toggle()
+            premiumViewVisibility.toggle()
         default:
             logger.i(message: { "SettingsView unknown effect" })
         }
     }
-    // swiftlint:enable cyclomatic_complexity
 
-    private func getPremiumText() -> String {
-        if observable.viewModel.isPremiumEverActivated() {
+    private func getPremiumText(premiumStatus: PremiumStatus) -> String {
+        logger.i(message: { "SettingsView getPremiumText \(premiumStatus.description)" })
+
+        switch premiumStatus {
+        case is PremiumStatus.NeverActivated:
             return ""
-        } else {
-            if observable.viewModel.isPremiumExpired() {
-                return Res.strings().settings_item_premium_value_expired.get(
-                    parameter: observable.state.premiumEndDate
-                )
-            } else {
-                return Res.strings().settings_item_premium_value_will_expire.get(
-                    parameter: observable.state.premiumEndDate
-                )
-            }
+        case let activateStatus as PremiumStatus.Active:
+            return Res.strings().settings_item_premium_value_will_expire.get(parameter: activateStatus.until)
+        case let expiredStatus as PremiumStatus.Expired:
+            return Res.strings().settings_item_premium_value_expired.get(parameter: expiredStatus.at)
+        default:
+            return ""
         }
     }
 }

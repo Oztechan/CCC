@@ -59,20 +59,19 @@ class WidgetViewModel(
     private suspend fun updateBase(isToNext: Boolean) {
         val activeCurrencies = currencyDataSource.getActiveCurrencies()
 
-        var newBaseIndex = activeCurrencies
+        val newBaseIndex = activeCurrencies
             .map { it.code }
             .indexOf(calculationStorage.currentBase)
+            .let {
+                if (isToNext) {
+                    it + 1
+                } else {
+                    it - 1
+                }
+            }.let {
+                it % activeCurrencies.size // it handles index -1 and index size +1
+            }
 
-        if (isToNext) {
-            newBaseIndex++
-        } else {
-            newBaseIndex--
-        }
-
-        when (newBaseIndex) {
-            activeCurrencies.size -> newBaseIndex = 0
-            -1 -> newBaseIndex = activeCurrencies.lastIndex
-        }
         calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
     }
 

@@ -1,4 +1,5 @@
 import config.DeviceFlavour
+import config.DeviceFlavour.Companion.implementation
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -8,7 +9,6 @@ plugins {
     }
 }
 
-@Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
         namespace = Modules.Android.Core.billing.packageName
@@ -22,6 +22,7 @@ android {
     }
 
     DeviceFlavour.apply {
+        @Suppress("UnstableApiUsage")
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {
@@ -47,8 +48,7 @@ dependencies {
             implementation(lifecycleRuntime)
 
             google.apply {
-                @Suppress("UnstableApiUsage")
-                DeviceFlavour.googleImplementation(billing)
+                DeviceFlavour.GOOGLE.implementation(billing)
             }
         }
     }
