@@ -128,6 +128,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                 }
 
                 CalculatorEffect.TooBigNumber -> view?.showSnack(R.string.text_too_big_number)
+                CalculatorEffect.TooBigInput -> view?.showSnack(R.string.text_too_big_input)
+                CalculatorEffect.TooBigOutput -> view?.showSnack(R.string.text_too_big_output)
                 CalculatorEffect.OpenBar -> navigate(
                     R.id.calculatorFragment,
                     CalculatorFragmentDirections.actionCalculatorFragmentToSelectCurrencyBottomSheet()
