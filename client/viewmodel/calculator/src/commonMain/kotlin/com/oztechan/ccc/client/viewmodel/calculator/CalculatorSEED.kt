@@ -39,6 +39,8 @@ sealed class CalculatorEffect : BaseEffect() {
     object Error : CalculatorEffect()
     object FewCurrency : CalculatorEffect()
     object OpenBar : CalculatorEffect()
+    object TooBigInput : CalculatorEffect()
+    object TooBigOutput : CalculatorEffect()
     object TooBigNumber : CalculatorEffect()
     object OpenSettings : CalculatorEffect()
     object ShowPasteRequest : CalculatorEffect()

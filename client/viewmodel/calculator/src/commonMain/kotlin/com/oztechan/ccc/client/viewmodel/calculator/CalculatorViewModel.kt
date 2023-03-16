@@ -154,12 +154,12 @@ class CalculatorViewModel(
 
         when {
             input.length > MAXIMUM_INPUT -> {
-                _effect.emit(CalculatorEffect.TooBigNumber)
+                _effect.emit(CalculatorEffect.TooBigInput)
                 _state.update { copy(input = input.dropLast(1)) }
             }
 
             output.length > MAXIMUM_OUTPUT -> {
-                _effect.emit(CalculatorEffect.TooBigNumber)
+                _effect.emit(CalculatorEffect.TooBigOutput)
                 _state.update { copy(input = input.dropLast(1)) }
             }
 
