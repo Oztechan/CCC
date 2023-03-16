@@ -5,7 +5,6 @@ package com.oztechan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.mapTo
-import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
@@ -147,24 +146,26 @@ class CalculatorViewModel(
     }
 
     private fun calculateOutput(input: String) = viewModelScope.launch {
-        data.parser
+        val output = data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
             .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
-            .whether(
-                { output -> output.length <= MAXIMUM_OUTPUT },
-                { input.length <= MAXIMUM_INPUT }
-            )?.let { output ->
-                _state.update { copy(output = output) }
-                state.value.currencyList.size
-                    .whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.whetherNot { state.value.input.isEmpty() }
-                    ?.let { _effect.emit(CalculatorEffect.FewCurrency) }
-                    ?: run { fetchConversion() }
-            } ?: run {
-            _effect.emit(CalculatorEffect.TooBigNumber)
-            _state.update {
-                copy(input = input.dropLast(1))
+
+        _state.update { copy(output = output) }
+
+        when {
+            input.length > MAXIMUM_INPUT -> {
+                _effect.emit(CalculatorEffect.TooBigNumber)
+                _state.update { copy(input = input.dropLast(1)) }
             }
+
+            output.length > MAXIMUM_OUTPUT -> {
+                _effect.emit(CalculatorEffect.TooBigNumber)
+                _state.update { copy(input = input.dropLast(1)) }
+            }
+
+            state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> _effect.emit(CalculatorEffect.FewCurrency)
+
+            else -> fetchConversion()
         }
     }
 
