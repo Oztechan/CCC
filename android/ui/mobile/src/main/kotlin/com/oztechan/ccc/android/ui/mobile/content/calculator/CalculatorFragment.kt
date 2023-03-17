@@ -127,7 +127,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     )
                 }
 
-                CalculatorEffect.TooBigNumber -> view?.showSnack(R.string.text_too_big_number)
                 CalculatorEffect.TooBigInput -> view?.showSnack(R.string.text_too_big_input)
                 CalculatorEffect.TooBigOutput -> view?.showSnack(R.string.text_too_big_output)
                 CalculatorEffect.OpenBar -> navigate(
@@ -154,8 +153,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     viewEffect.text,
                     icon = viewEffect.code.getImageIdByName()
                 )
-
-                else -> TODO("will be removed")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 

@@ -23,7 +23,6 @@ struct CalculatorView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
-    @State var isTooBigNumberSnackShown = false
     @State var isTooBigInputSnackShown = false
     @State var isTooBigOutputSnackShown = false
     @State var isGenericErrorSnackShown = false
@@ -102,13 +101,6 @@ struct CalculatorView: View {
             .navigationBarHidden(true)
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .popup(
-            isPresented: $isTooBigNumberSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
-            SnackView(text: Res.strings().text_too_big_number.get())
-        }
         .popup(
             isPresented: $isTooBigInputSnackShown,
             type: .toast,
@@ -191,7 +183,6 @@ struct CalculatorView: View {
         .onReceive(observable.effect) { onEffect(effect: $0) }
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
     private func onEffect(effect: CalculatorEffect) {
         logger.i(message: { "CalculatorView onEffect \(effect.description)" })
         switch effect {
@@ -199,8 +190,6 @@ struct CalculatorView: View {
             isGenericErrorSnackShown.toggle()
         case is CalculatorEffect.FewCurrency:
             isFewCurrencySnackShown.toggle()
-        case is CalculatorEffect.TooBigNumber:
-            isTooBigNumberSnackShown.toggle()
         case is CalculatorEffect.TooBigInput:
             isTooBigInputSnackShown.toggle()
         case is CalculatorEffect.TooBigOutput:

@@ -248,7 +248,7 @@ internal class WatchersViewModelTest {
             assertEquals(rate.dropLast(1), viewModel.event.onRateChange(watcher, rate))
         }.firstOrNull().let {
             assertNotNull(it)
-            assertIs<WatchersEffect.TooBigNumber>(it)
+            assertIs<WatchersEffect.TooBigInput>(it)
         }
     }
 }

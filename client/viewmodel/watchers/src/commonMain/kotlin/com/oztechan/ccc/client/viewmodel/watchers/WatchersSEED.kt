@@ -14,7 +14,7 @@ sealed class WatchersEffect : BaseEffect() {
     object Back : WatchersEffect()
     data class SelectBase(val watcher: Watcher) : WatchersEffect()
     data class SelectTarget(val watcher: Watcher) : WatchersEffect()
-    object TooBigNumber : WatchersEffect()
+    object TooBigInput : WatchersEffect()
     object InvalidInput : WatchersEffect()
     object MaximumNumberOfWatchers : WatchersEffect()
 }

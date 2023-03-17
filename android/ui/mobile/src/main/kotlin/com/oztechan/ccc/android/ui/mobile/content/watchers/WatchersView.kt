@@ -53,7 +53,7 @@ fun NavHostController.WatchersView(
                 is WatchersEffect.SelectTarget -> navigate("select_currency")
                 WatchersEffect.InvalidInput -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
                 WatchersEffect.MaximumNumberOfWatchers -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
-                WatchersEffect.TooBigNumber -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
+                WatchersEffect.TooBigInput -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
             }
         }
     }
