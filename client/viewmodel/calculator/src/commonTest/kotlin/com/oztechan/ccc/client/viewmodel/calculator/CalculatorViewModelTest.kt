@@ -235,24 +235,24 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `when input is too long it should drop the last digit and give warning`() = runTest {
+    fun `when input is too long it should drop the last digit and give TooBigInput effect`() = runTest {
         val fortyFiveDigitNumber = "1234567890+1234567890+1234567890+1234567890+1"
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress(fortyFiveDigitNumber)
         }.firstOrNull().let {
-            assertIs<CalculatorEffect.TooBigNumber>(it)
+            assertIs<CalculatorEffect.TooBigInput>(it)
             assertFalse { viewModel.state.value.loading }
             assertEquals(fortyFiveDigitNumber.dropLast(1), viewModel.state.value.input)
         }
     }
 
     @Test
-    fun `when output is too long it should drop the last digit and give warning`() = runTest {
+    fun `when output is too long it should drop the last digit and give TooBigOutput effect`() = runTest {
         val nineteenDigitNumber = "123 567 901 345 789"
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress(nineteenDigitNumber)
         }.firstOrNull().let {
-            assertIs<CalculatorEffect.TooBigNumber>(it)
+            assertIs<CalculatorEffect.TooBigOutput>(it)
             assertFalse { viewModel.state.value.loading }
             assertEquals(nineteenDigitNumber.dropLast(1), viewModel.state.value.input)
         }
