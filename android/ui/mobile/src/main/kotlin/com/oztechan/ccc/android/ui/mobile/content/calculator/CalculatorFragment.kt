@@ -154,8 +154,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     viewEffect.text,
                     icon = viewEffect.code.getImageIdByName()
                 )
-
-                else -> TODO("will be removed")
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
