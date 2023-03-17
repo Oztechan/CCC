@@ -41,7 +41,6 @@ sealed class CalculatorEffect : BaseEffect() {
     object OpenBar : CalculatorEffect()
     object TooBigInput : CalculatorEffect()
     object TooBigOutput : CalculatorEffect()
-    object TooBigNumber : CalculatorEffect()
     object OpenSettings : CalculatorEffect()
     object ShowPasteRequest : CalculatorEffect()
     data class CopyToClipboard(val amount: String) : CalculatorEffect()

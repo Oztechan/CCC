@@ -105,7 +105,7 @@ class WatchersViewModel(
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
 
         return if (rate.length > MAXIMUM_INPUT) {
-            viewModelScope.launch { _effect.emit(WatchersEffect.TooBigNumber) }
+            viewModelScope.launch { _effect.emit(WatchersEffect.TooBigInput) }
             rate.dropLast(1)
         } else {
             rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull()?.let {

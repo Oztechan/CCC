@@ -42,7 +42,6 @@
     <string name="cancel">Cancel</string>
     <string name="text_too_big_input">The input is too long.</string>
     <string name="text_too_big_output">The output is too long.</string>
-    <string name="text_too_big_number">Too big number.</string>
     <string name="text_online_last_updated">Online! Last update: %s</string>
     <string name="text_cached_last_updated">Cached! Last update: %s</string>
     <string name="text_offline_last_updated">Offline! Last update: %s</string>
