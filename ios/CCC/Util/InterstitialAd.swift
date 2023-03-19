@@ -20,10 +20,14 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
                     return
                 }
 
-                interstitialAd?.fullScreenContentDelegate = self
-                interstitialAd?.present(
-                    fromRootViewController: WindowUtil.getCurrentController()
-                )
+                if UIApplication.shared.applicationState == .active {
+                    interstitialAd?.fullScreenContentDelegate = self
+                    interstitialAd?.present(
+                        fromRootViewController: WindowUtil.getCurrentController()
+                    )
+                } else {
+                    logger.d(message: { "InterstitialAd not showed appState is not active" })
+                }
             }
         )
     }
