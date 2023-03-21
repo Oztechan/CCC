@@ -16,7 +16,6 @@ import com.oztechan.ccc.android.app.di.initKoin
 import com.oztechan.ccc.android.core.ad.initAds
 import com.oztechan.ccc.client.core.analytics.initAnalytics
 
-@Suppress("unused")
 class Application : Application() {
 
     override fun onCreate() {
