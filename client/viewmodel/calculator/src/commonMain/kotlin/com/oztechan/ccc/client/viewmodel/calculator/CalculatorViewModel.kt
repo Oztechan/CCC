@@ -77,6 +77,7 @@ class CalculatorViewModel(
                         loading = true
                     )
                 }
+                updateConversion()
                 observeBase()
                 observeInput()
             }
@@ -175,7 +176,7 @@ class CalculatorViewModel(
 
             state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> {
                 _effect.emit(CalculatorEffect.FewCurrency)
-                _state.update { copy(conversionState = ConversionState.None, loading = false) }
+                _state.update { copy(loading = false) }
             }
 
             else -> updateConversion()
