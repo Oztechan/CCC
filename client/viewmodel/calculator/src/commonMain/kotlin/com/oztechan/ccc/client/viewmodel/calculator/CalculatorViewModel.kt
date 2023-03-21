@@ -106,13 +106,16 @@ class CalculatorViewModel(
         }
         .launchIn(viewModelScope)
 
-    private fun fetchConversion() = data.conversion?.let {
-        calculateConversions(it, ConversionState.Cached(it.date))
-    } ?: viewModelScope.launch {
+    private fun fetchConversion() {
         _state.update { copy(loading = true) }
-        runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
-            .onFailure(::fetchConversionFailed)
-            .onSuccess(::fetchConversionSuccess)
+
+        data.conversion?.let {
+            calculateConversions(it, ConversionState.Cached(it.date))
+        } ?: viewModelScope.launch {
+            runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
+                .onFailure(::fetchConversionFailed)
+                .onSuccess(::fetchConversionSuccess)
+        }
     }
 
     private fun fetchConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
