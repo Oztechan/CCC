@@ -113,9 +113,6 @@ class CalculatorViewModel(
         runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
             .onFailure(::fetchConversionFailed)
             .onSuccess(::fetchConversionSuccess)
-            .also {
-                _state.update { copy(loading = false) }
-            }
     }
 
     private fun fetchConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
@@ -139,9 +136,7 @@ class CalculatorViewModel(
 
             _effect.emit(CalculatorEffect.Error)
 
-            _state.update {
-                copy(conversionState = ConversionState.Error)
-            }
+            calculateConversions(null, ConversionState.Error)
         }
     }
 
@@ -169,14 +164,15 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateConversions(conversion: Conversion, conversionState: ConversionState) = _state.update {
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
         copy(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
                     .getFormatted(calculationStorage.precision)
                     .toStandardDigits()
             },
-            conversionState = conversionState
+            conversionState = conversionState,
+            loading = false
         )
     }
 
