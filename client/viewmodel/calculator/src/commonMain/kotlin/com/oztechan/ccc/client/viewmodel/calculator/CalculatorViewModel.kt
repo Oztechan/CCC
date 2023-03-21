@@ -76,7 +76,7 @@ class CalculatorViewModel(
                         input = calculationStorage.lastInput,
                     )
                 }
-                fetchConversion()
+                updateConversion()
                 observeBase()
                 observeInput()
             }
@@ -106,7 +106,7 @@ class CalculatorViewModel(
         }
         .launchIn(viewModelScope)
 
-    private fun fetchConversion() {
+    private fun updateConversion() {
         _state.update { copy(loading = true) }
 
         data.conversion?.let {
@@ -175,7 +175,7 @@ class CalculatorViewModel(
 
             state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> _effect.emit(CalculatorEffect.FewCurrency)
 
-            else -> fetchConversion()
+            else -> updateConversion()
         }
     }
 
