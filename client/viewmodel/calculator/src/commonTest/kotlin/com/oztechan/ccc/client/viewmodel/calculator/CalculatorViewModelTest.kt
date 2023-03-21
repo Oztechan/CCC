@@ -225,7 +225,7 @@ internal class CalculatorViewModelTest {
             viewModel.state.value.let { state ->
                 assertNotNull(state)
                 assertFalse { state.loading }
-                assertEquals(ConversionState.Error, state.conversionState)
+                assertEquals(ConversionState.None, state.conversionState)
             }
         }
 

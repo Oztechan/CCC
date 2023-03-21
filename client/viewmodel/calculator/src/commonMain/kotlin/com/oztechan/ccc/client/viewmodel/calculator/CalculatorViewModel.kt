@@ -74,9 +74,9 @@ class CalculatorViewModel(
                         currencyList = currencyDataSource.getActiveCurrencies(),
                         base = calculationStorage.currentBase,
                         input = calculationStorage.lastInput,
+                        loading = true
                     )
                 }
-                updateConversion()
                 observeBase()
                 observeInput()
             }
@@ -129,7 +129,7 @@ class CalculatorViewModel(
         }
 
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
-        Logger.w(t) { "CalculatorViewModel getConversionFailed" }
+        Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
             calculationStorage.currentBase
         )?.let {
@@ -173,7 +173,10 @@ class CalculatorViewModel(
                 _state.update { copy(input = input.dropLast(1)) }
             }
 
-            state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> _effect.emit(CalculatorEffect.FewCurrency)
+            state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> {
+                _effect.emit(CalculatorEffect.FewCurrency)
+                _state.update { copy(conversionState = ConversionState.None, loading = false) }
+            }
 
             else -> updateConversion()
         }
