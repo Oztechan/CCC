@@ -143,6 +143,18 @@ class CalculatorViewModel(
         }
     }
 
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
+        copy(
+            currencyList = _state.value.currencyList.onEach {
+                it.rate = conversion.calculateRate(it.code, _state.value.output)
+                    .getFormatted(calculationStorage.precision)
+                    .toStandardDigits()
+            },
+            conversionState = conversionState,
+            loading = false
+        )
+    }
+
     private fun calculateOutput(input: String) = viewModelScope.launch {
         val output = data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
@@ -165,18 +177,6 @@ class CalculatorViewModel(
 
             else -> fetchConversion()
         }
-    }
-
-    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
-        copy(
-            currencyList = _state.value.currencyList.onEach {
-                it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculationStorage.precision)
-                    .toStandardDigits()
-            },
-            conversionState = conversionState,
-            loading = false
-        )
     }
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
