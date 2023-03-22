@@ -34,7 +34,7 @@ kotlin {
                 }
 
                 Modules.Submodules.apply {
-                    implementation(project(scopemob))
+                    implementation(scopemob)
                 }
             }
         }
