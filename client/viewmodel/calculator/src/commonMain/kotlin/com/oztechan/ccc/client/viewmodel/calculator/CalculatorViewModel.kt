@@ -74,9 +74,10 @@ class CalculatorViewModel(
                         currencyList = currencyDataSource.getActiveCurrencies(),
                         base = calculationStorage.currentBase,
                         input = calculationStorage.lastInput,
+                        loading = true
                     )
                 }
-                fetchConversion()
+                updateConversion()
                 observeBase()
                 observeInput()
             }
@@ -106,19 +107,19 @@ class CalculatorViewModel(
         }
         .launchIn(viewModelScope)
 
-    private fun fetchConversion() = data.conversion?.let {
-        calculateConversions(it, ConversionState.Cached(it.date))
-    } ?: viewModelScope.launch {
+    private fun updateConversion() {
         _state.update { copy(loading = true) }
-        runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
-            .onFailure(::fetchConversionFailed)
-            .onSuccess(::fetchConversionSuccess)
-            .also {
-                _state.update { copy(loading = false) }
-            }
+
+        data.conversion?.let {
+            calculateConversions(it, ConversionState.Cached(it.date))
+        } ?: viewModelScope.launch {
+            runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
+                .onFailure(::updateConversionFailed)
+                .onSuccess(::updateConversionSuccess)
+        }
     }
 
-    private fun fetchConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
+    private fun updateConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
         .let {
             data.conversion = it
             calculateConversions(it, ConversionState.Online(it.date))
@@ -128,8 +129,8 @@ class CalculatorViewModel(
             }
         }
 
-    private fun fetchConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
-        Logger.w(t) { "CalculatorViewModel getConversionFailed" }
+    private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
+        Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
             calculationStorage.currentBase
         )?.let {
@@ -139,10 +140,20 @@ class CalculatorViewModel(
 
             _effect.emit(CalculatorEffect.Error)
 
-            _state.update {
-                copy(conversionState = ConversionState.Error)
-            }
+            calculateConversions(null, ConversionState.Error)
         }
+    }
+
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
+        copy(
+            currencyList = _state.value.currencyList.onEach {
+                it.rate = conversion.calculateRate(it.code, _state.value.output)
+                    .getFormatted(calculationStorage.precision)
+                    .toStandardDigits()
+            },
+            conversionState = conversionState,
+            loading = false
+        )
     }
 
     private fun calculateOutput(input: String) = viewModelScope.launch {
@@ -163,21 +174,13 @@ class CalculatorViewModel(
                 _state.update { copy(input = input.dropLast(1)) }
             }
 
-            state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> _effect.emit(CalculatorEffect.FewCurrency)
+            state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> {
+                _effect.emit(CalculatorEffect.FewCurrency)
+                _state.update { copy(loading = false) }
+            }
 
-            else -> fetchConversion()
+            else -> updateConversion()
         }
-    }
-
-    private fun calculateConversions(conversion: Conversion, conversionState: ConversionState) = _state.update {
-        copy(
-            currencyList = _state.value.currencyList.onEach {
-                it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculationStorage.precision)
-                    .toStandardDigits()
-            },
-            conversionState = conversionState
-        )
     }
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
