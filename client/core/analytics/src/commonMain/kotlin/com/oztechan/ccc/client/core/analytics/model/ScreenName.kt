@@ -5,8 +5,6 @@ sealed class ScreenName {
     object SelectCurrency : ScreenName()
     object Currencies : ScreenName()
     object Settings : ScreenName()
-
-    @Suppress("unused") // used in iOS
     object Watchers : ScreenName()
     object Premium : ScreenName()
     data class Slider(val position: Int) : ScreenName()

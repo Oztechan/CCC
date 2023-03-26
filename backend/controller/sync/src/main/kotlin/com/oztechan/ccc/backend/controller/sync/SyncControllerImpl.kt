@@ -9,7 +9,6 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 
-@Suppress("unused")
 internal class SyncControllerImpl(
     private val premiumApiService: PremiumApiService,
     private val freeApiService: FreeApiService,
