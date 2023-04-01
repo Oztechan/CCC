@@ -1,7 +1,7 @@
 <!--
   ~ Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
@@ -333,6 +333,7 @@
         <item name="queryHint">@string/search</item>
         <item name="closeIcon">@drawable/ic_close</item>
         <item name="searchHintIcon">@drawable/ic_search_hint</item>
+        <item name="android:searchHintIcon" tools:targetApi="lollipop_mr1">@drawable/ic_search_hint</item>
         <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
