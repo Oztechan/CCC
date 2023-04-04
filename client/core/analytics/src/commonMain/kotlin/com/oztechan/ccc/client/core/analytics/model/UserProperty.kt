@@ -9,4 +9,5 @@ sealed class UserProperty(val key: String, open val value: String) {
     data class IsPremium(override val value: String) : UserProperty("is_premium", value)
     data class SessionCount(override val value: String) : UserProperty("session_count", value)
     data class DevicePlatform(override val value: String) : UserProperty("device_platform", value)
+    data class HasWidget(override val value: String) : UserProperty("has_widget", value) // android only
 }
