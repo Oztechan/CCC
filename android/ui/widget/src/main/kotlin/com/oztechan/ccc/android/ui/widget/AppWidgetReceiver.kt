@@ -9,6 +9,8 @@ import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import com.oztechan.ccc.android.ui.widget.action.WidgetAction
 import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.mapToWidgetAction
 import com.oztechan.ccc.android.viewmodel.widget.WidgetViewModel
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -17,6 +19,7 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override val glanceAppWidget: GlanceAppWidget = AppWidget()
 
     private val viewModel: WidgetViewModel by inject()
+    private val analyticsManager: AnalyticsManager by inject()
 
     private fun refreshData(
         context: Context,
@@ -67,20 +70,24 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     }
 
     private fun String?.executeSystemAction(context: Context) = when (this) {
-        // no needed to refresh
-        AppWidgetManager.ACTION_APPWIDGET_DISABLED,
-        AppWidgetManager.ACTION_APPWIDGET_DELETED,
-        AppWidgetManager.ACTION_APPWIDGET_ENABLED -> Unit
+        AppWidgetManager.ACTION_APPWIDGET_DELETED -> analyticsManager.setUserProperty(
+            UserProperty.HasWidget(false.toString())
+        )
 
-        // unknown ones perhaps no need to refresh (yet)
+        AppWidgetManager.ACTION_APPWIDGET_ENABLED -> analyticsManager.setUserProperty(
+            UserProperty.HasWidget(true.toString())
+        )
+
+        AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+        AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED -> refreshData(context)
+
+        // defined but no action needed system events
+        AppWidgetManager.ACTION_APPWIDGET_DISABLED,
         AppWidgetManager.ACTION_APPWIDGET_BIND,
         AppWidgetManager.ACTION_APPWIDGET_PICK,
         AppWidgetManager.ACTION_APPWIDGET_CONFIGURE,
         AppWidgetManager.ACTION_APPWIDGET_RESTORED,
         AppWidgetManager.ACTION_APPWIDGET_HOST_RESTORED -> Unit
-
-        AppWidgetManager.ACTION_APPWIDGET_UPDATE,
-        AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED -> refreshData(context)
 
         else -> error("undefined widget action")
     }

@@ -44,5 +44,8 @@ dependencies {
 
     implementation(project(Modules.Common.Core.model))
 
-    implementation(project(Modules.Client.Core.res))
+    Modules.Client.Core.apply {
+        implementation(project(res))
+        implementation(project(analytics))
+    }
 }
