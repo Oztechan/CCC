@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.core.shared.util
+package com.oztechan.ccc.client.viewmodel.settings.util
 
 import kotlin.random.Random
 import kotlin.test.Test
