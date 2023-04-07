@@ -6,12 +6,12 @@ package com.oztechan.ccc.client.viewmodel.premium
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.client.core.shared.model.OldPurchase
-import com.oztechan.ccc.client.core.shared.model.PremiumData
-import com.oztechan.ccc.client.core.shared.model.PremiumType
-import com.oztechan.ccc.client.core.shared.util.calculatePremiumEnd
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.storage.app.AppStorage
+import com.oztechan.ccc.client.viewmodel.premium.model.OldPurchase
+import com.oztechan.ccc.client.viewmodel.premium.model.PremiumData
+import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
+import com.oztechan.ccc.client.viewmodel.premium.util.calculatePremiumEnd
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure

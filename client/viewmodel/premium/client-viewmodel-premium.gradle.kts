@@ -21,6 +21,7 @@ kotlin {
                     implementation(koinCore)
                     implementation(kermit)
                     implementation(coroutines)
+                    implementation(kotlinXDateTime)
                 }
 
                 Modules.Client.Core.apply {

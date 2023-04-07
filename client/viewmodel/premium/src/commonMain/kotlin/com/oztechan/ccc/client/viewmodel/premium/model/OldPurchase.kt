@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.core.shared.model
+package com.oztechan.ccc.client.viewmodel.premium.model
 
 data class OldPurchase(
     val date: Long,

@@ -23,9 +23,9 @@ import com.oztechan.ccc.android.ui.mobile.util.toPremiumDataList
 import com.oztechan.ccc.android.ui.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
-import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
+import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
