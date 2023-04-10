@@ -2,7 +2,7 @@ package com.oztechan.ccc.android.ui.mobile.util
 
 import com.oztechan.ccc.android.core.billing.model.ProductDetails
 import com.oztechan.ccc.android.core.billing.model.PurchaseHistoryRecord
-import com.oztechan.ccc.client.core.shared.model.PremiumType
+import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -119,6 +119,9 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
+      - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
+        uses: actions/checkout@v3
+
       - name: Download Android Artifacts
         uses: actions/download-artifact@v3
         with:
