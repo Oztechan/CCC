@@ -78,11 +78,6 @@ android {
             targetCompatibility = JAVA_VERSION
         }
     }
-
-    // todo can be removed after
-    // https://github.com/icerockdev/moko-resources/issues/384
-    // https://github.com/icerockdev/moko-resources/issues/353
-    sourceSets["main"].res.srcDir(File(buildDir, "generated/moko/androidMain/res"))
 }
 
 multiplatformResources {
@@ -90,11 +85,6 @@ multiplatformResources {
     disableStaticFrameworkWarning = true
     multiplatformResourcesClassName = Modules.Client.Core.res.frameworkName
 }
-
-// todo https://github.com/icerockdev/moko-resources/issues/375
-tasks.findByName("iosSimulatorArm64ProcessResources")?.dependsOn("generateMRiosSimulatorArm64Main")
-tasks.findByName("iosX64ProcessResources")?.dependsOn("generateMRiosX64Main")
-tasks.findByName("iosArmX64ProcessResources")?.dependsOn("generateMRiosArmX64Main")
 
 // todo https://github.com/icerockdev/moko-resources/issues/421
 tasks.withType<Detekt> {
