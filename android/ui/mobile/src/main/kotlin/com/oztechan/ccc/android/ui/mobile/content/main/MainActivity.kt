@@ -29,6 +29,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
+    override var containerId: Int = R.id.container
 
     private val adManager: AdManager by inject()
     private val mainViewModel: MainViewModel by viewModel()
