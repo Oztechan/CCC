@@ -40,6 +40,8 @@ android {
         }
     }
 
+    buildFeatures.buildConfig = true
+
     signingConfigs {
         create(BuildType.release) {
             storeFile = file(secret(Key.ANDROID_KEY_STORE_PATH))
