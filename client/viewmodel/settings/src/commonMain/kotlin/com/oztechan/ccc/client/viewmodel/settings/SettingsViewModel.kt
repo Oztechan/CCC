@@ -7,7 +7,6 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.util.indexToNumber
 import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.toDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
@@ -22,6 +21,7 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.settings.SettingsData.Companion.SYNC_DELAY
 import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
+import com.oztechan.ccc.client.viewmodel.settings.util.indexToNumber
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
