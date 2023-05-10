@@ -348,10 +348,11 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Detekt
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: detektAll
+      #      todo temporary disabled
+      #      - name: Detekt
+      #        uses: gradle/gradle-build-action@v2
+      #        with:
+      #          arguments: detektAll
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1

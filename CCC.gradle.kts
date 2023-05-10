@@ -1,14 +1,15 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         alias(kover)
-        alias(detekt)
+        // todo temporary disabled
+        // https://github.com/detekt/detekt/issues/6079
+        // alias(detekt)
     }
 }
 
@@ -49,29 +50,31 @@ allprojects {
         }
     }
 
-    apply(plugin = rootProject.libs.plugins.detekt.get().pluginId).also {
-        detekt {
-            buildUponDefaultConfig = true
-            allRules = true
-            parallel = true
-            config = files("${rootProject.projectDir}/detekt.yml")
-        }
-        tasks.withType<Detekt> {
-            setSource(files(project.projectDir))
-            exclude("**/build/**")
-            exclude {
-                it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
-            }
-        }
+    // todo temporary disabled
+    // https://github.com/detekt/detekt/issues/6079
+    // apply(plugin = rootProject.libs.plugins.detekt.get().pluginId).also {
+    //     detekt {
+    //         buildUponDefaultConfig = true
+    //         allRules = true
+    //         parallel = true
+    //         config = files("${rootProject.projectDir}/detekt.yml")
+    //     }
+    //     tasks.withType<Detekt> {
+    //         setSource(files(project.projectDir))
+    //         exclude("**/build/**")
+    //         exclude {
+    //             it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
+    //         }
+    //     }
 
-        tasks.register("detektAll") {
-            dependsOn(tasks.withType<Detekt>())
-        }
+    //     tasks.register("detektAll") {
+    //         dependsOn(tasks.withType<Detekt>())
+    //     }
 
-        dependencies {
-            detektPlugins(rootProject.libs.common.detektFormatting)
-        }
-    }
+    //     dependencies {
+    //         detektPlugins(rootProject.libs.common.detektFormatting)
+    //     }
+    // }
 
     tasks.withType<KotlinCompile> {
         kotlinOptions {
