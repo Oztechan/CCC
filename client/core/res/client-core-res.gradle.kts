@@ -1,5 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
-
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
@@ -86,7 +84,9 @@ multiplatformResources {
     multiplatformResourcesClassName = Modules.Client.Core.res.frameworkName
 }
 
+// todo temporary disabled
+// https://github.com/detekt/detekt/issues/6079
 // todo https://github.com/icerockdev/moko-resources/issues/421
-tasks.withType<Detekt> {
-    dependsOn("generateMRcommonMain")
-}
+// tasks.withType<Detekt> {
+//     dependsOn("generateMRcommonMain")
+// }
