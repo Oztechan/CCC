@@ -10,6 +10,24 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("com.gradle.enterprise") version ("3.13")
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        publishAlways()
+
+        obfuscation {
+            username { null }
+            hostname { null }
+            ipAddresses { null }
+        }
+    }
+}
+
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories {
