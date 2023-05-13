@@ -42,13 +42,13 @@ include(
     // endregion
 
     // region Backend only modules
-    ":backend:app",
-    // Service modules
-    ":backend:service:free",
-    ":backend:service:premium",
-    // Controller modules
-    ":backend:controller:sync",
-    ":backend:controller:api",
+//    ":backend:app",
+//    // Service modules
+//    ":backend:service:free",
+//    ":backend:service:premium",
+//    // Controller modules
+//    ":backend:controller:sync",
+//    ":backend:controller:api",
     // endregion
 
     // region Client only modules Android+iOS
