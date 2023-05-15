@@ -21,20 +21,23 @@ internal class BackgroundRepositoryImpl(
 
         runBlocking {
             watchersDataSource.getWatchers().forEach { watcher ->
-                backendApiService
-                    .getConversion(watcher.base)
-                    .getRateFromCode(watcher.target)
-                    ?.let { rate ->
-                        when {
-                            watcher.isGreater && rate > watcher.rate -> return@runBlocking true
-                            !watcher.isGreater && rate < watcher.rate -> return@runBlocking true
+
+                runCatching { backendApiService.getConversion(watcher.base) }
+                    .onSuccess {
+                        it.getRateFromCode(watcher.target)?.let { rate ->
+                            when {
+                                watcher.isGreater && rate > watcher.rate -> return@runBlocking true
+                                !watcher.isGreater && rate < watcher.rate -> return@runBlocking true
+                            }
                         }
+                    }.onFailure {
+                        Logger.w(it) { "BackgroundRepositoryImpl shouldSendNotification error onFailure: $it" }
                     }
             }
             return@runBlocking false
         }
     } catch (e: Exception) {
-        Logger.w { "BackgroundRepositoryImpl shouldSendNotification error: $e" }
+        Logger.w(e) { "BackgroundRepositoryImpl shouldSendNotification error catch: $e" }
         false
     }
 }
