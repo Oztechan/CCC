@@ -85,7 +85,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Artifacts
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
@@ -235,7 +235,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Generate Pods
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.4.2
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
