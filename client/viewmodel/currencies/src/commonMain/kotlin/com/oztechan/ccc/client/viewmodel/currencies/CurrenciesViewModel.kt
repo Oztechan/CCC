@@ -52,18 +52,11 @@ class CurrenciesViewModel(
         currencyDataSource.getCurrenciesFlow()
             .onEach { currencyList ->
 
-                _state.update {
-                    copy(
-                        currencyList = currencyList,
-                        selectionVisibility = false
-                    )
-                }
                 data.unFilteredList = currencyList.toMutableList()
+                filterList(data.query)
 
                 verifyListSize()
                 verifyCurrentBase()
-
-                filterList(data.query)
 
                 currencyList.filter { it.isActive }
                     .let {

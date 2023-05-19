@@ -3,7 +3,6 @@
  */
 package com.oztechan.ccc.common.core.model
 
-@Suppress("LargeClass", "unused")
 enum class CurrencyType {
     AED, AFN, ALL, AMD, ANG, AOA, ARS, AUD, AWG, AZN, BAM, BBD, BDT, BGN, BHD, BIF, BMD, BND, BOB,
     BRL, BSD, BTC, BTN, BWP, BYN, BZD, CAD, CDF, CHF, CLF, CLP, CNH, CNY, COP, CRC, CUC, CUP, CVE,

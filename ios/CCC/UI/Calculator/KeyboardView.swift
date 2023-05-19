@@ -12,15 +12,14 @@ import SwiftUI
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
-    // swiftlint:disable line_length
     let keys = [
         [Res.strings().seven.get(), Res.strings().eight.get(), Res.strings().nine.get(), Res.strings().multiply.get()],
         [Res.strings().four.get(), Res.strings().five.get(), Res.strings().six.get(), Res.strings().divide.get()],
         [Res.strings().one.get(), Res.strings().two.get(), Res.strings().three.get(), Res.strings().minus.get()],
         [Res.strings().dot.get(), Res.strings().zero.get(), Res.strings().percent.get(), Res.strings().plus.get()],
+        // swiftlint:disable:next line_length
         [Res.strings().open_parentheses.get(), Res.strings().triple_zero.get(), Res.strings().ac.get(), Res.strings().delete_.get(), Res.strings().close_parentheses.get()]
     ]
-    // swiftlint:enable line_length
 
     var body: some View {
         VStack(alignment: .center) {

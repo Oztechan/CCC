@@ -37,8 +37,8 @@ struct SelectionView: View {
                 }
             )
         }
-        .padding(top: 20.cp(), leading: 10.cp(), bottom: 20.cp(), trailing: 20.cp())
+        .padding(top: 15.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 20.cp())
         .background(Res.colors().background_weak.get())
-        .frame(maxHeight: 52.cp())
+        .frame(maxHeight: 54.cp(), alignment: .bottom)
     }
 }

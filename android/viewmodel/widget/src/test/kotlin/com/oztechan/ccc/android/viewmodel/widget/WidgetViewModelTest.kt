@@ -51,11 +51,11 @@ class WidgetViewModelTest {
     private val appStorage = mock(classOf<AppStorage>())
 
     private val base = "EUR"
-    private val fistBase = "USD"
+    private val firstBase = "USD"
     private val lastBase = "TRY"
 
     private val activeCurrencyList = listOf(
-        Currency(code = fistBase, name = "Dollar", symbol = "$", isActive = true),
+        Currency(code = firstBase, name = "Dollar", symbol = "$", isActive = true),
         Currency(code = base, name = "Euro", symbol = "€", isActive = true),
         Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true)
     )
@@ -86,6 +86,66 @@ class WidgetViewModelTest {
             given(currencyDataSource)
                 .coroutine { getActiveCurrencies() }
                 .thenReturn(activeCurrencyList)
+        }
+    }
+
+    @Test
+    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
+        // first currency
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(firstBase)
+
+        given(backendApiService)
+            .coroutine { getConversion(firstBase) }
+            .thenReturn(conversion)
+
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData()
+        }
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData(true)
+        }
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData(false)
+        }
+
+        // middle currency
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(base)
+
+        given(backendApiService)
+            .coroutine { getConversion(base) }
+            .thenReturn(conversion)
+
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData()
+        }
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData(true)
+        }
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData(false)
+        }
+
+        // last currency
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(lastBase)
+
+        given(backendApiService)
+            .coroutine { getConversion(lastBase) }
+            .thenReturn(conversion)
+
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData()
+        }
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData(true)
+        }
+        repeat(activeCurrencyList.count()) {
+            viewModel.refreshWidgetData(false)
         }
     }
 
@@ -180,7 +240,7 @@ class WidgetViewModelTest {
 
         verify(calculationStorage)
             .setter(calculationStorage::currentBase)
-            .with(eq(fistBase))
+            .with(eq(firstBase))
             .wasInvoked()
 
         viewModel.refreshWidgetData(true)
@@ -221,7 +281,7 @@ class WidgetViewModelTest {
 
         verify(calculationStorage)
             .setter(calculationStorage::currentBase)
-            .with(eq(fistBase))
+            .with(eq(firstBase))
             .wasInvoked()
     }
 }

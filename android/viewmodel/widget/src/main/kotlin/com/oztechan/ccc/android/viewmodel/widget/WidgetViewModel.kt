@@ -69,7 +69,7 @@ class WidgetViewModel(
                     it - 1
                 }
             }.let {
-                it % activeCurrencies.size // it handles index -1 and index size +1
+                (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
             }
 
         calculationStorage.currentBase = activeCurrencies[newBaseIndex].code

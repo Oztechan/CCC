@@ -1,7 +1,6 @@
 /*
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
-@file:Suppress("unused")
 
 package com.oztechan.ccc.android.ui.mobile.util
 

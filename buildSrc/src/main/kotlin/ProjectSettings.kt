@@ -29,7 +29,7 @@ object ProjectSettings {
 
     const val IOS_DEPLOYMENT_TARGET = "14.0"
 
-    val JAVA_VERSION = JavaVersion.VERSION_11
+    val JAVA_VERSION = JavaVersion.VERSION_17
 
     @Suppress("TooGenericExceptionCaught", "SwallowedException")
     fun getVersionCode(project: Project) = try {

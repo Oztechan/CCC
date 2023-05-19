@@ -4,7 +4,6 @@ enum class DeviceFlavour {
     GOOGLE,
     HUAWEI;
 
-    @Suppress("unused")
     companion object {
         val google = GOOGLE.name.lowercase()
         val huawei = HUAWEI.name.lowercase()

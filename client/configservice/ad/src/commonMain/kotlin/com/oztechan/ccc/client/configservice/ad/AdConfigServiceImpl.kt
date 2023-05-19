@@ -14,11 +14,10 @@ internal class AdConfigServiceImpl :
     ),
     AdConfigService {
 
-    private val json = Json { ignoreUnknownKeys = true }
-
     override fun decode(
         value: String
-    ) = json.decodeFromString<AdConfigRCModel>(value)
+    ) = Json
+        .decodeFromString<AdConfigRCModel>(value)
         .toAdConfigModel()
 
     companion object {

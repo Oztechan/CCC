@@ -14,11 +14,10 @@ internal class UpdateConfigServiceImpl :
     ),
     UpdateConfigService {
 
-    private val json = Json { ignoreUnknownKeys = true }
-
     override fun decode(
         value: String
-    ) = json.decodeFromString<UpdateConfigRCModel>(value)
+    ) = Json
+        .decodeFromString<UpdateConfigRCModel>(value)
         .toUpdateConfigModel()
 
     companion object {

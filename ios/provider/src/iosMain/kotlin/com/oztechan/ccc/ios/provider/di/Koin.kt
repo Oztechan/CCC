@@ -2,8 +2,6 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-@file:Suppress("unused")
-
 package com.oztechan.ccc.ios.provider.di
 
 import co.touchlab.kermit.Logger
@@ -44,6 +42,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
+@Suppress("unused")
 fun initKoin(
     userDefaults: NSUserDefaults,
     analyticsManager: AnalyticsManager
@@ -106,6 +105,7 @@ private fun getIOSPlatformModule(userDefaults: NSUserDefaults) = module {
     single<Device> { Device.IOS }
 }
 
+@Suppress("unused")
 fun <T> Koin.getDependency(objCObject: ObjCObject): T = when (objCObject) {
     is ObjCClass -> getOriginalKotlinClass(objCObject)
     is ObjCProtocol -> getOriginalKotlinClass(objCObject)

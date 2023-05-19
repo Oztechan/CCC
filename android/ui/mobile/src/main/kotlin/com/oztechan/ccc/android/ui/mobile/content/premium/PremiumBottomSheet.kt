@@ -23,9 +23,9 @@ import com.oztechan.ccc.android.ui.mobile.util.toPremiumDataList
 import com.oztechan.ccc.android.ui.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
-import com.oztechan.ccc.client.core.shared.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.PremiumEffect
 import com.oztechan.ccc.client.viewmodel.premium.PremiumViewModel
+import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -49,8 +49,8 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "PremiumBottomSheet onViewCreated" }
         billingManager.startConnection(viewLifecycleOwner.lifecycleScope, PremiumType.getPurchaseIds())
-        initViews()
-        observeStates()
+        binding.initViews()
+        binding.observeStates()
         observeEffects()
         observeBillingEffects()
     }
@@ -67,15 +67,15 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         analyticsManager.trackScreen(ScreenName.Premium)
     }
 
-    private fun initViews() {
-        binding.recyclerViewPremium.adapter = premiumAdapter
+    private fun BottomSheetPremiumBinding.initViews() {
+        recyclerViewPremium.adapter = premiumAdapter
     }
 
-    private fun observeStates() = premiumViewModel.state
+    private fun BottomSheetPremiumBinding.observeStates() = premiumViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                binding.loadingView.visibleIf(loading, true)
+                loadingView.visibleIf(loading, true)
                 premiumAdapter.submitList(premiumTypes)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)

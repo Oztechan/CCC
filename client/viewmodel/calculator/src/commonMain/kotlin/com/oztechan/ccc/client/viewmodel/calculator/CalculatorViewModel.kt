@@ -5,7 +5,6 @@ package com.oztechan.ccc.client.viewmodel.calculator
 
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.mapTo
-import com.github.submob.scopemob.whether
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
@@ -75,9 +74,10 @@ class CalculatorViewModel(
                         currencyList = currencyDataSource.getActiveCurrencies(),
                         base = calculationStorage.currentBase,
                         input = calculationStorage.lastInput,
+                        loading = true
                     )
                 }
-                fetchConversion()
+                updateConversion()
                 observeBase()
                 observeInput()
             }
@@ -107,19 +107,19 @@ class CalculatorViewModel(
         }
         .launchIn(viewModelScope)
 
-    private fun fetchConversion() = data.conversion?.let {
-        calculateConversions(it, ConversionState.Cached(it.date))
-    } ?: viewModelScope.launch {
+    private fun updateConversion() {
         _state.update { copy(loading = true) }
-        runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
-            .onFailure(::fetchConversionFailed)
-            .onSuccess(::fetchConversionSuccess)
-            .also {
-                _state.update { copy(loading = false) }
-            }
+
+        data.conversion?.let {
+            calculateConversions(it, ConversionState.Cached(it.date))
+        } ?: viewModelScope.launch {
+            runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
+                .onFailure(::updateConversionFailed)
+                .onSuccess(::updateConversionSuccess)
+        }
     }
 
-    private fun fetchConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
+    private fun updateConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
         .let {
             data.conversion = it
             calculateConversions(it, ConversionState.Online(it.date))
@@ -129,8 +129,8 @@ class CalculatorViewModel(
             }
         }
 
-    private fun fetchConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
-        Logger.w(t) { "CalculatorViewModel getConversionFailed" }
+    private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
+        Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
             calculationStorage.currentBase
         )?.let {
@@ -140,43 +140,47 @@ class CalculatorViewModel(
 
             _effect.emit(CalculatorEffect.Error)
 
-            _state.update {
-                copy(conversionState = ConversionState.Error)
-            }
+            calculateConversions(null, ConversionState.Error)
         }
     }
 
-    private fun calculateOutput(input: String) = viewModelScope.launch {
-        data.parser
-            .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
-            .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
-            .whether(
-                { output -> output.length <= MAXIMUM_OUTPUT },
-                { input.length <= MAXIMUM_INPUT }
-            )?.let { output ->
-                _state.update { copy(output = output) }
-                state.value.currencyList.size
-                    .whether { it < MINIMUM_ACTIVE_CURRENCY }
-                    ?.whetherNot { state.value.input.isEmpty() }
-                    ?.let { _effect.emit(CalculatorEffect.FewCurrency) }
-                    ?: run { fetchConversion() }
-            } ?: run {
-            _effect.emit(CalculatorEffect.TooBigNumber)
-            _state.update {
-                copy(input = input.dropLast(1))
-            }
-        }
-    }
-
-    private fun calculateConversions(conversion: Conversion, conversionState: ConversionState) = _state.update {
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
         copy(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
                     .getFormatted(calculationStorage.precision)
                     .toStandardDigits()
             },
-            conversionState = conversionState
+            conversionState = conversionState,
+            loading = false
         )
+    }
+
+    private fun calculateOutput(input: String) = viewModelScope.launch {
+        val output = data.parser
+            .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
+            .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
+
+        _state.update { copy(output = output) }
+
+        when {
+            input.length > MAXIMUM_INPUT -> {
+                _effect.emit(CalculatorEffect.TooBigInput)
+                _state.update { copy(input = input.dropLast(1)) }
+            }
+
+            output.length > MAXIMUM_OUTPUT -> {
+                _effect.emit(CalculatorEffect.TooBigOutput)
+                _state.update { copy(input = input.dropLast(1)) }
+            }
+
+            state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> {
+                _effect.emit(CalculatorEffect.FewCurrency)
+                _state.update { copy(loading = false) }
+            }
+
+            else -> updateConversion()
+        }
     }
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {

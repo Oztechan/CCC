@@ -102,9 +102,8 @@ struct CurrenciesView: View {
             navigationStack.push(CalculatorView())
         case is CurrenciesEffect.Back:
             navigationStack.pop()
-        // swiftlint:disable force_cast
-        case is CurrenciesEffect.ChangeBase:
-            onBaseChange((effect as! CurrenciesEffect.ChangeBase).newBase)
+        case let changeBaseEffect as CurrenciesEffect.ChangeBase:
+            onBaseChange(changeBaseEffect.newBase)
         default:
             logger.i(message: { "CurrenciesView unknown effect" })
         }

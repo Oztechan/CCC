@@ -9,8 +9,6 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.core.shared.model.AppTheme
-import com.oztechan.ccc.client.core.shared.util.indexToNumber
-import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
@@ -19,6 +17,8 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
+import com.oztechan.ccc.client.viewmodel.settings.util.indexToNumber
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
@@ -41,7 +41,6 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -153,6 +152,42 @@ internal class SettingsViewModelTest {
     }
 
     @Test
+    fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(0)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumStatus.NeverActivated>(it.premiumStatus)
+        }
+    }
+
+    @Test
+    fun `when premiumEndDate is passed PremiumStatus is Expired`() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumStatus.Expired>(it.premiumStatus)
+        }
+    }
+
+    @Test
+    fun `when premiumEndDate is not passed PremiumStatus is Active`() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumStatus.Active>(it.premiumStatus)
+        }
+    }
+
+    @Test
     fun `successful synchroniseConversions update the database`() = runTest {
         viewModel.data.synced = false
 
@@ -235,17 +270,6 @@ internal class SettingsViewModelTest {
     }
 
     @Test
-    fun isPremiumExpired() {
-        assertEquals(
-            appStorage.premiumEndDate.isPassed(),
-            viewModel.isPremiumExpired()
-        )
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
     fun shouldShowBannerAd() {
         val mockBoolean = Random.nextBoolean()
 
@@ -257,32 +281,6 @@ internal class SettingsViewModelTest {
 
         verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isPremiumEverActivated returns false when premiumEndDate is not zero`() {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(1)
-
-        assertFalse { viewModel.isPremiumEverActivated() }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `isPremiumEverActivated returns true when premiumEndDate is zero`() {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(0)
-
-        assertTrue { viewModel.isPremiumEverActivated() }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
             .wasInvoked()
     }
 

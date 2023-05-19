@@ -30,9 +30,10 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.MAXIMUM_FLOATING_POINT
-import com.oztechan.ccc.client.core.shared.util.numberToIndex
 import com.oztechan.ccc.client.viewmodel.settings.SettingsEffect
 import com.oztechan.ccc.client.viewmodel.settings.SettingsViewModel
+import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
+import com.oztechan.ccc.client.viewmodel.settings.util.numberToIndex
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -50,10 +51,10 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "SettingsFragment onViewCreated" }
-        initViews()
-        observeStates()
+        binding.initViews()
+        binding.observeStates()
+        binding.setListeners()
         observeEffects()
-        setListeners()
     }
 
     override fun onDestroyView() {
@@ -63,7 +64,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     }
 
     @Suppress("LongMethod")
-    private fun initViews() = with(binding) {
+    private fun FragmentSettingsBinding.initViews() {
         adViewContainer.setBannerAd(
             adManager = adManager,
             adId = if (BuildConfig.DEBUG) {
@@ -136,31 +137,24 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun observeStates() = settingsViewModel.state
+    private fun FragmentSettingsBinding.observeStates() = settingsViewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                binding.itemCurrencies.settingsItemValue.text = requireContext().getString(
+                itemCurrencies.settingsItemValue.text = requireContext().getString(
                     R.string.settings_active_item_value,
                     activeCurrencyCount
                 )
-                binding.itemTheme.settingsItemValue.text = appThemeType.themeName
-                binding.itemVersion.settingsItemValue.text = version
+                itemTheme.settingsItemValue.text = appThemeType.themeName
+                itemVersion.settingsItemValue.text = version
 
-                binding.itemDisableAds.settingsItemValue.text = when {
-                    settingsViewModel.isPremiumEverActivated() -> ""
-                    settingsViewModel.isPremiumExpired() -> getString(
-                        R.string.settings_item_premium_value_expired,
-                        premiumEndDate
-                    )
-
-                    else -> getString(
-                        R.string.settings_item_premium_value_will_expire,
-                        premiumEndDate
-                    )
+                itemDisableAds.settingsItemValue.text = when (val state = it.premiumStatus) {
+                    PremiumStatus.NeverActivated -> ""
+                    is PremiumStatus.Active -> getString(R.string.settings_item_premium_value_will_expire, state.until)
+                    is PremiumStatus.Expired -> getString(R.string.settings_item_premium_value_expired, state.at)
                 }
 
-                binding.itemPrecision.settingsItemValue.text = requireContext().getString(
+                itemPrecision.settingsItemValue.text = requireContext().getString(
                     if (it.precision == 1) {
                         R.string.settings_item_precision_value
                     } else {
@@ -219,21 +213,19 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun setListeners() = with(binding) {
-        with(settingsViewModel.event) {
-            backButton.setOnClickListener { onBackClick() }
+    private fun FragmentSettingsBinding.setListeners() = with(settingsViewModel.event) {
+        backButton.setOnClickListener { onBackClick() }
 
-            itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
-            itemWatchers.root.setOnClickListener { onWatchersClick() }
-            itemTheme.root.setOnClickListener { onThemeClick() }
-            itemDisableAds.root.setOnClickListener { onPremiumClick() }
-            itemSync.root.setOnClickListener { onSyncClick() }
-            itemSupportUs.root.setOnClickListener { onSupportUsClick() }
-            itemFeedback.root.setOnClickListener { onFeedBackClick() }
-            itemShare.root.setOnClickListener { onShareClick() }
-            itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
-            itemPrecision.root.setOnClickListener { onPrecisionClick() }
-        }
+        itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
+        itemWatchers.root.setOnClickListener { onWatchersClick() }
+        itemTheme.root.setOnClickListener { onThemeClick() }
+        itemDisableAds.root.setOnClickListener { onPremiumClick() }
+        itemSync.root.setOnClickListener { onSyncClick() }
+        itemSupportUs.root.setOnClickListener { onSupportUsClick() }
+        itemFeedback.root.setOnClickListener { onFeedBackClick() }
+        itemShare.root.setOnClickListener { onShareClick() }
+        itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
+        itemPrecision.root.setOnClickListener { onPrecisionClick() }
     }
 
     override fun onResume() {

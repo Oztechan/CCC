@@ -2,9 +2,9 @@
  * Copyright (c) 2021 Mustafa Ozhan. All rights reserved.
  */
 
-package com.oztechan.ccc.client.core.shared.model
+package com.oztechan.ccc.client.viewmodel.premium.model
 
-import com.oztechan.ccc.client.core.shared.util.REWARDED_AD_PREMIUM_IN_DAYS
+import com.oztechan.ccc.client.viewmodel.premium.util.REWARDED_AD_PREMIUM_IN_DAYS
 
 enum class PremiumType(val data: PremiumData) {
     VIDEO(PremiumData("Watch Video", "$REWARDED_AD_PREMIUM_IN_DAYS Days", "")),

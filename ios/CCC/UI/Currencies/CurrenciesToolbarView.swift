@@ -19,7 +19,9 @@ struct CurrenciesToolbarView: View {
 
     var body: some View {
         HStack {
-            if !firstRun {
+            if firstRun {
+                Text("").padding(trailing: 8.cp())
+            } else {
                 ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")
             }
 
@@ -29,13 +31,14 @@ struct CurrenciesToolbarView: View {
                 TextField(Res.strings().search.get(), text: $query)
                     .font(relative: .headline)
                     .onChange(of: query) { onQueryChange($0) }
+                    .padding(8.cp())
                     .background(
                         RoundedRectangle(cornerRadius: 3.cp())
                             .fill(Res.colors().background.get())
                     )
                     .disableAutocorrection(true)
                     .multilineTextAlignment(.center)
-                    .padding(1.cp())
+                    .frame(height: 24.cp())
 
                 Spacer()
 

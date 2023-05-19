@@ -27,7 +27,7 @@ struct WatchersView: View {
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var isInvalidInputSnackShown = false
     @State var isMaxWatchersSnackShown = false
-    @State var isTooBigNumberSnackShown = false
+    @State var isTooBigInputSnackShown = false
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
@@ -127,11 +127,11 @@ struct WatchersView: View {
             SnackView(text: Res.strings().text_maximum_number_of_watchers.get())
         }
         .popup(
-            isPresented: $isTooBigNumberSnackShown,
+            isPresented: $isTooBigInputSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: Res.strings().text_too_big_number.get())
+            SnackView(text: Res.strings().text_too_big_input.get())
         }
         .sheet(
             isPresented: $baseBarInfo.isShown,
@@ -184,16 +184,14 @@ struct WatchersView: View {
         switch effect {
         case is WatchersEffect.Back:
             navigationStack.pop()
-        // swiftlint:disable force_cast
-        case is WatchersEffect.SelectBase:
-            baseBarInfo.watcher = (effect as! WatchersEffect.SelectBase).watcher
+        case let selectBaseEffect as WatchersEffect.SelectBase:
+            baseBarInfo.watcher = selectBaseEffect.watcher
             baseBarInfo.isShown.toggle()
-        // swiftlint:disable force_cast
-        case is WatchersEffect.SelectTarget:
-            targetBarInfo.watcher = (effect as! WatchersEffect.SelectTarget).watcher
+        case let selectTargetEffect as WatchersEffect.SelectTarget:
+            targetBarInfo.watcher = selectTargetEffect.watcher
             targetBarInfo.isShown.toggle()
-        case is WatchersEffect.TooBigNumber:
-            isTooBigNumberSnackShown.toggle()
+        case is WatchersEffect.TooBigInput:
+            isTooBigInputSnackShown.toggle()
         case is WatchersEffect.InvalidInput:
             isInvalidInputSnackShown.toggle()
         case is WatchersEffect.MaximumNumberOfWatchers:

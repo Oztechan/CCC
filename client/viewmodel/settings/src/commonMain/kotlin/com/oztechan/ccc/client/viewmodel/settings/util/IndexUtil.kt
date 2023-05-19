@@ -1,4 +1,4 @@
-package com.oztechan.ccc.client.core.shared.util
+package com.oztechan.ccc.client.viewmodel.settings.util
 
 fun Int.indexToNumber() = this + 1
 

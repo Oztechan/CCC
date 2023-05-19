@@ -23,7 +23,8 @@ struct CalculatorView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
-    @State var isTooBigNumberSnackShown = false
+    @State var isTooBigInputSnackShown = false
+    @State var isTooBigOutputSnackShown = false
     @State var isGenericErrorSnackShown = false
     @State var isFewCurrencySnackShown = false
     @State var isCopyClipboardSnackShown = false
@@ -101,11 +102,18 @@ struct CalculatorView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .popup(
-            isPresented: $isTooBigNumberSnackShown,
+            isPresented: $isTooBigInputSnackShown,
             type: .toast,
             autohideIn: 2.0
         ) {
-            SnackView(text: Res.strings().text_too_big_number.get())
+            SnackView(text: Res.strings().text_too_big_input.get())
+        }
+        .popup(
+            isPresented: $isTooBigOutputSnackShown,
+            type: .toast,
+            autohideIn: 2.0
+        ) {
+            SnackView(text: Res.strings().text_too_big_output.get())
         }
         .popup(isPresented: $isPasteRequestSnackShown,
                type: .toast,
@@ -182,23 +190,23 @@ struct CalculatorView: View {
             isGenericErrorSnackShown.toggle()
         case is CalculatorEffect.FewCurrency:
             isFewCurrencySnackShown.toggle()
-        case is CalculatorEffect.TooBigNumber:
-            isTooBigNumberSnackShown.toggle()
+        case is CalculatorEffect.TooBigInput:
+            isTooBigInputSnackShown.toggle()
+        case is CalculatorEffect.TooBigOutput:
+            isTooBigOutputSnackShown.toggle()
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
             navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
         case is CalculatorEffect.ShowPasteRequest:
             isPasteRequestSnackShown.toggle()
-        // swiftlint:disable force_cast
-        case is CalculatorEffect.CopyToClipboard:
+        case let copyToClipboardEffect as CalculatorEffect.CopyToClipboard:
             let pasteBoard = UIPasteboard.general
-            pasteBoard.string = (effect as! CalculatorEffect.CopyToClipboard).amount
+            pasteBoard.string = copyToClipboardEffect.amount
             isCopyClipboardSnackShown.toggle()
-        // swiftlint:disable force_cast
-        case is CalculatorEffect.ShowConversion:
-            CalculatorView.conversionText = (effect as! CalculatorEffect.ShowConversion).text
-            CalculatorView.conversionCode = (effect as! CalculatorEffect.ShowConversion).code
+        case let showConversionEffect as CalculatorEffect.ShowConversion:
+            CalculatorView.conversionText = showConversionEffect.text
+            CalculatorView.conversionCode = showConversionEffect.code
             isConversionSnackShown.toggle()
         default:
             logger.i(message: { "CalculatorView unknown effect" })
