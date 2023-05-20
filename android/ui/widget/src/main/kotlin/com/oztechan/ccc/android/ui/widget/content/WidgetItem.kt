@@ -19,6 +19,7 @@ import com.oztechan.ccc.android.ui.widget.components.ImageView
 import com.oztechan.ccc.client.core.res.getImageIdByName
 import com.oztechan.ccc.common.core.model.Currency
 
+@Suppress("RestrictedApi")
 @Composable
 fun WidgetItem(
     item: Currency,

@@ -17,6 +17,7 @@ import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.ui.widget.R
 import com.oztechan.ccc.android.viewmodel.widget.WidgetState
 
+@Suppress("RestrictedApi")
 @Composable
 fun WidgetView(state: WidgetState) {
     Column(
