@@ -20,6 +20,7 @@ import com.oztechan.ccc.android.ui.widget.action.WidgetAction
 import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.ui.widget.components.ImageView
 
+@Suppress("RestrictedApi")
 @Composable
 fun FooterView(lastUpdate: String) {
     Row(

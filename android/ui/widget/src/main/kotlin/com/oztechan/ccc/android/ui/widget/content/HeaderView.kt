@@ -21,6 +21,7 @@ import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.toAction
 import com.oztechan.ccc.android.ui.widget.components.ImageView
 import com.oztechan.ccc.client.core.res.getImageIdByName
 
+@Suppress("RestrictedApi")
 @Composable
 fun HeaderView(currentBase: String) {
     Row(
