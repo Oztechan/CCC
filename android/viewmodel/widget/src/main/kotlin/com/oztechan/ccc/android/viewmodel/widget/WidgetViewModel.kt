@@ -8,6 +8,9 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
 class WidgetViewModel(
     private val calculationStorage: CalculationStorage,
@@ -16,24 +19,29 @@ class WidgetViewModel(
     private val appStorage: AppStorage
 ) {
 
-    var state = WidgetState(
-        currentBase = calculationStorage.currentBase,
-        isPremium = appStorage.premiumEndDate.isNotPassed()
+    private val _state = MutableStateFlow(
+        WidgetState(
+            currentBase = calculationStorage.currentBase,
+            isPremium = appStorage.premiumEndDate.isNotPassed()
+        )
     )
+    val state = _state.asStateFlow()
 
     suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null) {
         if (changeBaseToNext != null) {
             updateBase(changeBaseToNext)
         }
 
-        state = state.copy(
-            currencyList = listOf(),
-            lastUpdate = "",
-            currentBase = calculationStorage.currentBase,
-            isPremium = appStorage.premiumEndDate.isNotPassed()
-        )
+        _state.update {
+            it.copy(
+                currencyList = listOf(),
+                lastUpdate = "",
+                currentBase = calculationStorage.currentBase,
+                isPremium = appStorage.premiumEndDate.isNotPassed()
+            )
+        }
 
-        if (state.isPremium) {
+        if (_state.value.isPremium) {
             getFreshWidgetData()
         }
     }
@@ -48,11 +56,13 @@ class WidgetViewModel(
                 it.rate = conversion.getRateFromCode(it.code)?.getFormatted(calculationStorage.precision).orEmpty()
             }
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
-            .let {
-                state = state.copy(
-                    currencyList = it,
-                    lastUpdate = nowAsDateString()
-                )
+            .let { currencyList ->
+                _state.update {
+                    it.copy(
+                        currencyList = currencyList,
+                        lastUpdate = nowAsDateString()
+                    )
+                }
             }
     }
 

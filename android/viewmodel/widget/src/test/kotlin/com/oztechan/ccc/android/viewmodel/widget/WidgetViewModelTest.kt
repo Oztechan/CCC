@@ -18,6 +18,8 @@ import io.mockative.eq
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.BeforeTest
@@ -150,9 +152,12 @@ class WidgetViewModelTest {
     }
 
     @Test
-    fun `init sets isPremium and currentBase`() {
-        assertEquals(base, viewModel.state.currentBase)
-        assertEquals(appStorage.premiumEndDate.isNotPassed(), viewModel.state.isPremium)
+    fun `init sets isPremium and currentBase`() = runTest {
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(base, it.currentBase)
+            assertEquals(appStorage.premiumEndDate.isNotPassed(), it.isPremium)
+        }
     }
 
     @Test
@@ -195,15 +200,17 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
 
-        viewModel.refreshWidgetData()
-
-        viewModel.state.currencyList
-            .forEach { currency ->
-                conversion.getRateFromCode(currency.code).let {
-                    assertNotNull(it)
-                    assertEquals(it.getFormatted(calculationStorage.precision), currency.rate)
+        viewModel.state.onSubscription {
+            viewModel.refreshWidgetData()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            it.currencyList.forEach { currency ->
+                conversion.getRateFromCode(currency.code).let { rate ->
+                    assertNotNull(rate)
+                    assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
                 }
             }
+        }
     }
 
     @Test
