@@ -1,5 +1,6 @@
 package com.oztechan.ccc.android.viewmodel.widget
 
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
@@ -28,6 +29,8 @@ class WidgetViewModel(
     val state = _state.asStateFlow()
 
     suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null) {
+        Logger.d { "WidgetViewModel refreshWidgetData $changeBaseToNext" }
+
         if (changeBaseToNext != null) {
             updateBase(changeBaseToNext)
         }

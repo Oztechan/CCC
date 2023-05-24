@@ -1,5 +1,7 @@
 package com.oztechan.ccc.android.viewmodel.widget
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
@@ -66,6 +68,8 @@ class WidgetViewModelTest {
 
     @BeforeTest
     fun setup() {
+        Logger.setLogWriters(CommonWriter())
+
         val mockEndDate = Random.nextLong()
 
         given(appStorage)
