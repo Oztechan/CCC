@@ -23,6 +23,7 @@ android {
 dependencies {
     libs.common.apply {
         implementation(koinCore)
+        implementation(coroutines)
     }
 
     libs.common.apply {
