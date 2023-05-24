@@ -1,6 +1,7 @@
 package com.oztechan.ccc.android.ui.widget
 
 import android.content.Context
+import androidx.compose.runtime.collectAsState
 import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
@@ -15,7 +16,7 @@ class AppWidget : GlanceAppWidget(), KoinComponent {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
-            WidgetView(state = viewModel.state.value)
+            WidgetView(state = viewModel.state.collectAsState().value)
         }
     }
 }

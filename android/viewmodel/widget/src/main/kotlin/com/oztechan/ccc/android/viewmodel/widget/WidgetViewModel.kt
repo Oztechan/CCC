@@ -1,10 +1,13 @@
 package com.oztechan.ccc.android.viewmodel.widget
 
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.android.viewmodel.widget.WidgetData.Companion.MAXIMUM_NUMBER_OF_CURRENCY
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
+import com.oztechan.ccc.client.core.viewmodel.BaseEffect
+import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -18,17 +21,25 @@ class WidgetViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val appStorage: AppStorage
-) {
+) : BaseSEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(), WidgetEvent {
 
+    // region SEED
     private val _state = MutableStateFlow(
         WidgetState(
             currentBase = calculationStorage.currentBase,
             isPremium = appStorage.premiumEndDate.isNotPassed()
         )
     )
-    val state = _state.asStateFlow()
+    override val state = _state.asStateFlow()
 
-    suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null) {
+    override val effect = null
+
+    override val event = this as WidgetEvent
+
+    override val data = WidgetData()
+    // endregion
+
+    override suspend fun refreshWidgetData(changeBaseToNext: Boolean?) {
         Logger.d { "WidgetViewModel refreshWidgetData $changeBaseToNext" }
 
         if (changeBaseToNext != null) {
@@ -86,9 +97,5 @@ class WidgetViewModel(
             }
 
         calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
-    }
-
-    companion object {
-        private const val MAXIMUM_NUMBER_OF_CURRENCY = 7
     }
 }
