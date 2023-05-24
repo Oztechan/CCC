@@ -24,6 +24,7 @@ dependencies {
     libs.common.apply {
         implementation(koinCore)
         implementation(coroutines)
+        implementation(kermit)
     }
 
     libs.common.apply {
