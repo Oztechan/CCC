@@ -25,7 +25,7 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         context: Context,
         changeBaseToNext: Boolean? = null
     ) = runBlocking {
-        viewModel.refreshWidgetData(changeBaseToNext)
+        viewModel.event.refreshWidgetData(changeBaseToNext)
 
         GlanceAppWidgetManager(context)
             .getGlanceIds(AppWidget::class.java)

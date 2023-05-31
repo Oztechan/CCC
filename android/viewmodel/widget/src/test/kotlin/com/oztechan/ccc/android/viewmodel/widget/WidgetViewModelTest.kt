@@ -107,13 +107,13 @@ class WidgetViewModelTest {
             .thenReturn(conversion)
 
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData()
+            viewModel.event.refreshWidgetData()
         }
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData(true)
+            viewModel.event.refreshWidgetData(true)
         }
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData(false)
+            viewModel.event.refreshWidgetData(false)
         }
 
         // middle currency
@@ -126,13 +126,13 @@ class WidgetViewModelTest {
             .thenReturn(conversion)
 
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData()
+            viewModel.event.refreshWidgetData()
         }
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData(true)
+            viewModel.event.refreshWidgetData(true)
         }
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData(false)
+            viewModel.event.refreshWidgetData(false)
         }
 
         // last currency
@@ -145,13 +145,13 @@ class WidgetViewModelTest {
             .thenReturn(conversion)
 
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData()
+            viewModel.event.refreshWidgetData()
         }
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData(true)
+            viewModel.event.refreshWidgetData(true)
         }
         repeat(activeCurrencyList.count()) {
-            viewModel.refreshWidgetData(false)
+            viewModel.event.refreshWidgetData(false)
         }
     }
 
@@ -170,7 +170,7 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
 
-        viewModel.refreshWidgetData()
+        viewModel.event.refreshWidgetData()
 
         verify(backendApiService)
             .coroutine { getConversion(base) }
@@ -187,7 +187,7 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
 
-        viewModel.refreshWidgetData()
+        viewModel.event.refreshWidgetData()
 
         verify(backendApiService)
             .coroutine { getConversion(base) }
@@ -205,7 +205,7 @@ class WidgetViewModelTest {
             .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.state.onSubscription {
-            viewModel.refreshWidgetData()
+            viewModel.event.refreshWidgetData()
         }.firstOrNull().let {
             assertNotNull(it)
             it.currencyList.forEach { currency ->
@@ -224,7 +224,7 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
 
-        viewModel.refreshWidgetData()
+        viewModel.event.refreshWidgetData()
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
@@ -243,7 +243,7 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
 
-        viewModel.refreshWidgetData(true)
+        viewModel.event.refreshWidgetData(true)
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
@@ -254,7 +254,7 @@ class WidgetViewModelTest {
             .with(eq(firstBase))
             .wasInvoked()
 
-        viewModel.refreshWidgetData(true)
+        viewModel.event.refreshWidgetData(true)
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
@@ -273,7 +273,7 @@ class WidgetViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
 
-        viewModel.refreshWidgetData(false)
+        viewModel.event.refreshWidgetData(false)
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
@@ -284,7 +284,7 @@ class WidgetViewModelTest {
             .with(eq(lastBase))
             .wasInvoked()
 
-        viewModel.refreshWidgetData(false)
+        viewModel.event.refreshWidgetData(false)
 
         verify(currencyDataSource)
             .coroutine { getActiveCurrencies() }
