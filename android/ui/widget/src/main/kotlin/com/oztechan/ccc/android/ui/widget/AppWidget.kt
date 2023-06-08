@@ -16,7 +16,10 @@ class AppWidget : GlanceAppWidget(), KoinComponent {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
-            WidgetView(state = viewModel.state.collectAsState().value)
+            WidgetView(
+                state = viewModel.state.collectAsState().value,
+                event = viewModel.event
+            )
         }
     }
 }

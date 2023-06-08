@@ -8,6 +8,7 @@ import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -39,12 +40,8 @@ class WidgetViewModel(
     override val data = WidgetData()
     // endregion
 
-    override suspend fun refreshWidgetData(changeBaseToNext: Boolean?) {
-        Logger.d { "WidgetViewModel refreshWidgetData $changeBaseToNext" }
-
-        if (changeBaseToNext != null) {
-            updateBase(changeBaseToNext)
-        }
+    override suspend fun refreshWidgetData() {
+        Logger.d { "WidgetViewModel refreshWidgetData" }
 
         _state.update {
             it.copy(
@@ -58,6 +55,12 @@ class WidgetViewModel(
         if (_state.value.isPremium) {
             getFreshWidgetData()
         }
+    }
+
+    override fun onPreviousClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onBackClick" }
+        updateBase(false)
+        refreshWidgetData()
     }
 
     private suspend fun getFreshWidgetData() {
