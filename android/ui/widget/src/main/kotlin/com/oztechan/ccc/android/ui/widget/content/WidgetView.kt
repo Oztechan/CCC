@@ -58,7 +58,8 @@ fun WidgetView(
 
         FooterView(
             lastUpdate = state.lastUpdate,
-            onRefreshClick = event::onRefreshClick
+            onRefreshClick = event::onRefreshClick,
+            onOpenAppClick = event::onOpenAppClick
         )
     }
 }

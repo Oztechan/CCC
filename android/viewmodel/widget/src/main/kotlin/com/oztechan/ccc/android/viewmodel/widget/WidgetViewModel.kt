@@ -13,7 +13,9 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -33,7 +35,8 @@ class WidgetViewModel(
     )
     override val state = _state.asStateFlow()
 
-    override val effect = null
+    private val _effect = MutableSharedFlow<WidgetEffect>()
+    override val effect = _effect.asSharedFlow()
 
     override val event = this as WidgetEvent
 
@@ -72,6 +75,11 @@ class WidgetViewModel(
     override fun onRefreshClick() = viewModelScope.launchIgnored {
         Logger.d { "WidgetViewModel onRefreshClick" }
         refreshWidgetData()
+    }
+
+    override fun onOpenAppClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onOpenAppClick" }
+        _effect.emit(WidgetEffect.OpenApp)
     }
 
     private suspend fun getFreshWidgetData() {
