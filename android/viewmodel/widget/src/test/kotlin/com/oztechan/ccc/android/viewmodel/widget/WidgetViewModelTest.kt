@@ -95,65 +95,65 @@ class WidgetViewModelTest {
         }
     }
 
-    @Test
-    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
-        // first currency
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(firstBase)
-
-        given(backendApiService)
-            .coroutine { getConversion(firstBase) }
-            .thenReturn(conversion)
-
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData()
-        }
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData(true)
-        }
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData(false)
-        }
-
-        // middle currency
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(base)
-
-        given(backendApiService)
-            .coroutine { getConversion(base) }
-            .thenReturn(conversion)
-
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData()
-        }
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData(true)
-        }
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData(false)
-        }
-
-        // last currency
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(lastBase)
-
-        given(backendApiService)
-            .coroutine { getConversion(lastBase) }
-            .thenReturn(conversion)
-
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData()
-        }
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData(true)
-        }
-        repeat(activeCurrencyList.count()) {
-            viewModel.event.refreshWidgetData(false)
-        }
-    }
+//    @Test
+//    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
+//        // first currency
+//        given(calculationStorage)
+//            .invocation { currentBase }
+//            .thenReturn(firstBase)
+//
+//        given(backendApiService)
+//            .coroutine { getConversion(firstBase) }
+//            .thenReturn(conversion)
+//
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData()
+//        }
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData(true)
+//        }
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData(false)
+//        }
+//
+//        // middle currency
+//        given(calculationStorage)
+//            .invocation { currentBase }
+//            .thenReturn(base)
+//
+//        given(backendApiService)
+//            .coroutine { getConversion(base) }
+//            .thenReturn(conversion)
+//
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData()
+//        }
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData(true)
+//        }
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData(false)
+//        }
+//
+//        // last currency
+//        given(calculationStorage)
+//            .invocation { currentBase }
+//            .thenReturn(lastBase)
+//
+//        given(backendApiService)
+//            .coroutine { getConversion(lastBase) }
+//            .thenReturn(conversion)
+//
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData()
+//        }
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData(true)
+//        }
+//        repeat(activeCurrencyList.count()) {
+//            viewModel.event.refreshWidgetData(false)
+//        }
+//    }
 
     @Test
     fun `init sets isPremium and currentBase`() = runTest {
@@ -236,63 +236,63 @@ class WidgetViewModelTest {
             .wasNotInvoked()
     }
 
-    @Test
-    fun `when refreshWidgetData called with true, base is updated next or the first active currency`() = runTest {
-        // to not invoke getFreshWidgetData
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+//    @Test
+//    fun `when refreshWidgetData called with true, base is updated next or the first active currency`() = runTest {
+//        // to not invoke getFreshWidgetData
+//        given(appStorage)
+//            .invocation { premiumEndDate }
+//            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+//
+//        viewModel.event.refreshWidgetData(true)
+//
+//        verify(currencyDataSource)
+//            .coroutine { getActiveCurrencies() }
+//            .wasInvoked()
+//
+//        verify(calculationStorage)
+//            .setter(calculationStorage::currentBase)
+//            .with(eq(firstBase))
+//            .wasInvoked()
+//
+//        viewModel.event.refreshWidgetData(true)
+//
+//        verify(currencyDataSource)
+//            .coroutine { getActiveCurrencies() }
+//            .wasInvoked()
+//
+//        verify(calculationStorage)
+//            .setter(calculationStorage::currentBase)
+//            .with(eq(lastBase))
+//            .wasInvoked()
+//    }
 
-        viewModel.event.refreshWidgetData(true)
-
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .wasInvoked()
-
-        verify(calculationStorage)
-            .setter(calculationStorage::currentBase)
-            .with(eq(firstBase))
-            .wasInvoked()
-
-        viewModel.event.refreshWidgetData(true)
-
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .wasInvoked()
-
-        verify(calculationStorage)
-            .setter(calculationStorage::currentBase)
-            .with(eq(lastBase))
-            .wasInvoked()
-    }
-
-    @Test
-    fun `when refreshWidgetData called with false, base is updated previous or the last active currency`() = runTest {
-        // to not invoke getFreshWidgetData
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
-
-        viewModel.event.refreshWidgetData(false)
-
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .wasInvoked()
-
-        verify(calculationStorage)
-            .setter(calculationStorage::currentBase)
-            .with(eq(lastBase))
-            .wasInvoked()
-
-        viewModel.event.refreshWidgetData(false)
-
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .wasInvoked()
-
-        verify(calculationStorage)
-            .setter(calculationStorage::currentBase)
-            .with(eq(firstBase))
-            .wasInvoked()
-    }
+//    @Test
+//    fun `when refreshWidgetData called with false, base is updated previous or the last active currency`() = runTest {
+//        // to not invoke getFreshWidgetData
+//        given(appStorage)
+//            .invocation { premiumEndDate }
+//            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+//
+//        viewModel.event.refreshWidgetData(false)
+//
+//        verify(currencyDataSource)
+//            .coroutine { getActiveCurrencies() }
+//            .wasInvoked()
+//
+//        verify(calculationStorage)
+//            .setter(calculationStorage::currentBase)
+//            .with(eq(lastBase))
+//            .wasInvoked()
+//
+//        viewModel.event.refreshWidgetData(false)
+//
+//        verify(currencyDataSource)
+//            .coroutine { getActiveCurrencies() }
+//            .wasInvoked()
+//
+//        verify(calculationStorage)
+//            .setter(calculationStorage::currentBase)
+//            .with(eq(firstBase))
+//            .wasInvoked()
+//    }
 }

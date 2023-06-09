@@ -21,11 +21,8 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     private val viewModel: WidgetViewModel by inject()
     private val analyticsManager: AnalyticsManager by inject()
 
-    private fun refreshData(
-        context: Context,
-        changeBaseToNext: Boolean? = null
-    ) = runBlocking {
-        viewModel.event.refreshWidgetData(changeBaseToNext)
+    private fun refreshData(context: Context) = runBlocking {
+        viewModel.event.refreshWidgetData()
 
         GlanceAppWidgetManager(context)
             .getGlanceIds(AppWidget::class.java)
@@ -53,8 +50,7 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     private fun WidgetAction.executeWidgetAction(context: Context) = when (this) {
         WidgetAction.IDLE -> Unit
         WidgetAction.REFRESH -> refreshData(context)
-        WidgetAction.NEXT_BASE -> refreshData(context, true)
-        WidgetAction.PREVIOUS_BASE -> refreshData(context, false)
+        WidgetAction.NEXT_BASE -> refreshData(context)
         WidgetAction.OPEN_APP ->
             context.packageManager
                 .getLaunchIntentForPackage(context.packageName)

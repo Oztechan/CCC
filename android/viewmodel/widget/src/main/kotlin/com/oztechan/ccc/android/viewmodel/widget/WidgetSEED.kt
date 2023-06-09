@@ -15,7 +15,8 @@ data class WidgetState(
 
 // Event
 interface WidgetEvent : BaseEvent {
-    suspend fun refreshWidgetData(changeBaseToNext: Boolean? = null)
+    suspend fun refreshWidgetData()
+    fun onPreviousClick()
 }
 
 // Data

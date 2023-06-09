@@ -16,14 +16,16 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.ui.widget.R
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.ui.widget.components.ImageView
 import com.oztechan.ccc.client.core.res.getImageIdByName
 
 @Suppress("RestrictedApi")
 @Composable
-fun HeaderView(currentBase: String) {
+fun HeaderView(
+    currentBase: String,
+    onBackClick: () -> Unit,
+    onNextClick: () -> Unit
+) {
     Row(
         modifier = GlanceModifier.fillMaxWidth().padding(12.dp),
         horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
@@ -33,7 +35,9 @@ fun HeaderView(currentBase: String) {
             provider = ImageProvider(R.drawable.ic_back),
             modifier = GlanceModifier
                 .size(20.dp)
-                .clickable(WidgetAction.PREVIOUS_BASE.toActionCallback())
+                .clickable {
+                    onBackClick()
+                }
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())
@@ -57,7 +61,9 @@ fun HeaderView(currentBase: String) {
             provider = ImageProvider(R.drawable.ic_next),
             modifier = GlanceModifier
                 .size(20.dp)
-                .clickable(WidgetAction.NEXT_BASE.toActionCallback())
+                .clickable {
+                    onNextClick()
+                }
         )
     }
 }

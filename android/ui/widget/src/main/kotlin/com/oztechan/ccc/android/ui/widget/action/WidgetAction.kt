@@ -7,7 +7,6 @@ import androidx.glance.appwidget.action.actionRunCallback
 enum class WidgetAction {
     OPEN_APP,
     NEXT_BASE,
-    PREVIOUS_BASE,
     REFRESH,
     IDLE;
 

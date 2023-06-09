@@ -15,11 +15,15 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.ui.widget.R
+import com.oztechan.ccc.android.viewmodel.widget.WidgetEvent
 import com.oztechan.ccc.android.viewmodel.widget.WidgetState
 
 @Suppress("RestrictedApi")
 @Composable
-fun WidgetView(state: WidgetState) {
+fun WidgetView(
+    state: WidgetState,
+    event: WidgetEvent
+) {
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
@@ -28,7 +32,11 @@ fun WidgetView(state: WidgetState) {
         verticalAlignment = Alignment.Vertical.CenterVertically
     ) {
         if (state.isPremium) {
-            HeaderView(currentBase = state.currentBase)
+            HeaderView(
+                currentBase = state.currentBase,
+                onBackClick = event::onPreviousClick,
+                onNextClick = event::onPreviousClick
+            )
 
             state.currencyList.forEach {
                 WidgetItem(item = it)
