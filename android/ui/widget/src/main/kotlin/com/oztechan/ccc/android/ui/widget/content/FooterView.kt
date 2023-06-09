@@ -22,7 +22,10 @@ import com.oztechan.ccc.android.ui.widget.components.ImageView
 
 @Suppress("RestrictedApi")
 @Composable
-fun FooterView(lastUpdate: String) {
+fun FooterView(
+    lastUpdate: String,
+    onRefreshClick: () -> Unit
+) {
     Row(
         modifier = GlanceModifier.fillMaxWidth().padding(8.dp),
         verticalAlignment = Alignment.Vertical.CenterVertically,
@@ -31,7 +34,9 @@ fun FooterView(lastUpdate: String) {
             provider = ImageProvider(R.drawable.ic_sync_widget),
             modifier = GlanceModifier
                 .size(22.dp)
-                .clickable(WidgetAction.REFRESH.toActionCallback())
+                .clickable {
+                    onRefreshClick()
+                }
         )
 
         Spacer(modifier = GlanceModifier.defaultWeight())

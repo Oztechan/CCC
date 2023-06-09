@@ -49,7 +49,6 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
 
     private fun WidgetAction.executeWidgetAction(context: Context) = when (this) {
         WidgetAction.IDLE -> Unit
-        WidgetAction.REFRESH -> refreshData(context)
         WidgetAction.OPEN_APP ->
             context.packageManager
                 .getLaunchIntentForPackage(context.packageName)

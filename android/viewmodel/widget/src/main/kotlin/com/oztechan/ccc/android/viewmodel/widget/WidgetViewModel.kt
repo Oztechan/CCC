@@ -69,6 +69,11 @@ class WidgetViewModel(
         refreshWidgetData()
     }
 
+    override fun onRefreshClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onRefreshClick" }
+        refreshWidgetData()
+    }
+
     private suspend fun getFreshWidgetData() {
         val conversion = backendApiService
             .getConversion(calculationStorage.currentBase)
