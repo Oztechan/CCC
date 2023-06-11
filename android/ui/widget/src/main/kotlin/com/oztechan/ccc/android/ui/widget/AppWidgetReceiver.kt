@@ -6,8 +6,6 @@ import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.mapToWidgetAction
 import com.oztechan.ccc.android.viewmodel.widget.WidgetViewModel
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
@@ -41,29 +39,20 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
 
-        intent.action.let {
-            it.mapToWidgetAction()?.executeWidgetAction()
-                ?: it.executeSystemAction(context)
+        when (intent.action) {
+            AppWidgetManager.ACTION_APPWIDGET_DELETED -> analyticsManager.setUserProperty(
+                UserProperty.HasWidget(false.toString())
+            )
+
+            AppWidgetManager.ACTION_APPWIDGET_ENABLED -> analyticsManager.setUserProperty(
+                UserProperty.HasWidget(true.toString())
+            )
+
+            AppWidgetManager.ACTION_APPWIDGET_UPDATE,
+            AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED -> refreshData(context)
+
+            // defined but no action needed system events
+            else -> Unit
         }
-    }
-
-    private fun WidgetAction.executeWidgetAction() = when (this) {
-        WidgetAction.IDLE -> Unit
-    }
-
-    private fun String?.executeSystemAction(context: Context) = when (this) {
-        AppWidgetManager.ACTION_APPWIDGET_DELETED -> analyticsManager.setUserProperty(
-            UserProperty.HasWidget(false.toString())
-        )
-
-        AppWidgetManager.ACTION_APPWIDGET_ENABLED -> analyticsManager.setUserProperty(
-            UserProperty.HasWidget(true.toString())
-        )
-
-        AppWidgetManager.ACTION_APPWIDGET_UPDATE,
-        AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED -> refreshData(context)
-
-        // defined but no action needed system events
-        else -> Unit
     }
 }

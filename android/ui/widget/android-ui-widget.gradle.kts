@@ -38,7 +38,6 @@ dependencies {
         common.apply {
             implementation(koinCore)
             implementation(kermit)
-            testImplementation(test)
         }
     }
 
