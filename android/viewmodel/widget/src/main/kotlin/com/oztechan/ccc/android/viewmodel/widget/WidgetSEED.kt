@@ -17,6 +17,7 @@ data class WidgetState(
 interface WidgetEvent : BaseEvent {
     suspend fun refreshWidgetData()
     fun onPreviousClick()
+    fun onNextClick()
 }
 
 // Data

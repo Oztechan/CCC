@@ -35,7 +35,7 @@ fun WidgetView(
             HeaderView(
                 currentBase = state.currentBase,
                 onBackClick = event::onPreviousClick,
-                onNextClick = event::onPreviousClick
+                onNextClick = event::onNextClick
             )
 
             state.currencyList.forEach {

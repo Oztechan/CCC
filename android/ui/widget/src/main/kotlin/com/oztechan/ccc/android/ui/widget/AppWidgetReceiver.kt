@@ -50,7 +50,6 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     private fun WidgetAction.executeWidgetAction(context: Context) = when (this) {
         WidgetAction.IDLE -> Unit
         WidgetAction.REFRESH -> refreshData(context)
-        WidgetAction.NEXT_BASE -> refreshData(context)
         WidgetAction.OPEN_APP ->
             context.packageManager
                 .getLaunchIntentForPackage(context.packageName)
@@ -78,13 +77,6 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED -> refreshData(context)
 
         // defined but no action needed system events
-        AppWidgetManager.ACTION_APPWIDGET_DISABLED,
-        AppWidgetManager.ACTION_APPWIDGET_BIND,
-        AppWidgetManager.ACTION_APPWIDGET_PICK,
-        AppWidgetManager.ACTION_APPWIDGET_CONFIGURE,
-        AppWidgetManager.ACTION_APPWIDGET_RESTORED,
-        AppWidgetManager.ACTION_APPWIDGET_HOST_RESTORED -> Unit
-
-        else -> error("undefined widget action")
+        else -> Unit
     }
 }
