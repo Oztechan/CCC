@@ -18,6 +18,7 @@ interface WidgetEvent : BaseEvent {
     suspend fun refreshWidgetData()
     fun onPreviousClick()
     fun onNextClick()
+    fun onRefreshClick()
 }
 
 // Data

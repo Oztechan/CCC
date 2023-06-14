@@ -56,6 +56,9 @@ fun WidgetView(
 
         Spacer(modifier = GlanceModifier.defaultWeight())
 
-        FooterView(lastUpdate = state.lastUpdate)
+        FooterView(
+            lastUpdate = state.lastUpdate,
+            onRefreshClick = event::onRefreshClick
+        )
     }
 }
