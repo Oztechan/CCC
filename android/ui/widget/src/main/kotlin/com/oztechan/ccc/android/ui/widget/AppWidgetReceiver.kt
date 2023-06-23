@@ -42,25 +42,13 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
         super.onReceive(context, intent)
 
         intent.action.let {
-            it.mapToWidgetAction()?.executeWidgetAction(context)
+            it.mapToWidgetAction()?.executeWidgetAction()
                 ?: it.executeSystemAction(context)
         }
     }
 
-    private fun WidgetAction.executeWidgetAction(context: Context) = when (this) {
+    private fun WidgetAction.executeWidgetAction() = when (this) {
         WidgetAction.IDLE -> Unit
-        WidgetAction.OPEN_APP ->
-            context.packageManager
-                .getLaunchIntentForPackage(context.packageName)
-                ?.apply {
-                    addFlags(
-                        Intent.FLAG_ACTIVITY_CLEAR_TASK or
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP or
-                            Intent.FLAG_ACTIVITY_NEW_TASK
-                    )
-                }?.let {
-                    context.startActivity(it)
-                }
     }
 
     private fun String?.executeSystemAction(context: Context) = when (this) {

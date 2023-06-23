@@ -16,15 +16,14 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.oztechan.ccc.android.ui.widget.R
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction
-import com.oztechan.ccc.android.ui.widget.action.WidgetAction.Companion.toActionCallback
 import com.oztechan.ccc.android.ui.widget.components.ImageView
 
 @Suppress("RestrictedApi")
 @Composable
 fun FooterView(
     lastUpdate: String,
-    onRefreshClick: () -> Unit
+    onRefreshClick: () -> Unit,
+    onOpenAppClick: () -> Unit
 ) {
     Row(
         modifier = GlanceModifier.fillMaxWidth().padding(8.dp),
@@ -55,7 +54,9 @@ fun FooterView(
             provider = ImageProvider(R.drawable.ic_app_logo),
             modifier = GlanceModifier
                 .size(20.dp)
-                .clickable(WidgetAction.OPEN_APP.toActionCallback())
+                .clickable {
+                    onOpenAppClick()
+                }
         )
     }
 }
