@@ -19,8 +19,11 @@ actual constructor(
 
         Firebase.remoteConfig.apply {
 
-            // get cache
-            config = updateConfig(getString(configKey), default)
+            // get cache or default
+            config = getString(configKey)
+                .takeUnless { it.isNotEmpty() }
+                ?.let { updateConfig(getString(it), default) }
+                ?: default
 
             setConfigSettingsAsync(FirebaseRemoteConfigSettings.Builder().build())
 
