@@ -10,7 +10,7 @@ actual constructor(
     configKey: String,
     default: T
 ) {
-    actual var config: T = default
+    actual var config: T
 
     actual abstract fun decode(value: String): T
 
@@ -19,13 +19,11 @@ actual constructor(
 
         Firebase.remoteConfig.apply {
 
-            // get cache
-            getString(configKey)
+            // get cache or default
+            config = getString(configKey)
                 .takeUnless { it.isNotEmpty() }
                 ?.let { updateConfig(getString(it), default) }
-                ?.let {
-                    config = it
-                }
+                ?: default
 
             setConfigSettingsAsync(FirebaseRemoteConfigSettings.Builder().build())
 
