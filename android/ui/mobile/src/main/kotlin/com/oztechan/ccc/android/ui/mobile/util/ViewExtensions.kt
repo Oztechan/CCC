@@ -22,6 +22,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.github.submob.scopemob.castTo
+import com.github.submob.scopemob.whether
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.core.ad.BannerAdView
 import com.oztechan.ccc.android.ui.mobile.R
@@ -76,8 +77,8 @@ fun <T> Fragment.getNavigationResult(
     key: String,
     destinationId: Int
 ) = findNavController()
-    .backQueue
-    .lastOrNull { it.destination.id == destinationId }
+    .currentBackStackEntry
+    ?.whether { it.destination.id == destinationId }
     ?.savedStateHandle
     ?.getLiveData<T>(key)
 
@@ -86,10 +87,9 @@ fun <T> Fragment.setNavigationResult(
     result: T,
     key: String
 ) = findNavController()
-    .backQueue
-    .lastOrNull { it.destination.id == destinationId }
-    ?.savedStateHandle
-    ?.set(key, result)
+    .previousBackStackEntry
+    ?.whether { it.destination.id == destinationId }
+    ?.savedStateHandle?.set(key, result)
 
 fun View?.visibleIf(visible: Boolean, bringFront: Boolean = false) = this?.apply {
     if (visible) {
