@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class WidgetViewModel(
     private val calculationStorage: CalculationStorage,
@@ -43,9 +44,7 @@ class WidgetViewModel(
     override val data = WidgetData()
     // endregion
 
-    override suspend fun refreshWidgetData() {
-        Logger.d { "WidgetViewModel refreshWidgetData" }
-
+    private fun refreshWidgetData() {
         _state.update {
             it.copy(
                 currencyList = listOf(),
@@ -60,29 +59,7 @@ class WidgetViewModel(
         }
     }
 
-    override fun onPreviousClick() = viewModelScope.launchIgnored {
-        Logger.d { "WidgetViewModel onPreviousClick" }
-        updateBase(false)
-        refreshWidgetData()
-    }
-
-    override fun onNextClick() = viewModelScope.launchIgnored {
-        Logger.d { "WidgetViewModel onNextClick" }
-        updateBase(true)
-        refreshWidgetData()
-    }
-
-    override fun onRefreshClick() = viewModelScope.launchIgnored {
-        Logger.d { "WidgetViewModel onRefreshClick" }
-        refreshWidgetData()
-    }
-
-    override fun onOpenAppClick() = viewModelScope.launchIgnored {
-        Logger.d { "WidgetViewModel onOpenAppClick" }
-        _effect.emit(WidgetEffect.OpenApp)
-    }
-
-    private suspend fun getFreshWidgetData() {
+    private fun getFreshWidgetData() = viewModelScope.launch {
         val conversion = backendApiService
             .getConversion(calculationStorage.currentBase)
 
@@ -120,4 +97,28 @@ class WidgetViewModel(
 
         calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
     }
+
+    // region Event
+    override fun onPreviousClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onPreviousClick" }
+        updateBase(false)
+        refreshWidgetData()
+    }
+
+    override fun onNextClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onNextClick" }
+        updateBase(true)
+        refreshWidgetData()
+    }
+
+    override fun onRefreshClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onRefreshClick" }
+        refreshWidgetData()
+    }
+
+    override fun onOpenAppClick() = viewModelScope.launchIgnored {
+        Logger.d { "WidgetViewModel onOpenAppClick" }
+        _effect.emit(WidgetEffect.OpenApp)
+    }
+    // endregion
 }
