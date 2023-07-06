@@ -6,7 +6,6 @@ import android.content.Intent
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import com.oztechan.ccc.android.viewmodel.widget.WidgetViewModel
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import kotlinx.coroutines.runBlocking
@@ -16,16 +15,7 @@ import org.koin.core.component.inject
 class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     override val glanceAppWidget: GlanceAppWidget = AppWidget()
 
-    private val viewModel: WidgetViewModel by inject()
     private val analyticsManager: AnalyticsManager by inject()
-
-    private fun refreshData(context: Context) = runBlocking {
-        viewModel.event.refreshWidgetData()
-
-        GlanceAppWidgetManager(context)
-            .getGlanceIds(AppWidget::class.java)
-            .forEach { glanceAppWidget.update(context, it) }
-    }
 
     override fun onUpdate(
         context: Context,
@@ -51,8 +41,13 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
             AppWidgetManager.ACTION_APPWIDGET_UPDATE,
             AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED -> refreshData(context)
 
-            // defined but no action needed system events
             else -> Unit
         }
+    }
+
+    private fun refreshData(context: Context) = runBlocking {
+        GlanceAppWidgetManager(context)
+            .getGlanceIds(AppWidget::class.java)
+            .forEach { glanceAppWidget.update(context, it) }
     }
 }
