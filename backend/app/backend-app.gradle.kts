@@ -49,7 +49,7 @@ dependencies {
         implementation(project(conversion))
     }
 
-    implementation(project(Modules.Submodules.logmob))
+    implementation(Modules.Submodules.logmob)
 }
 
 tasks.withType<Jar> {

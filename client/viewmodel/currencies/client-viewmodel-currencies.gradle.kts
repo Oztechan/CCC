@@ -42,7 +42,7 @@ kotlin {
                     implementation(project(model))
                 }
                 Modules.Submodules.apply {
-                    implementation(project(scopemob))
+                    implementation(scopemob)
                 }
             }
         }

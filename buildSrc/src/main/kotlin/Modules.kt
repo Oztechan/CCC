@@ -102,10 +102,10 @@ object Modules {
     }
 
     object Submodules {
-        const val logmob = ":submodule:logmob"
-        const val scopemob = ":submodule:scopemob"
-        const val basemob = ":submodule:basemob"
-        const val parsermob = ":submodule:parsermob"
+        const val logmob = "com.github.submob:logmob"
+        const val scopemob = "com.github.submob:scopemob"
+        const val basemob = "com.github.submob:basemob"
+        const val parsermob = "com.github.submob:parsermob"
     }
 }
 
