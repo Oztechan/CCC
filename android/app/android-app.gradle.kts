@@ -157,7 +157,7 @@ dependencies {
         implementation(project(widget))
     }
 
-    Modules.Submodules.apply {
+    Submodules.apply {
         implementation(logmob)
     }
 }

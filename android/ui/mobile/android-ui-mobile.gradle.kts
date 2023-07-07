@@ -99,7 +99,7 @@ dependencies {
         implementation(project(premium))
     }
 
-    Modules.Submodules.apply {
+    Submodules.apply {
         implementation(scopemob)
         implementation(basemob)
     }

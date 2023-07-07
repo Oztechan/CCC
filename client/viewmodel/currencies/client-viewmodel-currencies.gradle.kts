@@ -41,7 +41,7 @@ kotlin {
                 Modules.Common.Core.apply {
                     implementation(project(model))
                 }
-                Modules.Submodules.apply {
+                Submodules.apply {
                     implementation(scopemob)
                 }
             }
