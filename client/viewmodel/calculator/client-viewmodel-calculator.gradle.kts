@@ -46,7 +46,7 @@ kotlin {
                 Modules.Common.DataSource.apply {
                     implementation(project(conversion))
                 }
-                Modules.Submodules.apply {
+                Submodules.apply {
                     implementation(scopemob)
                     implementation(parsermob)
                 }

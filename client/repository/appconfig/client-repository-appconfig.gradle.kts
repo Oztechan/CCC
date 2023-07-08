@@ -32,7 +32,7 @@ kotlin {
                 }
                 implementation(project(Modules.Client.Storage.app))
                 implementation(project(Modules.Client.Core.shared))
-                implementation(Modules.Submodules.scopemob)
+                implementation(Submodules.scopemob)
             }
         }
         val commonTest by getting {

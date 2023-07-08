@@ -33,7 +33,7 @@ kotlin {
                     implementation(project(app))
                 }
 
-                Modules.Submodules.apply {
+                Submodules.apply {
                     implementation(scopemob)
                 }
             }

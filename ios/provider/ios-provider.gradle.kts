@@ -125,7 +125,7 @@ kotlin {
                     implementation(project(appConfig))
                 }
 
-                implementation(Modules.Submodules.logmob)
+                implementation(Submodules.logmob)
             }
         }
         val iosX64Test by getting
