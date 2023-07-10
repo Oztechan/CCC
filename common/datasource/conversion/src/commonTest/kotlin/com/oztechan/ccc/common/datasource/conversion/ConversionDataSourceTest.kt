@@ -14,7 +14,7 @@ import io.mockative.configure
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -23,7 +23,7 @@ import kotlin.test.Test
 internal class ConversionDataSourceTest {
 
     private val subject: ConversionDataSource by lazy {
-        ConversionDataSourceImpl(conversionQueries, newSingleThreadContext(this::class.simpleName.toString()))
+        ConversionDataSourceImpl(conversionQueries, UnconfinedTestDispatcher())
     }
 
     @Mock

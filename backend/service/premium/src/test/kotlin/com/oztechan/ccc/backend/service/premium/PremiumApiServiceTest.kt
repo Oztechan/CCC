@@ -13,7 +13,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -25,7 +25,7 @@ import kotlin.test.assertTrue
 internal class PremiumApiServiceTest {
 
     private val subject: PremiumApiService by lazy {
-        PremiumApiServiceImpl(premiumAPI, newSingleThreadContext(this::class.simpleName.toString()))
+        PremiumApiServiceImpl(premiumAPI, UnconfinedTestDispatcher())
     }
 
     @Mock
