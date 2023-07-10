@@ -8,7 +8,7 @@ import com.oztechan.ccc.common.core.network.error.TimeoutException
 import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.utils.io.errors.IOException
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.CancellationException
@@ -20,7 +20,7 @@ import kotlin.test.assertNotNull
 @Suppress("OPT_IN_USAGE")
 class BaseNetworkServiceTest {
 
-    private val subject = object : BaseNetworkService(newSingleThreadContext(this::class.simpleName.toString())) {
+    private val subject = object : BaseNetworkService(UnconfinedTestDispatcher()) {
         fun parameterCheck(parameter: String) = withEmptyParameterCheck(parameter)
         suspend fun <T> request(
             suspendBlock: suspend () -> T
