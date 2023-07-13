@@ -32,7 +32,7 @@ internal class FreeApiServiceTest {
     private val base = "EUR"
 
     @Test
-    fun `getConversion parameter can not be empty`() = runTest {
+    fun `getConversion parameter can not be empty API call is not made`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -40,7 +40,7 @@ internal class FreeApiServiceTest {
 
         verify(freeApi)
             .coroutine { freeApi.getExchangeRate("") }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test

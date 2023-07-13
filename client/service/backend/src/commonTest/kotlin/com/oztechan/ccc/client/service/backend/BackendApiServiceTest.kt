@@ -40,7 +40,7 @@ internal class BackendApiServiceTest {
     }
 
     @Test
-    fun `getConversion parameter can not be empty`() = runTest {
+    fun `getConversion parameter can not be empty API call is not made`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -48,7 +48,7 @@ internal class BackendApiServiceTest {
 
         verify(backendApi)
             .coroutine { backendApi.getExchangeRate("") }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test

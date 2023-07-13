@@ -36,7 +36,7 @@ internal class PremiumApiServiceTest {
     private val throwable = Throwable("mock")
 
     @Test
-    fun `getConversion parameter can not be empty`() = runTest {
+    fun `getConversion parameter can not be empty API call is not made`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -44,7 +44,7 @@ internal class PremiumApiServiceTest {
 
         verify(premiumAPI)
             .coroutine { premiumAPI.getExchangeRate("") }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
