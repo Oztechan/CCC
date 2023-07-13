@@ -41,7 +41,7 @@ splashScreen = "1.0.1"
 kover = "0.6.1"
 rootBeer = "0.1.0"
 mockative = "1.4.0"
-firebaseCrashlytics = "18.3.7"
+firebaseCrashlytics = "18.4.0"
 anrWatchDog = "1.4.0"
 kermit = "1.2.2"
 
