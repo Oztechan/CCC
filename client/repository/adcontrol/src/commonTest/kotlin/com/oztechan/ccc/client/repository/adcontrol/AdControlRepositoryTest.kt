@@ -55,20 +55,20 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasNotInvoked()
+
+        verify(appStorage)
             .invocation { sessionCount }
-            .wasInvoked()
+            .wasNotInvoked()
 
         verify(adConfigService)
             .invocation { config }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
@@ -88,20 +88,20 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
-            .invocation { sessionCount }
+            .invocation { premiumEndDate }
             .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasNotInvoked()
 
         verify(adConfigService)
             .invocation { config }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
@@ -121,20 +121,20 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasNotInvoked()
+
+        verify(appStorage)
             .invocation { sessionCount }
-            .wasInvoked()
+            .wasNotInvoked()
 
         verify(adConfigService)
             .invocation { config }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
@@ -154,20 +154,20 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasNotInvoked()
+
+        verify(appStorage)
             .invocation { sessionCount }
-            .wasInvoked()
+            .wasNotInvoked()
 
         verify(adConfigService)
             .invocation { config }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
@@ -187,20 +187,20 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasNotInvoked()
+
+        verify(appStorage)
             .invocation { sessionCount }
-            .wasInvoked()
+            .wasNotInvoked()
 
         verify(adConfigService)
             .invocation { config }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
@@ -220,20 +220,20 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-
-        verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
-            .invocation { sessionCount }
+            .invocation { premiumEndDate }
             .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasNotInvoked()
 
         verify(adConfigService)
             .invocation { config }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test
@@ -253,11 +253,11 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
+            .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
-            .invocation { firstRun }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(appStorage)
@@ -286,11 +286,11 @@ internal class AdControlRepositoryTest {
         assertTrue { subject.shouldShowBannerAd() }
 
         verify(appStorage)
-            .invocation { premiumEndDate }
+            .invocation { firstRun }
             .wasInvoked()
 
         verify(appStorage)
-            .invocation { firstRun }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(appStorage)
@@ -303,7 +303,7 @@ internal class AdControlRepositoryTest {
     }
 
     @Test
-    fun `shouldShowInterstitialAd returns false when session count bigger than remote and premiumNotExpired 10`() {
+    fun `shouldShowInterstitialAd returns false when session count bigger than remote and premiumNotExpired 01`() {
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount.toLong() + 1)
@@ -315,12 +315,16 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowInterstitialAd() }
 
         verify(appStorage)
-            .invocation { sessionCount }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(adConfigService)
-            .invocation { config }
-            .wasInvoked()
+            .invocation { config.interstitialAdSessionCount }
+            .wasNotInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasNotInvoked()
     }
 
     @Test
@@ -336,37 +340,20 @@ internal class AdControlRepositoryTest {
         assertTrue { subject.shouldShowInterstitialAd() }
 
         verify(appStorage)
-            .invocation { sessionCount }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(adConfigService)
             .invocation { config }
             .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumExpired 01`() {
-        given(appStorage)
-            .invocation { sessionCount }
-            .thenReturn(mockedSessionCount.toLong() - 1)
-
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.seconds.inWholeMilliseconds)
-
-        assertFalse { subject.shouldShowInterstitialAd() }
 
         verify(appStorage)
             .invocation { sessionCount }
             .wasInvoked()
-
-        verify(adConfigService)
-            .invocation { config }
-            .wasInvoked()
     }
 
     @Test
-    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumNotExpired 00`() {
+    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumExpired 00`() {
         given(appStorage)
             .invocation { sessionCount }
             .thenReturn(mockedSessionCount.toLong() - 1)
@@ -378,11 +365,40 @@ internal class AdControlRepositoryTest {
         assertFalse { subject.shouldShowInterstitialAd() }
 
         verify(appStorage)
-            .invocation { sessionCount }
+            .invocation { premiumEndDate }
             .wasInvoked()
 
         verify(adConfigService)
             .invocation { config }
+            .wasNotInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
+            .wasNotInvoked()
+    }
+
+    @Test
+    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumNotExpired 10`() {
+        given(appStorage)
+            .invocation { sessionCount }
+            .thenReturn(mockedSessionCount.toLong() - 1)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - 1.seconds.inWholeMilliseconds)
+
+        assertFalse { subject.shouldShowInterstitialAd() }
+
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasInvoked()
+
+        verify(adConfigService)
+            .invocation { config }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { sessionCount }
             .wasInvoked()
     }
 }
