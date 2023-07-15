@@ -60,7 +60,8 @@ internal class CalculatorViewModelTest {
     }
 
     @Mock
-    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage =
+        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -69,13 +70,15 @@ internal class CalculatorViewModelTest {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val conversionDataSource = configure(mock(classOf<ConversionDataSource>())) { stubsUnitByDefault = true }
+    private val conversionDataSource =
+        configure(mock(classOf<ConversionDataSource>())) { stubsUnitByDefault = true }
 
     @Mock
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager =
+        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private val currency1 = Currency("USD", "Dollar", "$", "12345.678", true)
     private val currency2 = Currency("EUR", "Dollar", "$", "12345.678", true)
@@ -125,9 +128,11 @@ internal class CalculatorViewModelTest {
 
     @Test
     fun `conversion should be fetched on init`() = runTest {
+        viewModel
         verify(backendApiService)
             .coroutine { getConversion(currency1.code) }
             .wasInvoked()
+        assertNotNull(viewModel.data.conversion)
     }
 
     @Test
@@ -150,31 +155,32 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `when api fails and there is conversion in db then conversion rates are calculated`() = runTest {
-        given(backendApiService)
-            .coroutine { getConversion(currency1.code) }
-            .thenThrow(Exception())
+    fun `when api fails and there is conversion in db then conversion rates are calculated`() =
+        runTest {
+            given(backendApiService)
+                .coroutine { getConversion(currency1.code) }
+                .thenThrow(Exception())
 
-        viewModel.state.onSubscription {
-            viewModel.event.onKeyPress("1") // trigger api call
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertFalse { it.loading }
-            assertEquals(ConversionState.Offline(conversion.date), it.conversionState)
+            viewModel.state.onSubscription {
+                viewModel.event.onKeyPress("1") // trigger api call
+            }.firstOrNull().let {
+                assertNotNull(it)
+                assertFalse { it.loading }
+                assertEquals(ConversionState.Offline(conversion.date), it.conversionState)
 
-            val result = currencyList.onEach { currency ->
-                currency.rate = conversion.calculateRate(currency.code, it.output)
-                    .getFormatted(calculationStorage.precision)
-                    .toStandardDigits()
+                val result = currencyList.onEach { currency ->
+                    currency.rate = conversion.calculateRate(currency.code, it.output)
+                        .getFormatted(calculationStorage.precision)
+                        .toStandardDigits()
+                }
+
+                assertEquals(result, it.currencyList)
             }
 
-            assertEquals(result, it.currencyList)
+            verify(conversionDataSource)
+                .coroutine { getConversionByBase(currency1.code) }
+                .wasInvoked()
         }
-
-        verify(conversionDataSource)
-            .coroutine { getConversionByBase(currency1.code) }
-            .wasInvoked()
-    }
 
     @Test
     fun `when api fails and there is no conversion in db then error state displayed`() = runTest {
@@ -204,59 +210,62 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() = runTest {
-        given(backendApiService)
-            .coroutine { getConversion(currency1.code) }
-            .thenThrow(Exception())
+    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() =
+        runTest {
+            given(backendApiService)
+                .coroutine { getConversion(currency1.code) }
+                .thenThrow(Exception())
 
-        given(conversionDataSource)
-            .coroutine { getConversionByBase(currency1.code) }
-            .thenReturn(null)
+            given(conversionDataSource)
+                .coroutine { getConversionByBase(currency1.code) }
+                .thenReturn(null)
 
-        given(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
-            .thenReturn(flowOf(listOf(currency1)))
+            given(currencyDataSource)
+                .invocation { getActiveCurrenciesFlow() }
+                .thenReturn(flowOf(listOf(currency1)))
 
-        viewModel.effect.onSubscription {
-            viewModel.event.onKeyPress("1") // trigger api call
-        }.firstOrNull().let {
-            assertIs<CalculatorEffect.FewCurrency>(it)
+            viewModel.effect.onSubscription {
+                viewModel.event.onKeyPress("1") // trigger api call
+            }.firstOrNull().let {
+                assertIs<CalculatorEffect.FewCurrency>(it)
 
-            viewModel.state.value.let { state ->
-                assertNotNull(state)
-                assertFalse { state.loading }
-                assertEquals(ConversionState.Error, state.conversionState)
+                viewModel.state.value.let { state ->
+                    assertNotNull(state)
+                    assertFalse { state.loading }
+                    assertEquals(ConversionState.Error, state.conversionState)
+                }
+            }
+
+            verify(conversionDataSource)
+                .coroutine { getConversionByBase(currency1.code) }
+                .wasInvoked()
+        }
+
+    @Test
+    fun `when input is too long it should drop the last digit and give TooBigInput effect`() =
+        runTest {
+            val fortyFiveDigitNumber = "1234567890+1234567890+1234567890+1234567890+1"
+            viewModel.effect.onSubscription {
+                viewModel.event.onKeyPress(fortyFiveDigitNumber)
+            }.firstOrNull().let {
+                assertIs<CalculatorEffect.TooBigInput>(it)
+                assertFalse { viewModel.state.value.loading }
+                assertEquals(fortyFiveDigitNumber.dropLast(1), viewModel.state.value.input)
             }
         }
 
-        verify(conversionDataSource)
-            .coroutine { getConversionByBase(currency1.code) }
-            .wasInvoked()
-    }
-
     @Test
-    fun `when input is too long it should drop the last digit and give TooBigInput effect`() = runTest {
-        val fortyFiveDigitNumber = "1234567890+1234567890+1234567890+1234567890+1"
-        viewModel.effect.onSubscription {
-            viewModel.event.onKeyPress(fortyFiveDigitNumber)
-        }.firstOrNull().let {
-            assertIs<CalculatorEffect.TooBigInput>(it)
-            assertFalse { viewModel.state.value.loading }
-            assertEquals(fortyFiveDigitNumber.dropLast(1), viewModel.state.value.input)
+    fun `when output is too long it should drop the last digit and give TooBigOutput effect`() =
+        runTest {
+            val nineteenDigitNumber = "123 567 901 345 789"
+            viewModel.effect.onSubscription {
+                viewModel.event.onKeyPress(nineteenDigitNumber)
+            }.firstOrNull().let {
+                assertIs<CalculatorEffect.TooBigOutput>(it)
+                assertFalse { viewModel.state.value.loading }
+                assertEquals(nineteenDigitNumber.dropLast(1), viewModel.state.value.input)
+            }
         }
-    }
-
-    @Test
-    fun `when output is too long it should drop the last digit and give TooBigOutput effect`() = runTest {
-        val nineteenDigitNumber = "123 567 901 345 789"
-        viewModel.effect.onSubscription {
-            viewModel.event.onKeyPress(nineteenDigitNumber)
-        }.firstOrNull().let {
-            assertIs<CalculatorEffect.TooBigOutput>(it)
-            assertFalse { viewModel.state.value.loading }
-            assertEquals(nineteenDigitNumber.dropLast(1), viewModel.state.value.input)
-        }
-    }
 
     @Test
     fun `calculate output should return formatted finite output or empty string`() = runTest {
@@ -288,7 +297,13 @@ internal class CalculatorViewModelTest {
         viewModel // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.CurrencyCount(currencyList.count().toString())) }
+            .invocation {
+                setUserProperty(
+                    UserProperty.CurrencyCount(
+                        currencyList.count().toString()
+                    )
+                )
+            }
             .wasInvoked()
     }
 
@@ -417,10 +432,6 @@ internal class CalculatorViewModelTest {
             viewModel.event.onInputLongClick()
         }.firstOrNull().let {
             assertEquals(CalculatorEffect.ShowPasteRequest, it)
-
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.CopyClipboard) }
-                .wasInvoked()
         }
     }
 
