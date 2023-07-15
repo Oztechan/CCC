@@ -68,15 +68,16 @@ internal class PremiumViewModelTest {
             .wasNotInvoked()
 
         PremiumType.values().forEach { premiumType ->
+            val now = nowAsLong()
             viewModel.effect.onSubscription {
-                viewModel.updatePremiumEndDate(premiumType)
+                viewModel.updatePremiumEndDate(premiumType, now)
             }.firstOrNull().let {
                 assertIs<PremiumEffect.PremiumActivated>(it)
                 assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
 
                 verify(appStorage)
-                    .invocation { premiumEndDate = premiumType.calculatePremiumEnd() }
+                    .invocation { premiumEndDate = premiumType.calculatePremiumEnd(now) }
                     .wasInvoked()
             }
         }
@@ -88,11 +89,13 @@ internal class PremiumViewModelTest {
             .invocation { premiumEndDate }
             .thenReturn(0)
 
+        val now = nowAsLong()
+
         viewModel.effect.onSubscription {
             viewModel.restorePurchase(
                 listOf(
-                    OldPurchase(nowAsLong(), PremiumType.MONTH),
-                    OldPurchase(nowAsLong(), PremiumType.YEAR)
+                    OldPurchase(now, PremiumType.MONTH),
+                    OldPurchase(now, PremiumType.YEAR)
                 )
             )
         }.firstOrNull().let {
@@ -100,7 +103,7 @@ internal class PremiumViewModelTest {
             assertTrue { it.isRestorePurchase }
 
             verify(appStorage)
-                .invocation { premiumEndDate = it.premiumType.calculatePremiumEnd(nowAsLong()) }
+                .invocation { premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
                 .wasInvoked()
         }
     }
@@ -122,7 +125,8 @@ internal class PremiumViewModelTest {
 
     @Test
     fun `restorePurchase should fail if all the old purchases expired`() {
-        val oldPurchase = OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
+        val oldPurchase =
+            OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
 
         given(appStorage)
             .invocation { premiumEndDate }
