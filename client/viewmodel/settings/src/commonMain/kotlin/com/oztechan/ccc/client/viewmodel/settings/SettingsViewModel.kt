@@ -87,11 +87,11 @@ class SettingsViewModel(
 
         currencyDataSource.getActiveCurrencies()
             .forEach { (name) ->
-                delay(SYNC_DELAY)
-
                 runCatching { backendApiService.getConversion(name) }
                     .onFailure { error -> Logger.e(error) { error.message.toString() } }
                     .onSuccess { conversionDataSource.insertConversion(it) }
+
+                delay(SYNC_DELAY)
             }
 
         _effect.emit(SettingsEffect.Synchronised)

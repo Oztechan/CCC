@@ -67,7 +67,8 @@ internal class SettingsViewModelTest {
     private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
 
     @Mock
-    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage =
+        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -76,7 +77,9 @@ internal class SettingsViewModelTest {
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val conversionDataSource = mock(classOf<ConversionDataSource>())
+    private val conversionDataSource = configure(mock(classOf<ConversionDataSource>())) {
+        stubsUnitByDefault = true
+    }
 
     @Mock
     private val watcherDataSource = mock(classOf<WatcherDataSource>())
@@ -88,7 +91,8 @@ internal class SettingsViewModelTest {
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager =
+        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private val currencyList = listOf(
         Currency("", "", ""),
@@ -197,10 +201,10 @@ internal class SettingsViewModelTest {
 
         given(currencyDataSource)
             .coroutine { currencyDataSource.getActiveCurrencies() }
-            .thenReturn(currencyList)
+            .thenReturn(listOf(currency))
 
         given(backendApiService)
-            .coroutine { getConversion(currency.code) }
+            .coroutine { getConversion(base) }
             .thenReturn(conversion)
 
         viewModel.effect.onSubscription {
@@ -211,6 +215,10 @@ internal class SettingsViewModelTest {
 
         verify(conversionDataSource)
             .coroutine { conversionDataSource.insertConversion(conversion) }
+            .wasInvoked()
+
+        verify(backendApiService)
+            .coroutine { backendApiService.getConversion(base) }
             .wasInvoked()
     }
 
