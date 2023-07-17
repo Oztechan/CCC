@@ -67,7 +67,7 @@ class CurrenciesViewModel(
         filterList("")
     }
 
-    private suspend fun verifyListSize() = _state.value.currencyList
+    private suspend fun verifyListSize() = data.unFilteredList
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { appStorage.firstRun }
