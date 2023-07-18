@@ -21,7 +21,7 @@ actual constructor(
 
             // get cache or default
             config = getString(configKey)
-                .takeUnless { it.isNotEmpty() }
+                .takeIf { it.isNotEmpty() }
                 ?.let { updateConfig(getString(it), default) }
                 ?: default
 
