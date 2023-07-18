@@ -13,7 +13,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -25,7 +25,7 @@ import kotlin.test.assertTrue
 internal class PremiumApiServiceTest {
 
     private val subject: PremiumApiService by lazy {
-        PremiumApiServiceImpl(premiumAPI, newSingleThreadContext(this::class.simpleName.toString()))
+        PremiumApiServiceImpl(premiumAPI, UnconfinedTestDispatcher())
     }
 
     @Mock
@@ -36,7 +36,7 @@ internal class PremiumApiServiceTest {
     private val throwable = Throwable("mock")
 
     @Test
-    fun `getConversion parameter can not be empty`() = runTest {
+    fun `getConversion parameter can not be empty API call is not made`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -44,7 +44,7 @@ internal class PremiumApiServiceTest {
 
         verify(premiumAPI)
             .coroutine { premiumAPI.getExchangeRate("") }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test

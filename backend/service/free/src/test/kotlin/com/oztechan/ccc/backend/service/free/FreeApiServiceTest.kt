@@ -9,7 +9,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -21,7 +21,7 @@ import kotlin.test.assertTrue
 internal class FreeApiServiceTest {
 
     private val subject: FreeApiService by lazy {
-        FreeApiServiceImpl(freeApi, newSingleThreadContext(this::class.simpleName.toString()))
+        FreeApiServiceImpl(freeApi, UnconfinedTestDispatcher())
     }
 
     @Mock
@@ -32,7 +32,7 @@ internal class FreeApiServiceTest {
     private val base = "EUR"
 
     @Test
-    fun `getConversion parameter can not be empty`() = runTest {
+    fun `getConversion parameter can not be empty API call is not made`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -40,7 +40,7 @@ internal class FreeApiServiceTest {
 
         verify(freeApi)
             .coroutine { freeApi.getExchangeRate("") }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test

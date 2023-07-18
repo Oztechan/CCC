@@ -53,7 +53,7 @@ dependencies {
         }
     }
 
-    Modules.Submodules.apply {
-        implementation(project(scopemob))
+    Submodules.apply {
+        implementation(scopemob)
     }
 }

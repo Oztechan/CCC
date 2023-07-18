@@ -100,13 +100,6 @@ object Modules {
             const val premium = ":client:viewmodel:premium"
         }
     }
-
-    object Submodules {
-        const val logmob = ":submodule:logmob"
-        const val scopemob = ":submodule:scopemob"
-        const val basemob = ":submodule:basemob"
-        const val parsermob = ":submodule:parsermob"
-    }
 }
 
 val String.packageName: String

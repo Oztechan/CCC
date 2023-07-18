@@ -40,6 +40,8 @@ android {
         }
     }
 
+    buildFeatures.buildConfig = true
+
     signingConfigs {
         create(BuildType.release) {
             storeFile = file(secret(Key.ANDROID_KEY_STORE_PATH))
@@ -155,7 +157,7 @@ dependencies {
         implementation(project(widget))
     }
 
-    Modules.Submodules.apply {
-        implementation(project(logmob))
+    Submodules.apply {
+        implementation(logmob)
     }
 }

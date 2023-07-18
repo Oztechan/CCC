@@ -2,8 +2,8 @@ package com.oztechan.ccc.client.core.remoteconfig
 
 import co.touchlab.kermit.Logger
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 
 actual abstract class BaseConfigService<T>
 actual constructor(
@@ -19,14 +19,13 @@ actual constructor(
 
         Firebase.remoteConfig.apply {
 
-            // get cache
-            config = updateConfig(getString(configKey), default)
+            // get cache or default
+            config = getString(configKey)
+                .takeIf { it.isNotEmpty() }
+                ?.let { updateConfig(getString(it), default) }
+                ?: default
 
-            setConfigSettingsAsync(
-                remoteConfigSettings {
-                    if (BuildConfig.DEBUG) minimumFetchIntervalInSeconds = 0
-                }
-            )
+            setConfigSettingsAsync(FirebaseRemoteConfigSettings.Builder().build())
 
             fetchAndActivate().addOnCompleteListener {
                 if (it.isSuccessful) {

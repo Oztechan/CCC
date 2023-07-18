@@ -11,7 +11,7 @@ import io.mockative.classOf
 import io.mockative.given
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -24,7 +24,7 @@ import kotlin.test.assertTrue
 internal class BackendApiServiceTest {
 
     private val subject: BackendApiService by lazy {
-        BackendApiServiceImpl(backendApi, newSingleThreadContext(this::class.simpleName.toString()))
+        BackendApiServiceImpl(backendApi, UnconfinedTestDispatcher())
     }
 
     @Mock
@@ -40,7 +40,7 @@ internal class BackendApiServiceTest {
     }
 
     @Test
-    fun `getConversion parameter can not be empty`() = runTest {
+    fun `getConversion parameter can not be empty API call is not made`() = runTest {
         runCatching { subject.getConversion("") }.let {
             assertFalse { it.isSuccess }
             assertTrue { it.isFailure }
@@ -48,7 +48,7 @@ internal class BackendApiServiceTest {
 
         verify(backendApi)
             .coroutine { backendApi.getExchangeRate("") }
-            .wasInvoked()
+            .wasNotInvoked()
     }
 
     @Test

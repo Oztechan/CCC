@@ -78,14 +78,14 @@ jobs:
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'temurin'
 
       - name: Generate Artifacts
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.6.0
         with:
           arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
@@ -163,7 +163,7 @@ jobs:
         with:
           client-id: ${{secrets.HUAWEI_CLIENT_ID}}
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
-          app-id: ${{secrets.HUAWEI_APP_ID}}
+          app-id: "com.oztechan.ccc.huawei"
           file-extension: "aab"
           file-path: "app-huawei-release.aab"
           file-name: "app-huawei-release"
@@ -219,10 +219,10 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 0
 
-      - name: Set up JDK 11
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: 17
           distribution: 'temurin'
 
       - name: Adding secret files
@@ -235,7 +235,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Generate Pods
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.6.0
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 

@@ -11,7 +11,8 @@
   "commitBody": "Signed-off-by: {{{gitAuthor}}}\nCo-authored-by: {{{gitAuthor}}}",
   "commitMessageAction": "[Oztechan/CCC#1457] Dependency update",
   "git-submodules": {
-    "enabled": true
+    "enabled": true,
+    "groupName": "Git Submodules"
   },
   "lockFileMaintenance": {
     "enabled": true,
@@ -20,7 +21,7 @@
   "packageRules": [
     {
       "matchPackagePatterns": [
-        "^org.jetbrains.kotlin",
+        "^org.jetbrains.kotlin:kotlin",
         "^com.google.devtools.ksp",
         "^androidx.compose.compiler"
       ],

@@ -26,6 +26,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
 
     composeOptions {
@@ -98,8 +99,8 @@ dependencies {
         implementation(project(premium))
     }
 
-    Modules.Submodules.apply {
-        implementation(project(scopemob))
-        implementation(project(basemob))
+    Submodules.apply {
+        implementation(scopemob)
+        implementation(basemob)
     }
 }

@@ -32,11 +32,12 @@ dependencies {
     libs.apply {
         android.apply {
             implementation(glance)
+            implementation(lifecycleViewmodel)
         }
 
         common.apply {
             implementation(koinCore)
-            testImplementation(test)
+            implementation(kermit)
         }
     }
 
@@ -45,6 +46,7 @@ dependencies {
     implementation(project(Modules.Common.Core.model))
 
     Modules.Client.Core.apply {
+        implementation(project(viewModel))
         implementation(project(res))
         implementation(project(analytics))
     }

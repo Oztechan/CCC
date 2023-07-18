@@ -21,14 +21,19 @@ android {
 }
 
 dependencies {
-    libs.common.apply {
-        implementation(koinCore)
-    }
+    libs.apply {
+        android.apply {
+            implementation(lifecycleViewmodel)
+        }
+        common.apply {
+            implementation(koinCore)
+            implementation(coroutines)
+            implementation(kermit)
 
-    libs.common.apply {
-        testImplementation(test)
-        testImplementation(mockative)
-        testImplementation(coroutinesTest)
+            testImplementation(test)
+            testImplementation(mockative)
+            testImplementation(coroutinesTest)
+        }
     }
 
     kspTest(libs.processors.mockative)
