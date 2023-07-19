@@ -32,9 +32,11 @@ internal class AnalyticsManagerImpl(
 
     override fun trackEvent(event: Event) {
         firebaseAnalytics.logEvent(event.key) {
-            event.getParams()?.forEach {
-                param(it.key, it.value)
-            }
+            event.getParams()
+                ?.iterator()
+                ?.forEach {
+                    param(it.key, it.value)
+                }
         }
     }
 }
