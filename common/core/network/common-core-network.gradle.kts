@@ -29,6 +29,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 libs.common.apply {
+                    implementation(coroutines)
                     implementation(koinCore)
                     implementation(ktorLogging)
                     implementation(ktorClientContentNegotiation)
