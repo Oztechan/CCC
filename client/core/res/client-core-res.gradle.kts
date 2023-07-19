@@ -46,9 +46,19 @@ kotlin {
         val androidMain by getting
         val androidUnitTest by getting
 
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
+        // Todo https://github.com/icerockdev/moko-resources/issues/510
+        val iosX64Main by getting {
+            resources.srcDirs("build/generated/moko/iosX64Main/src")
+        }
+        // Todo https://github.com/icerockdev/moko-resources/issues/510
+        val iosArm64Main by getting {
+            resources.srcDirs("build/generated/moko/iosArm64Main/src")
+        }
+        // Todo https://github.com/icerockdev/moko-resources/issues/510
+        val iosSimulatorArm64Main by getting {
+            resources.srcDirs("build/generated/moko/iosSimulatorArm64Main/src")
+        }
+
         val iosMain by creating {
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
@@ -77,6 +87,12 @@ android {
             sourceCompatibility = JAVA_VERSION
             targetCompatibility = JAVA_VERSION
         }
+    }
+
+    // Todo https://github.com/icerockdev/moko-resources/issues/510
+    @Suppress("UnstableApiUsage")
+    sourceSets {
+        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
     }
 }
 
