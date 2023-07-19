@@ -2,7 +2,6 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 import io.gitlab.arturbosch.detekt.Detekt
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     @Suppress("DSL_SCOPE_VIOLATION")
@@ -72,10 +71,10 @@ allprojects {
             detektPlugins(rootProject.libs.common.detektFormatting)
         }
     }
-
-    tasks.withType<KotlinCompile> {
-        kotlinOptions {
-            allWarningsAsErrors = true
-        }
-    }
+// todo enable back post Kotlin 1.9.0
+//    tasks.withType<KotlinCompile> {
+//        kotlinOptions {
+//            allWarningsAsErrors = true
+//        }
+//    }
 }
