@@ -273,33 +273,35 @@ class WidgetViewModelTest {
             .wasInvoked()
     }
 
-//    @Test
-//    fun `when onRefreshClick called with false, base is updated previous or the last active currency`() = runTest {
-//        // to not invoke getFreshWidgetData
-//        given(appStorage)
-//            .invocation { premiumEndDate }
-//            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
-//
-//        viewModel.event.onRefreshClick(false)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(lastBase))
-//            .wasInvoked()
-//
-//        viewModel.event.onRefreshClick(false)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(firstBase))
-//            .wasInvoked()
-//    }
+    @Test
+    fun onPreviousClick() = runTest {
+        // when onRefreshClick, base is updated previous or the last active currency
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+
+        viewModel.event.onPreviousClick()
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .invocation { currentBase = firstBase }
+            .wasInvoked()
+
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(firstBase)
+
+        viewModel.event.onPreviousClick()
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .invocation { currentBase = lastBase }
+            .wasInvoked()
+    }
 }
