@@ -241,35 +241,37 @@ class WidgetViewModelTest {
             .wasNotInvoked()
     }
 
-//    @Test
-//    fun `when onRefreshClick called with true, base is updated next or the first active currency`() = runTest {
-//        // to not invoke getFreshWidgetData
-//        given(appStorage)
-//            .invocation { premiumEndDate }
-//            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
-//
-//        viewModel.event.onRefreshClick(true)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(firstBase))
-//            .wasInvoked()
-//
-//        viewModel.event.onRefreshClick(true)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(lastBase))
-//            .wasInvoked()
-//    }
+    @Test
+    fun onNextClick() = runTest {
+        // when onNextClick, base is updated next or the first active currency
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+
+        viewModel.event.onNextClick()
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .invocation { currentBase = lastBase }
+            .wasInvoked()
+
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(lastBase)
+
+        viewModel.event.onNextClick()
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .invocation { currentBase = firstBase }
+            .wasInvoked()
+    }
 
 //    @Test
 //    fun `when onRefreshClick called with false, base is updated previous or the last active currency`() = runTest {
