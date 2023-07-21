@@ -30,6 +30,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.days
 
@@ -46,7 +47,8 @@ class WidgetViewModelTest {
     }
 
     @Mock
-    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage =
+        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -67,7 +69,8 @@ class WidgetViewModelTest {
         Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true)
     )
 
-    private val conversion = Conversion(base = base, eur = 1.111111, usd = 2.222222, `try` = 3.333333)
+    private val conversion =
+        Conversion(base = base, eur = 1.111111, usd = 2.222222, `try` = 3.333333)
 
     @BeforeTest
     fun setup() {
@@ -204,23 +207,24 @@ class WidgetViewModelTest {
     }
 
     @Test
-    fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+    fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() =
+        runTest {
+            given(appStorage)
+                .invocation { premiumEndDate }
+                .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
 
-        viewModel.state.onSubscription {
-            viewModel.event.onRefreshClick()
-        }.firstOrNull().let {
-            assertNotNull(it)
-            it.currencyList.forEach { currency ->
-                conversion.getRateFromCode(currency.code).let { rate ->
-                    assertNotNull(rate)
-                    assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
+            viewModel.state.onSubscription {
+                viewModel.event.onRefreshClick()
+            }.firstOrNull().let {
+                assertNotNull(it)
+                it.currencyList.forEach { currency ->
+                    conversion.getRateFromCode(currency.code).let { rate ->
+                        assertNotNull(rate)
+                        assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
+                    }
                 }
             }
         }
-    }
 
     @Test
     fun `when onRefreshClick called with null, base is not updated`() = runTest {
@@ -241,6 +245,7 @@ class WidgetViewModelTest {
             .wasNotInvoked()
     }
 
+    // region Event
     @Test
     fun onNextClick() = runTest {
         // when onNextClick, base is updated next or the first active currency
@@ -304,4 +309,36 @@ class WidgetViewModelTest {
             .invocation { currentBase = lastBase }
             .wasInvoked()
     }
+
+    @Test
+    fun onRefreshClick() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+
+        viewModel.event.onRefreshClick()
+
+        verify(backendApiService)
+            .coroutine { getConversion(base) }
+            .wasInvoked()
+
+        verify(currencyDataSource)
+            .coroutine { getActiveCurrencies() }
+            .wasInvoked()
+
+        verify(calculationStorage)
+            .invocation { currentBase }
+            .wasInvoked()
+    }
+
+    @Test
+    fun onOpenAppClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onOpenAppClick()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WidgetEffect.OpenApp>(it)
+        }
+    }
+    // endregion
 }
