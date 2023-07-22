@@ -103,65 +103,65 @@ class WidgetViewModelTest {
         }
     }
 
-//    @Test
-//    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
-//        // first currency
-//        given(calculationStorage)
-//            .invocation { currentBase }
-//            .thenReturn(firstBase)
-//
-//        given(backendApiService)
-//            .coroutine { getConversion(firstBase) }
-//            .thenReturn(conversion)
-//
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick()
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(true)
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(false)
-//        }
-//
-//        // middle currency
-//        given(calculationStorage)
-//            .invocation { currentBase }
-//            .thenReturn(base)
-//
-//        given(backendApiService)
-//            .coroutine { getConversion(base) }
-//            .thenReturn(conversion)
-//
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick()
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(true)
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(false)
-//        }
-//
-//        // last currency
-//        given(calculationStorage)
-//            .invocation { currentBase }
-//            .thenReturn(lastBase)
-//
-//        given(backendApiService)
-//            .coroutine { getConversion(lastBase) }
-//            .thenReturn(conversion)
-//
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick()
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(true)
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(false)
-//        }
-//    }
+    @Test
+    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
+        // first currency
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(firstBase)
+
+        given(backendApiService)
+            .coroutine { getConversion(firstBase) }
+            .thenReturn(conversion)
+
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onRefreshClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onNextClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onPreviousClick()
+        }
+
+        // middle currency
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(base)
+
+        given(backendApiService)
+            .coroutine { getConversion(base) }
+            .thenReturn(conversion)
+
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onRefreshClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onNextClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onPreviousClick()
+        }
+
+        // last currency
+        given(calculationStorage)
+            .invocation { currentBase }
+            .thenReturn(lastBase)
+
+        given(backendApiService)
+            .coroutine { getConversion(lastBase) }
+            .thenReturn(conversion)
+
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onRefreshClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onNextClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onPreviousClick()
+        }
+    }
 
     @Test
     fun `init sets isPremium and currentBase`() = runTest {
