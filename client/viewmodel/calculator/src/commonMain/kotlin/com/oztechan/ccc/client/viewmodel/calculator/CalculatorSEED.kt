@@ -36,13 +36,13 @@ interface CalculatorEvent : BaseEvent {
 
 // Effect
 sealed class CalculatorEffect : BaseEffect() {
-    object Error : CalculatorEffect()
-    object FewCurrency : CalculatorEffect()
-    object OpenBar : CalculatorEffect()
-    object TooBigInput : CalculatorEffect()
-    object TooBigOutput : CalculatorEffect()
-    object OpenSettings : CalculatorEffect()
-    object ShowPasteRequest : CalculatorEffect()
+    data object Error : CalculatorEffect()
+    data object FewCurrency : CalculatorEffect()
+    data object OpenBar : CalculatorEffect()
+    data object TooBigInput : CalculatorEffect()
+    data object TooBigOutput : CalculatorEffect()
+    data object OpenSettings : CalculatorEffect()
+    data object ShowPasteRequest : CalculatorEffect()
     data class CopyToClipboard(val amount: String) : CalculatorEffect()
     data class ShowConversion(val text: String, val code: String) : CalculatorEffect()
 }

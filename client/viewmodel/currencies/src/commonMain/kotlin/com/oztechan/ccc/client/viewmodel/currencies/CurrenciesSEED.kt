@@ -25,9 +25,9 @@ interface CurrenciesEvent : BaseEvent {
 
 // Effect
 sealed class CurrenciesEffect : BaseEffect() {
-    object FewCurrency : CurrenciesEffect()
-    object OpenCalculator : CurrenciesEffect()
-    object Back : CurrenciesEffect()
+    data object FewCurrency : CurrenciesEffect()
+    data object OpenCalculator : CurrenciesEffect()
+    data object Back : CurrenciesEffect()
     data class ChangeBase(val newBase: String) : CurrenciesEffect()
 }
 

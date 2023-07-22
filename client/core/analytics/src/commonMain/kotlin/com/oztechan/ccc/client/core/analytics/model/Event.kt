@@ -3,9 +3,9 @@ package com.oztechan.ccc.client.core.analytics.model
 sealed class Event(val key: String) {
     data class BaseChange(val base: Param.Base) : Event("base_change")
     data class ShowConversion(val base: Param.Base) : Event("show_conversion")
-    object OfflineSync : Event("offline_sync")
-    object CopyClipboard : Event("copy_clipboard")
-    object PasteFromClipboard : Event("paste_from_clipboard")
+    data object OfflineSync : Event("offline_sync")
+    data object CopyClipboard : Event("copy_clipboard")
+    data object PasteFromClipboard : Event("paste_from_clipboard")
 
     fun getParams(): Map<String, String>? = when (this) {
         is ShowConversion -> mapOf(base.key to base.value)

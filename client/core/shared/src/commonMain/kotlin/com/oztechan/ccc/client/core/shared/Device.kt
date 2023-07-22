@@ -24,7 +24,7 @@ sealed class Device(
         )
     }
 
-    object IOS : Device(
+    data object IOS : Device(
         name = "ios",
         marketLink = "https://apps.apple.com/us/app/currency-converter-calculator/id1617484510"
     )

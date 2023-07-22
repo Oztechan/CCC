@@ -4,7 +4,7 @@ import com.oztechan.ccc.android.core.billing.model.ProductDetails
 import com.oztechan.ccc.android.core.billing.model.PurchaseHistoryRecord
 
 sealed class BillingEffect {
-    object SuccessfulPurchase : BillingEffect()
+    data object SuccessfulPurchase : BillingEffect()
 
     data class RestorePurchase(
         val purchaseHistoryRecordRecordList: List<PurchaseHistoryRecord>

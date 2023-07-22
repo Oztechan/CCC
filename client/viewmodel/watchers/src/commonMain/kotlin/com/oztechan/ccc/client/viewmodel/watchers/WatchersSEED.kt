@@ -11,12 +11,12 @@ data class WatchersState(
 ) : BaseState()
 
 sealed class WatchersEffect : BaseEffect() {
-    object Back : WatchersEffect()
+    data object Back : WatchersEffect()
     data class SelectBase(val watcher: Watcher) : WatchersEffect()
     data class SelectTarget(val watcher: Watcher) : WatchersEffect()
-    object TooBigInput : WatchersEffect()
-    object InvalidInput : WatchersEffect()
-    object MaximumNumberOfWatchers : WatchersEffect()
+    data object TooBigInput : WatchersEffect()
+    data object InvalidInput : WatchersEffect()
+    data object MaximumNumberOfWatchers : WatchersEffect()
 }
 
 interface WatchersEvent : BaseEvent {
