@@ -29,42 +29,42 @@ class BaseNetworkServiceTest {
 
     @Test
     fun `CancellationException should return exception itself`() = runTest {
-        assertFailsWith<TerminationException> {
+        assertFailsWith(TerminationException::class) {
             subject.request { throw CancellationException(exception) }
         }
     }
 
     @Test
     fun `IOException should return NetworkException`() = runTest {
-        assertFailsWith<NetworkException> {
+        assertFailsWith(NetworkException::class) {
             subject.request { throw IOException(exception.message.toString()) }
         }
     }
 
     @Test
     fun `ConnectTimeoutException should return TimeoutException`() = runTest {
-        assertFailsWith<TimeoutException> {
+        assertFailsWith(TimeoutException::class) {
             subject.request { throw ConnectTimeoutException(exception.message.toString()) }
         }
     }
 
     @Test
     fun `SerializationException should return ModelMappingException`() = runTest {
-        assertFailsWith<ModelMappingException> {
+        assertFailsWith(ModelMappingException::class) {
             subject.request { throw SerializationException(exception) }
         }
     }
 
     @Test
     fun `Any other exception should return UnknownNetworkException`() = runTest {
-        assertFailsWith<UnknownNetworkException> {
+        assertFailsWith(UnknownNetworkException::class) {
             subject.request { throw exception }
         }
     }
 
     @Test
     fun `Empty string should return EmptyParameterException`() {
-        assertFailsWith<EmptyParameterException> {
+        assertFailsWith(EmptyParameterException::class) {
             subject.parameterCheck("")
         }
     }

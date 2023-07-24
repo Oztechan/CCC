@@ -18,7 +18,7 @@ class BaseDBDataSourceTest {
 
     @Test
     fun `any exception returns DatabaseException`() = runTest {
-        assertFailsWith<DatabaseException> {
+        assertFailsWith(DatabaseException::class) {
             @Suppress("TooGenericExceptionThrown")
             subject.query { throw Exception("Test exception") }
         }
