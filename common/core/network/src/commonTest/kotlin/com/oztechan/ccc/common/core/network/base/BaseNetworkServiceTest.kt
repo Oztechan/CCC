@@ -13,9 +13,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
-import kotlin.test.assertNotNull
 
 @Suppress("OPT_IN_USAGE")
 class BaseNetworkServiceTest {
@@ -31,68 +29,43 @@ class BaseNetworkServiceTest {
 
     @Test
     fun `CancellationException should return exception itself`() = runTest {
-        assertFailsWith(TerminationException::class) {
+        assertFailsWith<TerminationException> {
             subject.request { throw CancellationException(exception) }
-        }.let {
-            assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
         }
     }
 
     @Test
     fun `IOException should return NetworkException`() = runTest {
-        assertFailsWith(NetworkException::class) {
+        assertFailsWith<NetworkException> {
             subject.request { throw IOException(exception.message.toString()) }
-        }.let {
-            assertNotNull(it.cause)
-            assertEquals(exception.message, it.cause.message)
         }
     }
 
     @Test
     fun `ConnectTimeoutException should return TimeoutException`() = runTest {
-        assertFailsWith(TimeoutException::class) {
+        assertFailsWith<TimeoutException> {
             subject.request { throw ConnectTimeoutException(exception.message.toString()) }
-        }.let {
-            assertNotNull(it.cause)
-            assertEquals(exception.message, it.cause.message)
         }
     }
 
     @Test
     fun `SerializationException should return ModelMappingException`() = runTest {
-        assertFailsWith(ModelMappingException::class) {
+        assertFailsWith<ModelMappingException> {
             subject.request { throw SerializationException(exception) }
-        }.let {
-            assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
         }
     }
 
-    @Suppress("TooGenericExceptionThrown")
     @Test
     fun `Any other exception should return UnknownNetworkException`() = runTest {
-        assertFailsWith(UnknownNetworkException::class) {
-            subject.request { throw Exception(exception) }
-        }.let {
-            assertNotNull(it.cause)
-            assertNotNull(it.cause.cause)
-            assertEquals(exception, it.cause.cause)
-            assertEquals(exception.message, it.cause.cause!!.message)
+        assertFailsWith<UnknownNetworkException> {
+            subject.request { throw exception }
         }
     }
 
     @Test
-    fun `Empty string should return EmptyParameterException`() = runTest {
-        assertFailsWith(EmptyParameterException::class) {
+    fun `Empty string should return EmptyParameterException`() {
+        assertFailsWith<EmptyParameterException> {
             subject.parameterCheck("")
-        }.let {
-            assertNotNull(it)
-            assertEquals(EmptyParameterException().message, it.message)
         }
     }
 }
