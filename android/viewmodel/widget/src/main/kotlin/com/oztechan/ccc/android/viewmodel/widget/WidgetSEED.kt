@@ -24,7 +24,7 @@ interface WidgetEvent : BaseEvent {
 
 // Effect
 sealed class WidgetEffect : BaseEffect() {
-    object OpenApp : WidgetEffect()
+    data object OpenApp : WidgetEffect()
 }
 
 // Data
