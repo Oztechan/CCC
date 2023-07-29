@@ -3,6 +3,7 @@ plugins {
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
+        id(kotlinXSerialization.get().pluginId)
     }
 }
 
@@ -18,7 +19,10 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                implementation(libs.common.kermit)
+                libs.common.apply {
+                    implementation(ktorJson)
+                    implementation(kermit)
+                }
             }
         }
         val commonTest by getting
