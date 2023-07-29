@@ -8,10 +8,13 @@ actual abstract class BaseConfigService<T> actual constructor(
 ) {
     actual var config: T
 
+    actual val default: T
+
     actual abstract fun decode(value: String): T
 
     init {
         Logger.d { "${this::class.simpleName} init" }
+        this.default = default
         config = default
     }
 }

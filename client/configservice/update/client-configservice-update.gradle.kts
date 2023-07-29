@@ -3,7 +3,6 @@ plugins {
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
-        id(kotlinXSerialization.get().pluginId)
     }
 }
 
@@ -19,10 +18,7 @@ kotlin {
 
         val commonMain by getting {
             dependencies {
-                libs.common.apply {
-                    implementation(ktorJson)
-                    implementation(koinCore)
-                }
+                implementation(libs.common.koinCore)
                 implementation(project(Modules.Client.Core.remoteConfig))
             }
         }

@@ -6,5 +6,7 @@ expect abstract class BaseConfigService<T>(
 ) {
     var config: T
 
+    val default: T
+
     abstract fun decode(value: String): T
 }

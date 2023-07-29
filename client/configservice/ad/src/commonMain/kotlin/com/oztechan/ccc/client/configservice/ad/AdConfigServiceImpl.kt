@@ -2,7 +2,7 @@ package com.oztechan.ccc.client.configservice.ad
 
 import com.oztechan.ccc.client.configservice.ad.mapper.toAdConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.BaseConfigService
-import kotlinx.serialization.json.Json
+import com.oztechan.ccc.client.core.remoteconfig.util.parseToObject
 import com.oztechan.ccc.client.configservice.ad.model.AdConfig as AdConfigModel
 import com.oztechan.ccc.client.core.remoteconfig.model.AdConfig as AdConfigRCModel
 
@@ -15,9 +15,9 @@ internal class AdConfigServiceImpl :
 
     override fun decode(
         value: String
-    ) = Json
-        .decodeFromString<AdConfigRCModel>(value)
-        .toAdConfigModel()
+    ) = value.parseToObject<AdConfigRCModel>()
+        ?.toAdConfigModel()
+        ?: default
 
     companion object {
         private const val KEY_AD_CONFIG = "ad_config"
