@@ -5,16 +5,16 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 
-actual abstract class BaseConfigService<T>
-actual constructor(
+actual abstract class BaseConfigService<T> actual constructor(
+    default: T,
     configKey: String,
-    default: T
 ) {
+
     actual var config: T
 
     actual val default: T
 
-    actual abstract fun decode(value: String): T
+    actual abstract fun String?.decode(): T
 
     init {
         Logger.d { "${this::class.simpleName} init" }
@@ -26,7 +26,7 @@ actual constructor(
             // get cache or default
             config = getString(configKey)
                 .takeIf { it.isNotEmpty() }
-                ?.let { updateConfig(getString(it), default) }
+                ?.let { it.decode() }
                 ?: default
 
             setConfigSettingsAsync(FirebaseRemoteConfigSettings.Builder().build())
@@ -35,7 +35,7 @@ actual constructor(
                 if (it.isSuccessful) {
                     Logger.i("${this::class.simpleName} Remote config updated from server")
                     // get remote
-                    config = updateConfig(getString(configKey), default)
+                    config = getString(configKey).decode()
                     // cache
                     setDefaultsAsync(mapOf(configKey to config))
                 } else {
@@ -43,13 +43,5 @@ actual constructor(
                 }
             }
         }
-    }
-
-    @Suppress("TooGenericExceptionCaught")
-    private fun updateConfig(value: String, default: T): T = try {
-        decode(value)
-    } catch (exception: Exception) {
-        Logger.e(exception) { "${this::class.simpleName} Remote config is not updated, using default" }
-        default
     }
 }

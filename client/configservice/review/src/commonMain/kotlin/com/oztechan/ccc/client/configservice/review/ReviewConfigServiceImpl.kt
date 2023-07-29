@@ -8,14 +8,12 @@ import com.oztechan.ccc.client.core.remoteconfig.model.ReviewConfig as ReviewCon
 
 internal class ReviewConfigServiceImpl :
     BaseConfigService<ReviewConfigModel>(
-        KEY_AD_CONFIG,
-        ReviewConfigRCModel().toReviewConfigModel()
+        ReviewConfigRCModel().toReviewConfigModel(),
+        KEY_AD_CONFIG
     ),
     ReviewConfigService {
 
-    override fun decode(
-        value: String
-    ) = value.parseToObject<ReviewConfigRCModel>()
+    override fun String?.decode() = parseToObject<ReviewConfigRCModel>()
         ?.toReviewConfigModel()
         ?: default
 

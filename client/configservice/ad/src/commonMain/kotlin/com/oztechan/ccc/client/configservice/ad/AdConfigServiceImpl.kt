@@ -8,14 +8,12 @@ import com.oztechan.ccc.client.core.remoteconfig.model.AdConfig as AdConfigRCMod
 
 internal class AdConfigServiceImpl :
     BaseConfigService<AdConfigModel>(
-        KEY_AD_CONFIG,
-        AdConfigRCModel().toAdConfigModel()
+        AdConfigRCModel().toAdConfigModel(),
+        KEY_AD_CONFIG
     ),
     AdConfigService {
 
-    override fun decode(
-        value: String
-    ) = value.parseToObject<AdConfigRCModel>()
+    override fun String?.decode() = parseToObject<AdConfigRCModel>()
         ?.toAdConfigModel()
         ?: default
 
