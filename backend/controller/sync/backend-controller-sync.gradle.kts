@@ -1,5 +1,4 @@
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     id(libs.plugins.jvm.get().pluginId)
 }
 

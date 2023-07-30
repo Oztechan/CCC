@@ -3,7 +3,6 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)

@@ -1,5 +1,4 @@
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(jvm.get().pluginId)
         alias(ksp)

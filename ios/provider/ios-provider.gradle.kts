@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(cocoapods.get().pluginId)

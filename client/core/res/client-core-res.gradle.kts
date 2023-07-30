@@ -1,7 +1,6 @@
 import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(cocoapods.get().pluginId)
