@@ -17,7 +17,6 @@ plugins {
     }
 }
 
-@Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
         namespace = Modules.Android.app.packageName
