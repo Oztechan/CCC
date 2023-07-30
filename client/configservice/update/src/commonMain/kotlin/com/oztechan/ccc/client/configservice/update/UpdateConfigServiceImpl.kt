@@ -8,14 +8,12 @@ import com.oztechan.ccc.client.core.remoteconfig.model.UpdateConfig as UpdateCon
 
 internal class UpdateConfigServiceImpl :
     BaseConfigService<UpdateConfigModel>(
+        UpdateConfigRCModel().toUpdateConfigModel(),
         KEY_AD_CONFIG,
-        UpdateConfigRCModel().toUpdateConfigModel()
     ),
     UpdateConfigService {
 
-    override fun decode(
-        value: String
-    ) = value.parseToObject<UpdateConfigRCModel>()
+    override fun String?.decode() = parseToObject<UpdateConfigRCModel>()
         ?.toUpdateConfigModel()
         ?: default
 
