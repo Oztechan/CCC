@@ -4,7 +4,6 @@ import config.key.Key
 import config.key.secret
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(kotlinXSerialization.get().pluginId)
