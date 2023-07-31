@@ -12,7 +12,7 @@ import co.touchlab.kermit.Logger
 import com.google.android.material.snackbar.Snackbar
 import com.oztechan.ccc.android.ui.mobile.R
 
-@Suppress("LongParameterList", "NestedBlockDepth")
+@Suppress("NestedBlockDepth")
 fun View?.showSnack(
     text: String = "",
     actionText: String = "",
@@ -52,7 +52,6 @@ fun View?.showSnack(
     }.show()
 }
 
-@Suppress("LongParameterList")
 fun View?.showSnack(
     text: Int? = null,
     actionText: Int? = null,

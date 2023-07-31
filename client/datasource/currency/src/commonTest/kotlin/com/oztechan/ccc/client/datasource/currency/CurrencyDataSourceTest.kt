@@ -20,10 +20,10 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-@Suppress("OPT_IN_USAGE")
 internal class CurrencyDataSourceTest {
 
     private val subject: CurrencyDataSource by lazy {
+        @Suppress("OPT_IN_USAGE")
         CurrencyDataSourceImpl(currencyQueries, UnconfinedTestDispatcher())
     }
 

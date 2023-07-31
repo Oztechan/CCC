@@ -16,7 +16,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
-@Suppress("TooManyFunctions")
 internal class AdControlRepositoryTest {
 
     private val subject: AdControlRepository by lazy {

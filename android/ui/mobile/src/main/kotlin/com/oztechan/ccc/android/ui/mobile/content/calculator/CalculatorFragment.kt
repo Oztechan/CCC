@@ -35,7 +35,6 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("TooManyFunctions")
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()

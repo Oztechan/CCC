@@ -17,10 +17,10 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-@Suppress("OPT_IN_USAGE")
 internal class FreeApiServiceTest {
 
     private val subject: FreeApiService by lazy {
+        @Suppress("OPT_IN_USAGE")
         FreeApiServiceImpl(freeApi, UnconfinedTestDispatcher())
     }
 

@@ -15,9 +15,9 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-@Suppress("OPT_IN_USAGE")
 class BaseNetworkServiceTest {
 
+    @Suppress("OPT_IN_USAGE")
     private val subject = object : BaseNetworkService(UnconfinedTestDispatcher()) {
         fun parameterCheck(parameter: String) = withEmptyParameterCheck(parameter)
         suspend fun <T> request(

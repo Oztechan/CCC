@@ -15,7 +15,7 @@ internal class BackgroundRepositoryImpl(
         Logger.d { "BackgroundRepositoryImpl init" }
     }
 
-    @Suppress("LabeledExpression", "TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught")
     override fun shouldSendNotification() = try {
         Logger.d { "BackgroundRepositoryImpl shouldSendNotification" }
 

@@ -19,10 +19,10 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-@Suppress("OPT_IN_USAGE")
 internal class ConversionDataSourceTest {
 
     private val subject: ConversionDataSource by lazy {
+        @Suppress("OPT_IN_USAGE")
         ConversionDataSourceImpl(conversionQueries, UnconfinedTestDispatcher())
     }
 

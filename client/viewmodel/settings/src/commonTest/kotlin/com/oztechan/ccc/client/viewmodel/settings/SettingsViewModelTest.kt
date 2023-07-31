@@ -46,7 +46,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.days
 
-@Suppress("TooManyFunctions", "OPT_IN_USAGE")
 internal class SettingsViewModelTest {
 
     private val viewModel: SettingsViewModel by lazy {
@@ -111,6 +110,7 @@ internal class SettingsViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(appStorage)

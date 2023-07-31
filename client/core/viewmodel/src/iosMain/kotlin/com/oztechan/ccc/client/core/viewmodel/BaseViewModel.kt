@@ -9,7 +9,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 
-@Suppress("EmptyDefaultConstructor", "unused")
 actual open class BaseViewModel actual constructor() {
 
     protected actual val viewModelScope: CoroutineScope = MainScope()
@@ -18,6 +17,7 @@ actual open class BaseViewModel actual constructor() {
         Logger.d { "${this::class.simpleName} init" }
     }
 
+    @Suppress("unused") // used in iOS
     protected actual open fun onCleared() {
         Logger.d { "${this::class.simpleName} onCleared" }
         viewModelScope.cancel()

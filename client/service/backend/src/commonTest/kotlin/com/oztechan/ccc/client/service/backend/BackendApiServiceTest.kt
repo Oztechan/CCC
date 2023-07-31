@@ -20,10 +20,10 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-@Suppress("OPT_IN_USAGE")
 internal class BackendApiServiceTest {
 
     private val subject: BackendApiService by lazy {
+        @Suppress("OPT_IN_USAGE")
         BackendApiServiceImpl(backendApi, UnconfinedTestDispatcher())
     }
 

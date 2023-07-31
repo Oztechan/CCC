@@ -3,7 +3,6 @@
  */
 package com.oztechan.ccc.common.core.model
 
-@Suppress("ConstructorParameterNaming")
 data class Conversion(
     var base: String = "",
     var date: String? = null,

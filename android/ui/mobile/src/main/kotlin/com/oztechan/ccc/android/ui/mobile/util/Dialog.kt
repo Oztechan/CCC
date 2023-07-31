@@ -11,7 +11,6 @@ import com.github.submob.scopemob.inCase
 import com.github.submob.scopemob.whetherNot
 import com.oztechan.ccc.android.ui.mobile.R
 
-@Suppress("LongParameterList")
 fun Activity.showDialog(
     title: String,
     message: String,
@@ -30,7 +29,6 @@ fun Activity.showDialog(
         setNegativeButton(getString(android.R.string.cancel), null)
     }?.show()
 
-@Suppress("LongParameterList")
 fun Activity.showDialog(
     title: Int,
     message: Int,
@@ -45,7 +43,6 @@ fun Activity.showDialog(
     function = function
 )
 
-@Suppress("LongParameterList")
 fun Activity.showSingleChoiceDialog(
     title: String,
     items: Array<String>,
@@ -58,7 +55,6 @@ fun Activity.showSingleChoiceDialog(
         dialog.dismiss()
     }?.show()
 
-@Suppress("LongParameterList")
 fun Activity.showSingleChoiceDialog(
     title: Int,
     items: Array<String>,

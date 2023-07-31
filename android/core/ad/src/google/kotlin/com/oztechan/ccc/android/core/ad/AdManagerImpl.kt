@@ -14,7 +14,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 
-@Suppress("VisibleForTests")
 internal class AdManagerImpl : AdManager {
 
     private val adRequest: AdRequest by lazy {

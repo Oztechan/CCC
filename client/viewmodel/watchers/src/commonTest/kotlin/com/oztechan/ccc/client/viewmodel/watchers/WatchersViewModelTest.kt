@@ -31,7 +31,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
-@Suppress("OPT_IN_USAGE", "TooManyFunctions")
 internal class WatchersViewModelTest {
 
     private val viewModel: WatchersViewModel by lazy {
@@ -58,6 +57,7 @@ internal class WatchersViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(watcherDataSource)

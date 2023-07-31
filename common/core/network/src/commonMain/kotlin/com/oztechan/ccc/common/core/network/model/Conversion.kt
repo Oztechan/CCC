@@ -7,7 +7,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNames
 
-@Suppress("ConstructorParameterNaming", "OPT_IN_USAGE")
+@Suppress("OPT_IN_USAGE")
 @Serializable
 data class Conversion(
     @SerialName("base") var base: String = "",

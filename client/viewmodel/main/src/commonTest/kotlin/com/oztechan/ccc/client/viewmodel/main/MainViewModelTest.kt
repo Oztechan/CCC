@@ -41,7 +41,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.seconds
 
-@Suppress("TooManyFunctions", "OPT_IN_USAGE")
 internal class MainViewModelTest {
 
     private val viewModel: MainViewModel by lazy {
@@ -80,6 +79,7 @@ internal class MainViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(appStorage)

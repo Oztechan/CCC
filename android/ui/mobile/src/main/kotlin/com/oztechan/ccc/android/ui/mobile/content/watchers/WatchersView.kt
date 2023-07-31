@@ -16,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -52,9 +52,9 @@ fun NavHostController.WatchersView(
                 WatchersEffect.Back -> popBackStack()
                 is WatchersEffect.SelectBase -> navigate("select_currency")
                 is WatchersEffect.SelectTarget -> navigate("select_currency")
-                WatchersEffect.InvalidInput -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
-                WatchersEffect.MaximumNumberOfWatchers -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
-                WatchersEffect.TooBigInput -> snackbarHostState.showSnackbar(it.javaClass.simpleName)
+                WatchersEffect.InvalidInput -> snackbarHostState.showSnackbar(it::class.simpleName.orEmpty())
+                WatchersEffect.MaximumNumberOfWatchers -> snackbarHostState.showSnackbar(it::class.simpleName.orEmpty())
+                WatchersEffect.TooBigInput -> snackbarHostState.showSnackbar(it::class.simpleName.orEmpty())
             }
         }
     }
@@ -128,12 +128,11 @@ fun WatchersViewContent(
     }
 }
 
-@Suppress("UnrememberedMutableState")
 @Composable
 @ThemedPreviews
 fun WatchersViewContentPreview() = Preview {
     WatchersViewContent(
-        state = mutableStateOf(
+        state = rememberUpdatedState(
             WatchersState(
                 watcherList = listOf(
                     Watcher(id = 0, base = "EUR", target = "USD", isGreater = false, rate = 123.0),
