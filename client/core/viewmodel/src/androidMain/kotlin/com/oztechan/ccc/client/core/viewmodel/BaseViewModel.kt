@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.CoroutineScope
 
-@Suppress("EmptyDefaultConstructor")
 actual open class BaseViewModel actual constructor() : ViewModel() {
 
     protected actual val viewModelScope: CoroutineScope by lazy {

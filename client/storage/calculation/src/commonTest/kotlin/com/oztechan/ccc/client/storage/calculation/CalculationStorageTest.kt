@@ -17,7 +17,6 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Suppress("TooManyFunctions")
 internal class CalculationStorageTest {
     private val subject: CalculationStorage by lazy {
         CalculationStorageImpl(persistence)

@@ -17,7 +17,6 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-@Suppress("OPT_IN_USAGE")
 internal class BackgroundRepositoryTest {
 
     private val subject: BackgroundRepository by lazy {

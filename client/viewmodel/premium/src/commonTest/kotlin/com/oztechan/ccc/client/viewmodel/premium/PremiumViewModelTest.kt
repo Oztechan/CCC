@@ -36,7 +36,6 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
 
-@Suppress("OPT_IN_USAGE")
 internal class PremiumViewModelTest {
 
     private val viewModel: PremiumViewModel by lazy {
@@ -50,6 +49,7 @@ internal class PremiumViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
     }
 

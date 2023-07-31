@@ -19,7 +19,6 @@ import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Suppress("TooManyFunctions")
 internal class AppStorageTest {
 
     private val subject: AppStorage by lazy {

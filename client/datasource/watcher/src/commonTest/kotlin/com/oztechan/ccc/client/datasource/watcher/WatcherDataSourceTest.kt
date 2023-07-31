@@ -20,10 +20,10 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-@Suppress("OPT_IN_USAGE")
 internal class WatcherDataSourceTest {
 
     private val subject: WatcherDataSource by lazy {
+        @Suppress("OPT_IN_USAGE")
         WatcherDataSourceImpl(watcherQueries, UnconfinedTestDispatcher())
     }
 

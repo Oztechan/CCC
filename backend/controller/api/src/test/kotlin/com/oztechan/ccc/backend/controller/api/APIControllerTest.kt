@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Suppress("OPT_IN_USAGE")
 internal class APIControllerTest {
     private val subject: APIController by lazy {
         APIControllerImpl(conversionDataSource)

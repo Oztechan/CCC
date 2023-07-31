@@ -28,7 +28,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
-@Suppress("OPT_IN_USAGE")
 internal class SelectCurrencyViewModelTest {
 
     private val subject: SelectCurrencyViewModel by lazy {
@@ -48,6 +47,7 @@ internal class SelectCurrencyViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(currencyDataSource)

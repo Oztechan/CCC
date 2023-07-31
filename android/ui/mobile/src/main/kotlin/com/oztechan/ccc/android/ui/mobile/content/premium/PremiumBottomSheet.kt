@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("TooManyFunctions")
 class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()

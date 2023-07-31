@@ -19,7 +19,6 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
-@Suppress("TooManyFunctions")
 internal class AppConfigRepositoryTest {
 
     private val subject: AppConfigRepository by lazy {

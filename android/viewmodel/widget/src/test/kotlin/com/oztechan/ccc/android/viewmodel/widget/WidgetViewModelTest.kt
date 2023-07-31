@@ -34,7 +34,6 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.days
 
-@Suppress("OPT_IN_USAGE")
 class WidgetViewModelTest {
 
     private val viewModel: WidgetViewModel by lazy {
@@ -74,6 +73,7 @@ class WidgetViewModelTest {
 
     @BeforeTest
     fun setup() {
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         Logger.setLogWriters(CommonWriter())

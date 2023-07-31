@@ -45,7 +45,6 @@ import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 
-@Suppress("OPT_IN_USAGE", "TooManyFunctions")
 internal class CalculatorViewModelTest {
 
     private val viewModel: CalculatorViewModel by lazy {
@@ -89,6 +88,7 @@ internal class CalculatorViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         given(calculationStorage)
