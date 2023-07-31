@@ -27,7 +27,6 @@ android {
     }
 
     DeviceFlavour.apply {
-        @Suppress("UnstableApiUsage")
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {

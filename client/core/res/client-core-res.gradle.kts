@@ -89,7 +89,6 @@ android {
     }
 
     // Todo https://github.com/icerockdev/moko-resources/issues/510
-    @Suppress("UnstableApiUsage")
     sourceSets {
         getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
     }
