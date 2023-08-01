@@ -60,6 +60,11 @@ allprojects {
             exclude {
                 it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
             }
+        }.onEach { detekt ->
+            // skip detekt tasks unless a it is specifically called
+            detekt.onlyIf {
+                gradle.startParameter.taskNames.any { it.contains("detekt") }
+            }
         }
 
         tasks.register("detektAll") {
