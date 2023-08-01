@@ -128,7 +128,7 @@ jobs:
           name: androidArtifacts
 
       - name: Firebase App Distribution Google
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.1
         with:
           appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -136,7 +136,7 @@ jobs:
           file: google/release/app-google-release.apk
 
       - name: Firebase App Distribution Huawei
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.1
         with:
           appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -144,7 +144,7 @@ jobs:
           file: huawei/release/app-huawei-release.apk
 
       - name: Delete Android Artifacts
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v2.0.0
         with:
           name: androidArtifacts
 
@@ -240,7 +240,7 @@ jobs:
           fastlane distribute
 
       - name: Delete iOS IPA
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v2.0.0
         with:
           name: iOSArtifacts
 
@@ -300,19 +300,19 @@ jobs:
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v3.1.4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
 
       - name: Upload coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: sonarsource/sonarcloud-github-action@v1.9.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -323,7 +323,7 @@ jobs:
             -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
 
       - name: Delete Coverage Report
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v2.0.0
         with:
           name: coverageReport
 
@@ -378,7 +378,7 @@ jobs:
           false == (needs.UploadQualityReports.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
-        uses: voxmedia/github-action-slack-notify-build@v2
+        uses: voxmedia/github-action-slack-notify-build@v1.6.0
         with:
           channel: ccc-github
           status: FAILED
