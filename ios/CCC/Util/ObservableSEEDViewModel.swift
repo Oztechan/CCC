@@ -29,7 +29,7 @@ final class ObservableSEEDViewModel<
     private var effectClosable: Closeable?
 
     init() {
-        logger.i(message: { "ObservableSEED \(ViewModel.description()) init" })
+        logger.d(message: { "ObservableSEED \(ViewModel.description()) init" })
 
         self.state = State()
         self.event = viewModel.event!
@@ -41,7 +41,7 @@ final class ObservableSEEDViewModel<
     }
 
     func startObserving() {
-        logger.i(message: { "ObservableSEED \(ViewModel.description()) startObserving" })
+        logger.d(message: { "ObservableSEED \(ViewModel.description()) startObserving" })
 
         if viewModel.state != nil {
             stateClosable = IOSCoroutineUtilKt.observeWithCloseable(viewModel.state!, onChange: {
@@ -58,7 +58,7 @@ final class ObservableSEEDViewModel<
     }
 
     func stopObserving() {
-        logger.i(message: { "ObservableSEED \(ViewModel.description()) stopObserving" })
+        logger.d(message: { "ObservableSEED \(ViewModel.description()) stopObserving" })
         closeClosables()
     }
 
