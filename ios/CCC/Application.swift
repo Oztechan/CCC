@@ -73,7 +73,7 @@ struct Application: App {
     }
 
     private func scheduleAppRefresh() {
-        logger.v(message: { "Application scheduleAppRefresh" })
+        logger.i(message: { "Application scheduleAppRefresh" })
 
         let request = BGAppRefreshTaskRequest(identifier: taskID)
         request.earliestBeginDate = Date(timeIntervalSinceNow: earliestTaskPeriod)
@@ -81,12 +81,12 @@ struct Application: App {
         do {
             try BGTaskScheduler.shared.submit(request)
         } catch {
-            logger.v(message: { "Application scheduleAppRefresh Could not schedule app refresh: \(error)" })
+            logger.i(message: { "Application scheduleAppRefresh Could not schedule app refresh: \(error)" })
         }
     }
 
     private func registerAppRefresh() {
-        logger.v(message: { "Application registerAppRefresh" })
+        logger.i(message: { "Application registerAppRefresh" })
 
         BGTaskScheduler.shared.cancelAllTaskRequests()
 
@@ -95,7 +95,7 @@ struct Application: App {
             handleAppRefresh(task: task as! BGAppRefreshTask)
 
             task.expirationHandler = {
-                logger.v(message: { "Application registerAppRefresh BackgroundTask Expired" })
+                logger.i(message: { "Application registerAppRefresh BackgroundTask Expired" })
 
                 task.setTaskCompleted(success: false)
             }
@@ -103,7 +103,7 @@ struct Application: App {
     }
 
     private func handleAppRefresh(task: BGAppRefreshTask) {
-        logger.v(message: { "Application handleAppRefresh" })
+        logger.i(message: { "Application handleAppRefresh" })
 
         scheduleAppRefresh()
 
