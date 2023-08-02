@@ -16,17 +16,17 @@ internal class SyncControllerImpl(
 ) : SyncController {
 
     override suspend fun syncPrimaryCurrencies() {
-        Logger.i { "SyncControllerImpl syncPrimaryCurrencies" }
+        Logger.v { "SyncControllerImpl syncPrimaryCurrencies" }
         CurrencyType.getPrimaryCurrencies().syncCrossAPI()
     }
 
     override suspend fun syncSecondaryCurrencies() {
-        Logger.i { "SyncControllerImpl syncSecondaryCurrencies" }
+        Logger.v { "SyncControllerImpl syncSecondaryCurrencies" }
         CurrencyType.getSecondaryCurrencies().syncCrossAPI()
     }
 
     override suspend fun syncTertiaryCurrencies() {
-        Logger.i { "SyncControllerImpl syncTertiaryCurrencies" }
+        Logger.v { "SyncControllerImpl syncTertiaryCurrencies" }
         CurrencyType.getTertiaryCurrencies().syncCrossAPI()
     }
 
@@ -51,7 +51,7 @@ internal class SyncControllerImpl(
     }
 
     override suspend fun syncUnPopularCurrencies() {
-        Logger.i { "SyncControllerImpl syncUnPopularCurrencies" }
+        Logger.v { "SyncControllerImpl syncUnPopularCurrencies" }
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 

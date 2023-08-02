@@ -14,7 +14,7 @@ actual abstract class BaseConfigService<T> actual constructor(
     actual abstract fun String?.decode(): T
 
     init {
-        Logger.d { "${this::class.simpleName} init" }
+        Logger.v { "${this::class.simpleName} init" }
         this.default = default
         config = default
     }

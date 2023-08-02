@@ -13,7 +13,7 @@ internal class APIControllerImpl(
     private val conversionDataSource: ConversionDataSource
 ) : APIController {
     override suspend fun getExchangeRateByBase(base: String): ExchangeRate? {
-        Logger.i { "ServerControllerImpl getExchangeRateByBase" }
+        Logger.v { "ServerControllerImpl getExchangeRateByBase" }
         return conversionDataSource
             .getConversionByBase(base.uppercase())
             ?.toExchangeRateAPIModel()

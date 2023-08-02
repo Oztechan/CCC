@@ -41,7 +41,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                 self.rewardedAd?.present(
                     fromRootViewController: WindowUtil.getCurrentController(),
                     userDidEarnRewardHandler: {
-                        logger.i(message: { "RewardedAd userDidEarnReward" })
+                        logger.v(message: { "RewardedAd userDidEarnReward" })
                         self.onReward()
                     }
                 )

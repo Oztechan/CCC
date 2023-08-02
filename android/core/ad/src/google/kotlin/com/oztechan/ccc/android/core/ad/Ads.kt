@@ -5,6 +5,6 @@ import co.touchlab.kermit.Logger
 import com.google.android.gms.ads.MobileAds
 
 fun initAds(context: Context) {
-    Logger.i { "Ads initAds" }
+    Logger.v { "Ads initAds" }
     MobileAds.initialize(context)
 }

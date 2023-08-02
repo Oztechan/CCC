@@ -98,7 +98,7 @@ fun initKoin(
         // endregion
     )
 }.also {
-    Logger.i { "Koin initialised" }
+    Logger.v { "Koin initialised" }
 }
 
 private fun getIOSPlatformModule(userDefaults: NSUserDefaults) = module {

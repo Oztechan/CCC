@@ -15,7 +15,7 @@ import org.koin.ktor.plugin.Koin
 
 @Suppress("unused")
 internal fun Application.koinModule() {
-    Logger.i { "KoinModuleKt Application.koinModule" }
+    Logger.v { "KoinModuleKt Application.koinModule" }
 
     install(Koin) {
         modules(
@@ -38,6 +38,6 @@ internal fun Application.koinModule() {
             // endregion
         )
     }.also {
-        Logger.i { "Koin initialised" }
+        Logger.v { "Koin initialised" }
     }
 }
