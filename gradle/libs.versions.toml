@@ -1,7 +1,7 @@
 [versions]
 
 kotlin = "1.9.0"
-ksp = "1.9.0-1.0.12"
+ksp = "1.9.0-1.0.13"
 detekt = "1.23.0"
 androidGradlePlugin = "8.1.0"
 composeCompiler = "1.5.1"
