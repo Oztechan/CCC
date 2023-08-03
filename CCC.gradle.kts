@@ -2,6 +2,7 @@
  * Copyright (c) 2020 Mustafa Ozhan. All rights reserved.
  */
 import io.gitlab.arturbosch.detekt.Detekt
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     libs.plugins.apply {
@@ -75,10 +76,9 @@ allprojects {
             detektPlugins(rootProject.libs.common.detektFormatting)
         }
     }
-// todo enable back post Kotlin 1.9.0
-//    tasks.withType<KotlinCompile> {
-//        kotlinOptions {
-//            allWarningsAsErrors = true
-//        }
-//    }
+    tasks.withType<KotlinCompile> {
+        kotlinOptions {
+            allWarningsAsErrors = true
+        }
+    }
 }
