@@ -26,7 +26,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
                         fromRootViewController: WindowUtil.getCurrentController()
                     )
                 } else {
-                    logger.d(message: { "InterstitialAd not showed appState is not active" })
+                    logger.v(message: { "InterstitialAd not showed appState is not active" })
                 }
             }
         )

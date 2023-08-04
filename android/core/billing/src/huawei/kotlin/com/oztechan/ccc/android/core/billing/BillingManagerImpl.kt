@@ -17,18 +17,18 @@ internal class BillingManagerImpl(private val context: Context) : BillingManager
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     ) {
-        Logger.i { "BillingManagerImpl startConnection" }
+        Logger.v { "BillingManagerImpl startConnection" }
     }
 
     override fun endConnection() {
-        Logger.i { "BillingManagerImpl endConnection" }
+        Logger.v { "BillingManagerImpl endConnection" }
     }
 
     override fun launchBillingFlow(activity: Activity, skuId: String) {
-        Logger.i { "BillingManagerImpl launchBillingFlow" }
+        Logger.v { "BillingManagerImpl launchBillingFlow" }
     }
 
     override fun acknowledgePurchase() {
-        Logger.i { "BillingManagerImpl acknowledgePurchase" }
+        Logger.v { "BillingManagerImpl acknowledgePurchase" }
     }
 }

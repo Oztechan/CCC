@@ -21,7 +21,7 @@ internal class AdManagerImpl : AdManager {
     }
 
     init {
-        Logger.i { "AdManagerImpl init" }
+        Logger.v { "AdManagerImpl init" }
         HwAds.setVideoVolume(0f)
         HwAds.setVideoMuted(true)
     }
@@ -32,7 +32,7 @@ internal class AdManagerImpl : AdManager {
         adId: String,
         onAdLoaded: (Int?) -> Unit
     ): BannerAdView {
-        Logger.i { "AdManagerImpl getBannerAd" }
+        Logger.v { "AdManagerImpl getBannerAd" }
 
         val adView = BannerView(context).apply {
             this.adId = adId
@@ -53,7 +53,7 @@ internal class AdManagerImpl : AdManager {
         activity: Activity,
         adId: String
     ) {
-        Logger.i { "AdManagerImpl showInterstitialAd" }
+        Logger.v { "AdManagerImpl showInterstitialAd" }
         InterstitialAd(activity).apply {
             this.adId = adId
             adListener = object : AdListener() {
@@ -64,7 +64,7 @@ internal class AdManagerImpl : AdManager {
 
                 override fun onAdLoaded() {
                     super.onAdLoaded()
-                    Logger.i { "AdManagerImpl showInterstitialAd onAdLoaded" }
+                    Logger.v { "AdManagerImpl showInterstitialAd onAdLoaded" }
                     show(activity)
                 }
             }
@@ -79,7 +79,7 @@ internal class AdManagerImpl : AdManager {
         onAdLoaded: () -> Unit,
         onReward: () -> Unit
     ) {
-        Logger.i { "AdManagerImpl showRewardedAd" }
+        Logger.v { "AdManagerImpl showRewardedAd" }
 
         RewardAd(activity, adId).apply {
             loadAd(
@@ -93,7 +93,7 @@ internal class AdManagerImpl : AdManager {
 
                     override fun onRewardedLoaded() {
                         super.onRewardedLoaded()
-                        Logger.i { "AdManagerImpl showRewardedAd onRewardedLoaded" }
+                        Logger.v { "AdManagerImpl showRewardedAd onRewardedLoaded" }
                         onAdLoaded()
 
                         show(
@@ -101,7 +101,7 @@ internal class AdManagerImpl : AdManager {
                             object : RewardAdStatusListener() {
                                 override fun onRewarded(reward: Reward?) {
                                     super.onRewarded(reward)
-                                    Logger.i { "AdManagerImpl showRewardedAd onRewardedLoaded onRewarded" }
+                                    Logger.v { "AdManagerImpl showRewardedAd onRewardedLoaded onRewarded" }
                                     onReward()
                                 }
                             }

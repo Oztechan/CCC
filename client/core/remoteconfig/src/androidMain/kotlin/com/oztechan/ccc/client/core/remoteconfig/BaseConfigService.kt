@@ -17,7 +17,7 @@ actual abstract class BaseConfigService<T> actual constructor(
     actual abstract fun String?.decode(): T
 
     init {
-        Logger.d { "${this::class.simpleName} init" }
+        Logger.v { "${this::class.simpleName} init" }
 
         this.default = default
 
@@ -33,13 +33,13 @@ actual abstract class BaseConfigService<T> actual constructor(
 
             fetchAndActivate().addOnCompleteListener {
                 if (it.isSuccessful) {
-                    Logger.i("${this::class.simpleName} Remote config updated from server")
+                    Logger.v("${this::class.simpleName} Remote config updated from server")
                     // get remote
                     config = getString(configKey).decode()
                     // cache
                     setDefaultsAsync(mapOf(configKey to config))
                 } else {
-                    Logger.i("${this::class.simpleName} Remote config is not updated, using cached value")
+                    Logger.v("${this::class.simpleName} Remote config is not updated, using cached value")
                 }
             }
         }

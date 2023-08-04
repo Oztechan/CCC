@@ -48,7 +48,7 @@ internal class BillingManagerImpl(private val context: Context) :
         lifecycleScope: LifecycleCoroutineScope,
         skuList: List<String>
     ) {
-        Logger.i { "BillingManagerImpl startConnection" }
+        Logger.v { "BillingManagerImpl startConnection" }
 
         this.scope = lifecycleScope
         this.productList = skuList.map {
@@ -68,12 +68,12 @@ internal class BillingManagerImpl(private val context: Context) :
     }
 
     override fun endConnection() {
-        Logger.i { "BillingManagerImpl endConnection" }
+        Logger.v { "BillingManagerImpl endConnection" }
         billingClient.endConnection()
     }
 
     override fun launchBillingFlow(activity: Activity, skuId: String) {
-        Logger.i { "BillingManagerImpl launchBillingFlow" }
+        Logger.v { "BillingManagerImpl launchBillingFlow" }
         productDetailList
             .firstOrNull { it.productId == skuId }
             ?.let {
@@ -95,14 +95,14 @@ internal class BillingManagerImpl(private val context: Context) :
     }
 
     override fun acknowledgePurchase() {
-        Logger.i { "BillingManagerImpl acknowledgePurchase" }
+        Logger.v { "BillingManagerImpl acknowledgePurchase" }
         acknowledgePurchaseParams?.let {
             billingClient.acknowledgePurchase(it, this)
         }
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
-        Logger.i { "BillingManagerImpl onAcknowledgePurchaseResponse ${billingResult.responseCode}" }
+        Logger.v { "BillingManagerImpl onAcknowledgePurchaseResponse ${billingResult.responseCode}" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             scope.launch {
                 _effect.emit(BillingEffect.SuccessfulPurchase)
@@ -114,7 +114,7 @@ internal class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         purchaseList: MutableList<Purchase>?
     ) {
-        Logger.i { "BillingManagerImpl onPurchasesUpdated ${billingResult.responseCode}" }
+        Logger.v { "BillingManagerImpl onPurchasesUpdated ${billingResult.responseCode}" }
 
         purchaseList?.firstOrNull()
             ?.also {
@@ -132,7 +132,7 @@ internal class BillingManagerImpl(private val context: Context) :
     }
 
     override fun onBillingSetupFinished(billingResult: BillingResult) {
-        Logger.i { "BillingManagerImpl onBillingSetupFinished ${billingResult.responseCode}" }
+        Logger.v { "BillingManagerImpl onBillingSetupFinished ${billingResult.responseCode}" }
 
         val queryPurchaseHistoryParams = QueryPurchaseHistoryParams.newBuilder()
             .setProductType(BillingClient.ProductType.INAPP)
@@ -153,14 +153,14 @@ internal class BillingManagerImpl(private val context: Context) :
     }
 
     override fun onBillingServiceDisconnected() {
-        Logger.i { "BillingManagerImpl onBillingServiceDisconnected" }
+        Logger.v { "BillingManagerImpl onBillingServiceDisconnected" }
     }
 
     override fun onProductDetailsResponse(
         billingResult: BillingResult,
         productDetasilList: MutableList<ProductDetails>
     ) {
-        Logger.i { "BillingManagerImpl onProductDetailsResponse ${billingResult.responseCode}" }
+        Logger.v { "BillingManagerImpl onProductDetailsResponse ${billingResult.responseCode}" }
 
         scope.launch {
             productDetasilList.whether {
@@ -181,7 +181,7 @@ internal class BillingManagerImpl(private val context: Context) :
         billingResult: BillingResult,
         purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
     ) {
-        Logger.i { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
+        Logger.v { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
 
         purchaseHistoryList
             ?.map { it.toPurchaseHistoryRecordModel() }
