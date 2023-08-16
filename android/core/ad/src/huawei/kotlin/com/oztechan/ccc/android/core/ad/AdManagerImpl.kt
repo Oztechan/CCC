@@ -59,7 +59,7 @@ internal class AdManagerImpl : AdManager {
             adListener = object : AdListener() {
                 override fun onAdFailed(adError: Int) {
                     super.onAdFailed(adError)
-                    Logger.w { "AdManagerImpl showInterstitialAd onAdFailed $adError" }
+                    Logger.e { "AdManagerImpl showInterstitialAd onAdFailed $adError" }
                 }
 
                 override fun onAdLoaded() {
@@ -87,7 +87,7 @@ internal class AdManagerImpl : AdManager {
                 object : RewardAdLoadListener() {
                     override fun onRewardAdFailedToLoad(adError: Int) {
                         super.onRewardAdFailedToLoad(adError)
-                        Logger.w { "AdManagerImpl showRewardedAd onRewardAdFailedToLoad $adError" }
+                        Logger.e { "AdManagerImpl showRewardedAd onRewardAdFailedToLoad $adError" }
                         onAdFailedToLoad()
                     }
 
