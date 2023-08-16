@@ -15,7 +15,7 @@ import Res
 import SwiftUI
 
 var logger: KermitLogger = {
-    return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
+    return LoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
 }()
 
 @main
