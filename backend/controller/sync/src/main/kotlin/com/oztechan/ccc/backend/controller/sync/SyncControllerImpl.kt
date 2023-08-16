@@ -36,12 +36,12 @@ internal class SyncControllerImpl(
 
         // non premium call for filling null values
         runCatching { freeApiService.getConversion(currencyType.name) }
-            .onFailure { Logger.e(it) { it.message.toString() } }
+            .onFailure { Logger.w(it) { it.message.toString() } }
             .onSuccess { freeConversion ->
 
                 // premium api call
                 runCatching { premiumApiService.getConversion(currencyType.name) }
-                    .onFailure { Logger.e(it) { it.message.toString() } }
+                    .onFailure { Logger.w(it) { it.message.toString() } }
                     .onSuccess { premiumConversion ->
                         conversionDataSource.insertConversion(
                             premiumConversion.fillMissingRatesWith(freeConversion)
@@ -58,7 +58,7 @@ internal class SyncControllerImpl(
             delay(1.seconds.inWholeMilliseconds)
 
             runCatching { freeApiService.getConversion(currencyType.name) }
-                .onFailure { Logger.e(it) { it.message.toString() } }
+                .onFailure { Logger.w(it) { it.message.toString() } }
                 .onSuccess { conversionDataSource.insertConversion(it) }
         }
     }

@@ -88,7 +88,7 @@ class SettingsViewModel(
         currencyDataSource.getActiveCurrencies()
             .forEach { (name) ->
                 runCatching { backendApiService.getConversion(name) }
-                    .onFailure { error -> Logger.e(error) { error.message.toString() } }
+                    .onFailure { error -> Logger.w(error) { error.message.toString() } }
                     .onSuccess { conversionDataSource.insertConversion(it) }
 
                 delay(SYNC_DELAY)
