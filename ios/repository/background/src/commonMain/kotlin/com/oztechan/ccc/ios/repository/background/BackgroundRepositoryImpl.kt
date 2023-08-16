@@ -37,7 +37,7 @@ internal class BackgroundRepositoryImpl(
             return@runBlocking false
         }
     } catch (e: Exception) {
-        Logger.w(e) { "BackgroundRepositoryImpl shouldSendNotification error catch: $e" }
+        Logger.e(e) { "BackgroundRepositoryImpl shouldSendNotification error catch: $e" }
         false
     }
 }

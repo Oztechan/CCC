@@ -136,7 +136,7 @@ class CalculatorViewModel(
         )?.let {
             calculateConversions(it, ConversionState.Offline(it.date))
         } ?: run {
-            Logger.w(Exception("No offline conversion")) { this@CalculatorViewModel::class.simpleName.toString() }
+            Logger.w { "No offline conversion found in the DB" }
 
             _effect.emit(CalculatorEffect.Error)
 
