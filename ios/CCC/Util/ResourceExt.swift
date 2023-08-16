@@ -11,10 +11,10 @@ import SwiftUI
 
 extension ResourcesStringResource {
     func get() -> String {
-        return IOSResourcesKt.getString(stringResource: self).localized()
+        return Resources_iosKt.getString(stringResource: self).localized()
     }
     func get(parameter: Any) -> String {
-        return IOSResourcesKt.getString(stringResource: self, parameter: parameter).localized()
+        return Resources_iosKt.getString(stringResource: self, parameter: parameter).localized()
     }
 }
 
@@ -23,7 +23,7 @@ extension ResourcesColorResource {
         return Color(get())
     }
     func get() -> UIColor {
-        return IOSResourcesKt.getColor(colorResource: self)
+        return Resources_iosKt.getColor(colorResource: self)
     }
 }
 
