@@ -18,9 +18,4 @@ actual open class BaseViewModel actual constructor() : ViewModel() {
     init {
         Logger.d { "${this::class.simpleName} init" }
     }
-
-    actual override fun onCleared() {
-        Logger.d { "${this::class.simpleName} onCleared" }
-        super.onCleared()
-    }
 }

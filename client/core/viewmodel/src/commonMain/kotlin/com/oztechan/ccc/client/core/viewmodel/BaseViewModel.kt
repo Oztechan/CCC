@@ -8,5 +8,4 @@ import kotlinx.coroutines.CoroutineScope
 
 expect open class BaseViewModel() {
     protected val viewModelScope: CoroutineScope
-    protected open fun onCleared()
 }
