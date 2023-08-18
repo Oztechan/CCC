@@ -209,7 +209,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   UploadToAppStore:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:

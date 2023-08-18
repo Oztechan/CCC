@@ -59,7 +59,7 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -153,7 +153,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   XCodeBuild:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -219,7 +219,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   DistributeIOS:
-    runs-on: macos-12
+    runs-on: macos-13
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -249,7 +249,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   Quality:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
