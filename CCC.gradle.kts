@@ -59,7 +59,9 @@ allprojects {
             setSource(files(project.projectDir))
             exclude("**/build/**")
             exclude {
-                it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
+                it.file.relativeTo(projectDir).startsWith(
+                    project.layout.buildDirectory.asFile.get().relativeTo(projectDir)
+                )
             }
         }.onEach { detekt ->
             // skip detekt tasks unless a it is specifically called
