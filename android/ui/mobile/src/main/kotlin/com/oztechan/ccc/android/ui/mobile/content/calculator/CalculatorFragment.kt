@@ -152,6 +152,8 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                     viewEffect.text,
                     icon = viewEffect.code.getImageIdByName()
                 )
+
+                else -> Unit
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
