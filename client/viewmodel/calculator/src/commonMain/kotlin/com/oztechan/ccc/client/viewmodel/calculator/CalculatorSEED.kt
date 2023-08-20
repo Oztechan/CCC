@@ -43,6 +43,7 @@ sealed class CalculatorEffect : BaseEffect() {
     data object TooBigOutput : CalculatorEffect()
     data object OpenSettings : CalculatorEffect()
     data object ShowPasteRequest : CalculatorEffect()
+    data object Vibration : CalculatorEffect()
     data class CopyToClipboard(val amount: String) : CalculatorEffect()
     data class ShowConversion(val text: String, val code: String) : CalculatorEffect()
 }

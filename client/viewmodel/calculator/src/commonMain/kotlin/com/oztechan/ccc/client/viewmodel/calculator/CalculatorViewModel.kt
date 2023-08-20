@@ -206,6 +206,10 @@ class CalculatorViewModel(
     override fun onKeyPress(key: String) {
         Logger.d { "CalculatorViewModel onKeyPress $key" }
 
+        viewModelScope.launch {
+            _effect.emit(CalculatorEffect.Vibration)
+        }
+
         when (key) {
             KEY_AC -> _state.update { copy(input = "") }
             KEY_DEL ->

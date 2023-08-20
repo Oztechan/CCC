@@ -511,6 +511,15 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
+    fun `onKeyPress invokes vibration`() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onKeyPress("1")
+        }.firstOrNull().let {
+            assertIs<CalculatorEffect.Vibration>(it)
+        }
+    }
+
+    @Test
     fun onBaseChanged() = runTest {
         given(calculationStorage)
             .invocation { currentBase }
