@@ -82,7 +82,7 @@ struct SelectCurrencyView: View {
             onCurrencySelected(currencyChangeEffect.newBase)
             isBarShown = false
         case is SelectCurrencyEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesView(onBaseChange: onCurrencySelected))
+            navigationStack.push(CurrenciesRootView(onBaseChange: onCurrencySelected))
         default:
             logger.i(message: { "BarView unknown effect" })
         }
