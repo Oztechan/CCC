@@ -41,7 +41,7 @@ struct SliderView: View {
                                         buttonText: Res.strings().got_it.get(),
                                         buttonAction: {
                                             navigationStack.push(
-                                                CurrenciesView(onBaseChange: { _ in })
+                                                CurrenciesRootView(onBaseChange: { _ in })
                                             )
                                         }
                                     ).onAppear {
