@@ -9,66 +9,28 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import co.touchlab.kermit.Logger
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.annotations.ThemedPreviews
 import com.oztechan.ccc.android.ui.mobile.component.ImageView
 import com.oztechan.ccc.android.ui.mobile.component.Preview
-import com.oztechan.ccc.android.ui.mobile.component.SnackViewHost
 import com.oztechan.ccc.android.ui.mobile.util.toColor
 import com.oztechan.ccc.android.ui.mobile.util.toPainter
 import com.oztechan.ccc.android.ui.mobile.util.toText
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersEffect
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersEvent
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersState
-import com.oztechan.ccc.client.viewmodel.watchers.WatchersViewModel
 import com.oztechan.ccc.common.core.model.Watcher
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun NavHostController.WatchersView(
-    vm: WatchersViewModel = koinViewModel(),
-) {
-    val snackbarHostState = remember { SnackbarHostState() }
-
-    LaunchedEffect(key1 = vm.effect) {
-        vm.effect.collect {
-            Logger.i { "WatchersView observeEffects ${it::class.simpleName}" }
-            when (it) {
-                WatchersEffect.Back -> popBackStack()
-                is WatchersEffect.SelectBase -> navigate("select_currency")
-                is WatchersEffect.SelectTarget -> navigate("select_currency")
-                WatchersEffect.InvalidInput -> snackbarHostState.showSnackbar(it::class.simpleName.orEmpty())
-                WatchersEffect.MaximumNumberOfWatchers -> snackbarHostState.showSnackbar(it::class.simpleName.orEmpty())
-                WatchersEffect.TooBigInput -> snackbarHostState.showSnackbar(it::class.simpleName.orEmpty())
-            }
-        }
-    }
-
-    SnackViewHost(snackbarHostState) {
-        WatchersViewContent(
-            state = vm.state.collectAsState(),
-            event = vm.event
-        )
-    }
-}
-
-@Composable
-fun WatchersViewContent(
+fun WatchersView(
     state: State<WatchersState>,
     event: WatchersEvent
 ) {
@@ -131,7 +93,7 @@ fun WatchersViewContent(
 @Composable
 @ThemedPreviews
 fun WatchersViewContentPreview() = Preview {
-    WatchersViewContent(
+    WatchersView(
         state = rememberUpdatedState(
             WatchersState(
                 watcherList = listOf(
