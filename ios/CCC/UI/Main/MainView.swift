@@ -29,7 +29,7 @@ struct MainView: View {
             if observable.viewModel.isFistRun() {
                 SliderView()
             } else {
-                CalculatorView()
+                CalculatorRootView()
             }
         }
         .onAppear {
