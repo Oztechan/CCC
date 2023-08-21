@@ -99,7 +99,7 @@ struct CurrenciesView: View {
         case is CurrenciesEffect.FewCurrency:
             isFewCurrencySnackShown.toggle()
         case is CurrenciesEffect.OpenCalculator:
-            navigationStack.push(CalculatorView())
+            navigationStack.push(CalculatorRootView())
         case is CurrenciesEffect.Back:
             navigationStack.pop()
         case let changeBaseEffect as CurrenciesEffect.ChangeBase:

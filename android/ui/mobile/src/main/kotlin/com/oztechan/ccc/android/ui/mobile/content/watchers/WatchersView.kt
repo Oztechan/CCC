@@ -92,7 +92,7 @@ fun WatchersView(
 
 @Composable
 @ThemedPreviews
-fun WatchersViewContentPreview() = Preview {
+fun WatchersViewPreview() = Preview {
     WatchersView(
         state = rememberUpdatedState(
             WatchersState(
