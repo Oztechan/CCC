@@ -10,11 +10,12 @@
 		15A796074B10DEA83142F40F /* Pods_CCC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341CA58575E08166F616E331 /* Pods_CCC.framework */; };
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
 		5C0ABFDE2A9369A1002904AC /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */; };
+		5C0ABFE02A9390D6002904AC /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
 		5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23124429ABF754002D6892 /* WindowUtil.swift */; };
 		5C3037B929AB874E00AFFAAF /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037B829AB874E00AFFAAF /* PremiumView.swift */; };
 		5C3037BB29AB9B5D00AFFAAF /* PremiumItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */; };
-		5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */; };
+		5C314CBE25BA0AC0007B22D8 /* CurrenciesRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesRootView.swift */; };
 		5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41D28141C7B008C42B9 /* InputView.swift */; };
 		5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41F28141CA4008C42B9 /* OutputView.swift */; };
 		5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E42128141CC9008C42B9 /* KeyboardView.swift */; };
@@ -85,11 +86,12 @@
 		341CA58575E08166F616E331 /* Pods_CCC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CCC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
+		5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C23124429ABF754002D6892 /* WindowUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowUtil.swift; sourceTree = "<group>"; };
 		5C3037B829AB874E00AFFAAF /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
 		5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumItemView.swift; sourceTree = "<group>"; };
-		5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
+		5C314CBD25BA0AC0007B22D8 /* CurrenciesRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesRootView.swift; sourceTree = "<group>"; };
 		5C31E41D28141C7B008C42B9 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		5C31E41F28141CA4008C42B9 /* OutputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputView.swift; sourceTree = "<group>"; };
 		5C31E42128141CC9008C42B9 /* KeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardView.swift; sourceTree = "<group>"; };
@@ -211,7 +213,8 @@
 		5C31E42B28142033008C42B9 /* Currencies */ = {
 			isa = PBXGroup;
 			children = (
-				5C314CBD25BA0AC0007B22D8 /* CurrenciesView.swift */,
+				5C314CBD25BA0AC0007B22D8 /* CurrenciesRootView.swift */,
+				5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */,
 				5C31E42C28142058008C42B9 /* SelectionView.swift */,
 				5C31E42E281420BC008C42B9 /* CurrenciesToolbarView.swift */,
 				5C31E43028142110008C42B9 /* CurrenciesItemView.swift */,
@@ -553,7 +556,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C314CBE25BA0AC0007B22D8 /* CurrenciesView.swift in Sources */,
+				5C314CBE25BA0AC0007B22D8 /* CurrenciesRootView.swift in Sources */,
 				5C94AC32282FA4B2004C9B3D /* CurrencyImageView.swift in Sources */,
 				5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */,
 				5CF898D42823C1F900712580 /* WatcherItem.swift in Sources */,
@@ -586,6 +589,7 @@
 				5C31E42D28142058008C42B9 /* SelectionView.swift in Sources */,
 				5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */,
 				5C5D093C2562EC2D00DA9C4A /* CalculatorRootView.swift in Sources */,
+				5C0ABFE02A9390D6002904AC /* CurrenciesView.swift in Sources */,
 				5C5C71EB2922BC0300733C49 /* ResourceExt.swift in Sources */,
 				5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */,
 				5CF8BE4627DE334100E441F5 /* WebView.swift in Sources */,

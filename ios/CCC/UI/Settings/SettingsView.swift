@@ -165,7 +165,7 @@ struct SettingsView: View {
         case is SettingsEffect.Back:
             navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesView(onBaseChange: onBaseChange))
+            navigationStack.push(CurrenciesRootView(onBaseChange: onBaseChange))
         case is SettingsEffect.OpenWatchers:
             navigationStack.push(WatchersView())
         case is SettingsEffect.FeedBack:

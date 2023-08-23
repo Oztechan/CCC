@@ -87,7 +87,7 @@ struct CalculatorRootView: View {
                 text: Res.strings().choose_at_least_two_currency.get(),
                 buttonText: Res.strings().select.get(),
                 buttonAction: {
-                    navigationStack.push(CurrenciesView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+                    navigationStack.push(CurrenciesRootView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
         }
