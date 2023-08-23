@@ -12,9 +12,10 @@
 		5C0ABFDE2A9369A1002904AC /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */; };
 		5C0ABFE02A9390D6002904AC /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */; };
 		5C0ABFE22A93A88C002904AC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE12A93A88C002904AC /* SettingsView.swift */; };
+		5C0ABFE42A93B1E4002904AC /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE32A93B1E4002904AC /* PremiumView.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */; };
 		5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23124429ABF754002D6892 /* WindowUtil.swift */; };
-		5C3037B929AB874E00AFFAAF /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037B829AB874E00AFFAAF /* PremiumView.swift */; };
+		5C3037B929AB874E00AFFAAF /* PremiumRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037B829AB874E00AFFAAF /* PremiumRootView.swift */; };
 		5C3037BB29AB9B5D00AFFAAF /* PremiumItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */; };
 		5C314CBE25BA0AC0007B22D8 /* CurrenciesRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C314CBD25BA0AC0007B22D8 /* CurrenciesRootView.swift */; };
 		5C31E41E28141C7B008C42B9 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C31E41D28141C7B008C42B9 /* InputView.swift */; };
@@ -89,9 +90,10 @@
 		5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C0ABFE12A93A88C002904AC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5C0ABFE32A93B1E4002904AC /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRootView.swift; sourceTree = "<group>"; };
 		5C23124429ABF754002D6892 /* WindowUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowUtil.swift; sourceTree = "<group>"; };
-		5C3037B829AB874E00AFFAAF /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
+		5C3037B829AB874E00AFFAAF /* PremiumRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumRootView.swift; sourceTree = "<group>"; };
 		5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumItemView.swift; sourceTree = "<group>"; };
 		5C314CBD25BA0AC0007B22D8 /* CurrenciesRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesRootView.swift; sourceTree = "<group>"; };
 		5C31E41D28141C7B008C42B9 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
@@ -342,7 +344,8 @@
 		5CC0025429AA094600A09D64 /* Premium */ = {
 			isa = PBXGroup;
 			children = (
-				5C3037B829AB874E00AFFAAF /* PremiumView.swift */,
+				5C3037B829AB874E00AFFAAF /* PremiumRootView.swift */,
+				5C0ABFE32A93B1E4002904AC /* PremiumView.swift */,
 				5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */,
 			);
 			path = Premium;
@@ -564,13 +567,14 @@
 				5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */,
 				5CF898D42823C1F900712580 /* WatcherItem.swift in Sources */,
 				5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */,
+				5C0ABFE42A93B1E4002904AC /* PremiumView.swift in Sources */,
 				5C31E42428141D1B008C42B9 /* ConversionStateView.swift in Sources */,
 				5CF57E3A269588060081E4BB /* RewardedAd.swift in Sources */,
 				5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */,
 				5CF8BE4227DE205B00E441F5 /* MailView.swift in Sources */,
 				5C31E4362814308B008C42B9 /* SettingsItemView.swift in Sources */,
 				5C4B53692818057F00D10185 /* WatchersView.swift in Sources */,
-				5C3037B929AB874E00AFFAAF /* PremiumView.swift in Sources */,
+				5C3037B929AB874E00AFFAAF /* PremiumRootView.swift in Sources */,
 				5C0ABFDE2A9369A1002904AC /* CalculatorView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
 				5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */,

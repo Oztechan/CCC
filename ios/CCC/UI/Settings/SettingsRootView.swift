@@ -70,7 +70,7 @@ struct SettingsRootView: View {
             SnackView(text: Res.strings().txt_synced.get())
         }
         .sheet(isPresented: $premiumViewVisibility) {
-            PremiumView(premiumViewVisibility: $premiumViewVisibility)
+            PremiumRootView(premiumViewVisibility: $premiumViewVisibility)
         }
         .sheet(isPresented: $emailViewVisibility) {
             MailView(isShowing: $emailViewVisibility)
