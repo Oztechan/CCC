@@ -11,7 +11,8 @@
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
 		5C0ABFDE2A9369A1002904AC /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */; };
 		5C0ABFE02A9390D6002904AC /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */; };
-		5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsView.swift */; };
+		5C0ABFE22A93A88C002904AC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE12A93A88C002904AC /* SettingsView.swift */; };
+		5C17581A25BC74BD00D16BD9 /* SettingsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */; };
 		5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C23124429ABF754002D6892 /* WindowUtil.swift */; };
 		5C3037B929AB874E00AFFAAF /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037B829AB874E00AFFAAF /* PremiumView.swift */; };
 		5C3037BB29AB9B5D00AFFAAF /* PremiumItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */; };
@@ -87,7 +88,8 @@
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
-		5C17581925BC74BD00D16BD9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5C0ABFE12A93A88C002904AC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRootView.swift; sourceTree = "<group>"; };
 		5C23124429ABF754002D6892 /* WindowUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowUtil.swift; sourceTree = "<group>"; };
 		5C3037B829AB874E00AFFAAF /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
 		5C3037BA29AB9B5D00AFFAAF /* PremiumItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumItemView.swift; sourceTree = "<group>"; };
@@ -225,7 +227,8 @@
 		5C31E4322814304F008C42B9 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				5C17581925BC74BD00D16BD9 /* SettingsView.swift */,
+				5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */,
+				5C0ABFE12A93A88C002904AC /* SettingsView.swift */,
 				5C31E4332814306D008C42B9 /* SettingsToolbarView.swift */,
 				5C31E4352814308B008C42B9 /* SettingsItemView.swift */,
 			);
@@ -571,6 +574,7 @@
 				5C0ABFDE2A9369A1002904AC /* CalculatorView.swift in Sources */,
 				5C6E674025C5A711001CC0D6 /* SliderView.swift in Sources */,
 				5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */,
+				5C0ABFE22A93A88C002904AC /* SettingsView.swift in Sources */,
 				5C5C71EF2922C06F00733C49 /* SecretUtil.swift in Sources */,
 				5C34B8D02959A363009C84AB /* ActionButton.swift in Sources */,
 				5C31E42628141D3E008C42B9 /* CalculatorItemView.swift in Sources */,
@@ -597,7 +601,7 @@
 				5C31E42228141CC9008C42B9 /* KeyboardView.swift in Sources */,
 				5C31E4342814306D008C42B9 /* SettingsToolbarView.swift in Sources */,
 				5CF57E3C2695A3B20081E4BB /* InterstitialAd.swift in Sources */,
-				5C17581A25BC74BD00D16BD9 /* SettingsView.swift in Sources */,
+				5C17581A25BC74BD00D16BD9 /* SettingsRootView.swift in Sources */,
 				5C5D09332562EB9E00DA9C4A /* Application.swift in Sources */,
 				5CEA86F52840CF65001386FB /* NotificationManager.swift in Sources */,
 				5C693EBA25C4AFF800C9373E /* SelectCurrenciesBottomView.swift in Sources */,

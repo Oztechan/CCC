@@ -141,7 +141,7 @@ struct CalculatorRootView: View {
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
-            navigationStack.push(SettingsView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+            navigationStack.push(SettingsRootView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
         case is CalculatorEffect.ShowPasteRequest:
             isPasteRequestSnackShown.toggle()
         case let copyToClipboardEffect as CalculatorEffect.CopyToClipboard:
