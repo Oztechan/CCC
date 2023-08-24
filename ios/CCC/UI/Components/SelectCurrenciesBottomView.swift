@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct SelectCurrenciesBottomView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var text: String
     var buttonText: String

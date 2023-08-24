@@ -21,7 +21,7 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
         self.unitID = SecretUtil.getSecret(key: unitID)
     }
 
-    let bannerView = GADBannerView(adSize: GADAdSizeBanner)
+    private let bannerView = GADBannerView(adSize: GADAdSizeBanner)
 
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()

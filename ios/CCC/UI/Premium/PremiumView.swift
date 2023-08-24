@@ -11,7 +11,7 @@ import Provider
 import SwiftUI
 
 struct PremiumView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var event: PremiumEvent
     var state: PremiumState

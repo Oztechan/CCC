@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct SnackView: View {
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     var text: String
     var iconName: String?

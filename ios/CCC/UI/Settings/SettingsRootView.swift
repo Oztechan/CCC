@@ -21,7 +21,7 @@ struct SettingsRootView: View {
         SettingsData,
         SettingsViewModel
     >()
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var premiumViewVisibility = false
     @State var emailViewVisibility = false

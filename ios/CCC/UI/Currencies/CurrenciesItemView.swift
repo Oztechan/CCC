@@ -11,7 +11,7 @@ import Res
 import SwiftUI
 
 struct CurrenciesItemView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @State var item: Currency
 
     var onItemClick: () -> Void

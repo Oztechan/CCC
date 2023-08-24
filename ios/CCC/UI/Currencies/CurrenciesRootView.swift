@@ -19,7 +19,7 @@ struct CurrenciesRootView: View {
         CurrenciesData,
         CurrenciesViewModel
     >()
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isFewCurrencySnackShown = false
 

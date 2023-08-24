@@ -20,7 +20,7 @@ struct CalculatorRootView: View {
         CalculatorData,
         CalculatorViewModel
     >()
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @State var isBarShown = false
     @State var isTooBigInputSnackShown = false

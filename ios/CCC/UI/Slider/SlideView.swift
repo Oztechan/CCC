@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct SlideView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var title: String
     var image: Image

@@ -23,8 +23,6 @@ final class ObservableSEEDViewModel<
     let effect = PassthroughSubject<Effect, Never>()
     let event: Event
 
-    let data: Data?
-
     private var stateClosable: Closeable?
     private var effectClosable: Closeable?
 
@@ -33,7 +31,6 @@ final class ObservableSEEDViewModel<
 
         self.state = State()
         self.event = viewModel.event!
-        self.data = viewModel.data
     }
 
     deinit {
