@@ -15,7 +15,7 @@ struct SelectCurrencyView: View {
 
     var event: SelectCurrencyEvent
     var state: SelectCurrencyState
-    
+
     var body: some View {
         ZStack {
             Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)

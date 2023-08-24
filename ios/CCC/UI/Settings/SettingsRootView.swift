@@ -95,7 +95,7 @@ struct SettingsRootView: View {
         case is SettingsEffect.OpenCurrencies:
             navigationStack.push(CurrenciesRootView(onBaseChange: onBaseChange))
         case is SettingsEffect.OpenWatchers:
-            navigationStack.push(WatchersView())
+            navigationStack.push(WatchersRootView())
         case is SettingsEffect.FeedBack:
             emailViewVisibility.toggle()
         case is SettingsEffect.OnGitHub:
