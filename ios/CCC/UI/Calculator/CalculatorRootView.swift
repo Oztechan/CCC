@@ -113,7 +113,7 @@ struct CalculatorRootView: View {
         .sheet(
             isPresented: $isBarShown,
             content: {
-                SelectCurrencyView(
+                SelectCurrencyRootView(
                     isBarShown: $isBarShown,
                     onCurrencySelected: { observable.event.onBaseChange(base: $0) }
                 ).environmentObject(navigationStack)
