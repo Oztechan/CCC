@@ -11,7 +11,7 @@ import Res
 import SwiftUI
 
 struct CurrenciesView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var event: CurrenciesEvent
     var state: CurrenciesState

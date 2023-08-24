@@ -45,7 +45,6 @@ kotlin {
                 export(project(selectCurrency))
                 export(project(watchers))
                 export(project(premium))
-                export(project(premium))
             }
         }
 

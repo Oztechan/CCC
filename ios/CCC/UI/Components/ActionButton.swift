@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct ActionButton: View {
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
 
     let buttonText: String
     let buttonAction: () -> Void

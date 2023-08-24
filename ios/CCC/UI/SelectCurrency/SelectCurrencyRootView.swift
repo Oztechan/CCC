@@ -19,7 +19,7 @@ struct SelectCurrencyRootView: View {
         BaseData,
         SelectCurrencyViewModel
     >()
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @Binding var isBarShown: Bool
 

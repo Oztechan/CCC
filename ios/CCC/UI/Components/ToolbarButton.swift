@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct ToolbarButton: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var clickEvent: () -> Void
     var imgName: String

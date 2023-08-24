@@ -13,7 +13,7 @@ import Res
 import SwiftUI
 
 struct WatchersRootView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject private var navigationStack: NavigationStackCompat
     @StateObject var observable = ObservableSEEDViewModel<
         WatchersState,

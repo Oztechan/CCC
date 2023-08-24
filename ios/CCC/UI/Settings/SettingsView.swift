@@ -6,15 +6,12 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import GoogleMobileAds
-import NavigationStack
-import PopupView
 import Provider
 import Res
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var event: SettingsEvent
     var state: SettingsState

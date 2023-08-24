@@ -12,7 +12,7 @@ import SwiftUI
 struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
-    let keys = [
+    private let keys = [
         [Res.strings().seven.get(), Res.strings().eight.get(), Res.strings().nine.get(), Res.strings().multiply.get()],
         [Res.strings().four.get(), Res.strings().five.get(), Res.strings().six.get(), Res.strings().divide.get()],
         [Res.strings().one.get(), Res.strings().two.get(), Res.strings().three.get(), Res.strings().minus.get()],

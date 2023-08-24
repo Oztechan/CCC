@@ -14,7 +14,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
     // below variables have to be local otherwise userDidEarnRewardHandler is not called
     let onReward: () -> Void
     let onError: () -> Void
-    var rewardedAd: GADRewardedAd?
+    private var rewardedAd: GADRewardedAd?
 
     init(
         onReward: @escaping () -> Void,

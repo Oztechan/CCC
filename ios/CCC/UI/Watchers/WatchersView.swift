@@ -11,7 +11,7 @@ import Res
 import SwiftUI
 
 struct WatchersView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var event: WatchersEvent
     var state: WatchersState

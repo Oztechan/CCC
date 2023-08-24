@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct AlertView: View {
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
+    @Environment(\.colorScheme) private var colorScheme: ColorScheme
     let title: String
     let message: String
     let buttonText: String
