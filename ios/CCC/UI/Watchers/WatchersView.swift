@@ -136,7 +136,7 @@ struct WatchersView: View {
         .sheet(
             isPresented: $baseBarInfo.isShown,
             content: {
-                SelectCurrencyView(
+                SelectCurrencyRootView(
                     isBarShown: $baseBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onBaseChanged(
@@ -150,7 +150,7 @@ struct WatchersView: View {
         .sheet(
             isPresented: $targetBarInfo.isShown,
             content: {
-                SelectCurrencyView(
+                SelectCurrencyRootView(
                     isBarShown: $targetBarInfo.isShown,
                     onCurrencySelected: {
                         observable.event.onTargetChanged(
