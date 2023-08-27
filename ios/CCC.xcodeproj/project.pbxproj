@@ -58,6 +58,7 @@
 		5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainRootView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */; };
+		5CCFB5882A9B9F13002DF46B /* BugReportSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */; };
 		5CD8EB7328A6AA6100E9C434 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */; };
 		5CDE468425BC3B2000CA0FB1 /* SelectCurrencyRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDE468325BC3B2000CA0FB1 /* SelectCurrencyRootView.swift */; };
 		5CEA86F52840CF65001386FB /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEA86F42840CF65001386FB /* NotificationManager.swift */; };
@@ -137,6 +138,7 @@
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveBannerAdView.swift; sourceTree = "<group>"; };
+		5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReportSlideRootView.swift; sourceTree = "<group>"; };
 		5CD8EB7228A6AA6100E9C434 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5CDE468325BC3B2000CA0FB1 /* SelectCurrencyRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyRootView.swift; sourceTree = "<group>"; };
 		5CEA86F42840CF65001386FB /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				5C6E673F25C5A711001CC0D6 /* SliderView.swift */,
 				5C31E42928141F1B008C42B9 /* SlideView.swift */,
+				5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */,
 			);
 			path = Slider;
 			sourceTree = "<group>";
@@ -603,6 +606,7 @@
 				5C34B8CC29590500009C84AB /* SnackView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */,
+				5CCFB5882A9B9F13002DF46B /* BugReportSlideRootView.swift in Sources */,
 				5C3037BB29AB9B5D00AFFAAF /* PremiumItemView.swift in Sources */,
 				5C34B8CE29590DC1009C84AB /* AlertView.swift in Sources */,
 				5C31E42D28142058008C42B9 /* SelectionView.swift in Sources */,
