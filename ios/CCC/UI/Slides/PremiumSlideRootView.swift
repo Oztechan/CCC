@@ -1,5 +1,5 @@
 //
-//  IntroSlideRootView.swift
+//  PremiumSlideRootView.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 27.08.23.
@@ -11,7 +11,7 @@ import SwiftUI
 import NavigationStack
 import Provider
 
-struct IntroSlideRootView: View {
+struct PremiumSlideRootView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     @EnvironmentObject private var navigationStack: NavigationStackCompat
@@ -20,14 +20,14 @@ struct IntroSlideRootView: View {
 
     var body: some View {
         SlideView(
-            title: Res.strings().slide_intro_title.get(),
-            image: Image(uiImage: Res.images().ic_app_logo.get()),
-            subTitle1: Res.strings().slide_intro_text.get(),
-            subTitle2: "",
+            title: Res.strings().slide_premium_title.get(),
+            image: Image(systemName: "crown.fill"),
+            subTitle1: Res.strings().slide_premium_text_1_no_ads.get(),
+            subTitle2: Res.strings().slide_premium_text_2.get(),
             buttonText: Res.strings().next.get(),
-            buttonAction: { navigationStack.push(PremiumRootView()) }
+            buttonAction: { navigationStack.push(BugReportSlideRootView()) }
         ).onAppear {
-            analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 0))
+            analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 1))
         }
     }
 }

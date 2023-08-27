@@ -13,7 +13,7 @@ struct MainView: View {
 
     var body: some View {
         if isFirstRun {
-            SliderView()
+            IntroSlideRootView()
         } else {
             CalculatorRootView()
         }
