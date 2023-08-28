@@ -3,9 +3,15 @@ package com.oztechan.ccc.client.viewmodel.main
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
+import com.oztechan.ccc.client.core.viewmodel.BaseState
 import kotlinx.coroutines.Job
 
 // State
+data class MainState(
+    var shouldOnboardUser: Boolean
+) : BaseState()
+
+// Effect
 sealed class MainEffect : BaseEffect() {
     data object ShowInterstitialAd : MainEffect()
     data object RequestReview : MainEffect()

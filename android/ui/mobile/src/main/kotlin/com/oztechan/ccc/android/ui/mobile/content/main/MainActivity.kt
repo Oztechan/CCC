@@ -52,9 +52,17 @@ class MainActivity : BaseActivity() {
         }
 
         setContentView(R.layout.activity_main)
-        checkDestination()
+        observeStates()
         observeEffects()
     }
+
+    private fun observeStates() = mainViewModel.state
+        .flowWithLifecycle(lifecycle)
+        .onEach {
+            with(it) {
+                setDestination(if (shouldOnboardUser) R.id.sliderFragment else R.id.calculatorFragment)
+            }
+        }.launchIn(lifecycleScope)
 
     private fun observeEffects() = mainViewModel.effect
         .flowWithLifecycle(lifecycle)
@@ -71,7 +79,10 @@ class MainActivity : BaseActivity() {
                 )
 
                 MainEffect.RequestReview -> requestAppReview(this)
-                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(viewEffect.isCancelable, viewEffect.marketLink)
+                is MainEffect.AppUpdateEffect -> showAppUpdateDialog(
+                    viewEffect.isCancelable,
+                    viewEffect.marketLink
+                )
             }
         }.launchIn(lifecycleScope)
 
@@ -84,15 +95,9 @@ class MainActivity : BaseActivity() {
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(marketLink)))
     }
 
-    private fun checkDestination() = with(getNavigationController()) {
+    private fun setDestination(fragmentId: Int) = with(getNavigationController()) {
         graph = navInflater.inflate(R.navigation.main_graph).apply {
-            setStartDestination(
-                if (mainViewModel.isFistRun()) {
-                    R.id.sliderFragment
-                } else {
-                    R.id.calculatorFragment
-                }
-            )
+            setStartDestination(fragmentId)
         }
     }
 

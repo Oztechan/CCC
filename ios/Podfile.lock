@@ -1,6 +1,6 @@
 PODS:
-  - provider (0.0.3047)
-  - res (0.0.3047)
+  - provider (0.0.3052)
+  - res (0.0.3052)
 
 DEPENDENCIES:
   - provider (from `../ios/provider/provider.podspec`)
@@ -13,8 +13,8 @@ EXTERNAL SOURCES:
     :path: "../client/core/res/res.podspec"
 
 SPEC CHECKSUMS:
-  provider: 639869a90174f332ba5e64712b5d425388b5f0b8
-  res: 6e5c828f21ae04a0e4846ae155f5af6f6eb9215b
+  provider: e228ea93a87c2442ed6eb082793ada1b3f1fb003
+  res: 34af359966a0c5219b62fc825fb2f5ee20de3c45
 
 PODFILE CHECKSUM: 412cec7fc739afa9e2c84446671ea1c95b0a4e74
 
