@@ -8,7 +8,6 @@
 
 import GoogleMobileAds
 import NavigationStack
-import PopupView
 import Provider
 import Res
 import SwiftUI
@@ -41,32 +40,16 @@ struct SettingsRootView: View {
             state: observable.state,
             shouldShowBannerAd: observable.viewModel.shouldShowBannerAd()
         )
-        .popup(
-            isPresented: $isAdsAlreadyDisabledSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isAdsAlreadyDisabledSnackShown) {
             SnackView(text: Res.strings().txt_you_already_have_premium.get())
         }
-        .popup(
-            isPresented: $isAlreadySyncedSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isAlreadySyncedSnackShown) {
             SnackView(text: Res.strings().txt_already_synced.get())
         }
-        .popup(
-            isPresented: $isSynchronisingShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isSynchronisingShown) {
             SnackView(text: Res.strings().txt_synchronising.get())
         }
-        .popup(
-            isPresented: $isSyncedSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isSyncedSnackShown) {
             SnackView(text: Res.strings().txt_synced.get())
         }
         .sheet(isPresented: $premiumViewVisibility) {
