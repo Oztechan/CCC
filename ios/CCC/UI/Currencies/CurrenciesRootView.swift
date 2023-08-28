@@ -33,11 +33,7 @@ struct CurrenciesRootView: View {
             state: observable.state,
             shouldShowBannerAd: observable.viewModel.shouldShowBannerAd(),
             isFirstRun: observable.viewModel.isFirstRun()
-        ).popup(
-            isPresented: $isFewCurrencySnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        ).snack(isPresented: $isFewCurrencySnackShown) {
             SnackView(text: Res.strings().choose_at_least_two_currency.get())
         }
         .onAppear {

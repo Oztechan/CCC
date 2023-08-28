@@ -7,7 +7,6 @@
 //
 
 import NavigationStack
-import PopupView
 import Provider
 import Res
 import SwiftUI
@@ -40,25 +39,13 @@ struct WatchersRootView: View {
             baseBarInfo: $baseBarInfo,
             targetBarInfo: $targetBarInfo
         )
-        .popup(
-            isPresented: $isInvalidInputSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isInvalidInputSnackShown) {
             SnackView(text: Res.strings().text_invalid_input.get())
         }
-        .popup(
-            isPresented: $isMaxWatchersSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isMaxWatchersSnackShown) {
             SnackView(text: Res.strings().text_maximum_number_of_watchers.get())
         }
-        .popup(
-            isPresented: $isTooBigInputSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isTooBigInputSnackShown) {
             SnackView(text: Res.strings().text_too_big_input.get())
         }
         .sheet(

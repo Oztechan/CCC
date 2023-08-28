@@ -9,7 +9,6 @@
 import BackgroundTasks
 import FirebaseCore
 import GoogleMobileAds
-import PopupView
 import Provider
 import Res
 import SwiftUI

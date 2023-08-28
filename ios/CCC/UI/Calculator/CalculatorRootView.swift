@@ -7,7 +7,6 @@
 //
 
 import NavigationStack
-import PopupView
 import Provider
 import Res
 import SwiftUI
@@ -45,24 +44,13 @@ struct CalculatorRootView: View {
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .popup(
-            isPresented: $isTooBigInputSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isTooBigInputSnackShown) {
             SnackView(text: Res.strings().text_too_big_input.get())
         }
-        .popup(
-            isPresented: $isTooBigOutputSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isTooBigOutputSnackShown) {
             SnackView(text: Res.strings().text_too_big_output.get())
         }
-        .popup(isPresented: $isPasteRequestSnackShown,
-               type: .toast,
-               autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isPasteRequestSnackShown) {
             SnackView(
                 text: Res.strings().text_paste_request.get(),
                 buttonText: Res.strings().text_paste.get(),
@@ -71,18 +59,10 @@ struct CalculatorRootView: View {
                 }
             )
         }
-        .popup(
-            isPresented: $isGenericErrorSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isGenericErrorSnackShown) {
             SnackView(text: Res.strings().error_text_unknown.get())
         }
-        .popup(
-            isPresented: $isFewCurrencySnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isFewCurrencySnackShown) {
             SnackView(
                 text: Res.strings().choose_at_least_two_currency.get(),
                 buttonText: Res.strings().select.get(),
@@ -91,18 +71,10 @@ struct CalculatorRootView: View {
                 }
             )
         }
-        .popup(
-            isPresented: $isCopyClipboardSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isCopyClipboardSnackShown) {
             SnackView(text: Res.strings().copied_to_clipboard.get())
         }
-        .popup(
-            isPresented: $isConversionSnackShown,
-            type: .toast,
-            autohideIn: 2.0
-        ) {
+        .snack(isPresented: $isConversionSnackShown) {
             if CalculatorRootView.conversionText != nil && CalculatorRootView.conversionCode != nil {
                 SnackView(
                     text: CalculatorRootView.conversionText!,
