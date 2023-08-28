@@ -81,7 +81,7 @@ extension View {
             fatalError("Expected to have a valid style")
         }
     }
-    
+
     func snack<PopupContent: View>(
         isPresented: Binding<Bool>,
         @ViewBuilder view: @escaping () -> PopupContent
