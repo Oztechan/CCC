@@ -94,6 +94,16 @@ extension View {
             view: view
         )
     }
+
+    func alert<PopupContent: View>(
+        isPresented: Binding<Bool>,
+        @ViewBuilder view: @escaping () -> PopupContent
+    ) -> some View {
+        self.popup(
+            isPresented: isPresented,
+            view: view
+        )
+    }
 }
 
 extension Double {
