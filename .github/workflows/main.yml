@@ -90,7 +90,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v2.7.1
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: assemble
 
@@ -190,7 +190,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Pods
-        uses: gradle/gradle-build-action@v2.7.1
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
@@ -266,7 +266,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v2.7.1
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: check koverMergedXmlReport --parallel
 
@@ -349,7 +349,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v2.7.1
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: detektAll
 
