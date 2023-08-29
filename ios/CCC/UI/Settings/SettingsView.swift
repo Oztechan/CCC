@@ -15,7 +15,6 @@ struct SettingsView: View {
 
     var event: SettingsEvent
     var state: SettingsState
-    var shouldShowBannerAd: Bool
 
     var body: some View {
         ZStack {
@@ -89,7 +88,7 @@ struct SettingsView: View {
                 }.edgesIgnoringSafeArea(.bottom)
                     .withClearBackground(color: Res.colors().background.get())
 
-                if shouldShowBannerAd {
+                if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()
                 }
             }

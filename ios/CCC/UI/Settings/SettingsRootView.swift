@@ -37,8 +37,7 @@ struct SettingsRootView: View {
     var body: some View {
         SettingsView(
             event: observable.event,
-            state: observable.state,
-            shouldShowBannerAd: observable.viewModel.shouldShowBannerAd()
+            state: observable.state
         )
         .snack(isPresented: $isAdsAlreadyDisabledSnackShown) {
             SnackView(text: Res.strings().txt_you_already_have_premium.get())
