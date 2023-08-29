@@ -33,11 +33,12 @@ class CurrenciesViewModel(
     private val appStorage: AppStorage,
     private val calculationStorage: CalculationStorage,
     private val currencyDataSource: CurrencyDataSource,
-    private val adControlRepository: AdControlRepository,
+    adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(), CurrenciesEvent {
     // region SEED
-    private val _state = MutableStateFlow(CurrenciesState())
+    private val _state =
+        MutableStateFlow(CurrenciesState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<CurrenciesEffect>()
@@ -106,8 +107,6 @@ class CurrenciesViewModel(
     fun hideSelectionVisibility() = _state.update {
         copy(selectionVisibility = false)
     }
-
-    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     fun isFirstRun() = appStorage.firstRun
 

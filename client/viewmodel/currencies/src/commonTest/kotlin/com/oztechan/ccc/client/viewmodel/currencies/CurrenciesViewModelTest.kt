@@ -67,6 +67,7 @@ internal class CurrenciesViewModelTest {
     private val currencyListFlow = flowOf(currencyList)
 
     private var dollar = Currency("USD", "American Dollar", "$", "1231")
+    private val shouldShowAds = Random.nextBoolean()
 
     @BeforeTest
     fun setup() {
@@ -86,6 +87,10 @@ internal class CurrenciesViewModelTest {
         given(calculationStorage)
             .invocation { currentBase }
             .thenReturn(currency1.code)
+
+        given(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .thenReturn(shouldShowAds)
     }
 
     // Analytics
@@ -121,7 +126,12 @@ internal class CurrenciesViewModelTest {
             assertEquals(currencyList, it.currencyList)
             assertFalse { it.selectionVisibility }
             assertEquals(currencyList.toMutableList(), viewModel.data.unFilteredList)
+            assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
+
+        verify(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .wasInvoked()
     }
 
     @Test
@@ -193,21 +203,6 @@ internal class CurrenciesViewModelTest {
             assertNotNull(it)
             assertFalse { it.selectionVisibility }
         }
-    }
-
-    @Test
-    fun shouldShowBannerAd() {
-        val mockBoolean = Random.nextBoolean()
-
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(mockBoolean)
-
-        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
-
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .wasInvoked()
     }
 
     @Test
