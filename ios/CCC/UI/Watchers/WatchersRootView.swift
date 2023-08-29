@@ -34,7 +34,6 @@ struct WatchersRootView: View {
         WatchersView(
             event: observable.event,
             state: observable.state,
-            shouldShowBannerAd: observable.viewModel.shouldShowBannerAd(),
             authorizationStatus: notificationManager.authorizationStatus,
             baseBarInfo: $baseBarInfo,
             targetBarInfo: $targetBarInfo

@@ -34,24 +34,32 @@ import kotlin.test.assertNotNull
 internal class WatchersViewModelTest {
 
     private val viewModel: WatchersViewModel by lazy {
-        WatchersViewModel(currencyDataSource, watcherDataSource, adControlRepository, analyticsManager)
+        WatchersViewModel(
+            currencyDataSource,
+            watcherDataSource,
+            adControlRepository,
+            analyticsManager
+        )
     }
 
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
 
     @Mock
-    private val watcherDataSource = configure(mock(classOf<WatcherDataSource>())) { stubsUnitByDefault = true }
+    private val watcherDataSource =
+        configure(mock(classOf<WatcherDataSource>())) { stubsUnitByDefault = true }
 
     @Mock
     private val adControlRepository = mock(classOf<AdControlRepository>())
 
     @Mock
-    private val analyticsManager = configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager =
+        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
 
     private val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
     private val watcherList = listOf(watcher, watcher)
+    private val shouldShowAds = Random.nextBoolean()
 
     @BeforeTest
     fun setup() {
@@ -63,6 +71,24 @@ internal class WatchersViewModelTest {
         given(watcherDataSource)
             .invocation { getWatchersFlow() }
             .thenReturn(flowOf(watcherList))
+
+        given(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .thenReturn(shouldShowAds)
+    }
+
+    // init
+    @Test
+    fun `init updates states correctly`() = runTest {
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertEquals(watcherList, it.watcherList)
+        }
+
+        verify(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .wasInvoked()
     }
 
     // Analytics
@@ -71,22 +97,13 @@ internal class WatchersViewModelTest {
         viewModel // init
 
         verify(analyticsManager)
-            .invocation { setUserProperty(UserProperty.WatcherCount(watcherList.count().toString())) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun shouldShowBannerAd() {
-        val mockBool = Random.nextBoolean()
-
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(mockBool)
-
-        assertEquals(mockBool, viewModel.shouldShowBannerAd())
-
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
+            .invocation {
+                setUserProperty(
+                    UserProperty.WatcherCount(
+                        watcherList.count().toString()
+                    )
+                )
+            }
             .wasInvoked()
     }
 
