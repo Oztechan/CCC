@@ -15,7 +15,6 @@ struct CalculatorView: View {
 
     var event: CalculatorEvent
     var state: CalculatorState
-    var shouldShowBannerAd: Bool
 
     var body: some View {
         ZStack {
@@ -72,7 +71,7 @@ struct CalculatorView: View {
                     )
                 }
 
-                if shouldShowBannerAd {
+                if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CALCULATOR").adapt()
                 }
             }

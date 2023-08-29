@@ -11,6 +11,7 @@ import com.oztechan.ccc.common.core.model.Currency
 
 // State
 data class CalculatorState(
+    val isBannerAdVisible: Boolean,
     val input: String = "",
     val base: String = "",
     val currencyList: List<Currency> = listOf(),

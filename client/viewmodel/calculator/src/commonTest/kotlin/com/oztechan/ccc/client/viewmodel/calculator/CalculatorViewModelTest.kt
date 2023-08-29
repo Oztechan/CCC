@@ -10,6 +10,7 @@ import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.getFormatted
+import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
@@ -83,6 +84,7 @@ internal class CalculatorViewModelTest {
     private val currency2 = Currency("EUR", "Dollar", "$", "12345.678", true)
     private val currencyList = listOf(currency1, currency2)
     private val conversion = Conversion(currency1.code, "12.12.2121")
+    private val shouldShowAds = Random.nextBoolean()
 
     @BeforeTest
     fun setup() {
@@ -106,6 +108,10 @@ internal class CalculatorViewModelTest {
         given(calculationStorage)
             .invocation { precision }
             .thenReturn(3)
+
+        given(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .thenReturn(shouldShowAds)
 
         runTest {
             given(currencyDataSource)
@@ -133,6 +139,24 @@ internal class CalculatorViewModelTest {
             .coroutine { getConversion(currency1.code) }
             .wasInvoked()
         assertNotNull(viewModel.data.conversion)
+    }
+
+    // init
+    @Test
+    fun `init updates states correctly`() = runTest {
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertEquals(currency1.code, it.base)
+            assertEquals("", it.input)
+            assertIs<ConversionState.Online>(it.conversionState)
+            assertEquals(ConversionState.Online(nowAsDateString()), it.conversionState)
+            assertEquals(currencyList, it.currencyList)
+            assertEquals(shouldShowAds, it.isBannerAdVisible)
+        }
+
+        verify(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .wasInvoked()
     }
 
     @Test
@@ -304,21 +328,6 @@ internal class CalculatorViewModelTest {
                     )
                 )
             }
-            .wasInvoked()
-    }
-
-    @Test
-    fun shouldShowBannerAd() {
-        val mockBoolean = Random.nextBoolean()
-
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(mockBoolean)
-
-        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
-
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
 
