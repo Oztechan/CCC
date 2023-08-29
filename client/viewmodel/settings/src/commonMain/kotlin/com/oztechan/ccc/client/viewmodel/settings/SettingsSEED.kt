@@ -33,6 +33,7 @@ interface SettingsEvent : BaseEvent {
     fun onThemeClick()
     fun onPrecisionClick()
     fun onPrecisionSelect(index: Int)
+    fun onThemeChange(theme: AppTheme)
 }
 
 // Effect
