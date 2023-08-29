@@ -15,7 +15,6 @@ struct CurrenciesView: View {
 
     var event: CurrenciesEvent
     var state: CurrenciesState
-    var shouldShowBannerAd: Bool
     var isFirstRun: Bool
 
     var body: some View {
@@ -62,7 +61,7 @@ struct CurrenciesView: View {
                     )
                 }
 
-                if shouldShowBannerAd {
+                if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adapt()
                 }
             }
