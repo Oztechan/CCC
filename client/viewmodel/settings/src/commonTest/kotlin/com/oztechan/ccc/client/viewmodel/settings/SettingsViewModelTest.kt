@@ -105,6 +105,7 @@ internal class SettingsViewModelTest {
 
     private val mockedPrecision = 3
     private val version = "version"
+    private val shouldShowAds = Random.nextBoolean()
 
     @BeforeTest
     fun setup() {
@@ -133,6 +134,10 @@ internal class SettingsViewModelTest {
             .invocation { getWatchersFlow() }
             .then { flowOf(watcherLists) }
 
+        given(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .thenReturn(shouldShowAds)
+
         given(appConfigRepository)
             .invocation { getDeviceType() }
             .then { Device.IOS }
@@ -152,7 +157,12 @@ internal class SettingsViewModelTest {
             assertEquals(watcherLists.size, it.activeWatcherCount)
             assertEquals(mockedPrecision, it.precision)
             assertEquals(version, it.version)
+            assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
+
+        verify(adControlRepository)
+            .invocation { shouldShowBannerAd() }
+            .wasInvoked()
     }
 
     @Test
@@ -274,21 +284,6 @@ internal class SettingsViewModelTest {
 
         verify(appStorage)
             .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
-    fun shouldShowBannerAd() {
-        val mockBoolean = Random.nextBoolean()
-
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(mockBoolean)
-
-        assertEquals(mockBoolean, viewModel.shouldShowBannerAd())
-
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
             .wasInvoked()
     }
 

@@ -39,12 +39,13 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
-    private val adControlRepository: AdControlRepository,
+    adControlRepository: AdControlRepository,
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
     // region SEED
-    private val _state = MutableStateFlow(SettingsState())
+    private val _state =
+        MutableStateFlow(SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<SettingsEffect>()
@@ -104,8 +105,6 @@ class SettingsViewModel(
         appStorage.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
-
-    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     fun getAppTheme() = appStorage.appTheme
 
