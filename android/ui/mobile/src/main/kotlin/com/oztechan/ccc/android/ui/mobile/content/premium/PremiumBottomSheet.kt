@@ -47,7 +47,10 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "PremiumBottomSheet onViewCreated" }
-        billingManager.startConnection(viewLifecycleOwner.lifecycleScope, PremiumType.getPurchaseIds())
+        billingManager.startConnection(
+            viewLifecycleOwner,
+            PremiumType.getPurchaseIds()
+        )
         binding.initViews()
         binding.observeStates()
         observeEffects()

@@ -2,7 +2,7 @@ package com.oztechan.ccc.android.core.billing
 
 import android.app.Activity
 import android.content.Context
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleOwner
 import co.touchlab.kermit.Logger
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener
@@ -21,10 +21,9 @@ import com.android.billingclient.api.QueryPurchaseHistoryParams
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.android.core.billing.mapper.toProductDetailsModel
 import com.oztechan.ccc.android.core.billing.mapper.toPurchaseHistoryRecordModel
-import kotlinx.coroutines.CoroutineScope
+import com.oztechan.ccc.android.core.billing.util.launchWithLifeCycle
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.launch
 
 internal class BillingManagerImpl(private val context: Context) :
     BillingManager,
@@ -35,7 +34,7 @@ internal class BillingManagerImpl(private val context: Context) :
     ProductDetailsResponseListener {
 
     private lateinit var billingClient: BillingClient
-    private lateinit var scope: CoroutineScope
+    private lateinit var lifecycleOwner: LifecycleOwner
     private lateinit var productList: List<QueryProductDetailsParams.Product>
 
     private lateinit var productDetailList: List<ProductDetails>
@@ -45,12 +44,12 @@ internal class BillingManagerImpl(private val context: Context) :
     override val effect = _effect.asSharedFlow()
 
     override fun startConnection(
-        lifecycleScope: LifecycleCoroutineScope,
+        lifecycleOwner: LifecycleOwner,
         skuList: List<String>
     ) {
         Logger.v { "BillingManagerImpl startConnection" }
 
-        this.scope = lifecycleScope
+        this.lifecycleOwner = lifecycleOwner
         this.productList = skuList.map {
             QueryProductDetailsParams.Product.newBuilder()
                 .setProductId(it)
@@ -104,7 +103,7 @@ internal class BillingManagerImpl(private val context: Context) :
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
         Logger.v { "BillingManagerImpl onAcknowledgePurchaseResponse ${billingResult.responseCode}" }
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-            scope.launch {
+            lifecycleOwner.launchWithLifeCycle {
                 _effect.emit(BillingEffect.SuccessfulPurchase)
             }
         }
@@ -125,7 +124,7 @@ internal class BillingManagerImpl(private val context: Context) :
             ?.products
             ?.firstOrNull()
             ?.let {
-                scope.launch {
+                lifecycleOwner.launchWithLifeCycle {
                     _effect.emit(BillingEffect.UpdatePremiumEndDate(it))
                 }
             }
@@ -162,7 +161,7 @@ internal class BillingManagerImpl(private val context: Context) :
     ) {
         Logger.v { "BillingManagerImpl onProductDetailsResponse ${billingResult.responseCode}" }
 
-        scope.launch {
+        lifecycleOwner.launchWithLifeCycle {
             productDetasilList.whether {
                 billingResult.responseCode == BillingClient.BillingResponseCode.OK
             }?.let { detailsList ->
@@ -186,7 +185,7 @@ internal class BillingManagerImpl(private val context: Context) :
         purchaseHistoryList
             ?.map { it.toPurchaseHistoryRecordModel() }
             ?.let {
-                scope.launch {
+                lifecycleOwner.launchWithLifeCycle {
                     _effect.emit(BillingEffect.RestorePurchase(it))
                 }
             }
