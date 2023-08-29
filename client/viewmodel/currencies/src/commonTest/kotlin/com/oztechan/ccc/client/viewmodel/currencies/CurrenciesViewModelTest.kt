@@ -199,17 +199,6 @@ internal class CurrenciesViewModelTest {
         }
     }
 
-    // public methods
-    @Test
-    fun hideSelectionVisibility() = runTest {
-        viewModel.state.onSubscription {
-            viewModel.hideSelectionVisibility()
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertFalse { it.selectionVisibility }
-        }
-    }
-
     @Test
     fun `query is updated when list is filtered`() {
         val query = "query"
