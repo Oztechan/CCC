@@ -125,12 +125,17 @@ internal class CurrenciesViewModelTest {
             assertNotNull(it)
             assertEquals(currencyList, it.currencyList)
             assertFalse { it.selectionVisibility }
+            assertFalse { it.isOnboardingVisible } // mocked false
             assertEquals(currencyList.toMutableList(), viewModel.data.unFilteredList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
 
         verify(adControlRepository)
             .invocation { shouldShowBannerAd() }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { firstRun }
             .wasInvoked()
     }
 
@@ -206,21 +211,7 @@ internal class CurrenciesViewModelTest {
     }
 
     @Test
-    fun isFirstRun() {
-        val mockValue = Random.nextBoolean()
-        given(appStorage)
-            .invocation { firstRun }
-            .thenReturn(mockValue)
-
-        assertEquals(mockValue, viewModel.isFirstRun())
-
-        verify(appStorage)
-            .invocation { firstRun }
-            .wasInvoked()
-    }
-
-    @Test
-    fun queryGetUpdatedOnFilteringList() {
+    fun `query is updated when list is filtered`() {
         val query = "query"
         // runTest can be removed after kotlin move to new memory management
         runTest {

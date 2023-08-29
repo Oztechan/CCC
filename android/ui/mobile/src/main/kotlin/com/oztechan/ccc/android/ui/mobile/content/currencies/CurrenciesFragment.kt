@@ -71,9 +71,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             setHasFixedSize(true)
             adapter = currenciesAdapter
         }
-
-        btnDone.visibleIf(currenciesViewModel.isFirstRun())
-        txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
     private fun FragmentCurrenciesBinding.observeStates() = currenciesViewModel.state
@@ -95,12 +92,15 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
                 loadingView.visibleIf(loading, true)
 
+                btnDone.visibleIf(isOnboardingVisible)
+                txtSelectCurrencies.visibleIf(isOnboardingVisible)
+
                 with(layoutCurrenciesToolbar) {
                     searchView.visibleIf(!selectionVisibility)
                     txtCurrenciesToolbar.visibleIf(!selectionVisibility)
                     btnSelectAll.visibleIf(selectionVisibility)
                     btnDeSelectAll.visibleIf(selectionVisibility)
-                    backButton.visibleIf(!currenciesViewModel.isFirstRun() || selectionVisibility)
+                    backButton.visibleIf(!isOnboardingVisible || selectionVisibility)
 
                     backButton.setBackgroundResource(
                         if (selectionVisibility) R.drawable.ic_close else R.drawable.ic_back
