@@ -148,7 +148,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 premiumViewModel.event.onPremiumActivationFailed()
             },
             onReward = {
-                premiumViewModel.onPremiumActivated(PremiumType.VIDEO)
+                premiumViewModel.event.onPremiumActivated(PremiumType.VIDEO)
             }
         )
     }
