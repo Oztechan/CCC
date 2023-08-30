@@ -7,12 +7,13 @@
 //
 
 import SwiftUI
+import Provider
 
 struct MainView: View {
-    let isFirstRun: Bool
+    let state: MainState
 
     var body: some View {
-        if isFirstRun {
+        if state.shouldOnboardUser {
             IntroSlideRootView()
         } else {
             CalculatorRootView()

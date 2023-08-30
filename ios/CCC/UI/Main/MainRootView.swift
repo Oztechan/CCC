@@ -14,7 +14,7 @@ import SwiftUI
 
 struct MainRootView: View {
     @StateObject var observable = ObservableSEEDViewModel<
-        BaseState,
+        MainState,
         MainEffect,
         MainEvent,
         MainData,
@@ -26,7 +26,7 @@ struct MainRootView: View {
             transitionType: .default,
             easing: Animation.easeInOut
         ) {
-            MainView(isFirstRun: observable.viewModel.isFistRun())
+            MainView(state: observable.state)
         }
         .onAppear {
             observable.startObserving()
