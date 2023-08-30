@@ -88,7 +88,6 @@ internal class AdManagerImpl : AdManager {
         activity: Activity,
         adId: String,
         onAdFailedToLoad: () -> Unit,
-        onAdLoaded: () -> Unit,
         onReward: () -> Unit
     ) {
         Logger.v { "AdManagerImpl showRewardedAd" }
@@ -107,7 +106,6 @@ internal class AdManagerImpl : AdManager {
                 override fun onAdLoaded(rewardedAd: RewardedAd) {
                     super.onAdLoaded(rewardedAd)
                     Logger.v { "AdManagerImpl showRewardedAd onAdLoaded" }
-                    onAdLoaded()
 
                     rewardedAd.show(activity) {
                         Logger.v { "AdManagerImpl showRewardedAd onUserEarnedReward" }
