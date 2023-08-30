@@ -25,6 +25,8 @@ import com.oztechan.ccc.android.core.billing.util.launchWithLifeCycle
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
+// Billing will not work on debug builds
+// .debug suffix needs to be removed in app-level build.gradle and google-services.json
 internal class BillingManagerImpl(private val context: Context) :
     BillingManager,
     AcknowledgePurchaseResponseListener,
@@ -132,7 +134,9 @@ internal class BillingManagerImpl(private val context: Context) :
                 lifecycleOwner.launchWithLifeCycle {
                     _effect.emit(BillingEffect.UpdatePremiumEndDate(it))
                 }
-            }
+            } ?: lifecycleOwner.launchWithLifeCycle {
+            _effect.emit(BillingEffect.BillingUnavailable)
+        }
     }
 
     override fun onBillingSetupFinished(billingResult: BillingResult) {
