@@ -1,14 +1,14 @@
 package com.oztechan.ccc.android.core.billing
 
 import android.app.Activity
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.SharedFlow
 
 interface BillingManager {
     val effect: SharedFlow<BillingEffect>
 
     fun startConnection(
-        lifecycleScope: LifecycleCoroutineScope,
+        lifecycleOwner: LifecycleOwner,
         skuList: List<String>
     )
 

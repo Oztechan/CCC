@@ -2,7 +2,7 @@ package com.oztechan.ccc.android.core.billing
 
 import android.app.Activity
 import android.content.Context
-import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.LifecycleOwner
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -14,7 +14,7 @@ internal class BillingManagerImpl(private val context: Context) : BillingManager
     override val effect = _effect.asSharedFlow()
 
     override fun startConnection(
-        lifecycleScope: LifecycleCoroutineScope,
+        lifecycleOwner: LifecycleOwner,
         skuList: List<String>
     ) {
         Logger.v { "BillingManagerImpl startConnection" }
