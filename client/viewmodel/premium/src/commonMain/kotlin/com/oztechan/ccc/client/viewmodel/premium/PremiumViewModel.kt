@@ -79,7 +79,9 @@ class PremiumViewModel(
                     tempList.add(it)
                 }
             tempList.sortBy { it.ordinal }
-            _state.update { copy(premiumTypes = tempList, loading = false) }
+            _state.update { copy(premiumTypes = tempList) }
+        }.also {
+            _state.update { copy(loading = false) } // in case list is empty, loading will be false
         }
 
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {

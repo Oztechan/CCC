@@ -166,13 +166,13 @@ internal class BillingManagerImpl(private val context: Context) :
         lifecycleOwner.launchWithLifeCycle {
             productDetasilList.whether {
                 billingResult.responseCode == BillingClient.BillingResponseCode.OK
-            }?.let { detailsList ->
-                productDetailList = detailsList
+            }.let { detailsList ->
+                productDetailList = detailsList ?: emptyList()
 
                 detailsList
-                    .map { it.toProductDetailsModel() }
+                    ?.map { it.toProductDetailsModel() }
                     .let {
-                        _effect.emit(BillingEffect.AddPurchaseMethods(it))
+                        _effect.emit(BillingEffect.AddPurchaseMethods(it ?: emptyList()))
                     }
             }
         }
