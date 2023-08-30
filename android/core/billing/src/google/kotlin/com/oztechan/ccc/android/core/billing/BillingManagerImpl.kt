@@ -148,6 +148,8 @@ internal class BillingManagerImpl(private val context: Context) :
                 .build()
 
             queryProductDetailsAsync(queryProductDetailsParams, this@BillingManagerImpl)
+        } ?: lifecycleOwner.launchWithLifeCycle {
+            _effect.emit(BillingEffect.BillingUnavailable)
         }
     }
 
