@@ -8,12 +8,13 @@ import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 // State
 data class PremiumState(
     val premiumTypes: List<PremiumType> = listOf(PremiumType.VIDEO),
-    val loading: Boolean = false
+    val loading: Boolean = true
 ) : BaseState()
 
 // Event
 interface PremiumEvent : BaseEvent {
     fun onPremiumItemClick(type: PremiumType)
+    fun onPremiumActivationFailed()
 }
 
 // Effect

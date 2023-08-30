@@ -34,8 +34,6 @@ struct PremiumRootView: View {
                 message: Res.strings().txt_premium_text.get(),
                 buttonText: Res.strings().txt_watch.get(),
                 buttonAction: {
-                    observable.viewModel.showLoadingView(shouldShow: true)
-
                     RewardedAd(
                         onReward: {
                             observable.viewModel.updatePremiumEndDate(
@@ -45,7 +43,7 @@ struct PremiumRootView: View {
                             )
                         },
                         onError: {
-                            observable.viewModel.showLoadingView(shouldShow: false)
+                            observable.event.onPremiumActivationFailed()
                         }
                     ).show()
                 }
@@ -53,7 +51,6 @@ struct PremiumRootView: View {
         }
         .onAppear {
             observable.startObserving()
-            observable.viewModel.showLoadingView(shouldShow: false)
             analyticsManager.trackScreen(screenName: ScreenName.Premium())
         }
         .onDisappear { observable.stopObserving() }

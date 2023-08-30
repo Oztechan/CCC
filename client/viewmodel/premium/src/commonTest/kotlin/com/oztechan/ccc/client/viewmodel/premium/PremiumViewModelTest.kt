@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -101,6 +100,7 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.PremiumActivated>(it)
             assertTrue { it.isRestorePurchase }
+            assertFalse { viewModel.state.value.loading }
 
             verify(appStorage)
                 .invocation { premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
@@ -137,15 +137,6 @@ internal class PremiumViewModelTest {
         verify(appStorage)
             .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
             .wasNotInvoked()
-    }
-
-    @Test
-    fun showLoadingView() {
-        val mockValue = Random.nextBoolean()
-
-        viewModel.showLoadingView(mockValue)
-
-        assertEquals(mockValue, viewModel.state.value.loading)
     }
 
     @Test
@@ -192,6 +183,7 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.VIDEO, it.premiumType)
+            assertTrue { viewModel.state.value.loading }
         }
 
         viewModel.effect.onSubscription {
@@ -199,6 +191,7 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.MONTH, it.premiumType)
+            assertTrue { viewModel.state.value.loading }
         }
 
         viewModel.effect.onSubscription {
@@ -206,6 +199,7 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.QUARTER, it.premiumType)
+            assertTrue { viewModel.state.value.loading }
         }
 
         viewModel.effect.onSubscription {
@@ -213,6 +207,7 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.HALF_YEAR, it.premiumType)
+            assertTrue { viewModel.state.value.loading }
         }
 
         viewModel.effect.onSubscription {
@@ -220,6 +215,17 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.YEAR, it.premiumType)
+            assertTrue { viewModel.state.value.loading }
+        }
+    }
+
+    @Test
+    fun onPremiumActivationFailed() = runTest {
+        viewModel.state.onSubscription {
+            viewModel.onPremiumActivationFailed()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertFalse { it.loading }
         }
     }
 }

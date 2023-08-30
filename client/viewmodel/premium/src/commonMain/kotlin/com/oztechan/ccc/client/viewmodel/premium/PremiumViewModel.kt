@@ -62,11 +62,8 @@ class PremiumViewModel(
                 startDate = this.date,
                 isRestorePurchase = true
             )
+            _state.update { copy(loading = false) }
         }
-
-    fun showLoadingView(shouldShow: Boolean) = _state.update {
-        copy(loading = shouldShow)
-    }
 
     fun addPurchaseMethods(premiumDataList: List<PremiumData>) = premiumDataList
         .forEach { premiumData ->
@@ -84,8 +81,16 @@ class PremiumViewModel(
             _state.update { copy(loading = false) } // in case list is empty, loading will be false
         }
 
+    // region Event
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
+        _state.update { copy(loading = true) }
         _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
     }
+
+    override fun onPremiumActivationFailed() {
+        Logger.d { "PremiumViewModel onPremiumActivationFailed" }
+        _state.update { copy(loading = false) }
+    }
+    // endregion
 }
