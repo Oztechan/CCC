@@ -129,6 +129,8 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.updatePremiumEndDate(
                     PremiumType.getById(viewEffect.id)
                 )
+
+                BillingEffect.BillingUnavailable -> premiumViewModel.showLoadingView(false)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
