@@ -175,7 +175,7 @@ internal class PremiumViewModelTest {
         }.firstOrNull().let {
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.VIDEO, it.premiumType)
-            assertTrue { viewModel.state.value.loading }
+            assertFalse { viewModel.state.value.loading }
         }
 
         viewModel.effect.onSubscription {

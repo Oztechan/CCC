@@ -76,7 +76,8 @@ internal class BillingManagerImpl(private val context: Context) :
         productDetailList
             .firstOrNull { it.productId == skuId }
             ?.let {
-                val offerToken = it.subscriptionOfferDetails?.get(productDetailList.indexOf(it))?.offerToken.orEmpty()
+                val offerToken =
+                    it.subscriptionOfferDetails?.get(productDetailList.indexOf(it))?.offerToken.orEmpty()
 
                 val productDetailsParamsList = listOf(
                     BillingFlowParams.ProductDetailsParams.newBuilder()
@@ -105,6 +106,10 @@ internal class BillingManagerImpl(private val context: Context) :
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
             lifecycleOwner.launchWithLifeCycle {
                 _effect.emit(BillingEffect.SuccessfulPurchase)
+            }
+        } else {
+            lifecycleOwner.launchWithLifeCycle {
+                _effect.emit(BillingEffect.BillingUnavailable)
             }
         }
     }
@@ -155,6 +160,9 @@ internal class BillingManagerImpl(private val context: Context) :
 
     override fun onBillingServiceDisconnected() {
         Logger.v { "BillingManagerImpl onBillingServiceDisconnected" }
+        lifecycleOwner.launchWithLifeCycle {
+            _effect.emit(BillingEffect.BillingUnavailable)
+        }
     }
 
     override fun onProductDetailsResponse(

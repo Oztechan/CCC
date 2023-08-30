@@ -51,6 +51,7 @@ struct PremiumRootView: View {
         }
         .onAppear {
             observable.startObserving()
+            observable.event.onPremiumActivationFailed() // no billing implementation on iOS yet
             analyticsManager.trackScreen(screenName: ScreenName.Premium())
         }
         .onDisappear { observable.stopObserving() }
