@@ -150,6 +150,14 @@ internal class PremiumViewModelTest {
 
     @Test
     fun addPurchaseMethods() = runTest {
+        // in case called an empty list loading should be false
+        viewModel.state.onSubscription {
+            viewModel.addPurchaseMethods(emptyList())
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertFalse { it.loading }
+        }
+
         PremiumType.values()
             .map { it.data }
             .forEach { premiumData ->
