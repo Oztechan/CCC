@@ -36,22 +36,6 @@ class PremiumViewModel(
     override val data: BaseData? = null
     // endregion
 
-    fun addPurchaseMethods(premiumDataList: List<PremiumData>) = premiumDataList
-        .forEach { premiumData ->
-            val tempList = state.value.premiumTypes.toMutableList()
-            PremiumType.getById(premiumData.id)
-                ?.apply {
-                    data.cost = premiumData.cost
-                    data.duration = premiumData.duration
-                }?.let {
-                    tempList.add(it)
-                }
-            tempList.sortBy { it.ordinal }
-            _state.update { copy(premiumTypes = tempList) }
-        }.also {
-            _state.update { copy(loading = false) } // in case list is empty, loading will be false
-        }
-
     // region Event
     override fun onPremiumActivated(
         adType: PremiumType?,
@@ -78,6 +62,22 @@ class PremiumViewModel(
                 isRestorePurchase = true
             )
             _state.update { copy(loading = false) }
+        }
+
+    override fun onAddPurchaseMethods(premiumDataList: List<PremiumData>) = premiumDataList
+        .forEach { premiumData ->
+            val tempList = state.value.premiumTypes.toMutableList()
+            PremiumType.getById(premiumData.id)
+                ?.apply {
+                    data.cost = premiumData.cost
+                    data.duration = premiumData.duration
+                }?.let {
+                    tempList.add(it)
+                }
+            tempList.sortBy { it.ordinal }
+            _state.update { copy(premiumTypes = tempList) }
+        }.also {
+            _state.update { copy(loading = false) } // in case list is empty, loading will be false
         }
 
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {

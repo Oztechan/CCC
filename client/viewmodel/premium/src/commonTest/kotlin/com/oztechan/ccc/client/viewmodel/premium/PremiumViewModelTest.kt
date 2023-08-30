@@ -58,43 +58,6 @@ internal class PremiumViewModelTest {
         assertNull(viewModel.data)
     }
 
-    // public methods
-    @Test
-    fun addPurchaseMethods() = runTest {
-        // in case called an empty list loading should be false
-        viewModel.state.onSubscription {
-            viewModel.addPurchaseMethods(emptyList())
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertFalse { it.loading }
-        }
-
-        PremiumType.values()
-            .map { it.data }
-            .forEach { premiumData ->
-                viewModel.state.onSubscription {
-                    viewModel.addPurchaseMethods(listOf(premiumData))
-                }.firstOrNull().let {
-                    assertNotNull(it)
-                    assertTrue { it.premiumTypes.contains(PremiumType.getById(premiumData.id)) }
-                    assertFalse { it.loading }
-                }
-            }
-    }
-
-    @Test
-    fun `addPurchaseMethods for unknown id will not add the item`() = runTest {
-        viewModel.state.onSubscription {
-            viewModel.addPurchaseMethods(listOf(PremiumData("", "", "unknown")))
-        }.firstOrNull().let {
-            assertNotNull(it)
-            println(it.premiumTypes.toString())
-            assertTrue { it.premiumTypes.isNotEmpty() } // only video should be there
-            assertEquals(PremiumType.VIDEO, it.premiumTypes.first())
-            assertFalse { it.loading }
-        }
-    }
-
     // Event
     @Test
     fun onPremiumActivated() = runTest {
@@ -169,6 +132,40 @@ internal class PremiumViewModelTest {
         verify(appStorage)
             .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
             .wasNotInvoked()
+    }
+
+    @Test
+    fun onAddPurchaseMethods() = runTest {
+        // in case called an empty list loading should be false
+        viewModel.state.onSubscription {
+            viewModel.event.onAddPurchaseMethods(emptyList())
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertFalse { it.loading }
+        }
+
+        PremiumType.values()
+            .map { it.data }
+            .forEach { premiumData ->
+                viewModel.state.onSubscription {
+                    viewModel.event.onAddPurchaseMethods(listOf(premiumData))
+                }.firstOrNull().let {
+                    assertNotNull(it)
+                    assertTrue { it.premiumTypes.contains(PremiumType.getById(premiumData.id)) }
+                    assertFalse { it.loading }
+                }
+            }
+
+        // in case called an unknown id item should not be added
+        viewModel.state.onSubscription {
+            viewModel.event.onAddPurchaseMethods(listOf(PremiumData("", "", "unknown")))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            println(it.premiumTypes.toString())
+            assertTrue { it.premiumTypes.isNotEmpty() } // only video should be there
+            assertEquals(PremiumType.VIDEO, it.premiumTypes.first())
+            assertFalse { it.loading }
+        }
     }
 
     @Test
