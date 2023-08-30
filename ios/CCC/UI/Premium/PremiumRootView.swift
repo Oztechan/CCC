@@ -36,7 +36,7 @@ struct PremiumRootView: View {
                 buttonAction: {
                     RewardedAd(
                         onReward: {
-                            observable.viewModel.updatePremiumEndDate(
+                            observable.event.onPremiumActivated(
                                 adType: PremiumType.video,
                                 startDate: DateUtilKt.nowAsLong(),
                                 isRestorePurchase: false

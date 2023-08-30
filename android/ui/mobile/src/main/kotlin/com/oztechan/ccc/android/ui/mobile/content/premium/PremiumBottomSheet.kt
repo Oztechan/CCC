@@ -127,7 +127,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                     viewEffect.productDetailsList.toPremiumDataList()
                 )
 
-                is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.updatePremiumEndDate(
+                is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.onPremiumActivated(
                     PremiumType.getById(viewEffect.id)
                 )
 
@@ -148,7 +148,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 premiumViewModel.event.onPremiumActivationFailed()
             },
             onReward = {
-                premiumViewModel.updatePremiumEndDate(PremiumType.VIDEO)
+                premiumViewModel.onPremiumActivated(PremiumType.VIDEO)
             }
         )
     }

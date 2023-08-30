@@ -60,29 +60,6 @@ internal class PremiumViewModelTest {
 
     // public methods
     @Test
-    fun updatePremiumEndDate() = runTest {
-        viewModel.updatePremiumEndDate(null)
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasNotInvoked()
-
-        PremiumType.values().forEach { premiumType ->
-            val now = nowAsLong()
-            viewModel.effect.onSubscription {
-                viewModel.updatePremiumEndDate(premiumType, now)
-            }.firstOrNull().let {
-                assertIs<PremiumEffect.PremiumActivated>(it)
-                assertEquals(premiumType, it.premiumType)
-                assertFalse { it.isRestorePurchase }
-
-                verify(appStorage)
-                    .invocation { premiumEndDate = premiumType.calculatePremiumEnd(now) }
-                    .wasInvoked()
-            }
-        }
-    }
-
-    @Test
     fun restorePurchase() = runTest {
         given(appStorage)
             .invocation { premiumEndDate }
@@ -176,6 +153,29 @@ internal class PremiumViewModelTest {
     }
 
     // Event
+    @Test
+    fun onPremiumActivated() = runTest {
+        viewModel.event.onPremiumActivated(null)
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasNotInvoked()
+
+        PremiumType.values().forEach { premiumType ->
+            val now = nowAsLong()
+            viewModel.effect.onSubscription {
+                viewModel.event.onPremiumActivated(premiumType, now)
+            }.firstOrNull().let {
+                assertIs<PremiumEffect.PremiumActivated>(it)
+                assertEquals(premiumType, it.premiumType)
+                assertFalse { it.isRestorePurchase }
+
+                verify(appStorage)
+                    .invocation { premiumEndDate = premiumType.calculatePremiumEnd(now) }
+                    .wasInvoked()
+            }
+        }
+    }
+
     @Test
     fun onPremiumItemClick() = runTest {
         viewModel.effect.onSubscription {
