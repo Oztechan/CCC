@@ -119,7 +119,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
             Logger.i { "PremiumBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
-                is BillingEffect.RestorePurchase -> premiumViewModel.restorePurchase(
+                is BillingEffect.RestorePurchase -> premiumViewModel.event.onRestorePurchase(
                     viewEffect.purchaseHistoryRecordRecordList.toOldPurchaseList()
                 )
 
