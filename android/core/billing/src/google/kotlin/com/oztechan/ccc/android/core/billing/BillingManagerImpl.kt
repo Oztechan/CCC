@@ -167,12 +167,12 @@ internal class BillingManagerImpl(private val context: Context) :
             productDetasilList.whether {
                 billingResult.responseCode == BillingClient.BillingResponseCode.OK
             }.let { detailsList ->
-                productDetailList = detailsList ?: emptyList()
+                productDetailList = detailsList.orEmpty()
 
                 detailsList
                     ?.map { it.toProductDetailsModel() }
                     .let {
-                        _effect.emit(BillingEffect.AddPurchaseMethods(it ?: emptyList()))
+                        _effect.emit(BillingEffect.AddPurchaseMethods(it.orEmpty()))
                     }
             }
         }
