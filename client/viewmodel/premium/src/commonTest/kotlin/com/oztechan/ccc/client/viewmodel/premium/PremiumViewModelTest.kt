@@ -60,63 +60,6 @@ internal class PremiumViewModelTest {
 
     // public methods
     @Test
-    fun restorePurchase() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(0)
-
-        val now = nowAsLong()
-
-        viewModel.effect.onSubscription {
-            viewModel.restorePurchase(
-                listOf(
-                    OldPurchase(now, PremiumType.MONTH),
-                    OldPurchase(now, PremiumType.YEAR)
-                )
-            )
-        }.firstOrNull().let {
-            assertIs<PremiumEffect.PremiumActivated>(it)
-            assertTrue { it.isRestorePurchase }
-            assertFalse { viewModel.state.value.loading }
-
-            verify(appStorage)
-                .invocation { premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
-                .wasInvoked()
-        }
-    }
-
-    @Test
-    fun `restorePurchase should fail if all the old purchases out dated`() {
-        val oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
-
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
-
-        viewModel.restorePurchase(listOf(oldPurchase))
-
-        verify(appStorage)
-            .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
-            .wasNotInvoked()
-    }
-
-    @Test
-    fun `restorePurchase should fail if all the old purchases expired`() {
-        val oldPurchase =
-            OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
-
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(0)
-
-        viewModel.restorePurchase(listOf(oldPurchase))
-
-        verify(appStorage)
-            .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
-            .wasNotInvoked()
-    }
-
-    @Test
     fun addPurchaseMethods() = runTest {
         // in case called an empty list loading should be false
         viewModel.state.onSubscription {
@@ -174,6 +117,58 @@ internal class PremiumViewModelTest {
                     .wasInvoked()
             }
         }
+    }
+
+    @Test
+    fun onRestorePurchase() = runTest {
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(0)
+
+        val now = nowAsLong()
+
+        viewModel.effect.onSubscription {
+            viewModel.event.onRestorePurchase(
+                listOf(
+                    OldPurchase(now, PremiumType.MONTH),
+                    OldPurchase(now, PremiumType.YEAR)
+                )
+            )
+        }.firstOrNull().let {
+            assertIs<PremiumEffect.PremiumActivated>(it)
+            assertTrue { it.isRestorePurchase }
+            assertFalse { viewModel.state.value.loading }
+
+            verify(appStorage)
+                .invocation { premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
+                .wasInvoked()
+        }
+
+        // onRestorePurchase shouldn't do anything if all the old purchases out of dated
+        var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + 1.seconds.inWholeMilliseconds)
+
+        viewModel.event.onRestorePurchase(listOf(oldPurchase))
+
+        verify(appStorage)
+            .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
+            .wasNotInvoked()
+
+        // onRestorePurchase shouldn't do anything if the old purchase is already expired
+        oldPurchase = OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(0)
+
+        viewModel.event.onRestorePurchase(listOf(oldPurchase))
+
+        verify(appStorage)
+            .invocation { premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date) }
+            .wasNotInvoked()
     }
 
     @Test

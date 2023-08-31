@@ -36,22 +36,6 @@ class PremiumViewModel(
     override val data: BaseData? = null
     // endregion
 
-    fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
-        .maxByOrNull {
-            it.type.calculatePremiumEnd(it.date)
-        }?.whether(
-            { type.calculatePremiumEnd(date).isNotPassed() },
-            { date > appStorage.premiumEndDate },
-            { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
-        )?.apply {
-            onPremiumActivated(
-                adType = PremiumType.getById(type.data.id),
-                startDate = this.date,
-                isRestorePurchase = true
-            )
-            _state.update { copy(loading = false) }
-        }
-
     fun addPurchaseMethods(premiumDataList: List<PremiumData>) = premiumDataList
         .forEach { premiumData ->
             val tempList = state.value.premiumTypes.toMutableList()
@@ -79,6 +63,22 @@ class PremiumViewModel(
             _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
         }
     }
+
+    override fun onRestorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
+        .maxByOrNull {
+            it.type.calculatePremiumEnd(it.date)
+        }?.whether(
+            { type.calculatePremiumEnd(date).isNotPassed() },
+            { date > appStorage.premiumEndDate },
+            { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
+        )?.run {
+            onPremiumActivated(
+                adType = PremiumType.getById(type.data.id),
+                startDate = this.date,
+                isRestorePurchase = true
+            )
+            _state.update { copy(loading = false) }
+        }
 
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
