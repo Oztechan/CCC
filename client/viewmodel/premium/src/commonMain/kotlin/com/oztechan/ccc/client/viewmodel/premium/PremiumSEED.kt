@@ -5,6 +5,7 @@ import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
 import com.oztechan.ccc.client.core.viewmodel.BaseState
 import com.oztechan.ccc.client.viewmodel.premium.model.OldPurchase
+import com.oztechan.ccc.client.viewmodel.premium.model.PremiumData
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 
 // State
@@ -22,7 +23,7 @@ interface PremiumEvent : BaseEvent {
     )
 
     fun onRestorePurchase(oldPurchaseList: List<OldPurchase>): Unit?
-
+    fun onAddPurchaseMethods(premiumDataList: List<PremiumData>)
     fun onPremiumItemClick(type: PremiumType)
     fun onPremiumActivationFailed()
 }

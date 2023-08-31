@@ -123,7 +123,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                     viewEffect.purchaseHistoryRecordRecordList.toOldPurchaseList()
                 )
 
-                is BillingEffect.AddPurchaseMethods -> premiumViewModel.addPurchaseMethods(
+                is BillingEffect.AddPurchaseMethods -> premiumViewModel.event.onAddPurchaseMethods(
                     viewEffect.productDetailsList.toPremiumDataList()
                 )
 
