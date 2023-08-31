@@ -1,5 +1,6 @@
 package com.oztechan.ccc.client.viewmodel.premium
 
+import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
 import com.oztechan.ccc.client.core.viewmodel.BaseState
@@ -13,6 +14,12 @@ data class PremiumState(
 
 // Event
 interface PremiumEvent : BaseEvent {
+    fun onPremiumActivated(
+        adType: PremiumType?,
+        startDate: Long = nowAsLong(),
+        isRestorePurchase: Boolean = false
+    )
+
     fun onPremiumItemClick(type: PremiumType)
     fun onPremiumActivationFailed()
 }

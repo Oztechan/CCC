@@ -7,7 +7,6 @@ package com.oztechan.ccc.client.viewmodel.premium
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
-import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
@@ -21,7 +20,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class PremiumViewModel(
     private val appStorage: AppStorage
@@ -38,17 +36,6 @@ class PremiumViewModel(
     override val data: BaseData? = null
     // endregion
 
-    fun updatePremiumEndDate(
-        adType: PremiumType?,
-        startDate: Long = nowAsLong(),
-        isRestorePurchase: Boolean = false
-    ) = adType?.let {
-        viewModelScope.launch {
-            appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
-            _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
-        }
-    }
-
     fun restorePurchase(oldPurchaseList: List<OldPurchase>) = oldPurchaseList
         .maxByOrNull {
             it.type.calculatePremiumEnd(it.date)
@@ -57,7 +44,7 @@ class PremiumViewModel(
             { date > appStorage.premiumEndDate },
             { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
         )?.apply {
-            updatePremiumEndDate(
+            onPremiumActivated(
                 adType = PremiumType.getById(type.data.id),
                 startDate = this.date,
                 isRestorePurchase = true
@@ -82,6 +69,17 @@ class PremiumViewModel(
         }
 
     // region Event
+    override fun onPremiumActivated(
+        adType: PremiumType?,
+        startDate: Long,
+        isRestorePurchase: Boolean
+    ) = viewModelScope.launchIgnored {
+        adType?.let {
+            appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
+            _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
+        }
+    }
+
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
         _state.update { copy(loading = true) }
