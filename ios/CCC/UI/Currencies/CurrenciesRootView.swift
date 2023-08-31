@@ -30,8 +30,7 @@ struct CurrenciesRootView: View {
     var body: some View {
         CurrenciesView(
             event: observable.event,
-            state: observable.state,
-            isFirstRun: observable.viewModel.isFirstRun()
+            state: observable.state
         ).snack(isPresented: $isFewCurrencySnackShown) {
             SnackView(text: Res.strings().choose_at_least_two_currency.get())
         }

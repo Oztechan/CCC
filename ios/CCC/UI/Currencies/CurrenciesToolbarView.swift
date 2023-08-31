@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct CurrenciesToolbarView: View {
-    var firstRun: Bool
+    var isOnboardingVisible: Bool
     var onBackClick: () -> Void
     var onQueryChange: (String) -> Void
 
@@ -19,7 +19,7 @@ struct CurrenciesToolbarView: View {
 
     var body: some View {
         HStack {
-            if firstRun {
+            if isOnboardingVisible {
                 Text("").padding(trailing: 8.cp())
             } else {
                 ToolbarButton(clickEvent: onBackClick, imgName: "chevron.left")

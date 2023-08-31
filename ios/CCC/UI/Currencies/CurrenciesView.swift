@@ -15,7 +15,6 @@ struct CurrenciesView: View {
 
     var event: CurrenciesEvent
     var state: CurrenciesState
-    var isFirstRun: Bool
 
     var body: some View {
         ZStack {
@@ -29,7 +28,7 @@ struct CurrenciesView: View {
                     )
                 } else {
                     CurrenciesToolbarView(
-                        firstRun: isFirstRun,
+                        isOnboardingVisible: state.isOnboardingVisible,
                         onBackClick: event.onCloseClick,
                         onQueryChange: { event.onQueryChange(query: $0) }
                     )
@@ -53,7 +52,7 @@ struct CurrenciesView: View {
                     .withClearBackground(color: Res.colors().background.get())
                 }
 
-                if isFirstRun {
+                if state.isOnboardingVisible {
                     SelectCurrenciesBottomView(
                         text: Res.strings().txt_select_currencies.get(),
                         buttonText: Res.strings().btn_done.get(),
