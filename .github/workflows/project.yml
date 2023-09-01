@@ -38,8 +38,8 @@ jobs:
           status_value: "🏗 PR Review"
           move_related_issues: true
 
-      - name: 'Move Dependency PR by renovate to "🏗 PR Review"'
-        if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'renovate' && (github.event.action == 'opened' || github.event.action == 'ready_for_review' || github.event.action == 'reopened')
+      - name: 'Add Dependency PR by renovate to "🏗 PR Review"'
+        if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'Renovate' && (github.event.action == 'opened' || github.event.action == 'ready_for_review' || github.event.action == 'reopened')
         uses: leonsteinhaeuser/project-beta-automations@v2.1.0
         with:
           gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
