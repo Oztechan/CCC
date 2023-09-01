@@ -38,6 +38,17 @@ jobs:
           status_value: "🏗 PR Review"
           move_related_issues: true
 
+      - name: 'Move Dependency PR by renovate to "🏗 PR Review"'
+        if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'renovate' && (github.event.action == 'opened' || github.event.action == 'ready_for_review' || github.event.action == 'reopened')
+        uses: leonsteinhaeuser/project-beta-automations@v2.1.0
+        with:
+          gh_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          organization: Oztechan
+          project_id: 2
+          resource_node_id: ${{ github.event.pull_request.node_id }}
+          operation_mode: custom_field
+          custom_field_values: '[{\"name\": \"Iteration\",\"type\": \"iteration\",\"value\": \"@current\"}]'
+
       - name: 'Move Related Issue to "🚧 In Progress"'
         if: github.event_name == 'pull_request' && github.event.action == 'converted_to_draft'
         uses: leonsteinhaeuser/project-beta-automations@v2.1.0
