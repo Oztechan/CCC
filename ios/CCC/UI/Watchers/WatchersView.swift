@@ -15,7 +15,6 @@ struct WatchersView: View {
 
     var event: WatchersEvent
     var state: WatchersState
-    var shouldShowBannerAd: Bool
     var authorizationStatus: UNAuthorizationStatus?
 
     @Binding var baseBarInfo: WatchersRootView.BarInfo
@@ -96,7 +95,7 @@ struct WatchersView: View {
                         .background(Res.colors().background.get())
                 }
 
-                if shouldShowBannerAd {
+                if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
