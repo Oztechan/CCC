@@ -109,10 +109,6 @@ class CurrenciesViewModel(
             data.query = txt
         }
 
-    fun hideSelectionVisibility() = _state.update {
-        copy(selectionVisibility = false)
-    }
-
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }

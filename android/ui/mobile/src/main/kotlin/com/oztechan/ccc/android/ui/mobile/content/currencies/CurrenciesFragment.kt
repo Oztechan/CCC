@@ -163,10 +163,8 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(ScreenName.Currencies)
         Logger.i { "CurrenciesFragment onResume" }
-        currenciesViewModel.hideSelectionVisibility()
-        currenciesViewModel.event.onQueryChange("")
+        analyticsManager.trackScreen(ScreenName.Currencies)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
