@@ -82,7 +82,9 @@ class PremiumViewModel(
 
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
-        _state.update { copy(loading = true) }
+        _state.update {
+            copy(loading = type != PremiumType.VIDEO)
+        }
         _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
     }
 
