@@ -32,9 +32,12 @@ import com.oztechan.ccc.client.viewmodel.calculator.CalculatorViewModel
 import com.oztechan.ccc.client.viewmodel.calculator.util.toValidList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("TooManyFunctions")
 class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
@@ -62,6 +65,11 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         analyticsManager.trackScreen(ScreenName.Calculator)
     }
 
+    override fun onDestroy() {
+        Logger.i { "CalculatorFragment onDestroy" }
+        super.onDestroy()
+    }
+
     override fun onDestroyView() {
         Logger.i { "CalculatorFragment onDestroyView" }
         binding.adViewContainer.destroyBanner()
@@ -77,22 +85,24 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         calculatorViewModel.event.onBaseChange(it)
     }
 
-    private fun FragmentCalculatorBinding.initViews() {
-        adViewContainer.setBannerAd(
-            adManager = adManager,
-            adId = if (BuildConfig.DEBUG) {
-                getString(R.string.banner_ad_unit_id_calculator_debug)
-            } else {
-                getString(R.string.banner_ad_unit_id_calculator_release)
-            },
-            shouldShowAd = calculatorViewModel.shouldShowBannerAd()
-        )
+    private fun FragmentCalculatorBinding.initViews() = viewLifecycleOwner.lifecycleScope.launch {
         recyclerViewMain.adapter = calculatorAdapter
     }
 
     @SuppressLint("SetTextI18n")
     private fun FragmentCalculatorBinding.observeStates() = calculatorViewModel.state
         .flowWithLifecycle(lifecycle)
+        .onStart {
+            adViewContainer.setBannerAd(
+                adManager = adManager,
+                adId = if (BuildConfig.DEBUG) {
+                    getString(R.string.banner_ad_unit_id_calculator_debug)
+                } else {
+                    getString(R.string.banner_ad_unit_id_calculator_release)
+                },
+                shouldShowAd = calculatorViewModel.state.value.isBannerAdVisible
+            )
+        }
         .onEach {
             with(it) {
                 calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))

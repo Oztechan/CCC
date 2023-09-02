@@ -39,8 +39,7 @@ struct CalculatorRootView: View {
         NavigationView {
             CalculatorView(
                 event: observable.event,
-                state: observable.state,
-                shouldShowBannerAd: observable.viewModel.shouldShowBannerAd()
+                state: observable.state
             )
         }
         .navigationViewStyle(StackNavigationViewStyle())
