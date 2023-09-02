@@ -11,6 +11,7 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -34,7 +35,8 @@ class MainViewModel(
     // region SEED
     private val _state = MutableStateFlow(
         MainState(
-            shouldOnboardUser = appStorage.firstRun
+            shouldOnboardUser = appStorage.firstRun,
+            appTheme = appStorage.appTheme
         )
     )
     override val state: StateFlow<MainState> = _state.asStateFlow()
@@ -112,8 +114,6 @@ class MainViewModel(
         }
     }
 
-    fun getAppTheme() = appStorage.appTheme
-
     // region Event
     override fun onPause() {
         Logger.d { "MainViewModel onPause" }
@@ -123,6 +123,13 @@ class MainViewModel(
 
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
+
+        _state.update {
+            copy(
+                shouldOnboardUser = appStorage.firstRun,
+                appTheme = appStorage.appTheme
+            )
+        }
 
         adjustSessionCount()
         setupInterstitialAdTimer()

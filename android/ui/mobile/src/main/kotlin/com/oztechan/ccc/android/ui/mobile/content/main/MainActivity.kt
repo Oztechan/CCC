@@ -45,12 +45,6 @@ class MainActivity : BaseActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
-
-        // if dark mode is supported use theming according to user preference
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            AppCompatDelegate.setDefaultNightMode(getThemeMode(mainViewModel.getAppTheme()))
-        }
-
         setContentView(R.layout.activity_main)
         observeStates()
         observeEffects()
@@ -61,6 +55,11 @@ class MainActivity : BaseActivity() {
         .onEach {
             with(it) {
                 setDestination(if (shouldOnboardUser) R.id.sliderFragment else R.id.calculatorFragment)
+
+                // if dark mode is supported use theming according to user preference
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    AppCompatDelegate.setDefaultNightMode(getThemeMode(it.appTheme))
+                }
             }
         }.launchIn(lifecycleScope)
 
