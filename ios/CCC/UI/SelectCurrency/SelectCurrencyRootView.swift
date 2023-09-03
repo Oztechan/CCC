@@ -28,12 +28,10 @@ struct SelectCurrencyRootView: View {
     var onCurrencySelected: (String) -> Void
 
     var body: some View {
-        NavigationView {
-            SelectCurrencyView(
-                event: observable.event,
-                state: observable.state
-            )
-        }
+        SelectCurrencyView(
+            event: observable.event,
+            state: observable.state
+        )
         .onAppear {
             observable.startObserving()
             analyticsManager.trackScreen(screenName: ScreenName.SelectCurrency())
