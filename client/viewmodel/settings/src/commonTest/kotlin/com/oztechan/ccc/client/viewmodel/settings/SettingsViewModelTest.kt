@@ -255,43 +255,6 @@ internal class SettingsViewModelTest {
             .wasNotInvoked()
     }
 
-    // public methods
-    @Test
-    fun updateTheme() = runTest {
-        val mockTheme = AppTheme.DARK
-
-        viewModel.effect.onSubscription {
-            viewModel.updateTheme(mockTheme)
-        }.firstOrNull().let {
-            assertEquals(mockTheme, viewModel.state.value.appThemeType)
-            assertIs<SettingsEffect.ChangeTheme>(it)
-            assertEquals(mockTheme.themeValue, it.themeValue)
-        }
-
-        verify(appStorage)
-            .invocation { appTheme = mockTheme.themeValue }
-            .wasInvoked()
-
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
-
-        viewModel.effect.onSubscription {
-            viewModel.event.onPremiumClick()
-        }.firstOrNull().let {
-            assertIs<SettingsEffect.AlreadyPremium>(it)
-        }
-
-        verify(appStorage)
-            .invocation { premiumEndDate }
-            .wasInvoked()
-    }
-
-    @Test
-    fun getAppTheme() {
-        assertEquals(-1, viewModel.getAppTheme()) // already mocked
-    }
-
     // Event
     @Test
     fun onBackClick() = runTest {
@@ -381,6 +344,20 @@ internal class SettingsViewModelTest {
         verify(appStorage)
             .invocation { premiumEndDate }
             .wasInvoked()
+
+        given(appStorage)
+            .invocation { premiumEndDate }
+            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+
+        viewModel.effect.onSubscription {
+            viewModel.event.onPremiumClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.AlreadyPremium>(it)
+        }
+
+        verify(appStorage)
+            .invocation { premiumEndDate }
+            .wasInvoked()
     }
 
     @Test
@@ -441,5 +418,22 @@ internal class SettingsViewModelTest {
                 .with(eq(value.indexToNumber()))
                 .wasInvoked()
         }
+    }
+
+    @Test
+    fun onThemeChange() = runTest {
+        val mockTheme = AppTheme.DARK
+
+        viewModel.effect.onSubscription {
+            viewModel.onThemeChange(mockTheme)
+        }.firstOrNull().let {
+            assertEquals(mockTheme, viewModel.state.value.appThemeType)
+            assertIs<SettingsEffect.ChangeTheme>(it)
+            assertEquals(mockTheme.themeValue, it.themeValue)
+        }
+
+        verify(appStorage)
+            .invocation { appTheme = mockTheme.themeValue }
+            .wasInvoked()
     }
 }

@@ -25,11 +25,12 @@ import kotlinx.coroutines.launch
 class WatchersViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val watcherDataSource: WatcherDataSource,
-    private val adControlRepository: AdControlRepository,
+    adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
     // region SEED
-    private val _state = MutableStateFlow(WatchersState())
+    private val _state =
+        MutableStateFlow(WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<WatchersEffect>()
@@ -47,8 +48,6 @@ class WatchersViewModel(
                 analyticsManager.setUserProperty(UserProperty.WatcherCount(it.count().toString()))
             }.launchIn(viewModelScope)
     }
-
-    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {

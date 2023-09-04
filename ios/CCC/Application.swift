@@ -55,7 +55,7 @@ struct Application: App {
     var body: some Scene {
         WindowGroup {
             MainRootView()
-                .popup(isPresented: $isWatcherAlertShown) {
+                .alert(isPresented: $isWatcherAlertShown) {
                     AlertView(
                         title: Res.strings().txt_watcher_alert_title.get(),
                         message: Res.strings().txt_watcher_alert_sub_title.get(),

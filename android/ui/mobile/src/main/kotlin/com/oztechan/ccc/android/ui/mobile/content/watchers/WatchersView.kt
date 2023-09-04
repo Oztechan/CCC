@@ -96,6 +96,7 @@ fun WatchersViewPreview() = Preview {
     WatchersView(
         state = rememberUpdatedState(
             WatchersState(
+                isBannerAdVisible = false,
                 watcherList = listOf(
                     Watcher(id = 0, base = "EUR", target = "USD", isGreater = false, rate = 123.0),
                     Watcher(id = 0, base = "USD", target = "EUR", isGreater = false, rate = 123.0)

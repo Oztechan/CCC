@@ -149,16 +149,12 @@ internal class MainViewModelTest {
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(isFirstRun, it.shouldOnboardUser)
+            assertEquals(appThemeValue, it.appTheme)
         }
 
         verify(appStorage)
             .invocation { firstRun }
             .wasInvoked()
-    }
-
-    @Test
-    fun getAppTheme() {
-        assertEquals(appThemeValue, viewModel.getAppTheme())
 
         verify(appStorage)
             .invocation { appTheme }
@@ -433,4 +429,59 @@ internal class MainViewModelTest {
                 .invocation { shouldShowAppReview() }
                 .wasInvoked()
         }
+
+    @Test
+    fun `onResume updates the latest states`() = runTest {
+        given(appConfigRepository)
+            .invocation { checkAppUpdate(false) }
+            .thenReturn(false)
+
+        given(appConfigRepository)
+            .invocation { shouldShowAppReview() }
+            .then { true }
+
+        given(adConfigService)
+            .invocation { config }
+            .then { AdConfig(0, 0, 0L, 0L) }
+
+        given(appConfigRepository)
+            .invocation { getMarketLink() }
+            .then { "" }
+
+        given(reviewConfigService)
+            .invocation { config }
+            .then { ReviewConfig(0, 0L) }
+
+        // init the viewModel
+        viewModel
+
+        // different states of what has been emitted
+        val newAppThemeValue = appThemeValue + 10
+        val newIsFirstRun = isFirstRun.not()
+
+        given(appStorage)
+            .invocation { appTheme }
+            .thenReturn(newAppThemeValue)
+
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(newIsFirstRun)
+
+        viewModel.state
+            .onSubscription {
+                viewModel.event.onResume()
+            }.firstOrNull().let {
+                assertNotNull(it)
+                assertEquals(newIsFirstRun, it.shouldOnboardUser)
+                assertEquals(newAppThemeValue, it.appTheme)
+            }
+
+        verify(appStorage)
+            .invocation { firstRun }
+            .wasInvoked()
+
+        verify(appStorage)
+            .invocation { appTheme }
+            .wasInvoked()
+    }
 }

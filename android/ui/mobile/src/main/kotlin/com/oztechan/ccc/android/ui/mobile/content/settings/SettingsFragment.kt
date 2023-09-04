@@ -237,16 +237,15 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         Logger.i { "SettingsFragment onResume" }
     }
 
-    private fun changeTheme() = AppTheme.getThemeByValue(settingsViewModel.getAppTheme())
-        ?.let { currentThemeType ->
-            activity?.showSingleChoiceDialog(
-                getString(R.string.title_dialog_choose_theme),
-                AppTheme.values().map { it.themeName }.toTypedArray(),
-                currentThemeType.ordinal
-            ) { index ->
-                AppTheme.getThemeByOrdinal(index)?.let { settingsViewModel.updateTheme(it) }
-            }
+    private fun changeTheme() {
+        activity?.showSingleChoiceDialog(
+            getString(R.string.title_dialog_choose_theme),
+            AppTheme.values().map { it.themeName }.toTypedArray(),
+            settingsViewModel.state.value.appThemeType.ordinal
+        ) { index ->
+            AppTheme.getThemeByOrdinal(index)?.let { settingsViewModel.event.onThemeChange(it) }
         }
+    }
 
     private fun showPrecisionDialog() = activity?.showSingleChoiceDialog(
         R.string.title_dialog_choose_precision,

@@ -100,14 +100,6 @@ class SettingsViewModel(
         data.synced = true
     }
 
-    fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
-        _state.update { copy(appThemeType = theme) }
-        appStorage.appTheme = theme.themeValue
-        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
-    }
-
-    fun getAppTheme() = appStorage.appTheme
-
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onBackClick" }
@@ -179,6 +171,13 @@ class SettingsViewModel(
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
         calculationStorage.precision = index.indexToNumber()
         _state.update { copy(precision = index.indexToNumber()) }
+    }
+
+    override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onThemeChange $theme" }
+        _state.update { copy(appThemeType = theme) }
+        appStorage.appTheme = theme.themeValue
+        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
     // endregion
 }

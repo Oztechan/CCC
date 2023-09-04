@@ -29,7 +29,7 @@ struct PremiumRootView: View {
             event: observable.event,
             state: observable.state
         )
-        .popup(isPresented: $isPremiumDialogShown) {
+        .alert(isPresented: $isPremiumDialogShown) {
             AlertView(
                 title: Res.strings().txt_premium.get(),
                 message: Res.strings().txt_premium_text.get(),
