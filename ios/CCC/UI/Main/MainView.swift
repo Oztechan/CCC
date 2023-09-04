@@ -8,15 +8,21 @@
 
 import SwiftUI
 import Provider
+import NavigationStack
 
 struct MainView: View {
     let state: MainState
 
     var body: some View {
-        if state.shouldOnboardUser {
-            IntroSlideRootView()
-        } else {
-            CalculatorRootView()
+        NavigationStackView(
+            transitionType: .default,
+            easing: Animation.easeInOut
+        ) {
+            if state.shouldOnboardUser {
+                IntroSlideRootView()
+            } else {
+                CalculatorRootView()
+            }
         }
     }
 }

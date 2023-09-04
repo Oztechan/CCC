@@ -22,12 +22,9 @@ struct MainRootView: View {
     >()
 
     var body: some View {
-        NavigationStackView(
-            transitionType: .default,
-            easing: Animation.easeInOut
-        ) {
-            MainView(state: observable.state)
-        }
+        MainView(
+            state: observable.state
+        )
         .onAppear {
             observable.startObserving()
             observable.event.onResume()
