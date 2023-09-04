@@ -398,6 +398,10 @@ internal class CurrenciesViewModelTest {
 
     @Test
     fun onDoneClick() = runTest {
+        given(appStorage)
+            .invocation { firstRun }
+            .thenReturn(true)
+
         // where there is single currency
         val dollarActive = dollar.copy(isActive = true)
 
@@ -408,6 +412,7 @@ internal class CurrenciesViewModelTest {
         }.firstOrNull().let {
             assertIs<CurrenciesEffect.FewCurrency>(it)
             assertTrue { viewModel.data.query.isEmpty() }
+            assertTrue { viewModel.state.value.isOnboardingVisible }
         }
 
         // where there are 2 active currencies
@@ -418,6 +423,8 @@ internal class CurrenciesViewModelTest {
         }.firstOrNull().let {
             assertIs<CurrenciesEffect.OpenCalculator>(it)
             assertTrue { viewModel.data.query.isEmpty() }
+
+            assertFalse { viewModel.state.value.isOnboardingVisible }
 
             verify(appStorage)
                 .invocation { firstRun = false }
@@ -432,7 +439,8 @@ internal class CurrenciesViewModelTest {
             viewModel.onDoneClick()
         }.firstOrNull().let {
             assertIs<CurrenciesEffect.FewCurrency>(it)
-            assertEquals(true, viewModel.data.query.isEmpty())
+            assertTrue { viewModel.data.query.isEmpty() }
+            assertFalse { viewModel.state.value.isOnboardingVisible }
         }
     }
 }
