@@ -29,7 +29,7 @@ final class ObservableSEEDViewModel<
     init() {
         logger.d(message: { "ObservableSEED \(ViewModel.description()) init" })
 
-        self.state = State()
+        self.state = (viewModel.state?.value as? State) ?? State()
         self.event = viewModel.event!
     }
 
