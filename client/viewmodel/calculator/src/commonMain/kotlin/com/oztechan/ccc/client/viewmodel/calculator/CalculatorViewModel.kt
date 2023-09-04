@@ -278,8 +278,8 @@ class CalculatorViewModel(
         _effect.emit(CalculatorEffect.ShowPasteRequest)
     }
 
-    override fun pasteToInput(text: String) {
-        Logger.d { "CalculatorViewModel pasteToInput $text" }
+    override fun onPasteToInput(text: String) {
+        Logger.d { "CalculatorViewModel onPasteToInput $text" }
 
         analyticsManager.trackEvent(Event.PasteFromClipboard)
 
