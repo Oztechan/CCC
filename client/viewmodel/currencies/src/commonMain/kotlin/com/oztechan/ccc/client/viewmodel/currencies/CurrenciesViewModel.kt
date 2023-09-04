@@ -128,6 +128,7 @@ class CurrenciesViewModel(
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
                 appStorage.firstRun = false
+                _state.update { copy(isOnboardingVisible = false) }
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }
