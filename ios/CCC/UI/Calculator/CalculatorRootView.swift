@@ -36,13 +36,10 @@ struct CalculatorRootView: View {
     private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
-        NavigationView {
-            CalculatorView(
-                event: observable.event,
-                state: observable.state
-            )
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
+        CalculatorView(
+            event: observable.event,
+            state: observable.state
+        )
         .snack(isPresented: $isTooBigInputSnackShown) {
             SnackView(text: Res.strings().text_too_big_input.get())
         }

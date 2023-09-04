@@ -25,9 +25,10 @@ struct PremiumRootView: View {
     private let analyticsManager: AnalyticsManager = koin.get()
 
     var body: some View {
-        NavigationView {
-            PremiumView(event: observable.event, state: observable.state)
-        }
+        PremiumView(
+            event: observable.event,
+            state: observable.state
+        )
         .alert(isPresented: $isPremiumDialogShown) {
             AlertView(
                 title: Res.strings().txt_premium.get(),
