@@ -153,7 +153,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         text = R.string.text_paste_request,
                         actionText = R.string.text_paste
                     ) {
-                        calculatorViewModel.pasteToInput(it.context.getFromClipBoard())
+                        calculatorViewModel.onPasteToInput(it.context.getFromClipBoard())
                     }
                 }
 

@@ -29,7 +29,7 @@ interface CalculatorEvent : BaseEvent {
     fun onItemAmountLongClick(amount: String)
     fun onOutputLongClick()
     fun onInputLongClick()
-    fun pasteToInput(text: String)
+    fun onPasteToInput(text: String)
     fun onBarClick()
     fun onSettingsClicked()
     fun onBaseChange(base: String)

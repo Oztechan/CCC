@@ -445,12 +445,12 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun pasteToInput() = runTest {
+    fun onPasteToInput() = runTest {
         val text = "mock"
         val text2 = "mock 2"
 
         viewModel.state.onSubscription {
-            viewModel.event.pasteToInput(text)
+            viewModel.event.onPasteToInput(text)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(text, it.input)
@@ -461,7 +461,7 @@ internal class CalculatorViewModelTest {
         }
 
         viewModel.state.onSubscription {
-            viewModel.event.pasteToInput(text2)
+            viewModel.event.onPasteToInput(text2)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(text2.toSupportedCharacters(), it.input)

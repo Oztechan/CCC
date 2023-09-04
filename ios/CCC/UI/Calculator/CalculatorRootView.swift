@@ -51,7 +51,7 @@ struct CalculatorRootView: View {
                 text: Res.strings().text_paste_request.get(),
                 buttonText: Res.strings().text_paste.get(),
                 buttonAction: {
-                    observable.event.pasteToInput(text: UIPasteboard.general.string ?? "")
+                    observable.event.onPasteToInput(text: UIPasteboard.general.string ?? "")
                 }
             )
         }
