@@ -11,7 +11,7 @@ import com.squareup.sqldelight.db.SqlDriver
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +27,8 @@ internal class ConversionDataSourceTest {
     }
 
     @Mock
-    private val conversionQueries = configure(mock(classOf<ConversionQueries>())) { stubsUnitByDefault = true }
+    private val conversionQueries =
+        configure(mock(classOf<ConversionQueries>())) { stubsUnitByDefault = true }
 
     @Mock
     private val sqlDriver = mock(classOf<SqlDriver>())
@@ -43,13 +44,11 @@ internal class ConversionDataSourceTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
-        given(sqlDriver)
-            .invocation { executeQuery(-1, "", 0, null) }
-            .thenReturn(sqlCursor)
+        every { sqlDriver.executeQuery(-1, "", 0, null) }
+            .returns(sqlCursor)
 
-        given(sqlCursor)
-            .invocation { next() }
-            .thenReturn(false)
+        every { sqlCursor.next() }
+            .returns(false)
     }
 
     @Test
@@ -58,23 +57,20 @@ internal class ConversionDataSourceTest {
             subject.insertConversion(Fakes.conversionModel)
         }
 
-        verify(conversionQueries)
-            .invocation { insertConversion(Fakes.conversionModel.toConversionDBModel()) }
+        verify { conversionQueries.insertConversion(Fakes.conversionModel.toConversionDBModel()) }
             .wasInvoked()
     }
 
     @Test
     fun getConversionByBase() {
-        given(conversionQueries)
-            .invocation { getConversionByBase(Fakes.conversionModel.base) }
-            .then { query }
+        every { conversionQueries.getConversionByBase(Fakes.conversionModel.base) }
+            .returns(query)
 
         runTest {
             subject.getConversionByBase(Fakes.conversionModel.base)
         }
 
-        verify(conversionQueries)
-            .invocation { getConversionByBase(Fakes.conversionModel.base) }
+        verify { conversionQueries.getConversionByBase(Fakes.conversionModel.base) }
             .wasInvoked()
     }
 }

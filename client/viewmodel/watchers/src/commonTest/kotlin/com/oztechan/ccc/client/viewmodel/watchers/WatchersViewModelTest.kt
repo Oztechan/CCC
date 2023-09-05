@@ -13,8 +13,10 @@ import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.configure
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
@@ -68,13 +70,11 @@ internal class WatchersViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        given(watcherDataSource)
-            .invocation { getWatchersFlow() }
-            .thenReturn(flowOf(watcherList))
+        every { watcherDataSource.getWatchersFlow() }
+            .returns(flowOf(watcherList))
 
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(shouldShowAds)
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
     }
 
     // init
@@ -86,8 +86,7 @@ internal class WatchersViewModelTest {
             assertEquals(watcherList, it.watcherList)
         }
 
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
@@ -96,14 +95,13 @@ internal class WatchersViewModelTest {
     fun ifUserPropertiesSetCorrect() {
         viewModel // init
 
-        verify(analyticsManager)
-            .invocation {
-                setUserProperty(
-                    UserProperty.WatcherCount(
-                        watcherList.count().toString()
-                    )
+        verify {
+            analyticsManager.setUserProperty(
+                UserProperty.WatcherCount(
+                    watcherList.count().toString()
                 )
-            }
+            )
+        }
             .wasInvoked()
     }
 
@@ -146,8 +144,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onBaseChanged(watcher, mockBase)
 
         runTest {
-            verify(watcherDataSource)
-                .coroutine { updateWatcherBaseById(mockBase, watcher.id) }
+            coVerify { watcherDataSource.updateWatcherBaseById(mockBase, watcher.id) }
                 .wasInvoked()
         }
     }
@@ -158,8 +155,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onTargetChanged(watcher, mockBase)
 
         runTest {
-            verify(watcherDataSource)
-                .coroutine { updateWatcherTargetById(mockBase, watcher.id) }
+            coVerify { watcherDataSource.updateWatcherTargetById(mockBase, watcher.id) }
                 .wasInvoked()
         }
     }
@@ -170,39 +166,32 @@ internal class WatchersViewModelTest {
         val currency2 = Currency("EUR", "EUR", "", "", true)
 
         // when there is no active currency
-        given(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .thenReturn(listOf())
+        coEvery { currencyDataSource.getActiveCurrencies() }
+            .returns(listOf())
 
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenReturn(listOf())
+        coEvery { watcherDataSource.getWatchers() }
+            .returns(listOf())
 
         viewModel.event.onAddClick()
 
-        verify(watcherDataSource)
-            .coroutine { addWatcher("", "") }
+        coVerify { watcherDataSource.addWatcher("", "") }
             .wasInvoked()
 
         // when there is few watcher
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenReturn(listOf(watcher))
+        coEvery { watcherDataSource.getWatchers() }
+            .returns(listOf(watcher))
 
-        given(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
-            .thenReturn(listOf(currency1, currency2))
+        coEvery { currencyDataSource.getActiveCurrencies() }
+            .returns(listOf(currency1, currency2))
 
         viewModel.event.onAddClick()
 
-        verify(watcherDataSource)
-            .coroutine { addWatcher(currency1.code, currency2.code) }
+        coVerify { watcherDataSource.addWatcher(currency1.code, currency2.code) }
             .wasInvoked()
 
         // when there are so much watcher
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenReturn(listOf(watcher, watcher, watcher, watcher, watcher))
+        coEvery { watcherDataSource.getWatchers() }
+            .returns(listOf(watcher, watcher, watcher, watcher, watcher))
 
         viewModel.effect.onSubscription {
             viewModel.event.onAddClick()
@@ -217,8 +206,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onDeleteClick(watcher)
 
         runTest {
-            verify(watcherDataSource)
-                .coroutine { deleteWatcher(watcher.id) }
+            coVerify { watcherDataSource.deleteWatcher(watcher.id) }
                 .wasInvoked()
         }
     }
@@ -229,8 +217,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onRelationChange(watcher, mockBoolean)
 
         runTest {
-            verify(watcherDataSource)
-                .coroutine { updateWatcherRelationById(mockBoolean, watcher.id) }
+            coVerify { watcherDataSource.updateWatcherRelationById(mockBoolean, watcher.id) }
                 .wasInvoked()
         }
     }
@@ -241,13 +228,12 @@ internal class WatchersViewModelTest {
         var rate = "12"
         assertEquals(rate, viewModel.event.onRateChange(watcher, rate))
 
-        verify(watcherDataSource)
-            .coroutine {
-                updateWatcherRateById(
-                    rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
-                    watcher.id
-                )
-            }
+        coVerify {
+            watcherDataSource.updateWatcherRateById(
+                rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
+                watcher.id
+            )
+        }
             .wasInvoked()
 
         // when rate is not valid

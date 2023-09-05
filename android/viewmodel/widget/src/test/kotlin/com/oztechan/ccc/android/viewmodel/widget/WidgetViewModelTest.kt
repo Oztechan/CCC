@@ -13,11 +13,12 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
-import io.mockative.anything
+import io.mockative.any
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.configure
-import io.mockative.eq
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
@@ -80,39 +81,32 @@ class WidgetViewModelTest {
 
         val mockEndDate = Random.nextLong()
 
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(mockEndDate)
+        every { appStorage.premiumEndDate }
+            .returns(mockEndDate)
 
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(base)
+        every { calculationStorage.currentBase }
+            .returns(base)
 
-        given(calculationStorage)
-            .invocation { precision }
-            .thenReturn(3)
+        every { calculationStorage.precision }
+            .returns(3)
 
         runTest {
-            given(backendApiService)
-                .coroutine { getConversion(base) }
-                .thenReturn(conversion)
+            coEvery { backendApiService.getConversion(base) }
+                .returns(conversion)
 
-            given(currencyDataSource)
-                .coroutine { getActiveCurrencies() }
-                .thenReturn(activeCurrencyList)
+            coEvery { currencyDataSource.getActiveCurrencies() }
+                .returns(activeCurrencyList)
         }
     }
 
     @Test
     fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
         // first currency
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(firstBase)
+        every { calculationStorage.currentBase }
+            .returns(firstBase)
 
-        given(backendApiService)
-            .coroutine { getConversion(firstBase) }
-            .thenReturn(conversion)
+        coEvery { backendApiService.getConversion(firstBase) }
+            .returns(conversion)
 
         repeat(activeCurrencyList.count() + 1) {
             viewModel.event.onRefreshClick()
@@ -125,13 +119,11 @@ class WidgetViewModelTest {
         }
 
         // middle currency
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(base)
+        every { calculationStorage.currentBase }
+            .returns(base)
 
-        given(backendApiService)
-            .coroutine { getConversion(base) }
-            .thenReturn(conversion)
+        coEvery { backendApiService.getConversion(base) }
+            .returns(conversion)
 
         repeat(activeCurrencyList.count() + 1) {
             viewModel.event.onRefreshClick()
@@ -144,13 +136,11 @@ class WidgetViewModelTest {
         }
 
         // last currency
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(lastBase)
+        every { calculationStorage.currentBase }
+            .returns(lastBase)
 
-        given(backendApiService)
-            .coroutine { getConversion(lastBase) }
-            .thenReturn(conversion)
+        coEvery { backendApiService.getConversion(lastBase) }
+            .returns(conversion)
 
         repeat(activeCurrencyList.count() + 1) {
             viewModel.event.onRefreshClick()
@@ -174,44 +164,37 @@ class WidgetViewModelTest {
 
     @Test
     fun `if user is premium api call and db query are invoked`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(backendApiService)
-            .coroutine { getConversion(base) }
+        coVerify { backendApiService.getConversion(base) }
             .wasInvoked()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
     }
 
     @Test
     fun `if user is not premium no api call and db query are not invoked`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(backendApiService)
-            .coroutine { getConversion(base) }
+        coVerify { backendApiService.getConversion(base) }
             .wasNotInvoked()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasNotInvoked()
     }
 
     @Test
     fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() =
         runTest {
-            given(appStorage)
-                .invocation { premiumEndDate }
-                .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+            every { appStorage.premiumEndDate }
+                .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
             viewModel.state.onSubscription {
                 viewModel.event.onRefreshClick()
@@ -229,19 +212,15 @@ class WidgetViewModelTest {
     @Test
     fun `when onRefreshClick called with null, base is not updated`() = runTest {
         // to not invoke getFreshWidgetData
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasNotInvoked()
 
-        verify(calculationStorage)
-            .setter(calculationStorage::currentBase)
-            .with(eq(anything<String>()))
+        verify { calculationStorage.currentBase = any<String>() }
             .wasNotInvoked()
     }
 
@@ -249,85 +228,69 @@ class WidgetViewModelTest {
     @Test
     fun onNextClick() = runTest {
         // when onNextClick, base is updated next or the first active currency
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onNextClick()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify(calculationStorage)
-            .invocation { currentBase = lastBase }
+        verify { calculationStorage.currentBase = lastBase }
             .wasInvoked()
 
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(lastBase)
+        every { calculationStorage.currentBase }
+            .returns(lastBase)
 
         viewModel.event.onNextClick()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify(calculationStorage)
-            .invocation { currentBase = firstBase }
+        verify { calculationStorage.currentBase = firstBase }
             .wasInvoked()
     }
 
     @Test
     fun onPreviousClick() = runTest {
         // when onRefreshClick, base is updated previous or the last active currency
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onPreviousClick()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify(calculationStorage)
-            .invocation { currentBase = firstBase }
+        verify { calculationStorage.currentBase = firstBase }
             .wasInvoked()
 
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(firstBase)
+        every { calculationStorage.currentBase }
+            .returns(firstBase)
 
         viewModel.event.onPreviousClick()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify(calculationStorage)
-            .invocation { currentBase = lastBase }
+        verify { calculationStorage.currentBase = lastBase }
             .wasInvoked()
     }
 
     @Test
     fun onRefreshClick() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(backendApiService)
-            .coroutine { getConversion(base) }
+        coVerify { backendApiService.getConversion(base) }
             .wasInvoked()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify(calculationStorage)
-            .invocation { currentBase }
+        verify { calculationStorage.currentBase }
             .wasInvoked()
     }
 

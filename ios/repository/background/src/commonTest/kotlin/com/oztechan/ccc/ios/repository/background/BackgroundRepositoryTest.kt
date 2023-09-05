@@ -8,9 +8,9 @@ import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Watcher
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.given
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.mock
-import io.mockative.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -36,14 +36,12 @@ internal class BackgroundRepositoryTest {
 
     @Test
     fun `if getWatchers throw an error should return false`() = runTest {
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenThrow(Exception())
+        coEvery { watcherDataSource.getWatchers() }
+            .throws(Exception())
 
         assertFalse { subject.shouldSendNotification() }
 
-        verify(watcherDataSource)
-            .coroutine { getWatchers() }
+        coVerify { watcherDataSource.getWatchers() }
             .wasInvoked()
     }
 
@@ -51,22 +49,18 @@ internal class BackgroundRepositoryTest {
     fun `if getConversion throw an error should return false`() = runTest {
         val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenReturn(listOf(watcher))
+        coEvery { watcherDataSource.getWatchers() }
+            .returns(listOf(watcher))
 
-        given(backendApiService)
-            .coroutine { getConversion(watcher.base) }
-            .thenThrow(Exception())
+        coEvery { backendApiService.getConversion(watcher.base) }
+            .throws(Exception())
 
         assertFalse { subject.shouldSendNotification() }
 
-        verify(watcherDataSource)
-            .coroutine { getWatchers() }
+        coVerify { watcherDataSource.getWatchers() }
             .wasInvoked()
 
-        verify(backendApiService)
-            .coroutine { getConversion(watcher.base) }
+        coVerify { backendApiService.getConversion(watcher.base) }
             .wasInvoked()
     }
 
@@ -74,45 +68,38 @@ internal class BackgroundRepositoryTest {
     fun `if watcher set greater and response rate is more than watcher return true`() = runTest {
         val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenReturn(listOf(watcher))
+        coEvery { watcherDataSource.getWatchers() }
+            .returns(listOf(watcher))
 
-        given(backendApiService)
-            .coroutine { getConversion(watcher.base) }
-            .thenReturn(Conversion(base = watcher.base, usd = watcher.rate + 1))
+        coEvery { backendApiService.getConversion(watcher.base) }
+            .returns(Conversion(base = watcher.base, usd = watcher.rate + 1))
 
         assertTrue { subject.shouldSendNotification() }
 
-        verify(watcherDataSource)
-            .coroutine { getWatchers() }
+        coVerify { watcherDataSource.getWatchers() }
             .wasInvoked()
 
-        verify(backendApiService)
-            .coroutine { getConversion(watcher.base) }
+        coVerify { backendApiService.getConversion(watcher.base) }
             .wasInvoked()
     }
 
     @Test
-    fun `if watcher set not greater and response rate is less than watcher return true`() = runTest {
-        val watcher = Watcher(1, "EUR", "USD", false, 1.1)
+    fun `if watcher set not greater and response rate is less than watcher return true`() =
+        runTest {
+            val watcher = Watcher(1, "EUR", "USD", false, 1.1)
 
-        given(watcherDataSource)
-            .coroutine { getWatchers() }
-            .thenReturn(listOf(watcher))
+            coEvery { watcherDataSource.getWatchers() }
+                .returns(listOf(watcher))
 
-        given(backendApiService)
-            .coroutine { getConversion(watcher.base) }
-            .thenReturn(Conversion(base = watcher.base, usd = watcher.rate - 1))
+            coEvery { backendApiService.getConversion(watcher.base) }
+                .returns(Conversion(base = watcher.base, usd = watcher.rate - 1))
 
-        assertTrue { subject.shouldSendNotification() }
+            assertTrue { subject.shouldSendNotification() }
 
-        verify(watcherDataSource)
-            .coroutine { getWatchers() }
-            .wasInvoked()
+            coVerify { watcherDataSource.getWatchers() }
+                .wasInvoked()
 
-        verify(backendApiService)
-            .coroutine { getConversion(watcher.base) }
-            .wasInvoked()
-    }
+            coVerify { backendApiService.getConversion(watcher.base) }
+                .wasInvoked()
+        }
 }

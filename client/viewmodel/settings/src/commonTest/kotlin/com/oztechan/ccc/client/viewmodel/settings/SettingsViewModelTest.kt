@@ -25,9 +25,10 @@ import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.configure
-import io.mockative.eq
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
@@ -114,37 +115,29 @@ internal class SettingsViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        given(appStorage)
-            .invocation { appTheme }
-            .thenReturn(-1)
+        every { appStorage.appTheme }
+            .returns(-1)
 
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(0)
+        every { appStorage.premiumEndDate }
+            .returns(0)
 
-        given(calculationStorage)
-            .invocation { precision }
-            .thenReturn(mockedPrecision)
+        every { calculationStorage.precision }
+            .returns(mockedPrecision)
 
-        given(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
-            .thenReturn(flowOf(currencyList))
+        every { currencyDataSource.getActiveCurrenciesFlow() }
+            .returns(flowOf(currencyList))
 
-        given(watcherDataSource)
-            .invocation { getWatchersFlow() }
-            .then { flowOf(watcherLists) }
+        every { watcherDataSource.getWatchersFlow() }
+            .returns(flowOf(watcherLists))
 
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(shouldShowAds)
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
 
-        given(appConfigRepository)
-            .invocation { getDeviceType() }
-            .then { Device.IOS }
+        every { appConfigRepository.getDeviceType() }
+            .returns(Device.IOS)
 
-        given(appConfigRepository)
-            .invocation { getVersion() }
-            .then { version }
+        every { appConfigRepository.getVersion() }
+            .returns(version)
     }
 
     // init
@@ -160,16 +153,14 @@ internal class SettingsViewModelTest {
             assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
 
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
     @Test
     fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(0)
+        every { appStorage.premiumEndDate }
+            .returns(0)
 
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
@@ -179,9 +170,8 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is passed PremiumStatus is Expired`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
@@ -191,9 +181,8 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is not passed PremiumStatus is Active`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
@@ -209,13 +198,11 @@ internal class SettingsViewModelTest {
         val conversion = Conversion(base)
         val currency = Currency(base, "", "")
 
-        given(currencyDataSource)
-            .coroutine { currencyDataSource.getActiveCurrencies() }
-            .thenReturn(listOf(currency))
+        coEvery { currencyDataSource.getActiveCurrencies() }
+            .returns(listOf(currency))
 
-        given(backendApiService)
-            .coroutine { getConversion(base) }
-            .thenReturn(conversion)
+        coEvery { backendApiService.getConversion(base) }
+            .returns(conversion)
 
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
@@ -223,12 +210,10 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(conversion) }
+        coVerify { conversionDataSource.insertConversion(conversion) }
             .wasInvoked()
 
-        verify(backendApiService)
-            .coroutine { backendApiService.getConversion(base) }
+        coVerify { backendApiService.getConversion(base) }
             .wasInvoked()
     }
 
@@ -236,13 +221,11 @@ internal class SettingsViewModelTest {
     fun `failed synchroniseConversions should pass Synchronised effect`() = runTest {
         viewModel.data.synced = false
 
-        given(currencyDataSource)
-            .coroutine { currencyDataSource.getActiveCurrencies() }
-            .thenReturn(currencyList)
+        coEvery { currencyDataSource.getActiveCurrencies() }
+            .returns(currencyList)
 
-        given(backendApiService)
-            .coroutine { getConversion("") }
-            .thenThrow(Exception("test"))
+        coEvery { backendApiService.getConversion("") }
+            .throws(Exception("test"))
 
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
@@ -250,8 +233,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        verify(conversionDataSource)
-            .coroutine { conversionDataSource.insertConversion(Conversion()) }
+        coVerify { conversionDataSource.insertConversion(Conversion()) }
             .wasNotInvoked()
     }
 
@@ -296,9 +278,8 @@ internal class SettingsViewModelTest {
     fun onShareClick() = runTest {
         val link = "link"
 
-        given(appConfigRepository)
-            .invocation { getMarketLink() }
-            .then { link }
+        every { appConfigRepository.getMarketLink() }
+            .returns(link)
 
         viewModel.effect.onSubscription {
             viewModel.event.onShareClick()
@@ -312,9 +293,8 @@ internal class SettingsViewModelTest {
     fun onSupportUsClick() = runTest {
         val link = "link"
 
-        given(appConfigRepository)
-            .invocation { getMarketLink() }
-            .then { link }
+        every { appConfigRepository.getMarketLink() }
+            .returns(link)
 
         viewModel.effect.onSubscription {
             viewModel.event.onSupportUsClick()
@@ -341,13 +321,11 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Premium>(it)
         }
 
-        verify(appStorage)
-            .invocation { premiumEndDate }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
 
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumClick()
@@ -355,8 +333,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
-        verify(appStorage)
-            .invocation { premiumEndDate }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
     }
 
@@ -371,9 +348,8 @@ internal class SettingsViewModelTest {
 
     @Test
     fun onSyncClick() = runTest {
-        given(currencyDataSource)
-            .coroutine { currencyDataSource.getActiveCurrencies() }
-            .thenReturn(listOf())
+        coEvery { currencyDataSource.getActiveCurrencies() }
+            .returns(listOf())
 
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
@@ -388,8 +364,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.OnlyOneTimeSync>(it)
         }
 
-        verify(analyticsManager)
-            .invocation { trackEvent(Event.OfflineSync) }
+        verify { analyticsManager.trackEvent(Event.OfflineSync) }
             .wasInvoked()
     }
 
@@ -413,9 +388,8 @@ internal class SettingsViewModelTest {
             assertEquals(value.indexToNumber(), it.precision)
 
             println("-----")
-            verify(calculationStorage)
-                .setter(calculationStorage::precision)
-                .with(eq(value.indexToNumber()))
+
+            verify { calculationStorage.precision = value.indexToNumber() }
                 .wasInvoked()
         }
     }
@@ -432,8 +406,7 @@ internal class SettingsViewModelTest {
             assertEquals(mockTheme.themeValue, it.themeValue)
         }
 
-        verify(appStorage)
-            .invocation { appTheme = mockTheme.themeValue }
+        verify { appStorage.appTheme = mockTheme.themeValue }
             .wasInvoked()
     }
 }

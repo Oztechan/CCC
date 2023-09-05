@@ -11,7 +11,7 @@ import com.squareup.sqldelight.db.SqlDriver
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -28,7 +28,8 @@ internal class CurrencyDataSourceTest {
     }
 
     @Mock
-    private val currencyQueries = configure(mock(classOf<CurrencyQueries>())) { stubsUnitByDefault = true }
+    private val currencyQueries =
+        configure(mock(classOf<CurrencyQueries>())) { stubsUnitByDefault = true }
 
     @Mock
     private val sqlDriver = mock(classOf<SqlDriver>())
@@ -45,57 +46,49 @@ internal class CurrencyDataSourceTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
-        given(sqlDriver)
-            .invocation { executeQuery(-1, "", 0, null) }
-            .thenReturn(sqlCursor)
+        every { sqlDriver.executeQuery(-1, "", 0, null) }
+            .returns(sqlCursor)
 
-        given(sqlCursor)
-            .invocation { next() }
-            .thenReturn(false)
+        every { sqlCursor.next() }
+            .returns(false)
     }
 
     @Test
     fun getCurrenciesFlow() {
-        given(currencyQueries)
-            .invocation { getCurrencies() }
-            .thenReturn(query)
+        every { currencyQueries.getCurrencies() }
+            .returns(query)
 
         runTest {
             subject.getCurrenciesFlow()
         }
 
-        verify(currencyQueries)
-            .invocation { getCurrencies() }
+        verify { currencyQueries.getCurrencies() }
             .wasInvoked()
     }
 
     @Test
     fun getActiveCurrenciesFlow() {
-        given(currencyQueries)
-            .invocation { getActiveCurrencies() }
-            .thenReturn(query)
+        every { currencyQueries.getActiveCurrencies() }
+            .returns(query)
 
         runTest {
             subject.getActiveCurrenciesFlow()
         }
 
-        verify(currencyQueries)
-            .invocation { getActiveCurrencies() }
+        verify { currencyQueries.getActiveCurrencies() }
             .wasInvoked()
     }
 
     @Test
     fun getActiveCurrencies() {
-        given(currencyQueries)
-            .invocation { getActiveCurrencies() }
-            .thenReturn(query)
+        every { currencyQueries.getActiveCurrencies() }
+            .returns(query)
 
         runTest {
             subject.getActiveCurrencies()
         }
 
-        verify(currencyQueries)
-            .invocation { getActiveCurrencies() }
+        verify { currencyQueries.getActiveCurrencies() }
             .wasInvoked()
     }
 
@@ -108,8 +101,7 @@ internal class CurrencyDataSourceTest {
             subject.updateCurrencyStateByCode(mockCode, mockState)
         }
 
-        verify(currencyQueries)
-            .invocation { updateCurrencyStateByCode(mockState.toLong(), mockCode) }
+        verify { currencyQueries.updateCurrencyStateByCode(mockState.toLong(), mockCode) }
             .wasInvoked()
     }
 
@@ -121,23 +113,20 @@ internal class CurrencyDataSourceTest {
             subject.updateCurrencyStates(mockState)
         }
 
-        verify(currencyQueries)
-            .invocation { updateCurrencyStates(mockState.toLong()) }
+        verify { currencyQueries.updateCurrencyStates(mockState.toLong()) }
             .wasInvoked()
     }
 
     @Test
     fun getCurrencyByCode() {
-        given(currencyQueries)
-            .invocation { getCurrencyByCode(currency.code) }
-            .thenReturn(query)
+        every { currencyQueries.getCurrencyByCode(currency.code) }
+            .returns(query)
 
         runTest {
             subject.getCurrencyByCode(currency.code)
         }
 
-        verify(currencyQueries)
-            .invocation { getCurrencyByCode(currency.code) }
+        verify { currencyQueries.getCurrencyByCode(currency.code) }
             .wasInvoked()
     }
 }
