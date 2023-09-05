@@ -107,7 +107,9 @@
     <string name="settings_item_premium_value_expired">Expired\n%s</string>
     <string name="settings_item_premium_value_will_expire">Will expire\n%s</string>
     <string name="txt_more_options_are_coming">More options are coming</string>
-    <string name="txt_you_already_have_premium">You already have premium</string>
+    <string name="txt_you_already_have_premium">You already have premium, if you still have ads
+        please restart the app.
+    </string>
 
     <string name="settings_item_precision_title">Precision</string>
     <string name="settings_item_precision_sub_title">Max decimal digits</string>
