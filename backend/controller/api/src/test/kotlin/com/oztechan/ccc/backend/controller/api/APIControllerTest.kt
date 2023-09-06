@@ -5,9 +5,9 @@ import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.given
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.mock
-import io.mockative.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,14 +26,12 @@ internal class APIControllerTest {
             val base = "EUR"
             val result = Conversion(base)
 
-            given(conversionDataSource)
-                .coroutine { getConversionByBase(base) }
-                .thenReturn(result)
+            coEvery { conversionDataSource.getConversionByBase(base) }
+                .returns(result)
 
             assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
 
-            verify(conversionDataSource)
-                .coroutine { getConversionByBase(base) }
+            coVerify { conversionDataSource.getConversionByBase(base) }
                 .wasInvoked()
         }
 
@@ -43,14 +41,12 @@ internal class APIControllerTest {
             val base = "eur"
             val result = Conversion(base.uppercase())
 
-            given(conversionDataSource)
-                .coroutine { getConversionByBase(base.uppercase()) }
-                .thenReturn(result)
+            coEvery { conversionDataSource.getConversionByBase(base.uppercase()) }
+                .returns(result)
 
             assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
 
-            verify(conversionDataSource)
-                .coroutine { getConversionByBase(base.uppercase()) }
+            coVerify { conversionDataSource.getConversionByBase(base.uppercase()) }
                 .wasInvoked()
         }
 }

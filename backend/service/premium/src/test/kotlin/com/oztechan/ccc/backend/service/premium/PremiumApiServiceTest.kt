@@ -10,9 +10,9 @@ import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.given
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.mock
-import io.mockative.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -42,16 +42,14 @@ internal class PremiumApiServiceTest {
             assertTrue { it.isFailure }
         }
 
-        verify(premiumAPI)
-            .coroutine { premiumAPI.getExchangeRate("") }
+        coVerify { premiumAPI.getExchangeRate("") }
             .wasNotInvoked()
     }
 
     @Test
     fun `getConversion error`() = runTest {
-        given(premiumAPI)
-            .coroutine { premiumAPI.getExchangeRate(base) }
-            .thenThrow(throwable)
+        coEvery { premiumAPI.getExchangeRate(base) }
+            .throws(throwable)
 
         runCatching { subject.getConversion(base) }.let {
             assertFalse { it.isSuccess }
@@ -62,16 +60,14 @@ internal class PremiumApiServiceTest {
             assertEquals(throwable.message, it.exceptionOrNull()!!.cause!!.message)
         }
 
-        verify(premiumAPI)
-            .coroutine { getExchangeRate(base) }
+        coVerify { premiumAPI.getExchangeRate(base) }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion success`() = runTest {
-        given(premiumAPI)
-            .coroutine { premiumAPI.getExchangeRate(base) }
-            .thenReturn(exchangeRate)
+        coEvery { premiumAPI.getExchangeRate(base) }
+            .returns(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
@@ -80,8 +76,7 @@ internal class PremiumApiServiceTest {
             assertEquals(exchangeRate.toConversionModel(), it.getOrNull())
         }
 
-        verify(premiumAPI)
-            .coroutine { getExchangeRate(base) }
+        coVerify { premiumAPI.getExchangeRate(base) }
             .wasInvoked()
     }
 }

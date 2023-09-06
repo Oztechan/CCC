@@ -27,8 +27,10 @@ import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.configure
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
@@ -93,50 +95,40 @@ internal class CalculatorViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(currency1.code)
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
 
-        given(calculationStorage)
-            .invocation { lastInput }
-            .thenReturn("")
+        every { calculationStorage.lastInput }
+            .returns("")
 
-        given(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
-            .thenReturn(flowOf(currencyList))
+        every { currencyDataSource.getActiveCurrenciesFlow() }
+            .returns(flowOf(currencyList))
 
-        given(calculationStorage)
-            .invocation { precision }
-            .thenReturn(3)
+        every { calculationStorage.precision }
+            .returns(3)
 
-        given(adControlRepository)
-            .invocation { shouldShowBannerAd() }
-            .thenReturn(shouldShowAds)
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
 
         runTest {
-            given(currencyDataSource)
-                .coroutine { getActiveCurrencies() }
-                .thenReturn(currencyList)
+            coEvery { currencyDataSource.getActiveCurrencies() }
+                .returns(currencyList)
 
-            given(conversionDataSource)
-                .coroutine { getConversionByBase(currency1.code) }
-                .thenReturn(conversion)
+            coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+                .returns(conversion)
 
-            given(backendApiService)
-                .coroutine { getConversion(currency1.code) }
-                .thenReturn(conversion)
+            coEvery { backendApiService.getConversion(currency1.code) }
+                .returns(conversion)
 
-            given(currencyDataSource)
-                .coroutine { getCurrencyByCode(currency1.code) }
-                .thenReturn(currency1)
+            coEvery { currencyDataSource.getCurrencyByCode(currency1.code) }
+                .returns(currency1)
         }
     }
 
     @Test
     fun `conversion should be fetched on init`() = runTest {
         viewModel
-        verify(backendApiService)
-            .coroutine { getConversion(currency1.code) }
+        coVerify { backendApiService.getConversion(currency1.code) }
             .wasInvoked()
         assertNotNull(viewModel.data.conversion)
     }
@@ -154,8 +146,7 @@ internal class CalculatorViewModelTest {
             assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
 
-        verify(adControlRepository)
-            .invocation { shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
@@ -163,13 +154,11 @@ internal class CalculatorViewModelTest {
     fun `init sets the latest base and input`() = runTest {
         val mock = "mock"
 
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(currency1.code)
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
 
-        given(calculationStorage)
-            .invocation { lastInput }
-            .thenReturn(mock)
+        every { calculationStorage.lastInput }
+            .returns(mock)
 
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
@@ -181,9 +170,8 @@ internal class CalculatorViewModelTest {
     @Test
     fun `when api fails and there is conversion in db then conversion rates are calculated`() =
         runTest {
-            given(backendApiService)
-                .coroutine { getConversion(currency1.code) }
-                .thenThrow(Exception())
+            coEvery { backendApiService.getConversion(currency1.code) }
+                .throws(Exception())
 
             viewModel.state.onSubscription {
                 viewModel.event.onKeyPress("1") // trigger api call
@@ -201,20 +189,17 @@ internal class CalculatorViewModelTest {
                 assertEquals(result, it.currencyList)
             }
 
-            verify(conversionDataSource)
-                .coroutine { getConversionByBase(currency1.code) }
+            coVerify { conversionDataSource.getConversionByBase(currency1.code) }
                 .wasInvoked()
         }
 
     @Test
     fun `when api fails and there is no conversion in db then error state displayed`() = runTest {
-        given(backendApiService)
-            .coroutine { getConversion(currency1.code) }
-            .thenThrow(Exception())
+        coEvery { backendApiService.getConversion(currency1.code) }
+            .throws(Exception())
 
-        given(conversionDataSource)
-            .coroutine { getConversionByBase(currency1.code) }
-            .thenReturn(null)
+        coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+            .returns(null)
 
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress("1") // trigger api call
@@ -228,25 +213,21 @@ internal class CalculatorViewModelTest {
             }
         }
 
-        verify(conversionDataSource)
-            .coroutine { getConversionByBase(currency1.code) }
+        coVerify { conversionDataSource.getConversionByBase(currency1.code) }
             .wasInvoked()
     }
 
     @Test
     fun `when api fails and there is no offline and no enough currency few currency effect emitted`() =
         runTest {
-            given(backendApiService)
-                .coroutine { getConversion(currency1.code) }
-                .thenThrow(Exception())
+            coEvery { backendApiService.getConversion(currency1.code) }
+                .throws(Exception())
 
-            given(conversionDataSource)
-                .coroutine { getConversionByBase(currency1.code) }
-                .thenReturn(null)
+            coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+                .returns(null)
 
-            given(currencyDataSource)
-                .invocation { getActiveCurrenciesFlow() }
-                .thenReturn(flowOf(listOf(currency1)))
+            every { currencyDataSource.getActiveCurrenciesFlow() }
+                .returns(flowOf(listOf(currency1)))
 
             viewModel.effect.onSubscription {
                 viewModel.event.onKeyPress("1") // trigger api call
@@ -260,8 +241,7 @@ internal class CalculatorViewModelTest {
                 }
             }
 
-            verify(conversionDataSource)
-                .coroutine { getConversionByBase(currency1.code) }
+            coVerify { conversionDataSource.getConversionByBase(currency1.code) }
                 .wasInvoked()
         }
 
@@ -320,15 +300,11 @@ internal class CalculatorViewModelTest {
     fun ifUserPropertiesSetCorrect() {
         viewModel // init
 
-        verify(analyticsManager)
-            .invocation {
-                setUserProperty(
-                    UserProperty.CurrencyCount(
-                        currencyList.count().toString()
-                    )
-                )
-            }
-            .wasInvoked()
+        verify {
+            analyticsManager.setUserProperty(
+                UserProperty.CurrencyCount(currencyList.count().toString())
+            )
+        }.wasInvoked()
     }
 
     // Event
@@ -398,8 +374,7 @@ internal class CalculatorViewModelTest {
             )
             assertEquals(currency1.code, it.code)
 
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.ShowConversion(Param.Base(currency1.code))) }
+            verify { analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency1.code))) }
                 .wasInvoked()
         }
     }
@@ -414,8 +389,7 @@ internal class CalculatorViewModelTest {
                 it
             )
 
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.CopyClipboard) }
+            verify { analyticsManager.trackEvent(Event.CopyClipboard) }
                 .wasInvoked()
         }
     }
@@ -429,8 +403,7 @@ internal class CalculatorViewModelTest {
         }.firstOrNull().let {
             assertEquals(CalculatorEffect.CopyToClipboard(output), it)
 
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.CopyClipboard) }
+            verify { analyticsManager.trackEvent(Event.CopyClipboard) }
                 .wasInvoked()
         }
     }
@@ -455,8 +428,7 @@ internal class CalculatorViewModelTest {
             assertNotNull(it)
             assertEquals(text, it.input)
 
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.PasteFromClipboard) }
+            verify { analyticsManager.trackEvent(Event.PasteFromClipboard) }
                 .wasInvoked()
         }
 
@@ -466,8 +438,7 @@ internal class CalculatorViewModelTest {
             assertNotNull(it)
             assertEquals(text2.toSupportedCharacters(), it.input)
 
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.PasteFromClipboard) }
+            verify { analyticsManager.trackEvent(Event.PasteFromClipboard) }
                 .wasInvoked()
         }
     }
@@ -521,13 +492,11 @@ internal class CalculatorViewModelTest {
 
     @Test
     fun onBaseChanged() = runTest {
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(currency1.code)
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
 
-        given(backendApiService)
-            .coroutine { getConversion(currency1.code) }
-            .thenReturn(conversion)
+        coEvery { backendApiService.getConversion(currency1.code) }
+            .returns(conversion)
 
         viewModel.state.onSubscription {
             viewModel.event.onBaseChange(currency1.code)
@@ -537,12 +506,10 @@ internal class CalculatorViewModelTest {
             assertEquals(currency1.code, viewModel.data.conversion!!.base)
             assertEquals(currency1.code, it.base)
 
-            verify(analyticsManager)
-                .invocation { trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
                 .wasInvoked()
 
-            verify(analyticsManager)
-                .invocation { setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
                 .wasInvoked()
         }
     }
