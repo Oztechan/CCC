@@ -8,7 +8,6 @@ import config.key.Key
 import config.key.secret
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(androidApp.get().pluginId)
         id(crashlytics.get().pluginId)
@@ -18,7 +17,6 @@ plugins {
     }
 }
 
-@Suppress("UnstableApiUsage")
 android {
     ProjectSettings.apply {
         namespace = Modules.Android.app.packageName

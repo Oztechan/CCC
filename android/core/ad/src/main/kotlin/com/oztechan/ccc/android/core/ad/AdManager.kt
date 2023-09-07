@@ -21,7 +21,6 @@ interface AdManager {
         activity: Activity,
         adId: String,
         onAdFailedToLoad: () -> Unit,
-        onAdLoaded: () -> Unit,
         onReward: () -> Unit
     )
 }

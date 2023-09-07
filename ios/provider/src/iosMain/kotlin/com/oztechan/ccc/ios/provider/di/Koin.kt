@@ -32,6 +32,7 @@ import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureMo
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.datasource.conversion.di.commonDataSourceConversionModule
 import com.oztechan.ccc.ios.repository.background.di.iosRepositoryBackgroundModule
+import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ObjCClass
 import kotlinx.cinterop.ObjCObject
 import kotlinx.cinterop.ObjCProtocol
@@ -97,7 +98,7 @@ fun initKoin(
         // endregion
     )
 }.also {
-    Logger.i { "Koin initialised" }
+    Logger.v { "Koin initialised" }
 }
 
 private fun getIOSPlatformModule(userDefaults: NSUserDefaults) = module {
@@ -105,6 +106,7 @@ private fun getIOSPlatformModule(userDefaults: NSUserDefaults) = module {
     single<Device> { Device.IOS }
 }
 
+@BetaInteropApi
 @Suppress("unused")
 fun <T> Koin.getDependency(objCObject: ObjCObject): T = when (objCObject) {
     is ObjCClass -> getOriginalKotlinClass(objCObject)

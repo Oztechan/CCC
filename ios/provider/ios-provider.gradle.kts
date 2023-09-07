@@ -2,7 +2,6 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
         id(cocoapods.get().pluginId)
@@ -10,6 +9,9 @@ plugins {
 }
 
 kotlin {
+    @Suppress("OPT_IN_USAGE")
+    targetHierarchy.default()
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -43,7 +45,6 @@ kotlin {
                 export(project(selectCurrency))
                 export(project(watchers))
                 export(project(premium))
-                export(project(premium))
             }
         }
 
@@ -56,15 +57,8 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
+        val iosMain by getting {
             dependencies {
-
                 libs.common.apply {
                     implementation(koinCore)
                     implementation(kermit)
@@ -127,14 +121,6 @@ kotlin {
 
                 implementation(Submodules.logmob)
             }
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }

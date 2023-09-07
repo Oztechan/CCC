@@ -14,7 +14,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
     // below variables have to be local otherwise userDidEarnRewardHandler is not called
     let onReward: () -> Void
     let onError: () -> Void
-    var rewardedAd: GADRewardedAd?
+    private var rewardedAd: GADRewardedAd?
 
     init(
         onReward: @escaping () -> Void,
@@ -30,7 +30,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: {rewardedAd, error in
                 if error != nil {
-                    logger.w(message: { "RewardedAd show error: \(String(describing: error?.localizedDescription))" })
+                    logger.e(message: { "RewardedAd show error: \(String(describing: error?.localizedDescription))" })
                     self.onError()
                     return
                 }
@@ -41,7 +41,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                 self.rewardedAd?.present(
                     fromRootViewController: WindowUtil.getCurrentController(),
                     userDidEarnRewardHandler: {
-                        logger.i(message: { "RewardedAd userDidEarnReward" })
+                        logger.v(message: { "RewardedAd userDidEarnReward" })
                         self.onReward()
                     }
                 )

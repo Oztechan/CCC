@@ -48,6 +48,7 @@ class AppWidgetReceiver : GlanceAppWidgetReceiver(), KoinComponent {
     private fun refreshData(context: Context) = runBlocking {
         GlanceAppWidgetManager(context)
             .getGlanceIds(AppWidget::class.java)
+            .iterator()
             .forEach { glanceAppWidget.update(context, it) }
     }
 }

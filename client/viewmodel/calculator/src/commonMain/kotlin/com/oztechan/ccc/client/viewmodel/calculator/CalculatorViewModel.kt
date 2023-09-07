@@ -51,11 +51,12 @@ class CalculatorViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
-    private val adControlRepository: AdControlRepository,
+    adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
     // region SEED
-    private val _state = MutableStateFlow(CalculatorState())
+    private val _state =
+        MutableStateFlow(CalculatorState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<CalculatorEffect>()
@@ -136,7 +137,7 @@ class CalculatorViewModel(
         )?.let {
             calculateConversions(it, ConversionState.Offline(it.date))
         } ?: run {
-            Logger.w(Exception("No offline conversion")) { this@CalculatorViewModel::class.simpleName.toString() }
+            Logger.w { "No offline conversion found in the DB" }
 
             _effect.emit(CalculatorEffect.Error)
 
@@ -199,8 +200,6 @@ class CalculatorViewModel(
             analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
         }
     }
-
-    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
 
     // region Event
     override fun onKeyPress(key: String) {
@@ -279,8 +278,8 @@ class CalculatorViewModel(
         _effect.emit(CalculatorEffect.ShowPasteRequest)
     }
 
-    override fun pasteToInput(text: String) {
-        Logger.d { "CalculatorViewModel pasteToInput $text" }
+    override fun onPasteToInput(text: String) {
+        Logger.d { "CalculatorViewModel onPasteToInput $text" }
 
         analyticsManager.trackEvent(Event.PasteFromClipboard)
 

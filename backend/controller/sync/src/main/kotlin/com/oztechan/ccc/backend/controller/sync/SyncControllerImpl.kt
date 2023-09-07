@@ -16,17 +16,17 @@ internal class SyncControllerImpl(
 ) : SyncController {
 
     override suspend fun syncPrimaryCurrencies() {
-        Logger.i { "SyncControllerImpl syncPrimaryCurrencies" }
+        Logger.v { "SyncControllerImpl syncPrimaryCurrencies" }
         CurrencyType.getPrimaryCurrencies().syncCrossAPI()
     }
 
     override suspend fun syncSecondaryCurrencies() {
-        Logger.i { "SyncControllerImpl syncSecondaryCurrencies" }
+        Logger.v { "SyncControllerImpl syncSecondaryCurrencies" }
         CurrencyType.getSecondaryCurrencies().syncCrossAPI()
     }
 
     override suspend fun syncTertiaryCurrencies() {
-        Logger.i { "SyncControllerImpl syncTertiaryCurrencies" }
+        Logger.v { "SyncControllerImpl syncTertiaryCurrencies" }
         CurrencyType.getTertiaryCurrencies().syncCrossAPI()
     }
 
@@ -36,12 +36,12 @@ internal class SyncControllerImpl(
 
         // non premium call for filling null values
         runCatching { freeApiService.getConversion(currencyType.name) }
-            .onFailure { Logger.e(it) { it.message.toString() } }
+            .onFailure { Logger.w(it) { it.message.toString() } }
             .onSuccess { freeConversion ->
 
                 // premium api call
                 runCatching { premiumApiService.getConversion(currencyType.name) }
-                    .onFailure { Logger.e(it) { it.message.toString() } }
+                    .onFailure { Logger.w(it) { it.message.toString() } }
                     .onSuccess { premiumConversion ->
                         conversionDataSource.insertConversion(
                             premiumConversion.fillMissingRatesWith(freeConversion)
@@ -51,14 +51,14 @@ internal class SyncControllerImpl(
     }
 
     override suspend fun syncUnPopularCurrencies() {
-        Logger.i { "SyncControllerImpl syncUnPopularCurrencies" }
+        Logger.v { "SyncControllerImpl syncUnPopularCurrencies" }
 
         CurrencyType.getNonPopularCurrencies().forEach { currencyType ->
 
             delay(1.seconds.inWholeMilliseconds)
 
             runCatching { freeApiService.getConversion(currencyType.name) }
-                .onFailure { Logger.e(it) { it.message.toString() } }
+                .onFailure { Logger.w(it) { it.message.toString() } }
                 .onSuccess { conversionDataSource.insertConversion(it) }
         }
     }

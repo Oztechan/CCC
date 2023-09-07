@@ -5,7 +5,6 @@ import io.gitlab.arturbosch.detekt.Detekt
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         alias(kover)
         alias(detekt)
@@ -60,7 +59,14 @@ allprojects {
             setSource(files(project.projectDir))
             exclude("**/build/**")
             exclude {
-                it.file.relativeTo(projectDir).startsWith(project.buildDir.relativeTo(projectDir))
+                it.file.relativeTo(projectDir).startsWith(
+                    project.layout.buildDirectory.asFile.get().relativeTo(projectDir)
+                )
+            }
+        }.onEach { detekt ->
+            // skip detekt tasks unless a it is specifically called
+            detekt.onlyIf {
+                gradle.startParameter.taskNames.any { it.contains("detekt") }
             }
         }
 
@@ -72,7 +78,6 @@ allprojects {
             detektPlugins(rootProject.libs.common.detektFormatting)
         }
     }
-
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true

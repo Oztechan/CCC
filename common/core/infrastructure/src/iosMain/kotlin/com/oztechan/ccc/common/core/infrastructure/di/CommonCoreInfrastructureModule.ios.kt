@@ -8,8 +8,8 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-@Suppress("OPT_IN_USAGE")
 actual val commonCoreInfrastructureModule: Module = module {
+    @Suppress("OPT_IN_USAGE")
     single<CoroutineScope> { GlobalScope }
     single<CoroutineDispatcher>(named(DISPATCHER_MAIN)) { Dispatchers.Main }
     single(named(DISPATCHER_IO)) { Dispatchers.Default }

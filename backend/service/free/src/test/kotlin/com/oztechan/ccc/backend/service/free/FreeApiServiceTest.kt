@@ -6,9 +6,9 @@ import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.given
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.mock
-import io.mockative.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -17,10 +17,10 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-@Suppress("OPT_IN_USAGE")
 internal class FreeApiServiceTest {
 
     private val subject: FreeApiService by lazy {
+        @Suppress("OPT_IN_USAGE")
         FreeApiServiceImpl(freeApi, UnconfinedTestDispatcher())
     }
 
@@ -38,16 +38,14 @@ internal class FreeApiServiceTest {
             assertTrue { it.isFailure }
         }
 
-        verify(freeApi)
-            .coroutine { freeApi.getExchangeRate("") }
+        coVerify { freeApi.getExchangeRate("") }
             .wasNotInvoked()
     }
 
     @Test
     fun `getConversion error`() = runTest {
-        given(freeApi)
-            .coroutine { freeApi.getExchangeRate(base) }
-            .thenThrow(throwable)
+        coEvery { freeApi.getExchangeRate(base) }
+            .throws(throwable)
 
         runCatching { subject.getConversion(base) }.let {
             assertFalse { it.isSuccess }
@@ -58,16 +56,14 @@ internal class FreeApiServiceTest {
             assertEquals(throwable.message, it.exceptionOrNull()!!.cause!!.message)
         }
 
-        verify(freeApi)
-            .coroutine { getExchangeRate(base) }
+        coVerify { freeApi.getExchangeRate(base) }
             .wasInvoked()
     }
 
     @Test
     fun `getConversion success`() = runTest {
-        given(freeApi)
-            .coroutine { freeApi.getExchangeRate(base) }
-            .thenReturn(exchangeRate)
+        coEvery { freeApi.getExchangeRate(base) }
+            .returns(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
             assertTrue { it.isSuccess }
@@ -76,8 +72,7 @@ internal class FreeApiServiceTest {
             assertEquals(exchangeRate.toConversionModel(), it.getOrNull())
         }
 
-        verify(freeApi)
-            .coroutine { getExchangeRate(base) }
+        coVerify { freeApi.getExchangeRate(base) }
             .wasInvoked()
     }
 }

@@ -11,7 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.oztechan.ccc.android.ui.mobile.content.selectcurrency.SelectCurrencyView
-import com.oztechan.ccc.android.ui.mobile.content.watchers.WatchersView
+import com.oztechan.ccc.android.ui.mobile.content.watchers.WatchersRootView
 import com.oztechan.ccc.android.ui.mobile.theme.AppTheme
 
 class ComposeMainActivity : ComponentActivity() {
@@ -29,7 +29,7 @@ class ComposeMainActivity : ComponentActivity() {
                             startDestination = "watchers"
                         ) {
                             composable("watchers") {
-                                WatchersView()
+                                WatchersRootView()
                             }
                             composable("select_currency") {
                                 SelectCurrencyView()

@@ -13,7 +13,7 @@ import Res
 import SwiftUI
 
 struct WatcherItem: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     @State private var relationSelection = 0
     @State private var amount = ""
 

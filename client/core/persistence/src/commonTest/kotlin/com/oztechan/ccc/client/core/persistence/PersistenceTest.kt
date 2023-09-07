@@ -5,7 +5,7 @@ import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlin.random.Random
@@ -31,21 +31,16 @@ internal class PersistenceTest {
 
     @Test
     fun `getValue returns the same type`() {
-        given(settings)
-            .invocation { getFloat(key, mockFloat) }
-            .thenReturn(mockFloat)
-        given(settings)
-            .invocation { getBoolean(key, mockBoolean) }
-            .thenReturn(mockBoolean)
-        given(settings)
-            .invocation { getInt(key, mockInt) }
-            .thenReturn(mockInt)
-        given(settings)
-            .invocation { getString(key, mockString) }
-            .thenReturn(mockString)
-        given(settings)
-            .invocation { getLong(key, mockLong) }
-            .thenReturn(mockLong)
+        every { settings.getFloat(key, mockFloat) }
+            .returns(mockFloat)
+        every { settings.getBoolean(key, mockBoolean) }
+            .returns(mockBoolean)
+        every { settings.getInt(key, mockInt) }
+            .returns(mockInt)
+        every { settings.getString(key, mockString) }
+            .returns(mockString)
+        every { settings.getLong(key, mockLong) }
+            .returns(mockLong)
 
         assertEquals(mockFloat, persistence.getValue(key, mockFloat))
         assertEquals(mockBoolean, persistence.getValue(key, mockBoolean))
@@ -53,20 +48,15 @@ internal class PersistenceTest {
         assertEquals(mockString, persistence.getValue(key, mockString))
         assertEquals(mockLong, persistence.getValue(key, mockLong))
 
-        verify(settings)
-            .invocation { settings.getFloat(key, mockFloat) }
+        verify { settings.getFloat(key, mockFloat) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.getBoolean(key, mockBoolean) }
+        verify { settings.getBoolean(key, mockBoolean) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.getInt(key, mockInt) }
+        verify { settings.getInt(key, mockInt) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.getString(key, mockString) }
+        verify { settings.getString(key, mockString) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.getLong(key, mockLong) }
+        verify { settings.getLong(key, mockLong) }
             .wasInvoked()
     }
 
@@ -78,20 +68,15 @@ internal class PersistenceTest {
         persistence.setValue(key, mockString)
         persistence.setValue(key, mockLong)
 
-        verify(settings)
-            .invocation { settings.putFloat(key, mockFloat) }
+        verify { settings.putFloat(key, mockFloat) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.putBoolean(key, mockBoolean) }
+        verify { settings.putBoolean(key, mockBoolean) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.putInt(key, mockInt) }
+        verify { settings.putInt(key, mockInt) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.putString(key, mockString) }
+        verify { settings.putString(key, mockString) }
             .wasInvoked()
-        verify(settings)
-            .invocation { settings.putLong(key, mockLong) }
+        verify { settings.putLong(key, mockLong) }
             .wasInvoked()
     }
 

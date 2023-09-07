@@ -16,7 +16,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { interstitialAd, error in
                 if let error = error {
-                    logger.w(message: { "InterstitialAd show \(error.localizedDescription)" })
+                    logger.e(message: { "InterstitialAd show \(error.localizedDescription)" })
                     return
                 }
 
@@ -26,7 +26,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
                         fromRootViewController: WindowUtil.getCurrentController()
                     )
                 } else {
-                    logger.d(message: { "InterstitialAd not showed appState is not active" })
+                    logger.v(message: { "InterstitialAd not showed appState is not active" })
                 }
             }
         )

@@ -59,7 +59,7 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -90,7 +90,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: assemble
 
@@ -128,7 +128,7 @@ jobs:
           name: androidArtifacts
 
       - name: Firebase App Distribution Google
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.1
         with:
           appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -136,7 +136,7 @@ jobs:
           file: google/release/app-google-release.apk
 
       - name: Firebase App Distribution Huawei
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.1
         with:
           appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -144,7 +144,7 @@ jobs:
           file: huawei/release/app-huawei-release.apk
 
       - name: Delete Android Artifacts
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v2.0.0
         with:
           name: androidArtifacts
 
@@ -153,7 +153,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   XCodeBuild:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -190,7 +190,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Pods
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
 
@@ -219,7 +219,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   DistributeIOS:
-    runs-on: macos-12
+    runs-on: macos-13
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -240,7 +240,7 @@ jobs:
           fastlane distribute
 
       - name: Delete iOS IPA
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v2.0.0
         with:
           name: iOSArtifacts
 
@@ -249,7 +249,7 @@ jobs:
         run: echo "::set-output name=status::success"
 
   Quality:
-    runs-on: macos-12
+    runs-on: macos-13
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -266,7 +266,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: check koverMergedXmlReport --parallel
 
@@ -300,19 +300,19 @@ jobs:
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v3.1.4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
 
       - name: Upload coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@v1
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@master
+        uses: sonarsource/sonarcloud-github-action@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -323,7 +323,7 @@ jobs:
             -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
 
       - name: Delete Coverage Report
-        uses: geekyeggo/delete-artifact@v2
+        uses: geekyeggo/delete-artifact@v2.0.0
         with:
           name: coverageReport
 
@@ -349,7 +349,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v2.6.0
+        uses: gradle/gradle-build-action@v2.8.0
         with:
           arguments: detektAll
 
@@ -378,7 +378,7 @@ jobs:
           false == (needs.UploadQualityReports.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
-        uses: voxmedia/github-action-slack-notify-build@v2
+        uses: voxmedia/github-action-slack-notify-build@v1.6.0
         with:
           channel: ccc-github
           status: FAILED

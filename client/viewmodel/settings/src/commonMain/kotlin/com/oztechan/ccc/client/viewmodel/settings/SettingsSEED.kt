@@ -9,6 +9,7 @@ import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 
 // State
 data class SettingsState(
+    val isBannerAdVisible: Boolean,
     val activeCurrencyCount: Int = 0,
     val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
@@ -32,22 +33,23 @@ interface SettingsEvent : BaseEvent {
     fun onThemeClick()
     fun onPrecisionClick()
     fun onPrecisionSelect(index: Int)
+    fun onThemeChange(theme: AppTheme)
 }
 
 // Effect
 sealed class SettingsEffect : BaseEffect() {
-    object Back : SettingsEffect()
-    object OpenCurrencies : SettingsEffect()
-    object OpenWatchers : SettingsEffect()
-    object FeedBack : SettingsEffect()
-    object OnGitHub : SettingsEffect()
-    object Premium : SettingsEffect()
-    object ThemeDialog : SettingsEffect()
-    object Synchronising : SettingsEffect()
-    object Synchronised : SettingsEffect()
-    object OnlyOneTimeSync : SettingsEffect()
-    object AlreadyPremium : SettingsEffect()
-    object SelectPrecision : SettingsEffect()
+    data object Back : SettingsEffect()
+    data object OpenCurrencies : SettingsEffect()
+    data object OpenWatchers : SettingsEffect()
+    data object FeedBack : SettingsEffect()
+    data object OnGitHub : SettingsEffect()
+    data object Premium : SettingsEffect()
+    data object ThemeDialog : SettingsEffect()
+    data object Synchronising : SettingsEffect()
+    data object Synchronised : SettingsEffect()
+    data object OnlyOneTimeSync : SettingsEffect()
+    data object AlreadyPremium : SettingsEffect()
+    data object SelectPrecision : SettingsEffect()
     data class Share(val marketLink: String) : SettingsEffect()
     data class SupportUs(val marketLink: String) : SettingsEffect()
     data class ChangeTheme(val themeValue: Int) : SettingsEffect()

@@ -13,11 +13,12 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
-import io.mockative.anything
+import io.mockative.any
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.configure
-import io.mockative.eq
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
@@ -30,10 +31,10 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.days
 
-@Suppress("OPT_IN_USAGE")
 class WidgetViewModelTest {
 
     private val viewModel: WidgetViewModel by lazy {
@@ -46,7 +47,8 @@ class WidgetViewModelTest {
     }
 
     @Mock
-    private val calculationStorage = configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage =
+        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
 
     @Mock
     private val backendApiService = mock(classOf<BackendApiService>())
@@ -67,98 +69,89 @@ class WidgetViewModelTest {
         Currency(code = lastBase, name = "Turkish Lira", symbol = "₺", isActive = true)
     )
 
-    private val conversion = Conversion(base = base, eur = 1.111111, usd = 2.222222, `try` = 3.333333)
+    private val conversion =
+        Conversion(base = base, eur = 1.111111, usd = 2.222222, `try` = 3.333333)
 
     @BeforeTest
     fun setup() {
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
         Logger.setLogWriters(CommonWriter())
 
         val mockEndDate = Random.nextLong()
 
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(mockEndDate)
+        every { appStorage.premiumEndDate }
+            .returns(mockEndDate)
 
-        given(calculationStorage)
-            .invocation { currentBase }
-            .thenReturn(base)
+        every { calculationStorage.currentBase }
+            .returns(base)
 
-        given(calculationStorage)
-            .invocation { precision }
-            .thenReturn(3)
+        every { calculationStorage.precision }
+            .returns(3)
 
         runTest {
-            given(backendApiService)
-                .coroutine { getConversion(base) }
-                .thenReturn(conversion)
+            coEvery { backendApiService.getConversion(base) }
+                .returns(conversion)
 
-            given(currencyDataSource)
-                .coroutine { getActiveCurrencies() }
-                .thenReturn(activeCurrencyList)
+            coEvery { currencyDataSource.getActiveCurrencies() }
+                .returns(activeCurrencyList)
         }
     }
 
-//    @Test
-//    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
-//        // first currency
-//        given(calculationStorage)
-//            .invocation { currentBase }
-//            .thenReturn(firstBase)
-//
-//        given(backendApiService)
-//            .coroutine { getConversion(firstBase) }
-//            .thenReturn(conversion)
-//
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick()
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(true)
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(false)
-//        }
-//
-//        // middle currency
-//        given(calculationStorage)
-//            .invocation { currentBase }
-//            .thenReturn(base)
-//
-//        given(backendApiService)
-//            .coroutine { getConversion(base) }
-//            .thenReturn(conversion)
-//
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick()
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(true)
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(false)
-//        }
-//
-//        // last currency
-//        given(calculationStorage)
-//            .invocation { currentBase }
-//            .thenReturn(lastBase)
-//
-//        given(backendApiService)
-//            .coroutine { getConversion(lastBase) }
-//            .thenReturn(conversion)
-//
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick()
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(true)
-//        }
-//        repeat(activeCurrencyList.count()) {
-//            viewModel.event.onRefreshClick(false)
-//        }
-//    }
+    @Test
+    fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
+        // first currency
+        every { calculationStorage.currentBase }
+            .returns(firstBase)
+
+        coEvery { backendApiService.getConversion(firstBase) }
+            .returns(conversion)
+
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onRefreshClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onNextClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onPreviousClick()
+        }
+
+        // middle currency
+        every { calculationStorage.currentBase }
+            .returns(base)
+
+        coEvery { backendApiService.getConversion(base) }
+            .returns(conversion)
+
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onRefreshClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onNextClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onPreviousClick()
+        }
+
+        // last currency
+        every { calculationStorage.currentBase }
+            .returns(lastBase)
+
+        coEvery { backendApiService.getConversion(lastBase) }
+            .returns(conversion)
+
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onRefreshClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onNextClick()
+        }
+        repeat(activeCurrencyList.count() + 1) {
+            viewModel.event.onPreviousClick()
+        }
+    }
 
     @Test
     fun `init sets isPremium and currentBase`() = runTest {
@@ -171,133 +164,144 @@ class WidgetViewModelTest {
 
     @Test
     fun `if user is premium api call and db query are invoked`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(backendApiService)
-            .coroutine { getConversion(base) }
+        coVerify { backendApiService.getConversion(base) }
             .wasInvoked()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
     }
 
     @Test
     fun `if user is not premium no api call and db query are not invoked`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(backendApiService)
-            .coroutine { getConversion(base) }
+        coVerify { backendApiService.getConversion(base) }
             .wasNotInvoked()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasNotInvoked()
     }
 
     @Test
-    fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() = runTest {
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() + 1.days.inWholeMilliseconds)
+    fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() =
+        runTest {
+            every { appStorage.premiumEndDate }
+                .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
-        viewModel.state.onSubscription {
-            viewModel.event.onRefreshClick()
-        }.firstOrNull().let {
-            assertNotNull(it)
-            it.currencyList.forEach { currency ->
-                conversion.getRateFromCode(currency.code).let { rate ->
-                    assertNotNull(rate)
-                    assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
+            viewModel.state.onSubscription {
+                viewModel.event.onRefreshClick()
+            }.firstOrNull().let {
+                assertNotNull(it)
+                it.currencyList.forEach { currency ->
+                    conversion.getRateFromCode(currency.code).let { rate ->
+                        assertNotNull(rate)
+                        assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
+                    }
                 }
             }
         }
-    }
 
     @Test
     fun `when onRefreshClick called with null, base is not updated`() = runTest {
         // to not invoke getFreshWidgetData
-        given(appStorage)
-            .invocation { premiumEndDate }
-            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
 
-        verify(currencyDataSource)
-            .coroutine { getActiveCurrencies() }
+        coVerify { currencyDataSource.getActiveCurrencies() }
             .wasNotInvoked()
 
-        verify(calculationStorage)
-            .setter(calculationStorage::currentBase)
-            .with(eq(anything<String>()))
+        verify { calculationStorage.currentBase = any<String>() }
             .wasNotInvoked()
     }
 
-//    @Test
-//    fun `when onRefreshClick called with true, base is updated next or the first active currency`() = runTest {
-//        // to not invoke getFreshWidgetData
-//        given(appStorage)
-//            .invocation { premiumEndDate }
-//            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
-//
-//        viewModel.event.onRefreshClick(true)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(firstBase))
-//            .wasInvoked()
-//
-//        viewModel.event.onRefreshClick(true)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(lastBase))
-//            .wasInvoked()
-//    }
+    // region Event
+    @Test
+    fun onNextClick() = runTest {
+        // when onNextClick, base is updated next or the first active currency
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
-//    @Test
-//    fun `when onRefreshClick called with false, base is updated previous or the last active currency`() = runTest {
-//        // to not invoke getFreshWidgetData
-//        given(appStorage)
-//            .invocation { premiumEndDate }
-//            .thenReturn(nowAsLong() - 1.days.inWholeMilliseconds)
-//
-//        viewModel.event.onRefreshClick(false)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(lastBase))
-//            .wasInvoked()
-//
-//        viewModel.event.onRefreshClick(false)
-//
-//        verify(currencyDataSource)
-//            .coroutine { getActiveCurrencies() }
-//            .wasInvoked()
-//
-//        verify(calculationStorage)
-//            .setter(calculationStorage::currentBase)
-//            .with(eq(firstBase))
-//            .wasInvoked()
-//    }
+        viewModel.event.onNextClick()
+
+        coVerify { currencyDataSource.getActiveCurrencies() }
+            .wasInvoked()
+
+        verify { calculationStorage.currentBase = lastBase }
+            .wasInvoked()
+
+        every { calculationStorage.currentBase }
+            .returns(lastBase)
+
+        viewModel.event.onNextClick()
+
+        coVerify { currencyDataSource.getActiveCurrencies() }
+            .wasInvoked()
+
+        verify { calculationStorage.currentBase = firstBase }
+            .wasInvoked()
+    }
+
+    @Test
+    fun onPreviousClick() = runTest {
+        // when onRefreshClick, base is updated previous or the last active currency
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.days.inWholeMilliseconds)
+
+        viewModel.event.onPreviousClick()
+
+        coVerify { currencyDataSource.getActiveCurrencies() }
+            .wasInvoked()
+
+        verify { calculationStorage.currentBase = firstBase }
+            .wasInvoked()
+
+        every { calculationStorage.currentBase }
+            .returns(firstBase)
+
+        viewModel.event.onPreviousClick()
+
+        coVerify { currencyDataSource.getActiveCurrencies() }
+            .wasInvoked()
+
+        verify { calculationStorage.currentBase = lastBase }
+            .wasInvoked()
+    }
+
+    @Test
+    fun onRefreshClick() = runTest {
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.days.inWholeMilliseconds)
+
+        viewModel.event.onRefreshClick()
+
+        coVerify { backendApiService.getConversion(base) }
+            .wasInvoked()
+
+        coVerify { currencyDataSource.getActiveCurrencies() }
+            .wasInvoked()
+
+        verify { calculationStorage.currentBase }
+            .wasInvoked()
+    }
+
+    @Test
+    fun onOpenAppClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onOpenAppClick()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<WidgetEffect.OpenApp>(it)
+        }
+    }
+    // endregion
 }

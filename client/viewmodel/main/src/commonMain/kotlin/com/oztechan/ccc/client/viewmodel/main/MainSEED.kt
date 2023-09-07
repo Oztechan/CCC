@@ -3,12 +3,19 @@ package com.oztechan.ccc.client.viewmodel.main
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
+import com.oztechan.ccc.client.core.viewmodel.BaseState
 import kotlinx.coroutines.Job
 
 // State
+data class MainState(
+    var shouldOnboardUser: Boolean,
+    var appTheme: Int
+) : BaseState()
+
+// Effect
 sealed class MainEffect : BaseEffect() {
-    object ShowInterstitialAd : MainEffect()
-    object RequestReview : MainEffect()
+    data object ShowInterstitialAd : MainEffect()
+    data object RequestReview : MainEffect()
     data class AppUpdateEffect(val isCancelable: Boolean, val marketLink: String) : MainEffect()
 }
 

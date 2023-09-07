@@ -23,17 +23,14 @@ final class ObservableSEEDViewModel<
     let effect = PassthroughSubject<Effect, Never>()
     let event: Event
 
-    let data: Data?
-
     private var stateClosable: Closeable?
     private var effectClosable: Closeable?
 
     init() {
-        logger.i(message: { "ObservableSEED \(ViewModel.description()) init" })
+        logger.d(message: { "ObservableSEED \(ViewModel.description()) init" })
 
-        self.state = State()
+        self.state = (viewModel.state?.value as? State) ?? State()
         self.event = viewModel.event!
-        self.data = viewModel.data
     }
 
     deinit {
@@ -41,16 +38,16 @@ final class ObservableSEEDViewModel<
     }
 
     func startObserving() {
-        logger.i(message: { "ObservableSEED \(ViewModel.description()) startObserving" })
+        logger.d(message: { "ObservableSEED \(ViewModel.description()) startObserving" })
 
         if viewModel.state != nil {
-            stateClosable = IOSCoroutineUtilKt.observeWithCloseable(viewModel.state!, onChange: {
+            stateClosable = CoroutineUtilKt.observeWithCloseable(viewModel.state!, onChange: {
                 // swiftlint:disable:next force_cast
                 self.state = $0 as! State
             })
         }
         if viewModel.effect != nil {
-            effectClosable = IOSCoroutineUtilKt.observeWithCloseable(viewModel.effect!, onChange: {
+            effectClosable = CoroutineUtilKt.observeWithCloseable(viewModel.effect!, onChange: {
                 // swiftlint:disable:next force_cast
                 self.effect.send($0 as! Effect)
             })
@@ -58,7 +55,7 @@ final class ObservableSEEDViewModel<
     }
 
     func stopObserving() {
-        logger.i(message: { "ObservableSEED \(ViewModel.description()) stopObserving" })
+        logger.d(message: { "ObservableSEED \(ViewModel.description()) stopObserving" })
         closeClosables()
     }
 

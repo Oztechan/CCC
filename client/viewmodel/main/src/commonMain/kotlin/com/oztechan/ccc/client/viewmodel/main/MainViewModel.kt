@@ -11,14 +11,16 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.BaseState
+import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -29,9 +31,15 @@ class MainViewModel(
     private val adConfigService: AdConfigService,
     private val adControlRepository: AdControlRepository,
     analyticsManager: AnalyticsManager,
-) : BaseSEEDViewModel<BaseState, MainEffect, MainEvent, MainData>(), MainEvent {
+) : BaseSEEDViewModel<MainState, MainEffect, MainEvent, MainData>(), MainEvent {
     // region SEED
-    override val state: StateFlow<BaseState>? = null
+    private val _state = MutableStateFlow(
+        MainState(
+            shouldOnboardUser = appStorage.firstRun,
+            appTheme = appStorage.appTheme
+        )
+    )
+    override val state: StateFlow<MainState> = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<MainEffect>()
     override val effect = _effect.asSharedFlow()
@@ -43,7 +51,11 @@ class MainViewModel(
 
     init {
         with(analyticsManager) {
-            setUserProperty(UserProperty.IsPremium(appStorage.premiumEndDate.isNotPassed().toString()))
+            setUserProperty(
+                UserProperty.IsPremium(
+                    appStorage.premiumEndDate.isNotPassed().toString()
+                )
+            )
             setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
             setUserProperty(
                 UserProperty.AppTheme(
@@ -82,7 +94,12 @@ class MainViewModel(
     private fun checkAppUpdate() {
         appConfigRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
             viewModelScope.launch {
-                _effect.emit(MainEffect.AppUpdateEffect(isCancelable, appConfigRepository.getMarketLink()))
+                _effect.emit(
+                    MainEffect.AppUpdateEffect(
+                        isCancelable,
+                        appConfigRepository.getMarketLink()
+                    )
+                )
                 data.isAppUpdateShown = true
             }
         }
@@ -97,10 +114,6 @@ class MainViewModel(
         }
     }
 
-    fun isFistRun() = appStorage.firstRun
-
-    fun getAppTheme() = appStorage.appTheme
-
     // region Event
     override fun onPause() {
         Logger.d { "MainViewModel onPause" }
@@ -110,6 +123,13 @@ class MainViewModel(
 
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
+
+        _state.update {
+            copy(
+                shouldOnboardUser = appStorage.firstRun,
+                appTheme = appStorage.appTheme
+            )
+        }
 
         adjustSessionCount()
         setupInterstitialAdTimer()

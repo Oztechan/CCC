@@ -11,7 +11,7 @@ import Provider
 import Res
 
 struct PremiumItemView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     let item: PremiumType?
 

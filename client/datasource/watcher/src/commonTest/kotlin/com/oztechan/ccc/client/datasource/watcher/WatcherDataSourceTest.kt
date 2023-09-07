@@ -11,7 +11,7 @@ import com.squareup.sqldelight.db.SqlDriver
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -20,15 +20,16 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 
-@Suppress("OPT_IN_USAGE")
 internal class WatcherDataSourceTest {
 
     private val subject: WatcherDataSource by lazy {
+        @Suppress("OPT_IN_USAGE")
         WatcherDataSourceImpl(watcherQueries, UnconfinedTestDispatcher())
     }
 
     @Mock
-    private val watcherQueries = configure(mock(classOf<WatcherQueries>())) { stubsUnitByDefault = true }
+    private val watcherQueries =
+        configure(mock(classOf<WatcherQueries>())) { stubsUnitByDefault = true }
 
     @Mock
     private val sqlDriver = mock(classOf<SqlDriver>())
@@ -48,25 +49,21 @@ internal class WatcherDataSourceTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
-        given(sqlDriver)
-            .invocation { executeQuery(-1, "", 0, null) }
-            .thenReturn(sqlCursor)
+        every { sqlDriver.executeQuery(-1, "", 0, null) }
+            .returns(sqlCursor)
 
-        given(sqlCursor)
-            .invocation { next() }
-            .thenReturn(false)
+        every { sqlCursor.next() }
+            .returns(false)
     }
 
     @Test
     fun getWatchersFlow() = runTest {
-        given(watcherQueries)
-            .invocation { getWatchers() }
-            .then { query }
+        every { watcherQueries.getWatchers() }
+            .returns(query)
 
         subject.getWatchersFlow()
 
-        verify(watcherQueries)
-            .coroutine { getWatchers() }
+        verify { watcherQueries.getWatchers() }
             .wasInvoked()
     }
 
@@ -74,21 +71,18 @@ internal class WatcherDataSourceTest {
     fun addWatcher() = runTest {
         subject.addWatcher(base, target)
 
-        verify(watcherQueries)
-            .invocation { addWatcher(base, target) }
+        verify { watcherQueries.addWatcher(base, target) }
             .wasInvoked()
     }
 
     @Test
     fun getWatchers() = runTest {
-        given(watcherQueries)
-            .invocation { getWatchers() }
-            .then { query }
+        every { watcherQueries.getWatchers() }
+            .returns(query)
 
         subject.getWatchers()
 
-        verify(watcherQueries)
-            .coroutine { getWatchers() }
+        verify { watcherQueries.getWatchers() }
             .wasInvoked()
     }
 
@@ -96,8 +90,7 @@ internal class WatcherDataSourceTest {
     fun deleteWatcher() = runTest {
         subject.deleteWatcher(id)
 
-        verify(watcherQueries)
-            .invocation { deleteWatcher(id) }
+        verify { watcherQueries.deleteWatcher(id) }
             .wasInvoked()
     }
 
@@ -105,8 +98,7 @@ internal class WatcherDataSourceTest {
     fun updateWatcherBaseById() = runTest {
         subject.updateWatcherBaseById(base, id)
 
-        verify(watcherQueries)
-            .invocation { updateWatcherBaseById(base, id) }
+        verify { watcherQueries.updateWatcherBaseById(base, id) }
             .wasInvoked()
     }
 
@@ -114,8 +106,7 @@ internal class WatcherDataSourceTest {
     fun updateWatcherTargetById() = runTest {
         subject.updateWatcherTargetById(target, id)
 
-        verify(watcherQueries)
-            .invocation { updateWatcherTargetById(target, id) }
+        verify { watcherQueries.updateWatcherTargetById(target, id) }
             .wasInvoked()
     }
 
@@ -124,8 +115,7 @@ internal class WatcherDataSourceTest {
         val relation = Random.nextBoolean()
         subject.updateWatcherRelationById(relation, id)
 
-        verify(watcherQueries)
-            .invocation { updateWatcherRelationById(relation.toLong(), id) }
+        verify { watcherQueries.updateWatcherRelationById(relation.toLong(), id) }
             .wasInvoked()
     }
 
@@ -135,8 +125,7 @@ internal class WatcherDataSourceTest {
 
         subject.updateWatcherRateById(rate, id)
 
-        verify(watcherQueries)
-            .invocation { updateWatcherRateById(rate, id) }
+        verify { watcherQueries.updateWatcherRateById(rate, id) }
             .wasInvoked()
     }
 }

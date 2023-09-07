@@ -2,7 +2,6 @@ import config.DeviceFlavour
 import config.DeviceFlavour.Companion.implementation
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(android.get().pluginId)
@@ -22,7 +21,6 @@ android {
     }
 
     DeviceFlavour.apply {
-        @Suppress("UnstableApiUsage")
         flavorDimensions.addAll(listOf(flavorDimension))
 
         productFlavors {

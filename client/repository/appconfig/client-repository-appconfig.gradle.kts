@@ -3,7 +3,6 @@ import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 
 plugins {
-    @Suppress("DSL_SCOPE_VIOLATION")
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
@@ -13,7 +12,10 @@ plugins {
 }
 
 kotlin {
-    android()
+    @Suppress("OPT_IN_USAGE")
+    targetHierarchy.default()
+
+    androidTarget()
 
     iosX64()
     iosArm64()
@@ -21,7 +23,6 @@ kotlin {
 
     @Suppress("UNUSED_VARIABLE")
     sourceSets {
-
         val commonMain by getting {
             dependencies {
                 implementation(libs.common.koinCore)
@@ -42,28 +43,6 @@ kotlin {
                     implementation(mockative)
                 }
             }
-        }
-
-        val androidMain by getting
-        val androidUnitTest by getting
-
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }

@@ -1,12 +1,12 @@
 package com.oztechan.ccc.client.core.analytics.model
 
 sealed class ScreenName {
-    object Calculator : ScreenName()
-    object SelectCurrency : ScreenName()
-    object Currencies : ScreenName()
-    object Settings : ScreenName()
-    object Watchers : ScreenName()
-    object Premium : ScreenName()
+    data object Calculator : ScreenName()
+    data object SelectCurrency : ScreenName()
+    data object Currencies : ScreenName()
+    data object Settings : ScreenName()
+    data object Watchers : ScreenName()
+    data object Premium : ScreenName()
     data class Slider(val position: Int) : ScreenName()
 
     fun getScreenName() = when (this) {

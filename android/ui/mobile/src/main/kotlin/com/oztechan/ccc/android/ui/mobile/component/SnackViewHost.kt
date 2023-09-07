@@ -80,7 +80,6 @@ fun SnackViewContent(snackbarData: SnackbarData) {
     }
 }
 
-@Suppress("UnrememberedMutableState")
 @Composable
 @ThemedPreviews
 fun SnackViewContentPreview() = Preview {

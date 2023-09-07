@@ -38,7 +38,7 @@ fun WidgetView(
                 onNextClick = event::onNextClick
             )
 
-            state.currencyList.forEach {
+            state.currencyList.iterator().forEach {
                 WidgetItem(item = it)
             }
         } else {

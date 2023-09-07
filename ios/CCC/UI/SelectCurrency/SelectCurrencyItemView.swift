@@ -11,7 +11,7 @@ import Res
 import SwiftUI
 
 struct SelectCurrencyItemView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
     var item: Currency
 
     var body: some View {

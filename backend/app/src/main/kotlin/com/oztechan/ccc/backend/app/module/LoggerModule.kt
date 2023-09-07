@@ -6,5 +6,5 @@ import io.ktor.server.application.Application
 
 @Suppress("unused", "UnusedReceiverParameter")
 internal fun Application.loggerModule() = initLogger().also {
-    Logger.i { "LoggerModuleKt Application.loggerModule" }
+    Logger.v { "LoggerModuleKt Application.loggerModule" }
 }

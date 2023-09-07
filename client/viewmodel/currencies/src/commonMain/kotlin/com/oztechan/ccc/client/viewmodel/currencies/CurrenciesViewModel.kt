@@ -33,11 +33,17 @@ class CurrenciesViewModel(
     private val appStorage: AppStorage,
     private val calculationStorage: CalculationStorage,
     private val currencyDataSource: CurrencyDataSource,
-    private val adControlRepository: AdControlRepository,
+    adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(), CurrenciesEvent {
+) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(),
+    CurrenciesEvent {
     // region SEED
-    private val _state = MutableStateFlow(CurrenciesState())
+    private val _state = MutableStateFlow(
+        CurrenciesState(
+            isBannerAdVisible = adControlRepository.shouldShowBannerAd(),
+            isOnboardingVisible = appStorage.firstRun
+        )
+    )
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<CurrenciesEffect>()
@@ -103,14 +109,6 @@ class CurrenciesViewModel(
             data.query = txt
         }
 
-    fun hideSelectionVisibility() = _state.update {
-        copy(selectionVisibility = false)
-    }
-
-    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
-
-    fun isFirstRun() = appStorage.firstRun
-
     // region Event
     override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
@@ -130,6 +128,7 @@ class CurrenciesViewModel(
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
                 appStorage.firstRun = false
+                _state.update { copy(isOnboardingVisible = false) }
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }

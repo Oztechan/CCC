@@ -31,7 +31,6 @@ import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("TooManyFunctions")
 class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
@@ -48,7 +47,10 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "PremiumBottomSheet onViewCreated" }
-        billingManager.startConnection(viewLifecycleOwner.lifecycleScope, PremiumType.getPurchaseIds())
+        billingManager.startConnection(
+            viewLifecycleOwner,
+            PremiumType.getPurchaseIds()
+        )
         binding.initViews()
         binding.observeStates()
         observeEffects()
@@ -85,27 +87,28 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         .onEach { viewEffect ->
             Logger.i { "PremiumBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is PremiumEffect.LaunchActivatePremiumFlow -> {
-                    if (viewEffect.premiumType == PremiumType.VIDEO) {
-                        activity?.showDialog(
-                            title = R.string.txt_premium,
-                            message = R.string.txt_premium_text,
-                            positiveButton = R.string.txt_watch
-                        ) {
-                            premiumViewModel.showLoadingView(true)
-                            showRewardedAd()
-                        }
-                    } else {
-                        billingManager.launchBillingFlow(requireActivity(), viewEffect.premiumType.data.id)
+                is PremiumEffect.LaunchActivatePremiumFlow -> if (viewEffect.premiumType == PremiumType.VIDEO) {
+                    activity?.showDialog(
+                        title = R.string.txt_premium,
+                        message = R.string.txt_premium_text,
+                        positiveButton = R.string.txt_watch
+                    ) {
+                        showRewardedAd()
                     }
+                } else {
+                    billingManager.launchBillingFlow(
+                        requireActivity(),
+                        viewEffect.premiumType.data.id
+                    )
                 }
 
-                is PremiumEffect.PremiumActivated -> {
-                    if (viewEffect.premiumType == PremiumType.VIDEO || viewEffect.isRestorePurchase) {
-                        restartActivity()
-                    } else {
-                        billingManager.acknowledgePurchase()
-                    }
+                is PremiumEffect.PremiumActivated -> if (
+                    viewEffect.premiumType == PremiumType.VIDEO ||
+                    viewEffect.isRestorePurchase
+                ) {
+                    restartActivity()
+                } else {
+                    billingManager.acknowledgePurchase()
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -116,17 +119,19 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
             Logger.i { "PremiumBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
-                is BillingEffect.RestorePurchase -> premiumViewModel.restorePurchase(
+                is BillingEffect.RestorePurchase -> premiumViewModel.event.onRestorePurchase(
                     viewEffect.purchaseHistoryRecordRecordList.toOldPurchaseList()
                 )
 
-                is BillingEffect.AddPurchaseMethods -> premiumViewModel.addPurchaseMethods(
+                is BillingEffect.AddPurchaseMethods -> premiumViewModel.event.onAddPurchaseMethods(
                     viewEffect.productDetailsList.toPremiumDataList()
                 )
 
-                is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.updatePremiumEndDate(
+                is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.onPremiumActivated(
                     PremiumType.getById(viewEffect.id)
                 )
+
+                BillingEffect.BillingUnavailable -> premiumViewModel.event.onPremiumActivationFailed()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -139,14 +144,11 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 getString(R.string.rewarded_ad_unit_id_release)
             },
             onAdFailedToLoad = {
-                premiumViewModel.showLoadingView(false)
                 view?.showSnack(R.string.error_text_unknown)
-            },
-            onAdLoaded = {
-                premiumViewModel.showLoadingView(false)
+                premiumViewModel.event.onPremiumActivationFailed()
             },
             onReward = {
-                premiumViewModel.updatePremiumEndDate(PremiumType.VIDEO)
+                premiumViewModel.event.onPremiumActivated(PremiumType.VIDEO)
             }
         )
     }

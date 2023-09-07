@@ -12,12 +12,12 @@ internal class BackgroundRepositoryImpl(
 ) : BackgroundRepository {
 
     init {
-        Logger.d { "BackgroundRepositoryImpl init" }
+        Logger.v { "BackgroundRepositoryImpl init" }
     }
 
-    @Suppress("LabeledExpression", "TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught")
     override fun shouldSendNotification() = try {
-        Logger.d { "BackgroundRepositoryImpl shouldSendNotification" }
+        Logger.v { "BackgroundRepositoryImpl shouldSendNotification" }
 
         runBlocking {
             watchersDataSource.getWatchers().forEach { watcher ->
@@ -37,7 +37,7 @@ internal class BackgroundRepositoryImpl(
             return@runBlocking false
         }
     } catch (e: Exception) {
-        Logger.w(e) { "BackgroundRepositoryImpl shouldSendNotification error catch: $e" }
+        Logger.e(e) { "BackgroundRepositoryImpl shouldSendNotification error catch: $e" }
         false
     }
 }

@@ -91,7 +91,7 @@ fun initKoin(context: Context) = startKoin {
         // endregion
     )
 }.also {
-    Logger.i { "Koin initialised" }
+    Logger.v { "Koin initialised" }
 }
 
 private fun getAndroidPlatformModule() = module { singleOf(::provideDevice) }

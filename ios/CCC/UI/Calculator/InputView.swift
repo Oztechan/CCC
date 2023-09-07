@@ -10,7 +10,7 @@ import Res
 import SwiftUI
 
 struct InputView: View {
-    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.colorScheme) private var colorScheme
 
     var input: String
     var onSettingsClick: () -> Void

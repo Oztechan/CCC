@@ -39,12 +39,13 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
-    private val adControlRepository: AdControlRepository,
+    adControlRepository: AdControlRepository,
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
     // region SEED
-    private val _state = MutableStateFlow(SettingsState())
+    private val _state =
+        MutableStateFlow(SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<SettingsEffect>()
@@ -88,7 +89,7 @@ class SettingsViewModel(
         currencyDataSource.getActiveCurrencies()
             .forEach { (name) ->
                 runCatching { backendApiService.getConversion(name) }
-                    .onFailure { error -> Logger.e(error) { error.message.toString() } }
+                    .onFailure { error -> Logger.w(error) { error.message.toString() } }
                     .onSuccess { conversionDataSource.insertConversion(it) }
 
                 delay(SYNC_DELAY)
@@ -98,16 +99,6 @@ class SettingsViewModel(
 
         data.synced = true
     }
-
-    fun updateTheme(theme: AppTheme) = viewModelScope.launchIgnored {
-        _state.update { copy(appThemeType = theme) }
-        appStorage.appTheme = theme.themeValue
-        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
-    }
-
-    fun shouldShowBannerAd() = adControlRepository.shouldShowBannerAd()
-
-    fun getAppTheme() = appStorage.appTheme
 
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
@@ -180,6 +171,13 @@ class SettingsViewModel(
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
         calculationStorage.precision = index.indexToNumber()
         _state.update { copy(precision = index.indexToNumber()) }
+    }
+
+    override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onThemeChange $theme" }
+        _state.update { copy(appThemeType = theme) }
+        appStorage.appTheme = theme.themeValue
+        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
     // endregion
 }

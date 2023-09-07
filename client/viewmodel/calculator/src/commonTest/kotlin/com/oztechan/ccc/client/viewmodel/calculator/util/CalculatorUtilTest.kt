@@ -10,7 +10,6 @@ import com.oztechan.ccc.common.core.model.CurrencyType
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@Suppress("TooManyFunctions")
 internal class CalculatorUtilTest {
 
     @Test

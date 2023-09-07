@@ -9,13 +9,12 @@
 import BackgroundTasks
 import FirebaseCore
 import GoogleMobileAds
-import PopupView
 import Provider
 import Res
 import SwiftUI
 
 var logger: KermitLogger = {
-    return IOSLoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
+    return LoggerKt.doInitLogger(isCrashlyticsEnabled: EnvironmentUtil.isRelease)
 }()
 
 @main
@@ -55,8 +54,8 @@ struct Application: App {
 
     var body: some Scene {
         WindowGroup {
-            MainView()
-                .popup(isPresented: $isWatcherAlertShown) {
+            MainRootView()
+                .alert(isPresented: $isWatcherAlertShown) {
                     AlertView(
                         title: Res.strings().txt_watcher_alert_title.get(),
                         message: Res.strings().txt_watcher_alert_sub_title.get(),

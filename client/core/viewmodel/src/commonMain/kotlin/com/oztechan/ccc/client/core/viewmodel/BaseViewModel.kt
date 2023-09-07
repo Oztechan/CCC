@@ -6,8 +6,6 @@ package com.oztechan.ccc.client.core.viewmodel
 
 import kotlinx.coroutines.CoroutineScope
 
-@Suppress("EmptyDefaultConstructor")
 expect open class BaseViewModel() {
     protected val viewModelScope: CoroutineScope
-    protected open fun onCleared()
 }

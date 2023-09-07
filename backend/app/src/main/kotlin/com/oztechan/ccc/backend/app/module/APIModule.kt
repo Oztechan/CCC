@@ -20,7 +20,7 @@ import org.koin.ktor.ext.inject
 
 @Suppress("unused")
 internal fun Application.apiModule() {
-    Logger.i { "APIModuleKt Application.apiModule" }
+    Logger.v { "APIModuleKt Application.apiModule" }
 
     install(ContentNegotiation) {
         json()

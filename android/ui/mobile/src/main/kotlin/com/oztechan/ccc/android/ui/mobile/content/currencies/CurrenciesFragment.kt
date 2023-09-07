@@ -32,10 +32,10 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("TooManyFunctions")
 class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
@@ -65,41 +65,42 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun FragmentCurrenciesBinding.initViews() {
-        adViewContainer.setBannerAd(
-            adManager = adManager,
-            adId = if (BuildConfig.DEBUG) {
-                getString(R.string.banner_ad_unit_id_currencies_debug)
-            } else {
-                getString(R.string.banner_ad_unit_id_currencies_release)
-            },
-            shouldShowAd = currenciesViewModel.shouldShowBannerAd()
-        )
-
         setSpanByOrientation(resources.configuration.orientation)
 
         with(recyclerViewCurrencies) {
             setHasFixedSize(true)
             adapter = currenciesAdapter
         }
-
-        btnDone.visibleIf(currenciesViewModel.isFirstRun())
-        txtSelectCurrencies.visibleIf(currenciesViewModel.isFirstRun())
     }
 
     private fun FragmentCurrenciesBinding.observeStates() = currenciesViewModel.state
         .flowWithLifecycle(lifecycle)
+        .onStart {
+            adViewContainer.setBannerAd(
+                adManager = adManager,
+                adId = if (BuildConfig.DEBUG) {
+                    getString(R.string.banner_ad_unit_id_currencies_debug)
+                } else {
+                    getString(R.string.banner_ad_unit_id_currencies_release)
+                },
+                shouldShowAd = currenciesViewModel.state.value.isBannerAdVisible
+            )
+        }
         .onEach {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
 
                 loadingView.visibleIf(loading, true)
 
+                btnDone.visibleIf(isOnboardingVisible)
+                txtSelectCurrencies.visibleIf(isOnboardingVisible)
+
                 with(layoutCurrenciesToolbar) {
                     searchView.visibleIf(!selectionVisibility)
                     txtCurrenciesToolbar.visibleIf(!selectionVisibility)
                     btnSelectAll.visibleIf(selectionVisibility)
                     btnDeSelectAll.visibleIf(selectionVisibility)
-                    backButton.visibleIf(!currenciesViewModel.isFirstRun() || selectionVisibility)
+                    backButton.visibleIf(!isOnboardingVisible || selectionVisibility)
 
                     backButton.setBackgroundResource(
                         if (selectionVisibility) R.drawable.ic_close else R.drawable.ic_back
@@ -162,10 +163,8 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     override fun onResume() {
         super.onResume()
-        analyticsManager.trackScreen(ScreenName.Currencies)
         Logger.i { "CurrenciesFragment onResume" }
-        currenciesViewModel.hideSelectionVisibility()
-        currenciesViewModel.event.onQueryChange("")
+        analyticsManager.trackScreen(ScreenName.Currencies)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

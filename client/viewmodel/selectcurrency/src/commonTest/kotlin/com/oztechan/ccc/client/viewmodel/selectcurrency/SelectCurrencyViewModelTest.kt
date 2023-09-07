@@ -8,7 +8,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.given
+import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +28,6 @@ import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
-@Suppress("OPT_IN_USAGE")
 internal class SelectCurrencyViewModelTest {
 
     private val subject: SelectCurrencyViewModel by lazy {
@@ -48,11 +47,11 @@ internal class SelectCurrencyViewModelTest {
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
+        @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        given(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
-            .thenReturn(flowOf(currencyListEnough))
+        every { currencyDataSource.getActiveCurrenciesFlow() }
+            .returns(flowOf(currencyListEnough))
     }
 
     // SEED
@@ -64,9 +63,8 @@ internal class SelectCurrencyViewModelTest {
     // init
     @Test
     fun `init updates the states with no enough currency`() = runTest {
-        given(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
-            .thenReturn(flowOf(currencyListNotEnough))
+        every { currencyDataSource.getActiveCurrenciesFlow() }
+            .returns(flowOf(currencyListNotEnough))
 
         subject.state.firstOrNull().let {
             assertNotNull(it)
@@ -75,8 +73,7 @@ internal class SelectCurrencyViewModelTest {
             assertEquals(currencyListNotEnough, it.currencyList)
         }
 
-        verify(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
+        verify { currencyDataSource.getActiveCurrenciesFlow() }
             .wasInvoked()
     }
 
@@ -91,8 +88,7 @@ internal class SelectCurrencyViewModelTest {
             }
         }
 
-        verify(currencyDataSource)
-            .invocation { getActiveCurrenciesFlow() }
+        verify { currencyDataSource.getActiveCurrenciesFlow() }
             .wasInvoked()
     }
 
