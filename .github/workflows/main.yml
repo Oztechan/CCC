@@ -312,7 +312,7 @@ jobs:
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.0.1
+        uses: sonarsource/sonarcloud-github-action@v2.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
