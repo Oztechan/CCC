@@ -123,7 +123,7 @@ jobs:
         uses: actions/checkout@v4.0.0
 
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: androidArtifacts
 
@@ -229,7 +229,7 @@ jobs:
         uses: actions/checkout@v4.0.0
 
       - name: Download iOS IPA
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: iOSArtifacts
           path: ios
@@ -294,7 +294,7 @@ jobs:
         uses: actions/checkout@v4.0.0
 
       - name: Download Coverage Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: coverageReport
           path: build
