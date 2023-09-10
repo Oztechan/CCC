@@ -84,7 +84,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.12.0
         with:
           java-version: 17
           distribution: 'temurin'
@@ -184,7 +184,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.12.0
         with:
           java-version: 17
           distribution: 'temurin'
@@ -260,7 +260,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.12.0
         with:
           java-version: 17
           distribution: 'temurin'
@@ -343,7 +343,7 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.12.0
         with:
           java-version: 17
           distribution: 'temurin'
