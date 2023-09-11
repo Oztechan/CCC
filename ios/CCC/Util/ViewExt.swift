@@ -122,7 +122,7 @@ extension Image {
     init(resourceKey: KeyPath<Res.images, ResourcesImageResource>) {
         self.init(uiImage: Res.images()[keyPath: resourceKey].toUIImage()!)
     }
-    
+
     init(imageName: String) {
         self.init(uiImage: ResourcesKt.getImageByName(name: imageName).toUIImage()!)
     }
