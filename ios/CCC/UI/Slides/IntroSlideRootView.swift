@@ -21,7 +21,7 @@ struct IntroSlideRootView: View {
     var body: some View {
         SlideView(
             title: Res.strings().slide_intro_title.get(),
-            image: Image(uiImage: Res.images().ic_app_logo.get()),
+            image: Image(resourceKey: \.ic_app_logo),
             subTitle1: Res.strings().slide_intro_text.get(),
             subTitle2: "",
             buttonText: Res.strings().next.get(),
