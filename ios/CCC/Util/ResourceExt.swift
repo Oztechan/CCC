@@ -9,12 +9,6 @@
 import Res
 import SwiftUI
 
-extension ResourcesStringResource {
-    func get(parameter: Any) -> String {
-        return Resources_iosKt.getString(stringResource: self, parameter: parameter).localized()
-    }
-}
-
 extension ResourcesColorResource {
     func get() -> Color {
         return Color(get())

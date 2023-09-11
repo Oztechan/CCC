@@ -150,4 +150,12 @@ extension String {
             ).localized()
         )
     }
+
+    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>, parameter: Any) {
+        self.init(
+            Resources_iosKt.getString(
+                stringResource: Res.strings()[keyPath: resourceKey], parameter: parameter
+            ).localized()
+        )
+    }
 }
