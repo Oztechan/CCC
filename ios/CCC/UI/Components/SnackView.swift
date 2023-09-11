@@ -19,8 +19,11 @@ struct SnackView: View {
 
     var body: some View {
         HStack {
-            Image(uiImage: iconName?.getImage() ?? Res.images().ic_app_logo.get())
-                .resize(widthAndHeight: 48.cp())
+            if iconName == nil {
+                Image(resourceKey: \.ic_app_logo).resize(widthAndHeight: 48.cp())
+            } else {
+                Image(imageName: iconName!).resize(widthAndHeight: 48.cp())
+            }
 
             Text(text)
                 .foregroundColor(Res.colors().text.get())

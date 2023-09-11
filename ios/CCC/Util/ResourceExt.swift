@@ -26,15 +26,3 @@ extension ResourcesColorResource {
         return Resources_iosKt.getColor(colorResource: self)
     }
 }
-
-extension ResourcesImageResource {
-    func get() -> UIImage {
-        return self.toUIImage()!
-    }
-}
-
-extension String {
-    func getImage() -> UIImage {
-        return ResourcesKt.getImageByName(name: self).toUIImage()!
-    }
-}
