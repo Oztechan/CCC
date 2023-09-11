@@ -18,13 +18,13 @@ struct WatchersToolbarView: View {
             HStack {
                 ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-                Text(Res.strings().txt_watchers.get())
+                Text(String(\.txt_watchers))
                     .font(relative: .title3)
 
                 Spacer()
             }
 
-            Text(Res.strings().txt_watchers_description.get())
+            Text(String(\.txt_watchers_description))
                 .contentShape(Rectangle())
                 .font(relative: .caption)
                 .multilineTextAlignment(.center)

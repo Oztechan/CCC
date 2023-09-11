@@ -6,7 +6,6 @@
 //  Copyright © 2023 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 import NavigationStack
 import Provider
@@ -20,11 +19,11 @@ struct BugReportSlideRootView: View {
 
     var body: some View {
         SlideView(
-            title: Res.strings().slide_bug_report_title.get(),
+            title: String(\.slide_bug_report_title),
             image: Image(systemName: "ant.fill"),
-            subTitle1: Res.strings().slide_bug_report_text_1.get(),
-            subTitle2: Res.strings().slide_bug_report_text_2.get(),
-            buttonText: Res.strings().got_it.get(),
+            subTitle1: String(\.slide_bug_report_text_1),
+            subTitle2: String(\.slide_bug_report_text_2),
+            buttonText: String(\.got_it),
             buttonAction: { navigationStack.push(CurrenciesRootView(onBaseChange: { _ in })) }
         )
         .onAppear {

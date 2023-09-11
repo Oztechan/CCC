@@ -39,13 +39,13 @@ struct WatchersRootView: View {
             targetBarInfo: $targetBarInfo
         )
         .snack(isPresented: $isInvalidInputSnackShown) {
-            SnackView(text: Res.strings().text_invalid_input.get())
+            SnackView(text: String(\.text_invalid_input))
         }
         .snack(isPresented: $isMaxWatchersSnackShown) {
-            SnackView(text: Res.strings().text_maximum_number_of_watchers.get())
+            SnackView(text: String(\.text_maximum_number_of_watchers))
         }
         .snack(isPresented: $isTooBigInputSnackShown) {
-            SnackView(text: Res.strings().text_too_big_input.get())
+            SnackView(text: String(\.text_too_big_input))
         }
         .sheet(
             isPresented: $baseBarInfo.isShown,

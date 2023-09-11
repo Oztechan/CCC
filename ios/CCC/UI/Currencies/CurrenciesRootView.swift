@@ -8,7 +8,6 @@
 
 import NavigationStack
 import Provider
-import Res
 import SwiftUI
 
 struct CurrenciesRootView: View {
@@ -32,7 +31,7 @@ struct CurrenciesRootView: View {
             event: observable.event,
             state: observable.state
         ).snack(isPresented: $isFewCurrencySnackShown) {
-            SnackView(text: Res.strings().choose_at_least_two_currency.get())
+            SnackView(text: String(\.choose_at_least_two_currency))
         }
         .onAppear {
             observable.startObserving()

@@ -8,7 +8,6 @@
 
 import NavigationStack
 import Provider
-import Res
 import SwiftUI
 
 struct CalculatorRootView: View {
@@ -41,34 +40,34 @@ struct CalculatorRootView: View {
             state: observable.state
         )
         .snack(isPresented: $isTooBigInputSnackShown) {
-            SnackView(text: Res.strings().text_too_big_input.get())
+            SnackView(text: String(\.text_too_big_input))
         }
         .snack(isPresented: $isTooBigOutputSnackShown) {
-            SnackView(text: Res.strings().text_too_big_output.get())
+            SnackView(text: String(\.text_too_big_output))
         }
         .snack(isPresented: $isPasteRequestSnackShown) {
             SnackView(
-                text: Res.strings().text_paste_request.get(),
-                buttonText: Res.strings().text_paste.get(),
+                text: String(\.text_paste_request),
+                buttonText: String(\.text_paste),
                 buttonAction: {
                     observable.event.onPasteToInput(text: UIPasteboard.general.string ?? "")
                 }
             )
         }
         .snack(isPresented: $isGenericErrorSnackShown) {
-            SnackView(text: Res.strings().error_text_unknown.get())
+            SnackView(text: String(\.error_text_unknown))
         }
         .snack(isPresented: $isFewCurrencySnackShown) {
             SnackView(
-                text: Res.strings().choose_at_least_two_currency.get(),
-                buttonText: Res.strings().select.get(),
+                text: String(\.choose_at_least_two_currency),
+                buttonText: String(\.select),
                 buttonAction: {
                     navigationStack.push(CurrenciesRootView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
                 }
             )
         }
         .snack(isPresented: $isCopyClipboardSnackShown) {
-            SnackView(text: Res.strings().copied_to_clipboard.get())
+            SnackView(text: String(\.copied_to_clipboard))
         }
         .snack(isPresented: $isConversionSnackShown) {
             if CalculatorRootView.conversionText != nil && CalculatorRootView.conversionCode != nil {

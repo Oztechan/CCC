@@ -9,7 +9,6 @@
 import GoogleMobileAds
 import NavigationStack
 import Provider
-import Res
 import SwiftUI
 
 struct MainRootView: View {

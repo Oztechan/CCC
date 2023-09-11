@@ -22,7 +22,7 @@ struct SelectionView: View {
             Button(
                 action: { updateAllCurrenciesState(true) },
                 label: {
-                    Text(Res.strings().btn_select_all.get())
+                    Text(String(\.btn_select_all))
                         .font(relative: .headline)
                         .foregroundColor(Res.colors().text.get())
                 }
@@ -31,7 +31,7 @@ struct SelectionView: View {
             Button(
                 action: { updateAllCurrenciesState(false) },
                 label: {
-                    Text(Res.strings().btn_de_select_all.get())
+                    Text(String(\.btn_de_select_all))
                         .font(relative: .headline)
                         .foregroundColor(Res.colors().text.get())
                 }

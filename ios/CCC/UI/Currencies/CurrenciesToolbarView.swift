@@ -28,7 +28,7 @@ struct CurrenciesToolbarView: View {
             if searchVisibilty {
                 Spacer()
 
-                TextField(Res.strings().search.get(), text: $query)
+                TextField(String(\.search), text: $query)
                     .font(relative: .headline)
                     .onChange(of: query) { onQueryChange($0) }
                     .padding(8.cp())
@@ -51,7 +51,7 @@ struct CurrenciesToolbarView: View {
                     imgName: "xmark"
                 )
             } else {
-                Text(Res.strings().txt_currencies.get()).font(relative: .title3)
+                Text(String(\.txt_currencies)).font(relative: .title3)
 
                 Spacer()
 

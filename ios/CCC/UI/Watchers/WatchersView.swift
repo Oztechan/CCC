@@ -54,7 +54,7 @@ struct WatchersView: View {
                             Button {
                                 event.onAddClick()
                             } label: {
-                                Label(Res.strings().txt_add.get(), systemImage: "plus")
+                                Label(String(\.txt_add), systemImage: "plus")
                                     .imageScale(.large)
                                     .frame(width: 108.cp(), height: 24.cp(), alignment: .center)
                                     .font(relative: .body)
@@ -71,7 +71,7 @@ struct WatchersView: View {
 
                 default:
                     VStack {
-                        Text(Res.strings().txt_enable_notification_permission.get())
+                        Text(String(\.txt_enable_notification_permission))
                             .font(relative: .footnote)
                             .multilineTextAlignment(.center)
                         Button {
@@ -81,7 +81,7 @@ struct WatchersView: View {
                                 UIApplication.shared.open(url)
                             }
                         } label: {
-                            Label(Res.strings().txt_settings.get(), systemImage: "gear")
+                            Label(String(\.txt_settings), systemImage: "gear")
                                 .imageScale(.large)
                                 .frame(width: 108.cp(), height: 32.cp(), alignment: .center)
                                 .font(relative: .body)

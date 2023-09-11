@@ -54,8 +54,8 @@ struct CurrenciesView: View {
 
                 if state.isOnboardingVisible {
                     SelectCurrenciesBottomView(
-                        text: Res.strings().txt_select_currencies.get(),
-                        buttonText: Res.strings().btn_done.get(),
+                        text: String(\.txt_select_currencies),
+                        buttonText: String(\.btn_done),
                         onButtonClick: event.onDoneClick
                     )
                 }
