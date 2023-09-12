@@ -33,7 +33,7 @@ struct AlertView: View {
             HStack {
                 if isCancellable == true {
                     ActionButton(
-                        buttonText: Res.strings().cancel.get(),
+                        buttonText: String(\.cancel),
                         buttonAction: {},
                         state: .secondary
                     )

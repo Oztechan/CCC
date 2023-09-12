@@ -21,7 +21,7 @@ struct PremiumView: View {
             Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
 
             VStack {
-                Text(Res.strings().txt_premium.get())
+                Text(String(\.txt_premium))
                     .font(relative: .title2)
                     .padding(4.cp())
                     .padding(.top, 10.cp())

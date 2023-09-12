@@ -13,12 +13,12 @@ struct KeyboardView: View {
     var onKeyPress: (String) -> Void
 
     private let keys = [
-        [Res.strings().seven.get(), Res.strings().eight.get(), Res.strings().nine.get(), Res.strings().multiply.get()],
-        [Res.strings().four.get(), Res.strings().five.get(), Res.strings().six.get(), Res.strings().divide.get()],
-        [Res.strings().one.get(), Res.strings().two.get(), Res.strings().three.get(), Res.strings().minus.get()],
-        [Res.strings().dot.get(), Res.strings().zero.get(), Res.strings().percent.get(), Res.strings().plus.get()],
+        [String(\.seven), String(\.eight), String(\.nine), String(\.multiply)],
+        [String(\.four), String(\.five), String(\.six), String(\.divide)],
+        [String(\.one), String(\.two), String(\.three), String(\.minus)],
+        [String(\.dot), String(\.zero), String(\.percent), String(\.plus)],
         // swiftlint:disable:next line_length
-        [Res.strings().open_parentheses.get(), Res.strings().triple_zero.get(), Res.strings().ac.get(), Res.strings().delete_.get(), Res.strings().close_parentheses.get()]
+        [String(\.open_parentheses), String(\.triple_zero), String(\.ac), String(\.delete_), String(\.close_parentheses)]
     ]
 
     var body: some View {

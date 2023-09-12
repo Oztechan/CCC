@@ -20,7 +20,7 @@ struct PremiumItemView: View {
             if item == nil {
                 Spacer()
 
-                Text(Res.strings().txt_more_options_are_coming.get())
+                Text(String(\.txt_more_options_are_coming))
                     .font(relative: .footnote)
                     .foregroundColor(Res.colors().text.get())
 

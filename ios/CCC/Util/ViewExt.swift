@@ -141,3 +141,13 @@ extension Image {
         )
     }
 }
+
+extension String {
+    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>) {
+        self.init(
+            Resources_iosKt.getString(
+                stringResource: Res.strings()[keyPath: resourceKey]
+            ).localized()
+        )
+    }
+}

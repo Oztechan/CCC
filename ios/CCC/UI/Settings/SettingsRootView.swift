@@ -40,16 +40,16 @@ struct SettingsRootView: View {
             state: observable.state
         )
         .snack(isPresented: $isAdsAlreadyDisabledSnackShown) {
-            SnackView(text: Res.strings().txt_you_already_have_premium.get())
+            SnackView(text: String(\.txt_you_already_have_premium))
         }
         .snack(isPresented: $isAlreadySyncedSnackShown) {
-            SnackView(text: Res.strings().txt_already_synced.get())
+            SnackView(text: String(\.txt_already_synced))
         }
         .snack(isPresented: $isSynchronisingShown) {
-            SnackView(text: Res.strings().txt_synchronising.get())
+            SnackView(text: String(\.txt_synchronising))
         }
         .snack(isPresented: $isSyncedSnackShown) {
-            SnackView(text: Res.strings().txt_synced.get())
+            SnackView(text: String(\.txt_synced))
         }
         .sheet(isPresented: $premiumViewVisibility) {
             PremiumRootView(premiumViewVisibility: $premiumViewVisibility)
@@ -58,7 +58,7 @@ struct SettingsRootView: View {
             MailView(isShowing: $emailViewVisibility)
         }
         .sheet(isPresented: $webViewVisibility) {
-            WebView(url: NSURL(string: Res.strings().github_url.get())! as URL)
+            WebView(url: NSURL(string: String(\.github_url))! as URL)
         }
         .onAppear {
             observable.startObserving()

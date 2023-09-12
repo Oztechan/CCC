@@ -10,9 +10,6 @@ import Res
 import SwiftUI
 
 extension ResourcesStringResource {
-    func get() -> String {
-        return Resources_iosKt.getString(stringResource: self).localized()
-    }
     func get(parameter: Any) -> String {
         return Resources_iosKt.getString(stringResource: self, parameter: parameter).localized()
     }

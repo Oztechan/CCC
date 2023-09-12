@@ -21,10 +21,10 @@ extension ConversionState {
             if let date = offlineState.lastUpdate {
                 return Res.strings().text_offline_last_updated.get(parameter: date)
             } else {
-                return Res.strings().text_offline.get()
+                return String(\.text_offline)
             }
         case is ConversionState.Error:
-            return Res.strings().text_no_data.get()
+            return String(\.text_no_data)
         default:
             return ""
         }

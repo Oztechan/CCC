@@ -26,8 +26,8 @@ struct SettingsView: View {
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
-                        title: Res.strings().settings_item_currencies_title.get(),
-                        subTitle: Res.strings().settings_item_currencies_sub_title.get(),
+                        title: String(\.settings_item_currencies_title),
+                        subTitle: String(\.settings_item_currencies_sub_title),
                         value: Res.strings().settings_active_item_value.get(
                             parameter: state.activeCurrencyCount
                         ),
@@ -36,8 +36,8 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "eyeglasses",
-                        title: Res.strings().settings_item_watchers_title.get(),
-                        subTitle: Res.strings().settings_item_watchers_sub_title.get(),
+                        title: String(\.settings_item_watchers_title),
+                        subTitle: String(\.settings_item_watchers_sub_title),
                         value: Res.strings().settings_active_item_value.get(
                             parameter: state.activeWatcherCount
                         ),
@@ -46,16 +46,16 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "crown.fill",
-                        title: Res.strings().settings_item_premium_title.get(),
-                        subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
+                        title: String(\.settings_item_premium_title),
+                        subTitle: String(\.settings_item_premium_sub_title_no_ads),
                         value: getPremiumText(premiumStatus: state.premiumStatus),
                         onClick: event.onPremiumClick
                     )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
-                        title: Res.strings().settings_item_sync_title.get(),
-                        subTitle: Res.strings().settings_item_sync_sub_title.get(),
+                        title: String(\.settings_item_sync_title),
+                        subTitle: String(\.settings_item_sync_sub_title),
                         value: "",
                         onClick: event.onSyncClick
                     )
@@ -63,8 +63,8 @@ struct SettingsView: View {
                     if MailView.canSendEmail() {
                         SettingsItemView(
                             imgName: "envelope.fill",
-                            title: Res.strings().settings_item_feedback_title.get(),
-                            subTitle: Res.strings().settings_item_feedback_sub_title.get(),
+                            title: String(\.settings_item_feedback_title),
+                            subTitle: String(\.settings_item_feedback_sub_title),
                             value: "",
                             onClick: event.onFeedBackClick
                         )
@@ -72,16 +72,16 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
-                        title: Res.strings().settings_item_on_github_title.get(),
-                        subTitle: Res.strings().settings_item_on_github_sub_title.get(),
+                        title: String(\.settings_item_on_github_title),
+                        subTitle: String(\.settings_item_on_github_sub_title),
                         value: "",
                         onClick: event.onOnGitHubClick
                     )
 
                     SettingsItemView(
                         imgName: "textformat.123",
-                        title: Res.strings().settings_item_version_title.get(),
-                        subTitle: Res.strings().settings_item_version_sub_title.get(),
+                        title: String(\.settings_item_version_title),
+                        subTitle: String(\.settings_item_version_sub_title),
                         value: state.version,
                         onClick: {}
                     )
