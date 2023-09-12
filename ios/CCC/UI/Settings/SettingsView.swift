@@ -18,7 +18,7 @@ struct SettingsView: View {
 
     var body: some View {
         ZStack {
-            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 SettingsToolbarView(backEvent: event.onBackClick)
@@ -82,7 +82,7 @@ struct SettingsView: View {
                         onClick: {}
                     )
                 }.edgesIgnoringSafeArea(.bottom)
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
 
                 if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()

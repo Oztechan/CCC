@@ -18,7 +18,7 @@ struct SelectCurrencyView: View {
 
     var body: some View {
         ZStack {
-            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 Text(String(\.txt_select_base_currency))
@@ -36,9 +36,9 @@ struct SelectCurrencyView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Res.colors().background.get())
+                        .listRowBackground(Color(\.background))
                     }
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
                 }
 
                 Spacer()
@@ -49,7 +49,7 @@ struct SelectCurrencyView: View {
                         String(\.choose_at_least_two_currency),
                     buttonText: state.enoughCurrency ? String(\.update) : String(\.select),
                     onButtonClick: event.onSelectClick
-                ).listRowBackground(Res.colors().background.get())
+                ).listRowBackground(Color(\.background))
             }.navigationBarHidden(true)
         }
     }

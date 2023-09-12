@@ -18,7 +18,7 @@ struct CalculatorView: View {
 
     var body: some View {
         ZStack {
-            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 InputView(
@@ -55,10 +55,10 @@ struct CalculatorView: View {
                             )
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Res.colors().background.get())
+                        .listRowBackground(Color(\.background))
                         .animation(.default)
                     }
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
                     .padding(bottom: 4.cp())
                 }
 
@@ -77,6 +77,6 @@ struct CalculatorView: View {
             }
         }
         .navigationBarHidden(true)
-        .background(Res.colors().background_strong.get())
+        .background(Color(\.background_strong))
     }
 }

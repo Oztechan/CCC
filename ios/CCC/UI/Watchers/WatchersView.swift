@@ -22,7 +22,7 @@ struct WatchersView: View {
 
     var body: some View {
         ZStack {
-            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 WatchersToolbarView(backEvent: event.onBackClick)
@@ -41,9 +41,9 @@ struct WatchersView: View {
                             )
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Res.colors().background.get())
-                        .background(Res.colors().background.get())
-                    }.withClearBackground(color: Res.colors().background.get())
+                        .listRowBackground(Color(\.background))
+                        .background(Color(\.background))
+                    }.withClearBackground(color: Color(\.background))
 
                     Spacer()
 
@@ -59,15 +59,15 @@ struct WatchersView: View {
                                     .frame(width: 108.cp(), height: 24.cp(), alignment: .center)
                                     .font(relative: .body)
                             }
-                            .foregroundColor(Res.colors().text.get())
+                            .foregroundColor(Color(\.text))
                             .padding(.vertical, 15.cp())
-                            .background(Res.colors().background_strong.get())
+                            .background(Color(\.background_strong))
 
                             Spacer()
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .background(Res.colors().background_strong.get())
+                    .background(Color(\.background_strong))
 
                 default:
                     VStack {
@@ -87,19 +87,19 @@ struct WatchersView: View {
                                 .font(relative: .body)
                         }
                         .padding(4.cp())
-                        .background(Res.colors().background_weak.get())
-                        .foregroundColor(Res.colors().text.get())
+                        .background(Color(\.background_weak))
+                        .foregroundColor(Color(\.text))
                         .cornerRadius(5.cp())
                         .padding(8.cp())
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .background(Res.colors().background.get())
+                        .background(Color(\.background))
                 }
 
                 if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
-            .background(Res.colors().background_strong.get())
+            .background(Color(\.background_strong))
         }
     }
 }

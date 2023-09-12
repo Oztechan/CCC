@@ -21,7 +21,7 @@ struct SlideView: View {
 
     var body: some View {
         ZStack {
-            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer()
 
@@ -31,7 +31,7 @@ struct SlideView: View {
 
                 image
                     .resize(widthAndHeight: 144.cp())
-                    .accentColor(Res.colors().text.get())
+                    .accentColor(Color(\.text))
                     .padding(4.cp())
 
                 Text(subTitle1)
@@ -59,7 +59,7 @@ struct SlideView: View {
                         label: {
                             Text(buttonText)
                                 .font(relative: .body)
-                                .foregroundColor(Res.colors().text.get())
+                                .foregroundColor(Color(\.text))
                         }
                     ).padding(top: 10.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 15.cp())
                 }

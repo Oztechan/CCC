@@ -18,7 +18,7 @@ struct CurrenciesView: View {
 
     var body: some View {
         ZStack {
-            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 if state.selectionVisibility {
@@ -47,9 +47,9 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(Res.colors().background.get())
+                        .listRowBackground(Color(\.background))
                     }
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
                 }
 
                 if state.isOnboardingVisible {

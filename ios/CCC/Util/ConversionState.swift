@@ -33,15 +33,15 @@ extension ConversionState {
     func getColor() -> Color {
         switch self {
         case is ConversionState.Online:
-            return Res.colors().success.get()
+            return Color(\.success)
         case is ConversionState.Cached:
-            return Res.colors().info.get()
+            return Color(\.info)
         case is ConversionState.Offline:
-            return Res.colors().warning.get()
+            return Color(\.warning)
         case is ConversionState.Error:
-            return Res.colors().error.get()
+            return Color(\.error)
         default:
-            return Res.colors().transparent.get()
+            return Color(\.transparent)
         }
     }
 }

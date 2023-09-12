@@ -24,7 +24,7 @@ struct InputView: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(Color(\.text))
                 .font(relative: .title2)
                 .animation(.none)
                 .onLongPressGesture {
