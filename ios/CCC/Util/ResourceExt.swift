@@ -9,11 +9,38 @@
 import Res
 import SwiftUI
 
-extension ResourcesColorResource {
-    func get() -> Color {
-        return Color(get())
+extension Image {
+    init(resourceKey: KeyPath<Res.images, ResourcesImageResource>) {
+        self.init(uiImage: Res.images()[keyPath: resourceKey].toUIImage()!)
     }
-    func get() -> UIColor {
-        return Resources_iosKt.getColor(colorResource: self)
+
+    init(imageName: String) {
+        self.init(uiImage: ResourcesKt.getImageByName(name: imageName).toUIImage()!)
+    }
+}
+
+extension String {
+    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>) {
+        self.init(
+            Resources_iosKt.getString(
+                stringResource: Res.strings()[keyPath: resourceKey]
+            ).localized()
+        )
+    }
+
+    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>, parameter: Any) {
+        self.init(
+            Resources_iosKt.getString(
+                stringResource: Res.strings()[keyPath: resourceKey], parameter: parameter
+            ).localized()
+        )
+    }
+}
+
+extension Color {
+    init(_ resourceKey: KeyPath<Res.colors, ResourcesColorResource>) {
+        self.init(
+            Resources_iosKt.getColor(colorResource: Res.colors()[keyPath: resourceKey])
+        )
     }
 }

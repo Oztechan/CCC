@@ -7,7 +7,6 @@
 //
 
 import GoogleMobileAds
-import Res
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
 

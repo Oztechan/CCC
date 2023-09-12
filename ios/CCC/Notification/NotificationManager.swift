@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import UserNotifications
 
 final class NotificationManager: ObservableObject {

@@ -8,7 +8,6 @@
 
 import SwiftUI
 import PopupView
-import Res
 
 extension View {
     func withClearBackground(color: Color) -> some View {
@@ -119,14 +118,6 @@ extension Double {
 }
 
 extension Image {
-    init(resourceKey: KeyPath<Res.images, ResourcesImageResource>) {
-        self.init(uiImage: Res.images()[keyPath: resourceKey].toUIImage()!)
-    }
-
-    init(imageName: String) {
-        self.init(uiImage: ResourcesKt.getImageByName(name: imageName).toUIImage()!)
-    }
-
     func resize(width: Double, height: Double) -> some View {
         return self
             .resizable()
@@ -138,40 +129,6 @@ extension Image {
         return self.resize(
             width: widthAndHeight,
             height: widthAndHeight
-        )
-    }
-}
-
-extension String {
-    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>) {
-        self.init(
-            Resources_iosKt.getString(
-                stringResource: Res.strings()[keyPath: resourceKey]
-            ).localized()
-        )
-    }
-
-    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>, parameter: Any) {
-        self.init(
-            Resources_iosKt.getString(
-                stringResource: Res.strings()[keyPath: resourceKey], parameter: parameter
-            ).localized()
-        )
-    }
-
-    init(_ resourceKey: KeyPath<Res.strings, ResourcesStringResource>, parameter: Any) {
-        self.init(
-            Resources_iosKt.getString(
-                stringResource: Res.strings()[keyPath: resourceKey], parameter: parameter
-            ).localized()
-        )
-    }
-}
-
-extension Color {
-    init(_ resourceKey: KeyPath<Res.colors, ResourcesColorResource>) {
-        self.init(
-            Resources_iosKt.getColor(colorResource: Res.colors()[keyPath: resourceKey])
         )
     }
 }

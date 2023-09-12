@@ -8,7 +8,6 @@
 
 import NavigationStack
 import Provider
-import Res
 import SwiftUI
 
 struct WatchersRootView: View {
