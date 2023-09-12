@@ -28,8 +28,7 @@ struct SettingsView: View {
                         imgName: "dollarsign.circle.fill",
                         title: String(\.settings_item_currencies_title),
                         subTitle: String(\.settings_item_currencies_sub_title),
-                        value: String(\.settings_active_item_value, parameter: state.activeCurrencyCount
-                        ),
+                        value: String(\.settings_active_item_value, parameter: state.activeCurrencyCount),
                         onClick: event.onCurrenciesClick
                     )
 
@@ -37,8 +36,7 @@ struct SettingsView: View {
                         imgName: "eyeglasses",
                         title: String(\.settings_item_watchers_title),
                         subTitle: String(\.settings_item_watchers_sub_title),
-                        value: String(\.settings_active_item_value, parameter: state.activeWatcherCount
-                        ),
+                        value: String(\.settings_active_item_value, parameter: state.activeWatcherCount),
                         onClick: event.onWatchersClick
                     )
 
