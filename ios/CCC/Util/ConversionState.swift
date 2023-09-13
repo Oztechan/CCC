@@ -14,12 +14,12 @@ extension ConversionState {
     func getText() -> String {
         switch self {
         case let onlineState as ConversionState.Online:
-            return Res.strings().text_online_last_updated.get(parameter: onlineState.lastUpdate ?? "")
+            return String(\.text_online_last_updated, parameter: onlineState.lastUpdate ?? "")
         case let cachedState as ConversionState.Cached:
-            return Res.strings().text_cached_last_updated.get(parameter: cachedState.lastUpdate ?? "")
+            return String(\.text_cached_last_updated, parameter: cachedState.lastUpdate ?? "")
         case let offlineState as ConversionState.Offline:
             if let date = offlineState.lastUpdate {
-                return Res.strings().text_offline_last_updated.get(parameter: date)
+                return String(\.text_offline_last_updated, parameter: date)
             } else {
                 return String(\.text_offline)
             }

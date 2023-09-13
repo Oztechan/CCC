@@ -28,9 +28,7 @@ struct SettingsView: View {
                         imgName: "dollarsign.circle.fill",
                         title: String(\.settings_item_currencies_title),
                         subTitle: String(\.settings_item_currencies_sub_title),
-                        value: Res.strings().settings_active_item_value.get(
-                            parameter: state.activeCurrencyCount
-                        ),
+                        value: String(\.settings_active_item_value, parameter: state.activeCurrencyCount),
                         onClick: event.onCurrenciesClick
                     )
 
@@ -38,9 +36,7 @@ struct SettingsView: View {
                         imgName: "eyeglasses",
                         title: String(\.settings_item_watchers_title),
                         subTitle: String(\.settings_item_watchers_sub_title),
-                        value: Res.strings().settings_active_item_value.get(
-                            parameter: state.activeWatcherCount
-                        ),
+                        value: String(\.settings_active_item_value, parameter: state.activeWatcherCount),
                         onClick: event.onWatchersClick
                     )
 
@@ -103,9 +99,9 @@ struct SettingsView: View {
         case is PremiumStatus.NeverActivated:
             return ""
         case let activateStatus as PremiumStatus.Active:
-            return Res.strings().settings_item_premium_value_will_expire.get(parameter: activateStatus.until)
+            return String(\.settings_item_premium_value_will_expire, parameter: activateStatus.until)
         case let expiredStatus as PremiumStatus.Expired:
-            return Res.strings().settings_item_premium_value_expired.get(parameter: expiredStatus.at)
+            return String(\.settings_item_premium_value_expired, parameter: expiredStatus.at)
         default:
             return ""
         }
