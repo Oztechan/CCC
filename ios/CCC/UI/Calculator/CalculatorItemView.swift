@@ -19,13 +19,13 @@ struct CalculatorItemView: View {
         HStack {
             Text(item.rate)
                 .font(relative: .body)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Text(item.symbol)
                 .font(relative: .subheadline)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
@@ -33,7 +33,7 @@ struct CalculatorItemView: View {
 
             Text(item.code)
                 .font(relative: .subheadline)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 

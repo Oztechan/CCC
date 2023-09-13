@@ -22,7 +22,7 @@ struct SettingsItemView: View {
                 .frame(width: 48.cp(), height: 48.cp(), alignment: .center)
                 .font(size: 24.cp())
                 .imageScale(.large)
-                .accentColor(Color(\.text))
+                .accentColor(\.text)
                 .padding(top: 8.cp(), leading: 0, bottom: 8.cp(), trailing: 8.cp())
 
             VStack {
@@ -49,10 +49,10 @@ struct SettingsItemView: View {
             Image(systemName: "chevron.right")
                 .frame(width: 48.cp(), height: 48.cp(), alignment: .center)
                 .imageScale(.large)
-                .accentColor(Color(\.text))
+                .accentColor(\.text)
         }
         .listRowInsets(.init())
-        .listRowBackground(Color(\.background))
+        .listRowBackground(\.background)
         .contentShape(Rectangle())
         .onTapGesture { onClick() }
         .lineLimit(1)

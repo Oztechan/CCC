@@ -19,15 +19,15 @@ struct SelectCurrencyItemView: View {
 
             Text(item.code)
                 .font(relative: .footnote)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
 
             Text(item.name)
                 .font(relative: .footnote)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
 
             Text(item.symbol)
                 .font(relative: .footnote)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
 
             Spacer()
         }

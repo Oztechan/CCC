@@ -21,12 +21,12 @@ struct OutputView: View {
                 CurrencyImageView(imageName: baseCurrency)
 
                 Text(baseCurrency)
-                    .foregroundColor(Color(\.text))
+                    .foregroundColor(\.text)
                     .font(relative: .body)
 
                 if !output.isEmpty {
                     Text("=  \(output)")
-                        .foregroundColor(Color(\.text))
+                        .foregroundColor(\.text)
                         .font(relative: .body)
                         .onTapGesture {
                             onBarClick()
@@ -37,7 +37,7 @@ struct OutputView: View {
                 }
 
                 Text(symbol)
-                    .foregroundColor(Color(\.text))
+                    .foregroundColor(\.text)
                     .font(relative: .body)
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
