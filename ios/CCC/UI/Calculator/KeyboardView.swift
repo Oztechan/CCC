@@ -31,13 +31,13 @@ struct KeyboardView: View {
                             label: {
                                 Text(item)
                                     .font(relative: .title2)
-                                    .foregroundColor(Res.colors().text.get())
+                                    .foregroundColor(Color(\.text))
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }
                         )
                     }
                 }
             }
-        }.background(Res.colors().background_strong.get())
+        }.background(Color(\.background_strong))
     }
 }

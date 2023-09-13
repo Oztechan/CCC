@@ -18,7 +18,7 @@ struct PremiumView: View {
 
     var body: some View {
         ZStack {
-            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 Text(String(\.txt_premium))
@@ -38,13 +38,13 @@ struct PremiumView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Res.colors().background.get())
+                        .listRowBackground(Color(\.background))
 
                         PremiumItemView(item: nil)
                             .listRowInsets(.init())
-                            .listRowBackground(Res.colors().background.get())
+                            .listRowBackground(Color(\.background))
                     }
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
                 }
 
                 Spacer()

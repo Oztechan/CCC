@@ -19,7 +19,7 @@ struct SelectCurrenciesBottomView: View {
     var body: some View {
         HStack {
             Text(text)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(Color(\.text))
                 .font(relative: .subheadline)
 
             Spacer()

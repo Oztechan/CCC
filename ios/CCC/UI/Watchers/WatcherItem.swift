@@ -53,7 +53,7 @@ struct WatcherItem: View {
                 .fixedSize()
                 .lineLimit(1)
                 .padding(top: 5.cp(), leading: 15.cp(), bottom: 5.cp(), trailing: 15.cp())
-                .background(Res.colors().background_weak.get())
+                .background(Color(\.background_weak))
                 .cornerRadius(7.cp())
                 .onChange(of: amount) {
                     amount = event.onRateChange(watcher: watcher, rate: $0)

@@ -34,7 +34,7 @@ struct CurrenciesToolbarView: View {
                     .padding(8.cp())
                     .background(
                         RoundedRectangle(cornerRadius: 3.cp())
-                            .fill(Res.colors().background.get())
+                            .fill(Color(\.background))
                     )
                     .disableAutocorrection(true)
                     .multilineTextAlignment(.center)

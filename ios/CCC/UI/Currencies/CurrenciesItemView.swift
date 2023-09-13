@@ -23,21 +23,21 @@ struct CurrenciesItemView: View {
 
             Text(item.code)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(Color(\.text))
 
             Text(item.name)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(Color(\.text))
 
             Text(item.symbol)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(Color(\.text))
 
             Spacer()
 
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
                 .resize(widthAndHeight: 20.cp())
-                .foregroundColor(Res.colors().secondary.get())
+                .foregroundColor(Color(\.secondary))
         }
         .contentShape(Rectangle())
         .padding(.vertical, 4.cp())

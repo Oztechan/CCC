@@ -24,7 +24,7 @@ struct SelectionView: View {
                 label: {
                     Text(String(\.btn_select_all))
                         .font(relative: .headline)
-                        .foregroundColor(Res.colors().text.get())
+                        .foregroundColor(Color(\.text))
                 }
             ).padding(.trailing, 10.cp())
 
@@ -33,12 +33,12 @@ struct SelectionView: View {
                 label: {
                     Text(String(\.btn_de_select_all))
                         .font(relative: .headline)
-                        .foregroundColor(Res.colors().text.get())
+                        .foregroundColor(Color(\.text))
                 }
             )
         }
         .padding(top: 15.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 20.cp())
-        .background(Res.colors().background_weak.get())
+        .background(Color(\.background_weak))
         .frame(maxHeight: 54.cp(), alignment: .bottom)
     }
 }

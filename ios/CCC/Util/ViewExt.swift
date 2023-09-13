@@ -159,3 +159,11 @@ extension String {
         )
     }
 }
+
+extension Color {
+    init(_ resourceKey: KeyPath<Res.colors, ResourcesColorResource>) {
+        self.init(
+            Resources_iosKt.getColor(colorResource: Res.colors()[keyPath: resourceKey])
+        )
+    }
+}

@@ -43,20 +43,20 @@ struct ActionButton: View {
     private func getBackgroundColor() -> Color {
         switch state {
         case .primary:
-            return Res.colors().primary.get()
+            return Color(\.primary)
         case .secondary:
-            return Res.colors().text.get()
+            return Color(\.text)
         case .neutral:
-            return Res.colors().background_weak.get()
+            return Color(\.background_weak)
         }
     }
 
     private func getTextColor() -> Color {
         switch state {
         case .primary, .secondary:
-            return Res.colors().background_weak.get()
+            return Color(\.background_weak)
         case .neutral:
-            return Res.colors().text.get()
+            return Color(\.text)
         }
     }
 }

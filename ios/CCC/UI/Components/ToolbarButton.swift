@@ -21,7 +21,7 @@ struct ToolbarButton: View {
             label: {
                 Image(systemName: imgName)
                     .resize(widthAndHeight: 24.cp())
-                    .accentColor(Res.colors().text.get())
+                    .accentColor(Color(\.text))
                     .padding(.leading, 10.cp())
             }
         ).padding(.trailing, 10.cp())
