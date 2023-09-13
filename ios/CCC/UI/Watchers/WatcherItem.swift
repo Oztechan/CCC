@@ -9,7 +9,6 @@
 import Combine
 import NavigationStack
 import Provider
-import Res
 import SwiftUI
 
 struct WatcherItem: View {

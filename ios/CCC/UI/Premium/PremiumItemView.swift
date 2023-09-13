@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Provider
-import Res
 
 struct PremiumItemView: View {
     @Environment(\.colorScheme) private var colorScheme

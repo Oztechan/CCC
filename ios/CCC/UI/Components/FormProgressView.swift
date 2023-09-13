@@ -6,7 +6,6 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct FormProgressView: View {
