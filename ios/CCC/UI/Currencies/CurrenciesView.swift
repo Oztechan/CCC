@@ -46,7 +46,7 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(Color(\.background))
+                        .listRowBackground(\.background)
                     }
                     .withClearBackground(color: Color(\.background))
                 }

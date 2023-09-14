@@ -35,7 +35,7 @@ struct SelectCurrencyView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Color(\.background))
+                        .listRowBackground(\.background)
                     }
                     .withClearBackground(color: Color(\.background))
                 }
@@ -48,7 +48,7 @@ struct SelectCurrencyView: View {
                         String(\.choose_at_least_two_currency),
                     buttonText: state.enoughCurrency ? String(\.update) : String(\.select),
                     onButtonClick: event.onSelectClick
-                ).listRowBackground(Color(\.background))
+                ).listRowBackground(\.background)
             }.navigationBarHidden(true)
         }
     }

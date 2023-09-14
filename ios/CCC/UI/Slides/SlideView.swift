@@ -30,7 +30,7 @@ struct SlideView: View {
 
                 image
                     .resize(widthAndHeight: 144.cp())
-                    .accentColor(Color(\.text))
+                    .accentColor(\.text)
                     .padding(4.cp())
 
                 Text(subTitle1)
@@ -58,7 +58,7 @@ struct SlideView: View {
                         label: {
                             Text(buttonText)
                                 .font(relative: .body)
-                                .foregroundColor(Color(\.text))
+                                .foregroundColor(\.text)
                         }
                     ).padding(top: 10.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 15.cp())
                 }

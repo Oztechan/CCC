@@ -54,7 +54,7 @@ struct CalculatorView: View {
                             )
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Color(\.background))
+                        .listRowBackground(\.background)
                         .animation(.default)
                     }
                     .withClearBackground(color: Color(\.background))
@@ -76,6 +76,6 @@ struct CalculatorView: View {
             }
         }
         .navigationBarHidden(true)
-        .background(Color(\.background_strong))
+        .background(\.background_strong)
     }
 }

@@ -27,12 +27,12 @@ struct WatchersToolbarView: View {
                 .contentShape(Rectangle())
                 .font(relative: .caption)
                 .multilineTextAlignment(.center)
-                .background(Color(\.background_strong))
-                .foregroundColor(Color(\.text_weak))
+                .background(\.background_strong)
+                .foregroundColor(\.text_weak)
                 .padding(10.cp())
         }
         .frame(width: .infinity, height: .nan)
         .padding(top: 15.cp(), leading: 10.cp(), trailing: 20.cp())
-        .background(Color(\.background_strong))
+        .background(\.background_strong)
     }
 }

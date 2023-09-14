@@ -30,13 +30,13 @@ struct KeyboardView: View {
                             label: {
                                 Text(item)
                                     .font(relative: .title2)
-                                    .foregroundColor(Color(\.text))
+                                    .foregroundColor(\.text)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
                             }
                         )
                     }
                 }
             }
-        }.background(Color(\.background_strong))
+        }.background(\.background_strong)
     }
 }

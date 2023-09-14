@@ -21,19 +21,19 @@ struct PremiumItemView: View {
 
                 Text(String(\.txt_more_options_are_coming))
                     .font(relative: .footnote)
-                    .foregroundColor(Color(\.text))
+                    .foregroundColor(\.text)
 
                 Spacer()
             } else {
                 Text(item!.data.duration)
                     .font(relative: .callout)
-                    .foregroundColor(Color(\.text))
+                    .foregroundColor(\.text)
 
                 Spacer()
 
                 Text(item!.data.cost)
                     .font(relative: .callout)
-                    .foregroundColor(Color(\.text))
+                    .foregroundColor(\.text)
             }
         }
         .contentShape(Rectangle())

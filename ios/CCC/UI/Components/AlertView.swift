@@ -19,12 +19,12 @@ struct AlertView: View {
     var body: some View {
         VStack {
             Text(title)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
                 .font(relative: .headline)
                 .padding(bottom: 20.cp())
 
             Text(message)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
                 .font(relative: .subheadline)
                 .multilineTextAlignment(.center)
                 .padding(bottom: 30.cp())
@@ -46,7 +46,7 @@ struct AlertView: View {
             }
         }
         .padding(20.cp())
-        .background(Color(\.background_weak))
+        .background(\.background_weak)
         .cornerRadius(10.cp())
         .shadow(radius: 5)
         .padding(30.cp())

@@ -26,6 +26,6 @@ struct FormProgressView: View {
             Spacer()
         }
         .padding(.top, 20.cp())
-        .background(Color(\.background))
+        .background(\.background)
     }
 }
