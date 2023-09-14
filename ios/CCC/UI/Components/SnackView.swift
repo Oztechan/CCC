@@ -25,7 +25,7 @@ struct SnackView: View {
             }
 
             Text(text)
-                .foregroundColor(Color(\.text))
+                .foregroundColor(\.text)
                 .font(relative: .subheadline)
                 .padding(leading: 5.cp())
 
@@ -40,7 +40,7 @@ struct SnackView: View {
             }
         }
         .padding(10.cp())
-        .background(Color(\.background_weak))
+        .background(\.background_weak)
         .cornerRadius(10.cp())
         .shadow(radius: 5)
         .padding(10.cp())

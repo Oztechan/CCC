@@ -40,8 +40,8 @@ struct WatchersView: View {
                             )
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Color(\.background))
-                        .background(Color(\.background))
+                        .listRowBackground(\.background)
+                        .background(\.background)
                     }.withClearBackground(color: Color(\.background))
 
                     Spacer()
@@ -58,15 +58,15 @@ struct WatchersView: View {
                                     .frame(width: 108.cp(), height: 24.cp(), alignment: .center)
                                     .font(relative: .body)
                             }
-                            .foregroundColor(Color(\.text))
+                            .foregroundColor(\.text)
                             .padding(.vertical, 15.cp())
-                            .background(Color(\.background_strong))
+                            .background(\.background_strong)
 
                             Spacer()
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .background(Color(\.background_strong))
+                    .background(\.background_strong)
 
                 default:
                     VStack {
@@ -86,19 +86,19 @@ struct WatchersView: View {
                                 .font(relative: .body)
                         }
                         .padding(4.cp())
-                        .background(Color(\.background_weak))
-                        .foregroundColor(Color(\.text))
+                        .background(\.background_weak)
+                        .foregroundColor(\.text)
                         .cornerRadius(5.cp())
                         .padding(8.cp())
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .background(Color(\.background))
+                        .background(\.background)
                 }
 
                 if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
-            .background(Color(\.background_strong))
+            .background(\.background_strong)
         }
     }
 }

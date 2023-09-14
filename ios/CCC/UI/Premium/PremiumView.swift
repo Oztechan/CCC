@@ -37,11 +37,11 @@ struct PremiumView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Color(\.background))
+                        .listRowBackground(\.background)
 
                         PremiumItemView(item: nil)
                             .listRowInsets(.init())
-                            .listRowBackground(Color(\.background))
+                            .listRowBackground(\.background)
                     }
                     .withClearBackground(color: Color(\.background))
                 }

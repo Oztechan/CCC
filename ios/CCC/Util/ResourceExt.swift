@@ -44,3 +44,29 @@ extension Color {
         )
     }
 }
+
+extension View {
+    public func foregroundColor(
+        _ resourceKey: KeyPath<Res.colors, ResourcesColorResource>
+    ) -> some View {
+        return self.foregroundColor(Color(resourceKey))
+    }
+
+    public func accentColor(
+        _ resourceKey: KeyPath<Res.colors, ResourcesColorResource>
+    ) -> some View {
+        return self.accentColor(Color(resourceKey))
+    }
+
+    public func background(
+        _ resourceKey: KeyPath<Res.colors, ResourcesColorResource>
+    ) -> some View {
+        return self.background(Color(resourceKey))
+    }
+
+    public func listRowBackground(
+        _ resourceKey: KeyPath<Res.colors, ResourcesColorResource>
+    ) -> some View {
+        return self.listRowBackground(Color(resourceKey))
+    }
+}
