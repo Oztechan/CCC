@@ -65,7 +65,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -120,7 +120,7 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
 
       - name: Download Android Artifacts
         uses: actions/download-artifact@v3.0.2
@@ -159,7 +159,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -226,7 +226,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
 
       - name: Download iOS IPA
         uses: actions/download-artifact@v3.0.2
@@ -255,7 +255,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
 
@@ -291,7 +291,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
 
       - name: Download Coverage Report
         uses: actions/download-artifact@v3.0.2
@@ -338,7 +338,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.0.0
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
 
