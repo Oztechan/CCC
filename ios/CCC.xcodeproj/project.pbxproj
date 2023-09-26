@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -57,6 +57,7 @@
 		5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainRootView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */; };
+		5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */; };
 		5CCFB5882A9B9F13002DF46B /* BugReportSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */; };
 		5CCFB58A2A9B9F8F002DF46B /* IntroSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB5892A9B9F8F002DF46B /* IntroSlideRootView.swift */; };
 		5CCFB58C2A9B9FFA002DF46B /* PremiumSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB58B2A9B9FFA002DF46B /* PremiumSlideRootView.swift */; };
@@ -138,6 +139,7 @@
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveBannerAdView.swift; sourceTree = "<group>"; };
+		5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KermitExt.swift; sourceTree = "<group>"; };
 		5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReportSlideRootView.swift; sourceTree = "<group>"; };
 		5CCFB5892A9B9F8F002DF46B /* IntroSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroSlideRootView.swift; sourceTree = "<group>"; };
 		5CCFB58B2A9B9FFA002DF46B /* PremiumSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumSlideRootView.swift; sourceTree = "<group>"; };
@@ -338,6 +340,7 @@
 				5C5C71EC2922BFC400733C49 /* ConversionState.swift */,
 				5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */,
 				5C23124429ABF754002D6892 /* WindowUtil.swift */,
+				5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -605,6 +608,7 @@
 				5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */,
 				5CEAF774295F2ECC0018C7FA /* DeviceUtil.swift in Sources */,
 				5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */,
+				5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */,
 				5C34B8CC29590500009C84AB /* SnackView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */,
