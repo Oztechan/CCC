@@ -9,29 +9,27 @@
 import Provider
 
 extension KermitLogger {
-    private let tag = "Kermit"
-
     func i(message: @escaping () -> String) {
-        self.i(throwable: nil, tag: tag, message: message)
+        self.i(throwable: nil, tag: "Kermit", message: message)
     }
 
     func d(message: @escaping () -> String) {
-        self.d(throwable: nil, tag: tag, message: message)
+        self.d(throwable: nil, tag: "Kermit", message: message)
     }
 
     func w(message: @escaping () -> String) {
-        self.w(throwable: nil, tag: tag, message: message)
+        self.w(throwable: nil, tag: "Kermit", message: message)
     }
 
     func v(message: @escaping () -> String) {
-        self.v(throwable: nil, tag: tag, message: message)
+        self.v(throwable: nil, tag: "Kermit", message: message)
     }
 
     func e(message: @escaping () -> String) {
-        self.e(throwable: nil, tag: tag, message: message)
+        self.e(throwable: nil, tag: "Kermit", message: message)
     }
 
     func a(message: @escaping () -> String) {
-        self.a(throwable: nil, tag: tag, message: message)
+        self.a(throwable: nil, tag: "Kermit", message: message)
     }
 }
