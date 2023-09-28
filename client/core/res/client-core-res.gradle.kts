@@ -3,7 +3,6 @@ import io.gitlab.arturbosch.detekt.Detekt
 plugins {
     libs.plugins.apply {
         id(multiplatform.get().pluginId)
-        id(cocoapods.get().pluginId)
         id(androidLib.get().pluginId)
         id(mokoResources.get().pluginId)
     }
@@ -15,18 +14,12 @@ kotlin {
 
     androidTarget()
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    cocoapods {
-        ProjectSettings.apply {
-            summary = PROJECT_NAME
-            homepage = HOMEPAGE
-            ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
-            version = getVersionName(project)
-        }
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = Modules.Client.Core.res.frameworkName
             isStatic = true
         }
