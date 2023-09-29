@@ -29,7 +29,8 @@ final class ObservableSEEDViewModel<
     init() {
         logger.d(message: { "ObservableSEED \(ViewModel.description()) init" })
 
-        self.state = (viewModel.state?.value as? State) ?? State()
+        // swiftlint:disable:next force_cast
+        self.state = viewModel.state!.value as! State
         self.event = viewModel.event!
     }
 
