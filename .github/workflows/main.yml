@@ -190,6 +190,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build
+        working-directory: ios/CCC
         run: fastlane build
 
       - name: Upload iOS Artifacts
@@ -226,9 +227,8 @@ jobs:
           path: ios
 
       - name: Distribute
-        run: |
-          cd ios
-          fastlane distribute
+        working-directory: ios
+        run: fastlane distribute
 
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v2.0.0
