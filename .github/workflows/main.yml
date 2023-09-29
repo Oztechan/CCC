@@ -190,11 +190,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build
-        run: |
-          cd ios/CCC
-          pod install --repo-update
-          cd ..
-          fastlane build
+        run: fastlane build
 
       - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v3.1.3

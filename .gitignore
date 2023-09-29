@@ -21,12 +21,7 @@ secret.properties
 # submodules
 /submodule
 
-# Pods files
-client/core/res/res.podspec
-ios/provider/provider.podspec
-
 # iOS Project
-ios/Pods/
 ios/CCC/Resources/Release/
 ios/CCC/Resources/GoogleService-Info.plist
 ios/CCC/Resources/Config.xcconfig
