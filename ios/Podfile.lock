@@ -1,16 +1,3 @@
-PODS:
-  - res (0.0.3145)
-
-DEPENDENCIES:
-  - res (from `../client/core/res/res.podspec`)
-
-EXTERNAL SOURCES:
-  res:
-    :path: "../client/core/res/res.podspec"
-
-SPEC CHECKSUMS:
-  res: 844732c473dc9770ce1fc94a60f39d6cd0778265
-
-PODFILE CHECKSUM: b65f4d6853017773b81a81137ec6cd9053bff1a6
+PODFILE CHECKSUM: 5cee92de99b350f3c3a2c080d5d9d720b87f4a25
 
 COCOAPODS: 1.11.3

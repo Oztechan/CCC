@@ -234,11 +234,6 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
-      - name: Generate Pods
-        uses: gradle/gradle-build-action@v2.8.1
-        with:
-          arguments: :client:core:res:podGenIOS --parallel
-
       - name: StoreBuild
         run: |
           cd ios/CCC
