@@ -237,7 +237,7 @@ jobs:
       - name: Generate Pods
         uses: gradle/gradle-build-action@v2.8.1
         with:
-          arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
+          arguments: :client:core:res:podGenIOS --parallel
 
       - name: StoreBuild
         run: |
