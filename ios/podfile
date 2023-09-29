@@ -6,7 +6,6 @@ target 'CCC' do
   use_frameworks!
 
   # Pods for CCC
-  pod 'provider', :path => '../ios/provider/provider.podspec'
   pod 'res', :path => '../client/core/res/res.podspec'
 
 end
