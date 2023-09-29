@@ -10,7 +10,7 @@ data class SelectCurrencyState(
     val loading: Boolean = true,
     val enoughCurrency: Boolean = false,
     val currencyList: List<Currency> = listOf(),
-) : BaseState()
+) : BaseState
 
 // Event
 interface SelectCurrencyEvent : BaseEvent {
@@ -19,7 +19,7 @@ interface SelectCurrencyEvent : BaseEvent {
 }
 
 // Effect
-sealed class SelectCurrencyEffect : BaseEffect() {
+sealed class SelectCurrencyEffect : BaseEffect {
     data class CurrencyChange(val newBase: String) : SelectCurrencyEffect()
     data object OpenCurrencies : SelectCurrencyEffect()
 }

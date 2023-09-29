@@ -12,7 +12,7 @@ data class WidgetState(
     var lastUpdate: String = "",
     var currentBase: String,
     var isPremium: Boolean
-) : BaseState()
+) : BaseState
 
 // Event
 interface WidgetEvent : BaseEvent {
@@ -23,12 +23,12 @@ interface WidgetEvent : BaseEvent {
 }
 
 // Effect
-sealed class WidgetEffect : BaseEffect() {
+sealed class WidgetEffect : BaseEffect {
     data object OpenApp : WidgetEffect()
 }
 
 // Data
-class WidgetData : BaseData() {
+class WidgetData : BaseData {
     companion object {
         internal const val MAXIMUM_NUMBER_OF_CURRENCY = 7
     }

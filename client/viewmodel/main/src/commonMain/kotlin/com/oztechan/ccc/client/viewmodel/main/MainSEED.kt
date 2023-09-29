@@ -10,10 +10,10 @@ import kotlinx.coroutines.Job
 data class MainState(
     var shouldOnboardUser: Boolean,
     var appTheme: Int
-) : BaseState()
+) : BaseState
 
 // Effect
-sealed class MainEffect : BaseEffect() {
+sealed class MainEffect : BaseEffect {
     data object ShowInterstitialAd : MainEffect()
     data object RequestReview : MainEffect()
     data class AppUpdateEffect(val isCancelable: Boolean, val marketLink: String) : MainEffect()
@@ -31,4 +31,4 @@ data class MainData(
     var adVisibility: Boolean = false,
     var isAppUpdateShown: Boolean = false,
     var isNewSession: Boolean = true
-) : BaseData()
+) : BaseData

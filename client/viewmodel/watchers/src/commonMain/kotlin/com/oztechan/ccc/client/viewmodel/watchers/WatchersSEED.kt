@@ -9,9 +9,9 @@ import com.oztechan.ccc.common.core.model.Watcher
 data class WatchersState(
     val isBannerAdVisible: Boolean,
     val watcherList: List<Watcher> = emptyList()
-) : BaseState()
+) : BaseState
 
-sealed class WatchersEffect : BaseEffect() {
+sealed class WatchersEffect : BaseEffect {
     data object Back : WatchersEffect()
     data class SelectBase(val watcher: Watcher) : WatchersEffect()
     data class SelectTarget(val watcher: Watcher) : WatchersEffect()
@@ -32,7 +32,7 @@ interface WatchersEvent : BaseEvent {
     fun onRateChange(watcher: Watcher, rate: String): String
 }
 
-class WatchersData : BaseData() {
+class WatchersData : BaseData {
     companion object {
         const val MAXIMUM_INPUT = 9
         const val MAXIMUM_NUMBER_OF_WATCHER = 5
