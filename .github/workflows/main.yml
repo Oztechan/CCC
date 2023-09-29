@@ -190,7 +190,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build
-        working-directory: ./ios/CCC
+        working-directory: ios
         run: fastlane build
 
       - name: Upload iOS Artifacts
@@ -227,7 +227,7 @@ jobs:
           path: ios
 
       - name: Distribute
-        working-directory: ./ios
+        working-directory: ios
         run: fastlane distribute
 
       - name: Delete iOS IPA

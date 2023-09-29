@@ -235,7 +235,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: StoreBuild
-        working-directory: ./ios/CCC
+        working-directory: ios
         run: fastlane store_build
 
       - name: Set Job Status
