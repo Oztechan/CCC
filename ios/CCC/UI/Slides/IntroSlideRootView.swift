@@ -6,7 +6,6 @@
 //  Copyright © 2023 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 import NavigationStack
 import Provider
@@ -20,11 +19,11 @@ struct IntroSlideRootView: View {
 
     var body: some View {
         SlideView(
-            title: Res.strings().slide_intro_title.get(),
-            image: Image(uiImage: Res.images().ic_app_logo.get()),
-            subTitle1: Res.strings().slide_intro_text.get(),
+            title: String(\.slide_intro_title),
+            image: Image(resourceKey: \.ic_app_logo),
+            subTitle1: String(\.slide_intro_text),
             subTitle2: "",
-            buttonText: Res.strings().next.get(),
+            buttonText: String(\.next),
             buttonAction: { navigationStack.push(PremiumSlideRootView()) }
         ).onAppear {
             analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 0))

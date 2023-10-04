@@ -7,24 +7,23 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 extension ConversionState {
     func getText() -> String {
         switch self {
         case let onlineState as ConversionState.Online:
-            return Res.strings().text_online_last_updated.get(parameter: onlineState.lastUpdate ?? "")
+            return String(\.text_online_last_updated, parameter: onlineState.lastUpdate ?? "")
         case let cachedState as ConversionState.Cached:
-            return Res.strings().text_cached_last_updated.get(parameter: cachedState.lastUpdate ?? "")
+            return String(\.text_cached_last_updated, parameter: cachedState.lastUpdate ?? "")
         case let offlineState as ConversionState.Offline:
             if let date = offlineState.lastUpdate {
-                return Res.strings().text_offline_last_updated.get(parameter: date)
+                return String(\.text_offline_last_updated, parameter: date)
             } else {
-                return Res.strings().text_offline.get()
+                return String(\.text_offline)
             }
         case is ConversionState.Error:
-            return Res.strings().text_no_data.get()
+            return String(\.text_no_data)
         default:
             return ""
         }
@@ -33,15 +32,15 @@ extension ConversionState {
     func getColor() -> Color {
         switch self {
         case is ConversionState.Online:
-            return Res.colors().success.get()
+            return Color(\.success)
         case is ConversionState.Cached:
-            return Res.colors().info.get()
+            return Color(\.info)
         case is ConversionState.Offline:
-            return Res.colors().warning.get()
+            return Color(\.warning)
         case is ConversionState.Error:
-            return Res.colors().error.get()
+            return Color(\.error)
         default:
-            return Res.colors().transparent.get()
+            return Color(\.transparent)
         }
     }
 }

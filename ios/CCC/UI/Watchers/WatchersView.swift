@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 struct WatchersView: View {
@@ -22,7 +21,7 @@ struct WatchersView: View {
 
     var body: some View {
         ZStack {
-            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 WatchersToolbarView(backEvent: event.onBackClick)
@@ -41,9 +40,9 @@ struct WatchersView: View {
                             )
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Res.colors().background.get())
-                        .background(Res.colors().background.get())
-                    }.withClearBackground(color: Res.colors().background.get())
+                        .listRowBackground(\.background)
+                        .background(\.background)
+                    }.withClearBackground(color: Color(\.background))
 
                     Spacer()
 
@@ -54,24 +53,24 @@ struct WatchersView: View {
                             Button {
                                 event.onAddClick()
                             } label: {
-                                Label(Res.strings().txt_add.get(), systemImage: "plus")
+                                Label(String(\.txt_add), systemImage: "plus")
                                     .imageScale(.large)
                                     .frame(width: 108.cp(), height: 24.cp(), alignment: .center)
                                     .font(relative: .body)
                             }
-                            .foregroundColor(Res.colors().text.get())
+                            .foregroundColor(\.text)
                             .padding(.vertical, 15.cp())
-                            .background(Res.colors().background_strong.get())
+                            .background(\.background_strong)
 
                             Spacer()
                         }
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
-                    .background(Res.colors().background_strong.get())
+                    .background(\.background_strong)
 
                 default:
                     VStack {
-                        Text(Res.strings().txt_enable_notification_permission.get())
+                        Text(String(\.txt_enable_notification_permission))
                             .font(relative: .footnote)
                             .multilineTextAlignment(.center)
                         Button {
@@ -81,25 +80,25 @@ struct WatchersView: View {
                                 UIApplication.shared.open(url)
                             }
                         } label: {
-                            Label(Res.strings().txt_settings.get(), systemImage: "gear")
+                            Label(String(\.txt_settings), systemImage: "gear")
                                 .imageScale(.large)
                                 .frame(width: 108.cp(), height: 32.cp(), alignment: .center)
                                 .font(relative: .body)
                         }
                         .padding(4.cp())
-                        .background(Res.colors().background_weak.get())
-                        .foregroundColor(Res.colors().text.get())
+                        .background(\.background_weak)
+                        .foregroundColor(\.text)
                         .cornerRadius(5.cp())
                         .padding(8.cp())
                     }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                        .background(Res.colors().background.get())
+                        .background(\.background)
                 }
 
                 if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_WATCHERS").adapt()
                 }
             }
-            .background(Res.colors().background_strong.get())
+            .background(\.background_strong)
         }
     }
 }

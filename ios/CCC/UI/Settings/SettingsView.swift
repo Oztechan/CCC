@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 struct SettingsView: View {
@@ -18,7 +17,7 @@ struct SettingsView: View {
 
     var body: some View {
         ZStack {
-            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 SettingsToolbarView(backEvent: event.onBackClick)
@@ -26,36 +25,32 @@ struct SettingsView: View {
                 Form {
                     SettingsItemView(
                         imgName: "dollarsign.circle.fill",
-                        title: Res.strings().settings_item_currencies_title.get(),
-                        subTitle: Res.strings().settings_item_currencies_sub_title.get(),
-                        value: Res.strings().settings_active_item_value.get(
-                            parameter: state.activeCurrencyCount
-                        ),
+                        title: String(\.settings_item_currencies_title),
+                        subTitle: String(\.settings_item_currencies_sub_title),
+                        value: String(\.settings_active_item_value, parameter: state.activeCurrencyCount),
                         onClick: event.onCurrenciesClick
                     )
 
                     SettingsItemView(
                         imgName: "eyeglasses",
-                        title: Res.strings().settings_item_watchers_title.get(),
-                        subTitle: Res.strings().settings_item_watchers_sub_title.get(),
-                        value: Res.strings().settings_active_item_value.get(
-                            parameter: state.activeWatcherCount
-                        ),
+                        title: String(\.settings_item_watchers_title),
+                        subTitle: String(\.settings_item_watchers_sub_title),
+                        value: String(\.settings_active_item_value, parameter: state.activeWatcherCount),
                         onClick: event.onWatchersClick
                     )
 
                     SettingsItemView(
                         imgName: "crown.fill",
-                        title: Res.strings().settings_item_premium_title.get(),
-                        subTitle: Res.strings().settings_item_premium_sub_title_no_ads.get(),
+                        title: String(\.settings_item_premium_title),
+                        subTitle: String(\.settings_item_premium_sub_title_no_ads),
                         value: getPremiumText(premiumStatus: state.premiumStatus),
                         onClick: event.onPremiumClick
                     )
 
                     SettingsItemView(
                         imgName: "arrow.2.circlepath.circle.fill",
-                        title: Res.strings().settings_item_sync_title.get(),
-                        subTitle: Res.strings().settings_item_sync_sub_title.get(),
+                        title: String(\.settings_item_sync_title),
+                        subTitle: String(\.settings_item_sync_sub_title),
                         value: "",
                         onClick: event.onSyncClick
                     )
@@ -63,8 +58,8 @@ struct SettingsView: View {
                     if MailView.canSendEmail() {
                         SettingsItemView(
                             imgName: "envelope.fill",
-                            title: Res.strings().settings_item_feedback_title.get(),
-                            subTitle: Res.strings().settings_item_feedback_sub_title.get(),
+                            title: String(\.settings_item_feedback_title),
+                            subTitle: String(\.settings_item_feedback_sub_title),
                             value: "",
                             onClick: event.onFeedBackClick
                         )
@@ -72,21 +67,21 @@ struct SettingsView: View {
 
                     SettingsItemView(
                         imgName: "chevron.left.slash.chevron.right",
-                        title: Res.strings().settings_item_on_github_title.get(),
-                        subTitle: Res.strings().settings_item_on_github_sub_title.get(),
+                        title: String(\.settings_item_on_github_title),
+                        subTitle: String(\.settings_item_on_github_sub_title),
                         value: "",
                         onClick: event.onOnGitHubClick
                     )
 
                     SettingsItemView(
                         imgName: "textformat.123",
-                        title: Res.strings().settings_item_version_title.get(),
-                        subTitle: Res.strings().settings_item_version_sub_title.get(),
+                        title: String(\.settings_item_version_title),
+                        subTitle: String(\.settings_item_version_sub_title),
                         value: state.version,
                         onClick: {}
                     )
                 }.edgesIgnoringSafeArea(.bottom)
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
 
                 if state.isBannerAdVisible {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SETTINGS").adapt()
@@ -103,9 +98,9 @@ struct SettingsView: View {
         case is PremiumStatus.NeverActivated:
             return ""
         case let activateStatus as PremiumStatus.Active:
-            return Res.strings().settings_item_premium_value_will_expire.get(parameter: activateStatus.until)
+            return String(\.settings_item_premium_value_will_expire, parameter: activateStatus.until)
         case let expiredStatus as PremiumStatus.Expired:
-            return Res.strings().settings_item_premium_value_expired.get(parameter: expiredStatus.at)
+            return String(\.settings_item_premium_value_expired, parameter: expiredStatus.at)
         default:
             return ""
         }

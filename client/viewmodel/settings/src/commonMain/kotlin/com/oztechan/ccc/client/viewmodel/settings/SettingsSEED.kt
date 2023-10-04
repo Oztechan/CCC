@@ -16,7 +16,7 @@ data class SettingsState(
     val premiumStatus: PremiumStatus = PremiumStatus.NeverActivated,
     val precision: Int = 0,
     val version: String = ""
-) : BaseState()
+) : BaseState
 
 // Event
 @Suppress("TooManyFunctions")
@@ -37,7 +37,7 @@ interface SettingsEvent : BaseEvent {
 }
 
 // Effect
-sealed class SettingsEffect : BaseEffect() {
+sealed class SettingsEffect : BaseEffect {
     data object Back : SettingsEffect()
     data object OpenCurrencies : SettingsEffect()
     data object OpenWatchers : SettingsEffect()
@@ -56,7 +56,7 @@ sealed class SettingsEffect : BaseEffect() {
 }
 
 // Data
-data class SettingsData(var synced: Boolean = false) : BaseData() {
+data class SettingsData(var synced: Boolean = false) : BaseData {
     companion object {
         internal const val SYNC_DELAY = 10.toLong()
     }

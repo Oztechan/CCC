@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Provider
-import Res
 
 struct PremiumItemView: View {
     @Environment(\.colorScheme) private var colorScheme
@@ -20,21 +19,21 @@ struct PremiumItemView: View {
             if item == nil {
                 Spacer()
 
-                Text(Res.strings().txt_more_options_are_coming.get())
+                Text(String(\.txt_more_options_are_coming))
                     .font(relative: .footnote)
-                    .foregroundColor(Res.colors().text.get())
+                    .foregroundColor(\.text)
 
                 Spacer()
             } else {
                 Text(item!.data.duration)
                     .font(relative: .callout)
-                    .foregroundColor(Res.colors().text.get())
+                    .foregroundColor(\.text)
 
                 Spacer()
 
                 Text(item!.data.cost)
                     .font(relative: .callout)
-                    .foregroundColor(Res.colors().text.get())
+                    .foregroundColor(\.text)
             }
         }
         .contentShape(Rectangle())

@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 struct CurrenciesView: View {
@@ -18,7 +17,7 @@ struct CurrenciesView: View {
 
     var body: some View {
         ZStack {
-            Res.colors().background_strong.get().edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
                 if state.selectionVisibility {
@@ -47,15 +46,15 @@ struct CurrenciesView: View {
                         }
                         .listRowInsets(.init())
                         .id(UUID())
-                        .listRowBackground(Res.colors().background.get())
+                        .listRowBackground(\.background)
                     }
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
                 }
 
                 if state.isOnboardingVisible {
                     SelectCurrenciesBottomView(
-                        text: Res.strings().txt_select_currencies.get(),
-                        buttonText: Res.strings().btn_done.get(),
+                        text: String(\.txt_select_currencies),
+                        buttonText: String(\.btn_done),
                         onButtonClick: event.onDoneClick
                     )
                 }

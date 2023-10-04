@@ -10,7 +10,6 @@ import BackgroundTasks
 import FirebaseCore
 import GoogleMobileAds
 import Provider
-import Res
 import SwiftUI
 
 var logger: KermitLogger = {
@@ -57,9 +56,9 @@ struct Application: App {
             MainRootView()
                 .alert(isPresented: $isWatcherAlertShown) {
                     AlertView(
-                        title: Res.strings().txt_watcher_alert_title.get(),
-                        message: Res.strings().txt_watcher_alert_sub_title.get(),
-                        buttonText: Res.strings().txt_ok.get()
+                        title: String(\.txt_watcher_alert_title),
+                        message: String(\.txt_watcher_alert_sub_title),
+                        buttonText: String(\.txt_ok)
                     )
                 }
         }.onChange(of: scenePhase) { phase in
@@ -109,8 +108,8 @@ struct Application: App {
         if backgroundRepository.shouldSendNotification() {
             if scenePhase == .background {
                 self.notificationManager.sendNotification(
-                    title: Res.strings().txt_watcher_alert_title.get(),
-                    body: Res.strings().txt_watcher_alert_sub_title.get()
+                    title: String(\.txt_watcher_alert_title),
+                    body: String(\.txt_watcher_alert_sub_title)
                 )
             } else {
                 isWatcherAlertShown.toggle()

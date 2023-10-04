@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15A796074B10DEA83142F40F /* Pods_CCC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 341CA58575E08166F616E331 /* Pods_CCC.framework */; };
 		5C039FD625C1B705008350A3 /* FormProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C039FD525C1B705008350A3 /* FormProgressView.swift */; };
 		5C0ABFDE2A9369A1002904AC /* CalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */; };
 		5C0ABFE02A9390D6002904AC /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */; };
@@ -57,6 +56,7 @@
 		5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainRootView.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */; };
+		5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */; };
 		5CCFB5882A9B9F13002DF46B /* BugReportSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */; };
 		5CCFB58A2A9B9F8F002DF46B /* IntroSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB5892A9B9F8F002DF46B /* IntroSlideRootView.swift */; };
 		5CCFB58C2A9B9FFA002DF46B /* PremiumSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB58B2A9B9FFA002DF46B /* PremiumSlideRootView.swift */; };
@@ -90,7 +90,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		341CA58575E08166F616E331 /* Pods_CCC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CCC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C039FD525C1B705008350A3 /* FormProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormProgressView.swift; sourceTree = "<group>"; };
 		5C0ABFDD2A9369A1002904AC /* CalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorView.swift; sourceTree = "<group>"; };
 		5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
@@ -138,6 +137,7 @@
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveBannerAdView.swift; sourceTree = "<group>"; };
+		5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KermitExt.swift; sourceTree = "<group>"; };
 		5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReportSlideRootView.swift; sourceTree = "<group>"; };
 		5CCFB5892A9B9F8F002DF46B /* IntroSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroSlideRootView.swift; sourceTree = "<group>"; };
 		5CCFB58B2A9B9FFA002DF46B /* PremiumSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumSlideRootView.swift; sourceTree = "<group>"; };
@@ -154,8 +154,6 @@
 		7555FF84242A565B00829871 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7555FF87242A565B00829871 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7555FF8C242A565B00829871 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CB3F2CB9B5D0920F890DA73A /* Pods-CCC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CCC.debug.xcconfig"; path = "Target Support Files/Pods-CCC/Pods-CCC.debug.xcconfig"; sourceTree = "<group>"; };
-		FF1FD2425A9A57DA8C484F81 /* Pods-CCC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CCC.release.xcconfig"; path = "Target Support Files/Pods-CCC/Pods-CCC.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +164,6 @@
 				5C34B8CA295903AD009C84AB /* PopupView in Frameworks */,
 				5CF0623228AD93CF00C579F6 /* FirebasePerformance in Frameworks */,
 				5C3EB6D828775AFF001E822A /* GoogleMobileAds in Frameworks */,
-				15A796074B10DEA83142F40F /* Pods_CCC.framework in Frameworks */,
 				5CF0623028AD93CF00C579F6 /* FirebaseCrashlytics in Frameworks */,
 				5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */,
 				5CF0622E28AD93CF00C579F6 /* FirebaseAnalyticsSwift in Frameworks */,
@@ -338,6 +335,7 @@
 				5C5C71EC2922BFC400733C49 /* ConversionState.swift */,
 				5CEAF773295F2ECC0018C7FA /* DeviceUtil.swift */,
 				5C23124429ABF754002D6892 /* WindowUtil.swift */,
+				5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -371,8 +369,6 @@
 			children = (
 				7555FF7D242A565900829871 /* CCC */,
 				7555FF7C242A565900829871 /* Products */,
-				7555FFB0242A642200829871 /* Frameworks */,
-				E1A41654A700B91B0C52E7DE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -407,23 +403,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		7555FFB0242A642200829871 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				341CA58575E08166F616E331 /* Pods_CCC.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E1A41654A700B91B0C52E7DE /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				CB3F2CB9B5D0920F890DA73A /* Pods-CCC.debug.xcconfig */,
-				FF1FD2425A9A57DA8C484F81 /* Pods-CCC.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -431,7 +410,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "CCC" */;
 			buildPhases = (
-				ABAB7B6EBA5C48167F3A008C /* [CP] Check Pods Manifest.lock */,
 				7555FFB5242A651A00829871 /* ShellScript */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF78242A565900829871 /* Frameworks */,
@@ -546,29 +524,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" :client:core:res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=\"$BUILT_PRODUCTS_DIR\" \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=\"$CONTENTS_FOLDER_PATH\" \\\n    -Pkotlin.native.cocoapods.platform=\"$PLATFORM_NAME\" \\\n    -Pkotlin.native.cocoapods.archs=\"$ARCHS\" \\\n    -Pkotlin.native.cocoapods.configuration=\"$CONFIGURATION\"\n";
-		};
-		ABAB7B6EBA5C48167F3A008C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-CCC-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint --no-cache\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\ncd \"$SRCROOT/..\"\n\n\"$SRCROOT/../gradlew\" -p \"$SRCROOT/../\" \\\n    :ios:provider:embedAndSignAppleFrameworkForXcode \\\n    :client:core:res:embedAndSignAppleFrameworkForXcode \\\n    :client:core:res:copyFrameworkResourcesToApp \\\n    -Pmoko.resources.PLATFORM_NAME=\"$PLATFORM_NAME\" \\\n    -Pmoko.resources.CONFIGURATION=\"$CONFIGURATION\" \\\n    -Pmoko.resources.ARCHS=\"$ARCHS\" \\\n    -Pmoko.resources.BUILT_PRODUCTS_DIR=\"$BUILT_PRODUCTS_DIR\" \\\n    -Pmoko.resources.CONTENTS_FOLDER_PATH=\"$CONTENTS_FOLDER_PATH\" \n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -605,6 +561,7 @@
 				5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */,
 				5CEAF774295F2ECC0018C7FA /* DeviceUtil.swift in Sources */,
 				5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */,
+				5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */,
 				5C34B8CC29590500009C84AB /* SnackView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
 				5C23124529ABF754002D6892 /* WindowUtil.swift in Sources */,
@@ -759,13 +716,17 @@
 		};
 		7555FFA6242A565B00829871 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CB3F2CB9B5D0920F890DA73A /* Pods-CCC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CCC/Preview Content\"";
 				DEVELOPMENT_TEAM = Q5WB95G58X;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../ios/provider/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+					"$(SRCROOT)/../client/core/res/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INFOPLIST_FILE = CCC/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -785,13 +746,17 @@
 		};
 		7555FFA7242A565B00829871 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF1FD2425A9A57DA8C484F81 /* Pods-CCC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"CCC/Preview Content\"";
 				DEVELOPMENT_TEAM = Q5WB95G58X;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../ios/provider/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+					"$(SRCROOT)/../client/core/res/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
+				);
 				INFOPLIST_FILE = CCC/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

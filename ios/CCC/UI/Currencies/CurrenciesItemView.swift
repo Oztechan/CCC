@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 struct CurrenciesItemView: View {
@@ -23,21 +22,21 @@ struct CurrenciesItemView: View {
 
             Text(item.code)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
 
             Text(item.name)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
 
             Text(item.symbol)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
 
             Spacer()
 
             Image(systemName: item.isActive ? "checkmark.circle.fill" : "circle")
                 .resize(widthAndHeight: 20.cp())
-                .foregroundColor(Res.colors().secondary.get())
+                .foregroundColor(\.secondary)
         }
         .contentShape(Rectangle())
         .padding(.vertical, 4.cp())

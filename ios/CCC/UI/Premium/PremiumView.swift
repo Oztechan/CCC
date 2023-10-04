@@ -6,7 +6,6 @@
 //  Copyright © 2023 orgName. All rights reserved.
 //
 
-import Res
 import Provider
 import SwiftUI
 
@@ -18,10 +17,10 @@ struct PremiumView: View {
 
     var body: some View {
         ZStack {
-            Color(Res.colors().background_strong.get()).edgesIgnoringSafeArea(.all)
+            Color(\.background_strong).edgesIgnoringSafeArea(.all)
 
             VStack {
-                Text(Res.strings().txt_premium.get())
+                Text(String(\.txt_premium))
                     .font(relative: .title2)
                     .padding(4.cp())
                     .padding(.top, 10.cp())
@@ -38,13 +37,13 @@ struct PremiumView: View {
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         }
                         .listRowInsets(.init())
-                        .listRowBackground(Res.colors().background.get())
+                        .listRowBackground(\.background)
 
                         PremiumItemView(item: nil)
                             .listRowInsets(.init())
-                            .listRowBackground(Res.colors().background.get())
+                            .listRowBackground(\.background)
                     }
-                    .withClearBackground(color: Res.colors().background.get())
+                    .withClearBackground(color: Color(\.background))
                 }
 
                 Spacer()

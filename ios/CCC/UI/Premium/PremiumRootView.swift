@@ -6,7 +6,6 @@
 //  Copyright © 2023 orgName. All rights reserved.
 //
 
-import Res
 import Provider
 import SwiftUI
 
@@ -31,9 +30,9 @@ struct PremiumRootView: View {
         )
         .alert(isPresented: $isPremiumDialogShown) {
             AlertView(
-                title: Res.strings().txt_premium.get(),
-                message: Res.strings().txt_premium_text.get(),
-                buttonText: Res.strings().txt_watch.get(),
+                title: String(\.txt_premium),
+                message: String(\.txt_premium_text),
+                buttonText: String(\.txt_watch),
                 buttonAction: {
                     RewardedAd(
                         onReward: {

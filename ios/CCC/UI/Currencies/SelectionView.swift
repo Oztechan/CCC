@@ -6,7 +6,6 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct SelectionView: View {
@@ -22,23 +21,23 @@ struct SelectionView: View {
             Button(
                 action: { updateAllCurrenciesState(true) },
                 label: {
-                    Text(Res.strings().btn_select_all.get())
+                    Text(String(\.btn_select_all))
                         .font(relative: .headline)
-                        .foregroundColor(Res.colors().text.get())
+                        .foregroundColor(\.text)
                 }
             ).padding(.trailing, 10.cp())
 
             Button(
                 action: { updateAllCurrenciesState(false) },
                 label: {
-                    Text(Res.strings().btn_de_select_all.get())
+                    Text(String(\.btn_de_select_all))
                         .font(relative: .headline)
-                        .foregroundColor(Res.colors().text.get())
+                        .foregroundColor(\.text)
                 }
             )
         }
         .padding(top: 15.cp(), leading: 10.cp(), bottom: 15.cp(), trailing: 20.cp())
-        .background(Res.colors().background_weak.get())
+        .background(\.background_weak)
         .frame(maxHeight: 54.cp(), alignment: .bottom)
     }
 }

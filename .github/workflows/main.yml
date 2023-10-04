@@ -65,7 +65,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -84,18 +84,18 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.13.0
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v2.8.0
+        uses: gradle/gradle-build-action@v2.9.0
         with:
           arguments: assemble
 
       - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         if: github.event_name == 'push'
         with:
           name: androidArtifacts
@@ -120,15 +120,15 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
 
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: androidArtifacts
 
       - name: Firebase App Distribution Google
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.6.0
         with:
           appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -136,7 +136,7 @@ jobs:
           file: google/release/app-google-release.apk
 
       - name: Firebase App Distribution Huawei
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.5.1
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.6.0
         with:
           appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -159,7 +159,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -184,25 +184,17 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.13.0
         with:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Generate Pods
-        uses: gradle/gradle-build-action@v2.8.0
-        with:
-          arguments: :ios:provider:podGenIOS :client:core:res:podGenIOS --parallel
-
       - name: Build
-        run: |
-          cd ios/CCC
-          pod install --repo-update
-          cd ..
-          fastlane build
+        working-directory: ios
+        run: fastlane build
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -226,18 +218,17 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
 
       - name: Download iOS IPA
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: iOSArtifacts
           path: ios
 
       - name: Distribute
-        run: |
-          cd ios
-          fastlane distribute
+        working-directory: ios
+        run: fastlane distribute
 
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v2.0.0
@@ -255,23 +246,23 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.13.0
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v2.8.0
+        uses: gradle/gradle-build-action@v2.9.0
         with:
           arguments: check koverMergedXmlReport --parallel
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: coverageReport
           path: build/reports/kover/merged/xml/report.xml
@@ -291,10 +282,10 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
 
       - name: Download Coverage Report
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: coverageReport
           path: build
@@ -312,7 +303,7 @@ jobs:
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.0.1
+        uses: sonarsource/sonarcloud-github-action@v2.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -338,18 +329,18 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4.1.0
         with:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v3.13.0
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v2.8.0
+        uses: gradle/gradle-build-action@v2.9.0
         with:
           arguments: detektAll
 

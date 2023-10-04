@@ -6,7 +6,6 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct SettingsToolbarView: View {
@@ -16,7 +15,7 @@ struct SettingsToolbarView: View {
         HStack {
             ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-            Text(Res.strings().txt_settings.get())
+            Text(String(\.txt_settings))
                 .font(relative: .title3)
 
             Spacer()

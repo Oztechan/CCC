@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 struct SelectCurrencyItemView: View {
@@ -20,15 +19,15 @@ struct SelectCurrencyItemView: View {
 
             Text(item.code)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
 
             Text(item.name)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
 
             Text(item.symbol)
                 .font(relative: .footnote)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
 
             Spacer()
         }

@@ -7,7 +7,6 @@
 //
 
 import Provider
-import Res
 import SwiftUI
 
 struct CalculatorItemView: View {
@@ -20,13 +19,13 @@ struct CalculatorItemView: View {
         HStack {
             Text(item.rate)
                 .font(relative: .body)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
             Text(item.symbol)
                 .font(relative: .subheadline)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemAmountLongClick(item.rate) }
 
@@ -34,7 +33,7 @@ struct CalculatorItemView: View {
 
             Text(item.code)
                 .font(relative: .subheadline)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
                 .onTapGesture { onItemClick(item) }
                 .onLongPressGesture { onItemImageLongClick(item) }
 

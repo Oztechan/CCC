@@ -6,7 +6,6 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct CurrenciesToolbarView: View {
@@ -28,13 +27,13 @@ struct CurrenciesToolbarView: View {
             if searchVisibilty {
                 Spacer()
 
-                TextField(Res.strings().search.get(), text: $query)
+                TextField(String(\.search), text: $query)
                     .font(relative: .headline)
                     .onChange(of: query) { onQueryChange($0) }
                     .padding(8.cp())
                     .background(
                         RoundedRectangle(cornerRadius: 3.cp())
-                            .fill(Res.colors().background.get())
+                            .fill(Color(\.background))
                     )
                     .disableAutocorrection(true)
                     .multilineTextAlignment(.center)
@@ -51,7 +50,7 @@ struct CurrenciesToolbarView: View {
                     imgName: "xmark"
                 )
             } else {
-                Text(Res.strings().txt_currencies.get()).font(relative: .title3)
+                Text(String(\.txt_currencies)).font(relative: .title3)
 
                 Spacer()
 

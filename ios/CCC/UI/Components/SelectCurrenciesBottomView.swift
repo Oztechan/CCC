@@ -6,7 +6,6 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct SelectCurrenciesBottomView: View {
@@ -19,7 +18,7 @@ struct SelectCurrenciesBottomView: View {
     var body: some View {
         HStack {
             Text(text)
-                .foregroundColor(Res.colors().text.get())
+                .foregroundColor(\.text)
                 .font(relative: .subheadline)
 
             Spacer()

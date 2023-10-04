@@ -13,7 +13,7 @@ data class CurrenciesState(
     val currencyList: List<Currency> = listOf(),
     val loading: Boolean = true,
     val selectionVisibility: Boolean = false
-) : BaseState()
+) : BaseState
 
 // Event
 interface CurrenciesEvent : BaseEvent {
@@ -26,7 +26,7 @@ interface CurrenciesEvent : BaseEvent {
 }
 
 // Effect
-sealed class CurrenciesEffect : BaseEffect() {
+sealed class CurrenciesEffect : BaseEffect {
     data object FewCurrency : CurrenciesEffect()
     data object OpenCalculator : CurrenciesEffect()
     data object Back : CurrenciesEffect()
@@ -37,4 +37,4 @@ sealed class CurrenciesEffect : BaseEffect() {
 data class CurrenciesData(
     var unFilteredList: MutableList<Currency> = mutableListOf(),
     var query: String = ""
-) : BaseData()
+) : BaseData

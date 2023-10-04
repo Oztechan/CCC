@@ -7,7 +7,6 @@
 //
 
 import MessageUI
-import Res
 import SwiftUI
 
 struct MailView: UIViewControllerRepresentable {
@@ -40,9 +39,9 @@ struct MailView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
         let controller = MFMailComposeViewController()
         controller.mailComposeDelegate = context.coordinator
-        controller.setToRecipients([Res.strings().mail_developer.get()])
-        controller.setSubject(Res.strings().mail_feedback_subject.get())
-        controller.setMessageBody(Res.strings().mail_extra_text.get(), isHTML: false)
+        controller.setToRecipients([String(\.mail_developer)])
+        controller.setSubject(String(\.mail_feedback_subject))
+        controller.setMessageBody(String(\.mail_extra_text), isHTML: false)
         return controller
     }
 

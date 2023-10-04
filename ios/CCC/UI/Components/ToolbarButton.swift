@@ -6,7 +6,6 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct ToolbarButton: View {
@@ -21,7 +20,7 @@ struct ToolbarButton: View {
             label: {
                 Image(systemName: imgName)
                     .resize(widthAndHeight: 24.cp())
-                    .accentColor(Res.colors().text.get())
+                    .accentColor(\.text)
                     .padding(.leading, 10.cp())
             }
         ).padding(.trailing, 10.cp())

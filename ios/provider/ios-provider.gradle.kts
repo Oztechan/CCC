@@ -1,30 +1,17 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.Framework
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
-    libs.plugins.apply {
-        id(multiplatform.get().pluginId)
-        id(cocoapods.get().pluginId)
-    }
+    id(libs.plugins.multiplatform.get().pluginId)
 }
 
 kotlin {
     @Suppress("OPT_IN_USAGE")
     targetHierarchy.default()
 
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
-
-    cocoapods {
-        ProjectSettings.apply {
-            summary = PROJECT_NAME
-            homepage = HOMEPAGE
-            ios.deploymentTarget = IOS_DEPLOYMENT_TARGET
-            version = getVersionName(project)
-        }
-
-        framework {
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
             baseName = Modules.IOS.provider.frameworkName
             isStatic = true
 
@@ -45,12 +32,6 @@ kotlin {
                 export(project(selectCurrency))
                 export(project(watchers))
                 export(project(premium))
-            }
-        }
-
-        targets.withType<KotlinNativeTarget> {
-            binaries.withType<Framework> {
-                linkerOpts.add("-lsqlite3")
             }
         }
     }

@@ -6,7 +6,6 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct OutputView: View {
@@ -22,12 +21,12 @@ struct OutputView: View {
                 CurrencyImageView(imageName: baseCurrency)
 
                 Text(baseCurrency)
-                    .foregroundColor(Res.colors().text.get())
+                    .foregroundColor(\.text)
                     .font(relative: .body)
 
                 if !output.isEmpty {
                     Text("=  \(output)")
-                        .foregroundColor(Res.colors().text.get())
+                        .foregroundColor(\.text)
                         .font(relative: .body)
                         .onTapGesture {
                             onBarClick()
@@ -38,7 +37,7 @@ struct OutputView: View {
                 }
 
                 Text(symbol)
-                    .foregroundColor(Res.colors().text.get())
+                    .foregroundColor(\.text)
                     .font(relative: .body)
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)

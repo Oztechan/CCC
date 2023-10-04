@@ -7,7 +7,6 @@
 //
 
 import GoogleMobileAds
-import Res
 
 final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
     func show() {

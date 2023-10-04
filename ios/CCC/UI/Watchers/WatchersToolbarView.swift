@@ -6,7 +6,6 @@
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct WatchersToolbarView: View {
@@ -18,22 +17,22 @@ struct WatchersToolbarView: View {
             HStack {
                 ToolbarButton(clickEvent: backEvent, imgName: "chevron.left")
 
-                Text(Res.strings().txt_watchers.get())
+                Text(String(\.txt_watchers))
                     .font(relative: .title3)
 
                 Spacer()
             }
 
-            Text(Res.strings().txt_watchers_description.get())
+            Text(String(\.txt_watchers_description))
                 .contentShape(Rectangle())
                 .font(relative: .caption)
                 .multilineTextAlignment(.center)
-                .background(Res.colors().background_strong.get())
-                .foregroundColor(Res.colors().text_weak.get())
+                .background(\.background_strong)
+                .foregroundColor(\.text_weak)
                 .padding(10.cp())
         }
         .frame(width: .infinity, height: .nan)
         .padding(top: 15.cp(), leading: 10.cp(), trailing: 20.cp())
-        .background(Res.colors().background_strong.get())
+        .background(\.background_strong)
     }
 }

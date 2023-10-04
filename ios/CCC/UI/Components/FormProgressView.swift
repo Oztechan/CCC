@@ -6,7 +6,6 @@
 //  Copyright © 2021 orgName. All rights reserved.
 //
 
-import Res
 import SwiftUI
 
 struct FormProgressView: View {
@@ -27,6 +26,6 @@ struct FormProgressView: View {
             Spacer()
         }
         .padding(.top, 20.cp())
-        .background(Res.colors().background.get())
+        .background(\.background)
     }
 }
