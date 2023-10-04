@@ -12,7 +12,7 @@ import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 data class PremiumState(
     val premiumTypes: List<PremiumType> = listOf(PremiumType.VIDEO),
     val loading: Boolean = true
-) : BaseState()
+) : BaseState
 
 // Event
 interface PremiumEvent : BaseEvent {
@@ -29,7 +29,7 @@ interface PremiumEvent : BaseEvent {
 }
 
 // Effect
-sealed class PremiumEffect : BaseEffect() {
+sealed class PremiumEffect : BaseEffect {
     data class LaunchActivatePremiumFlow(
         val premiumType: PremiumType
     ) : PremiumEffect()

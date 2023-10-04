@@ -4,10 +4,10 @@
 
 package com.oztechan.ccc.client.core.viewmodel
 
-open class BaseState
+interface BaseState
 
 interface BaseEvent
 
-open class BaseEffect
+interface BaseEffect
 
-open class BaseData
+interface BaseData

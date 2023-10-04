@@ -19,7 +19,7 @@ data class CalculatorState(
     val symbol: String = "",
     val loading: Boolean = true,
     val conversionState: ConversionState = ConversionState.None,
-) : BaseState()
+) : BaseState
 
 // Event
 interface CalculatorEvent : BaseEvent {
@@ -36,7 +36,7 @@ interface CalculatorEvent : BaseEvent {
 }
 
 // Effect
-sealed class CalculatorEffect : BaseEffect() {
+sealed class CalculatorEffect : BaseEffect {
     data object Error : CalculatorEffect()
     data object FewCurrency : CalculatorEffect()
     data object OpenBar : CalculatorEffect()
@@ -52,7 +52,7 @@ sealed class CalculatorEffect : BaseEffect() {
 data class CalculatorData(
     var parser: ParserMob = ParserMob(),
     var conversion: Conversion? = null
-) : BaseData() {
+) : BaseData {
     companion object {
         internal const val MAXIMUM_OUTPUT = 18
         internal const val MAXIMUM_INPUT = 44
