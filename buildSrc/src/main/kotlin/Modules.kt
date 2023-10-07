@@ -32,7 +32,6 @@ object Modules {
         const val app = ":backend:app"
 
         object Service {
-            const val free = ":backend:service:free"
             const val premium = ":backend:service:premium"
         }
 

@@ -2,8 +2,6 @@ package com.oztechan.ccc.common.core.network.di
 
 import com.oztechan.ccc.common.core.network.api.backend.BackendApi
 import com.oztechan.ccc.common.core.network.api.backend.BackendApiImpl
-import com.oztechan.ccc.common.core.network.api.free.FreeApi
-import com.oztechan.ccc.common.core.network.api.free.FreeApiImpl
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApiImpl
 import io.ktor.client.HttpClient
@@ -23,7 +21,6 @@ private const val TIME_OUT: Long = 3333
 val commonCoreNetworkModule = module {
     singleOf(::provideHttpClient)
 
-    singleOf(::FreeApiImpl) { bind<FreeApi>() }
     singleOf(::BackendApiImpl) { bind<BackendApi>() }
     singleOf(::PremiumApiImpl) { bind<PremiumApi>() }
 }

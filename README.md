@@ -86,7 +86,6 @@ Open `CCC/ios/CCC.xcworkspace` with XCode after the packages are resolved you ca
 After you run the app probably your all API calls will fail, it is expected since the private URLs are not shared publicly. If you want the test the app with real API calls, I have prepared a fake response. Please replace all the `getConversion` methods in
 
 - `com.oztechan.ccc.common.core.network.api.backend.BackendApiImpl`
-- `com.oztechan.ccc.common.core.network.api.free.FreeApiImpl`
 - `com.oztechan.ccc.common.core.network.api.premium.PremiumApiImpl`
 
 with below;
