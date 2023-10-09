@@ -138,6 +138,7 @@ data class Conversion(
     @JsonNames("sek", "SEK") var sek: Double? = null,
     @JsonNames("sgd", "SGD") var sgd: Double? = null,
     @JsonNames("shp", "SHP") var shp: Double? = null,
+    @JsonNames("sle", "SLE") var sle: Double? = null,
     @JsonNames("sll", "SLL") var sll: Double? = null,
     @JsonNames("sos", "SOS") var sos: Double? = null,
     @JsonNames("srd", "SRD") var srd: Double? = null,

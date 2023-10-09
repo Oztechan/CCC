@@ -132,6 +132,7 @@ INSERT INTO Currency VALUES ('SDG', 'Sudanese pound', 'ج.س.', 0.0, 0);
 INSERT INTO Currency VALUES ('SEK', 'Swedish krona', 'kr', 0.0, 0);
 INSERT INTO Currency VALUES ('SGD', 'Singapore dollar', '$', 0.0, 0);
 INSERT INTO Currency VALUES ('SHP', 'Saint Helena pound', '£', 0.0, 0);
+INSERT INTO Currency VALUES ('SLE', 'Sierra Leonean Leone','Le', 0.0, 0);
 INSERT INTO Currency VALUES ('SLL', 'Sierra Leonean leone', 'Le', 0.0, 0);
 INSERT INTO Currency VALUES ('SOS', 'Somali shilling', 'Sh.So', 0.0, 0);
 INSERT INTO Currency VALUES ('SRD', 'Surinamese dollar', '$', 0.0, 0);
