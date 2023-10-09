@@ -80,6 +80,7 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.KES.toString() -> kes
     CurrencyType.KGS.toString() -> kgs
     CurrencyType.KHR.toString() -> khr
+    CurrencyType.KID.toString() -> kid
     CurrencyType.KMF.toString() -> kmf
     CurrencyType.KRW.toString() -> krw
     CurrencyType.KWD.toString() -> kwd

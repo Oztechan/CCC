@@ -80,6 +80,7 @@ INSERT INTO Currency VALUES ('JPY', 'Japanese yen', '¥', 0.0, 0);
 INSERT INTO Currency VALUES ('KES', 'Kenyan shilling', 'KSh', 0.0, 0);
 INSERT INTO Currency VALUES ('KGS', 'Kyrgyzstani som', 'С̲', 0.0, 0);
 INSERT INTO Currency VALUES ('KHR', 'Cambodian riel', '៛', 0.0, 0);
+INSERT INTO Currency VALUES ('KID', 'Kiribati Dollar','$', 0.0, 0);
 INSERT INTO Currency VALUES ('KMF', 'Comorian franc', 'CF', 0.0, 0);
 INSERT INTO Currency VALUES ('KRW', 'South Korean won', '₩', 0.0, 0);
 INSERT INTO Currency VALUES ('KWD', 'Kuwaiti dinar', 'د.ك', 0.0, 0);

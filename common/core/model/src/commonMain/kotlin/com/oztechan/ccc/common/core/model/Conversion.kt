@@ -80,6 +80,7 @@ data class Conversion(
     var kes: Double? = null,
     var kgs: Double? = null,
     var khr: Double? = null,
+    var kid: Double? = null,
     var kmf: Double? = null,
     var krw: Double? = null,
     var kwd: Double? = null,

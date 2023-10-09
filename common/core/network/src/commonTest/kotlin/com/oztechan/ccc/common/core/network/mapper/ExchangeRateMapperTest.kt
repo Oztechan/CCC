@@ -86,6 +86,7 @@ internal class ExchangeRateMapperTest {
         assertEquals(Fakes.exchangeRate.conversion.kes, conversion.kes)
         assertEquals(Fakes.exchangeRate.conversion.kgs, conversion.kgs)
         assertEquals(Fakes.exchangeRate.conversion.khr, conversion.khr)
+        assertEquals(Fakes.exchangeRate.conversion.kid, conversion.kid)
         assertEquals(Fakes.exchangeRate.conversion.kmf, conversion.kmf)
         assertEquals(Fakes.exchangeRate.conversion.krw, conversion.krw)
         assertEquals(Fakes.exchangeRate.conversion.kwd, conversion.kwd)
