@@ -1,0 +1,12 @@
+DELETE FROM Currency WHERE name='BTC';
+DELETE FROM Currency WHERE name='CLF';
+DELETE FROM Currency WHERE name='CNH';
+DELETE FROM Currency WHERE name='CUC';
+DELETE FROM Currency WHERE name='KPW';
+DELETE FROM Currency WHERE name='MRO';
+DELETE FROM Currency WHERE name='STD';
+DELETE FROM Currency WHERE name='SVC';
+DELETE FROM Currency WHERE name='XAG';
+DELETE FROM Currency WHERE name='XAU';
+DELETE FROM Currency WHERE name='XPD';
+DELETE FROM Currency WHERE name='XPT';
