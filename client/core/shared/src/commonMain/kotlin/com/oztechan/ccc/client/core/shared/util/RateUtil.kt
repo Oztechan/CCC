@@ -51,6 +51,7 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.EUR.toString() -> eur
     CurrencyType.FJD.toString() -> fjd
     CurrencyType.FKP.toString() -> fkp
+    CurrencyType.FOK.toString() -> fok
     CurrencyType.GBP.toString() -> gbp
     CurrencyType.GEL.toString() -> gel
     CurrencyType.GGP.toString() -> ggp

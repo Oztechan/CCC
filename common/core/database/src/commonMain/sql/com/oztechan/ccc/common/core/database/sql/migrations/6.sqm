@@ -10,3 +10,5 @@ DELETE FROM Currency WHERE name='XAG';
 DELETE FROM Currency WHERE name='XAU';
 DELETE FROM Currency WHERE name='XPD';
 DELETE FROM Currency WHERE name='XPT';
+
+INSERT INTO Currency (name, longName, symbol, rate, isActive) VALUES ('FOK', 'Faroese Króna','kr', 0.0, 0);

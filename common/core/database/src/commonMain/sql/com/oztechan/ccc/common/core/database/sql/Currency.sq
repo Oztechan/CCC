@@ -51,6 +51,7 @@ INSERT INTO Currency VALUES ('ETB', 'Ethiopian birr', 'Br', 0.0, 0);
 INSERT INTO Currency VALUES ('EUR', 'Euro', '€', 0.0, 0);
 INSERT INTO Currency VALUES ('FJD', 'Fijian dollar', 'FJ$', 0.0, 0);
 INSERT INTO Currency VALUES ('FKP', 'Falkland Islands pound', '£', 0.0, 0);
+INSERT INTO Currency VALUES ('FOK', 'Faroese Króna','kr', 0.0, 0);
 INSERT INTO Currency VALUES ('GBP', 'Pound sterling', '£', 0.0, 0);
 INSERT INTO Currency VALUES ('GEL', 'Georgian lari', '₾', 0.0, 0);
 INSERT INTO Currency VALUES ('GGP', 'Guernsey pound', '£', 0.0, 0);

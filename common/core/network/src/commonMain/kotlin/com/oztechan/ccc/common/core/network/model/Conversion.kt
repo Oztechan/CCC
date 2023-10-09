@@ -57,6 +57,7 @@ data class Conversion(
     @JsonNames("eur", "EUR") var eur: Double? = null,
     @JsonNames("fjd", "FJD") var fjd: Double? = null,
     @JsonNames("fkp", "FKP") var fkp: Double? = null,
+    @JsonNames("fok", "FOK") var fok: Double? = null,
     @JsonNames("gbp", "GBP") var gbp: Double? = null,
     @JsonNames("gel", "GEL") var gel: Double? = null,
     @JsonNames("ggp", "GGP") var ggp: Double? = null,

@@ -51,6 +51,7 @@ data class Conversion(
     var eur: Double? = null,
     var fjd: Double? = null,
     var fkp: Double? = null,
+    var fok: Double? = null,
     var gbp: Double? = null,
     var gel: Double? = null,
     var ggp: Double? = null,
