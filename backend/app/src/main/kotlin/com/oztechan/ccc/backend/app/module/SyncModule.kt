@@ -45,7 +45,7 @@ internal fun Application.syncModule() {
     globalScope.launch(ioDispatcher) {
         while (isActive) {
             syncController.syncUnPopularCurrencies()
-            delay(24.hours.inWholeMilliseconds)
+            delay(12.hours.inWholeMilliseconds)
         }
     }
 }
