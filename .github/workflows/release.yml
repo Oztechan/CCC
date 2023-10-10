@@ -191,7 +191,7 @@ jobs:
           path: artifact
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v4.1.9
+        uses: easingthemes/ssh-deploy@v4.1.10
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
