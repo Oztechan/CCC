@@ -14,4 +14,5 @@ DELETE FROM Currency WHERE name='XPT';
 INSERT INTO Currency (name, longName, symbol, rate, isActive) VALUES ('FOK', 'Faroese Króna','kr', 0.0, 0);
 INSERT INTO Currency (name, longName, symbol, rate, isActive) VALUES ('KID', 'Kiribati Dollar','$', 0.0, 0);
 INSERT INTO Currency (name, longName, symbol, rate, isActive) VALUES ('SLE', 'Sierra Leonean Leone','Le', 0.0, 0);
+UPDATE Currency SET name = 'Sierra Leonean Leone (2022)' WHERE code = 'SLL';
 INSERT INTO Currency (name, longName, symbol, rate, isActive) VALUES ('TVD', 'Tuvaluan dollar','$', 0.0, 0);
