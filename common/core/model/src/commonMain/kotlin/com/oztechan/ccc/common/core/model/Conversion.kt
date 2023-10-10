@@ -147,6 +147,7 @@ data class Conversion(
     var top: Double? = null,
     var `try`: Double? = null,
     var ttd: Double? = null,
+    var tvd: Double? = null,
     var twd: Double? = null,
     var tzs: Double? = null,
     var uah: Double? = null,

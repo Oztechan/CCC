@@ -33,9 +33,9 @@ fun ExchangeRate.toConversionModel() = Conversion(
     conversion.shp, conversion.sle, conversion.sll, conversion.sos, conversion.srd,
     conversion.ssp, conversion.stn, conversion.syp, conversion.szl, conversion.thb,
     conversion.tjs, conversion.tmt, conversion.tnd, conversion.top, conversion.`try`,
-    conversion.ttd, conversion.twd, conversion.tzs, conversion.uah, conversion.ugx,
-    conversion.usd, conversion.uyu, conversion.uzs, conversion.ves, conversion.vnd,
-    conversion.vuv, conversion.wst, conversion.xaf, conversion.xcd, conversion.xdr,
-    conversion.xof, conversion.xpf, conversion.yer, conversion.zar, conversion.zmw,
-    conversion.zwl
+    conversion.ttd, conversion.tvd, conversion.twd, conversion.tzs, conversion.uah,
+    conversion.ugx, conversion.usd, conversion.uyu, conversion.uzs, conversion.ves,
+    conversion.vnd, conversion.vuv, conversion.wst, conversion.xaf, conversion.xcd,
+    conversion.xdr, conversion.xof, conversion.xpf, conversion.yer, conversion.zar,
+    conversion.zmw, conversion.zwl
 )

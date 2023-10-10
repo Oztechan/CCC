@@ -147,6 +147,7 @@ INSERT INTO Currency VALUES ('TND', 'Tunisian dinar', 'د.ت', 0.0, 0);
 INSERT INTO Currency VALUES ('TOP', 'Tongan paʻanga', 'T$', 0.0, 0);
 INSERT INTO Currency VALUES ('TRY', 'Turkish lira', '₺', 0.0, 0);
 INSERT INTO Currency VALUES ('TTD', 'Trinidad and Tobago dollar', '$', 0.0, 0);
+INSERT INTO Currency VALUES ('TVD', 'Tuvaluan dollar','$', 0.0, 0);
 INSERT INTO Currency VALUES ('TWD', 'New Taiwan dollar', 'NT$', 0.0, 0);
 INSERT INTO Currency VALUES ('TZS', 'Tanzanian shilling', 'TSh', 0.0, 0);
 INSERT INTO Currency VALUES ('UAH', 'Ukrainian hryvnia', '₴', 0.0, 0);

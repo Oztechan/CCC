@@ -153,6 +153,7 @@ data class Conversion(
     @JsonNames("top", "TOP") var top: Double? = null,
     @JsonNames("try", "TRY") var `try`: Double? = null,
     @JsonNames("ttd", "TTD") var ttd: Double? = null,
+    @JsonNames("tvd", "TVD") var tvd: Double? = null,
     @JsonNames("twd", "TWD") var twd: Double? = null,
     @JsonNames("tzs", "TZS") var tzs: Double? = null,
     @JsonNames("uah", "UAH") var uah: Double? = null,
