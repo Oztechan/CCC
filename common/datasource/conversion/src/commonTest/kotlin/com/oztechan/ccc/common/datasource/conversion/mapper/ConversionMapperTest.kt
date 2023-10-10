@@ -154,7 +154,7 @@ internal class ConversionMapperTest {
         assertEquals(Fakes.conversionDBModel.TOP, model.top)
         assertEquals(Fakes.conversionDBModel.TRY, model.`try`)
         assertEquals(Fakes.conversionDBModel.TTD, model.ttd)
-        assertEquals(Fakes.conversionDBModel.tvd, model.tvd)
+        assertEquals(Fakes.conversionDBModel.TVD, model.tvd)
         assertEquals(Fakes.conversionDBModel.TWD, model.twd)
         assertEquals(Fakes.conversionDBModel.TZS, model.tzs)
         assertEquals(Fakes.conversionDBModel.UAH, model.uah)
