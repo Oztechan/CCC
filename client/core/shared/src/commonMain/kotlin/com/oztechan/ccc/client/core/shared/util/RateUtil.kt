@@ -147,6 +147,7 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.TOP.toString() -> top
     CurrencyType.TRY.toString() -> `try`
     CurrencyType.TTD.toString() -> ttd
+    CurrencyType.TVD.toString() -> tvd
     CurrencyType.TWD.toString() -> twd
     CurrencyType.TZS.toString() -> tzs
     CurrencyType.UAH.toString() -> uah

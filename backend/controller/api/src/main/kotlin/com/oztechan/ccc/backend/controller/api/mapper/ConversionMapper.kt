@@ -16,8 +16,8 @@ internal fun Conversion.toExchangeRateAPIModel() = ExchangeRateAPIModel(
         jpy, kes, kgs, khr, kid, kmf, krw, kwd, kyd, kzt, lak, lbp, lkr, lrd, lsl, lyd, mad, mdl,
         mga, mkd, mmk, mnt, mop, mru, mur, mvr, mwk, mxn, myr, mzn, nad, ngn, nio, nok, npr, nzd,
         omr, pab, pen, pgk, php, pkr, pln, pyg, qar, ron, rsd, rub, rwf, sar, sbd, scr, sdg, sek,
-        sgd, shp, sle, sll, sos, srd, ssp, stn, syp, szl, thb, tjs, tmt, tnd, top, `try`, ttd, twd,
-        tzs, uah, ugx, usd, uyu, uzs, ves, vnd, vuv, wst, xaf, xcd, xdr, xof, xpf, yer, zar, zmw,
-        zwl,
+        sgd, shp, sle, sll, sos, srd, ssp, stn, syp, szl, thb, tjs, tmt, tnd, top, `try`, ttd, tvd,
+        twd, tzs, uah, ugx, usd, uyu, uzs, ves, vnd, vuv, wst, xaf, xcd, xdr, xof, xpf, yer, zar,
+        zmw, zwl,
     )
 )
