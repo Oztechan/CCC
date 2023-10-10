@@ -132,6 +132,7 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.SEK.toString() -> sek
     CurrencyType.SGD.toString() -> sgd
     CurrencyType.SHP.toString() -> shp
+    CurrencyType.SLE.toString() -> sle
     CurrencyType.SLL.toString() -> sll
     CurrencyType.SOS.toString() -> sos
     CurrencyType.SRD.toString() -> srd

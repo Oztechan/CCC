@@ -132,6 +132,7 @@ data class Conversion(
     var sek: Double? = null,
     var sgd: Double? = null,
     var shp: Double? = null,
+    var sle: Double? = null,
     var sll: Double? = null,
     var sos: Double? = null,
     var srd: Double? = null,
