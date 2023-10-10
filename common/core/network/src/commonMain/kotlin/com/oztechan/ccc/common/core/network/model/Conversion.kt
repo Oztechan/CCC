@@ -86,6 +86,7 @@ data class Conversion(
     @JsonNames("kes", "KES") var kes: Double? = null,
     @JsonNames("kgs", "KGS") var kgs: Double? = null,
     @JsonNames("khr", "KHR") var khr: Double? = null,
+    @JsonNames("kid", "KID") var kid: Double? = null,
     @JsonNames("kmf", "KMF") var kmf: Double? = null,
     @JsonNames("krw", "KRW") var krw: Double? = null,
     @JsonNames("kwd", "KWD") var kwd: Double? = null,
