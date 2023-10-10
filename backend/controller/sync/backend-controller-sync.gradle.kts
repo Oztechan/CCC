@@ -10,7 +10,6 @@ dependencies {
     }
 
     Modules.Backend.Service.apply {
-        implementation(project(free))
         implementation(project(premium))
     }
 

@@ -44,7 +44,6 @@ include(
     // region Backend only modules
     ":backend:app",
     // Service modules
-    ":backend:service:free",
     ":backend:service:premium",
     // Controller modules
     ":backend:controller:sync",

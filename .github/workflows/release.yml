@@ -163,7 +163,7 @@ jobs:
         with:
           client-id: ${{secrets.HUAWEI_CLIENT_ID}}
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
-          app-id: "104920917"
+          app-id: ${{secrets.HUAWEI_APP_ID}}
           file-extension: "aab"
           file-path: "app-huawei-release.aab"
           file-name: "app-huawei-release"
@@ -191,7 +191,7 @@ jobs:
           path: artifact
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v4.1.9
+        uses: easingthemes/ssh-deploy@v4.1.10
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}

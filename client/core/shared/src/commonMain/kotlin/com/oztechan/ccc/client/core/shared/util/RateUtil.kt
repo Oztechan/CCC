@@ -27,7 +27,6 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.BOB.toString() -> bob
     CurrencyType.BRL.toString() -> brl
     CurrencyType.BSD.toString() -> bsd
-    CurrencyType.BTC.toString() -> btc
     CurrencyType.BTN.toString() -> btn
     CurrencyType.BWP.toString() -> bwp
     CurrencyType.BYN.toString() -> byn
@@ -35,13 +34,10 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.CAD.toString() -> cad
     CurrencyType.CDF.toString() -> cdf
     CurrencyType.CHF.toString() -> chf
-    CurrencyType.CLF.toString() -> clf
     CurrencyType.CLP.toString() -> clp
-    CurrencyType.CNH.toString() -> cnh
     CurrencyType.CNY.toString() -> cny
     CurrencyType.COP.toString() -> cop
     CurrencyType.CRC.toString() -> crc
-    CurrencyType.CUC.toString() -> cuc
     CurrencyType.CUP.toString() -> cup
     CurrencyType.CVE.toString() -> cve
     CurrencyType.CZK.toString() -> czk
@@ -55,6 +51,7 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.EUR.toString() -> eur
     CurrencyType.FJD.toString() -> fjd
     CurrencyType.FKP.toString() -> fkp
+    CurrencyType.FOK.toString() -> fok
     CurrencyType.GBP.toString() -> gbp
     CurrencyType.GEL.toString() -> gel
     CurrencyType.GGP.toString() -> ggp
@@ -83,8 +80,8 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.KES.toString() -> kes
     CurrencyType.KGS.toString() -> kgs
     CurrencyType.KHR.toString() -> khr
+    CurrencyType.KID.toString() -> kid
     CurrencyType.KMF.toString() -> kmf
-    CurrencyType.KPW.toString() -> kpw
     CurrencyType.KRW.toString() -> krw
     CurrencyType.KWD.toString() -> kwd
     CurrencyType.KYD.toString() -> kyd
@@ -102,7 +99,6 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.MMK.toString() -> mmk
     CurrencyType.MNT.toString() -> mnt
     CurrencyType.MOP.toString() -> mop
-    CurrencyType.MRO.toString() -> mro
     CurrencyType.MRU.toString() -> mru
     CurrencyType.MUR.toString() -> mur
     CurrencyType.MVR.toString() -> mvr
@@ -136,13 +132,12 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.SEK.toString() -> sek
     CurrencyType.SGD.toString() -> sgd
     CurrencyType.SHP.toString() -> shp
+    CurrencyType.SLE.toString() -> sle
     CurrencyType.SLL.toString() -> sll
     CurrencyType.SOS.toString() -> sos
     CurrencyType.SRD.toString() -> srd
     CurrencyType.SSP.toString() -> ssp
-    CurrencyType.STD.toString() -> std
     CurrencyType.STN.toString() -> stn
-    CurrencyType.SVC.toString() -> svc
     CurrencyType.SYP.toString() -> syp
     CurrencyType.SZL.toString() -> szl
     CurrencyType.THB.toString() -> thb
@@ -152,6 +147,7 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.TOP.toString() -> top
     CurrencyType.TRY.toString() -> `try`
     CurrencyType.TTD.toString() -> ttd
+    CurrencyType.TVD.toString() -> tvd
     CurrencyType.TWD.toString() -> twd
     CurrencyType.TZS.toString() -> tzs
     CurrencyType.UAH.toString() -> uah
@@ -164,14 +160,10 @@ fun Conversion.getRateFromCode(code: String) = when (code.uppercase()) {
     CurrencyType.VUV.toString() -> vuv
     CurrencyType.WST.toString() -> wst
     CurrencyType.XAF.toString() -> xaf
-    CurrencyType.XAG.toString() -> xag
-    CurrencyType.XAU.toString() -> xau
     CurrencyType.XCD.toString() -> xcd
     CurrencyType.XDR.toString() -> xdr
     CurrencyType.XOF.toString() -> xof
-    CurrencyType.XPD.toString() -> xpd
     CurrencyType.XPF.toString() -> xpf
-    CurrencyType.XPT.toString() -> xpt
     CurrencyType.YER.toString() -> yer
     CurrencyType.ZAR.toString() -> zar
     CurrencyType.ZMW.toString() -> zmw
