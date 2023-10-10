@@ -58,6 +58,7 @@ internal class ConversionMapperTest {
         assertEquals(Fakes.conversion.eur, response.conversion.eur)
         assertEquals(Fakes.conversion.fjd, response.conversion.fjd)
         assertEquals(Fakes.conversion.fkp, response.conversion.fkp)
+        assertEquals(Fakes.conversion.fok, response.conversion.fok)
         assertEquals(Fakes.conversion.gbp, response.conversion.gbp)
         assertEquals(Fakes.conversion.gel, response.conversion.gel)
         assertEquals(Fakes.conversion.ggp, response.conversion.ggp)
