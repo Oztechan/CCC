@@ -159,7 +159,7 @@ jobs:
           name: huaweiBundle
 
       - name: Deploy to Huawei App Gallery
-        uses: muhamedzeema/appgallery-deply-action@v1
+        uses: muhamedzeema/appgallery-deply-action@main
         with:
           client-id: ${{secrets.HUAWEI_CLIENT_ID}}
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
