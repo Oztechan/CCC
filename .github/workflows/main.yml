@@ -259,7 +259,7 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v2.9.0
         with:
-          arguments: check koverXmlReport --parallel
+          arguments: koverXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3.1.3

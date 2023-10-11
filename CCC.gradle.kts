@@ -37,7 +37,9 @@ allprojects {
         rootProject.dependencies.add("kover", project(path))
         koverReport {
             if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
-                androidReports("*") {}
+                defaults {
+                    mergeWith("release")
+                }
             }
             filters {
                 excludes {
