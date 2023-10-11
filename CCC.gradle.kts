@@ -36,6 +36,12 @@ allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
         rootProject.dependencies.add("kover", project(path))
         koverReport {
+            if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
+                defaults {
+                    // adds the contents of the reports of `release` Android build variant to default reports
+                    mergeWith("*")
+                }
+            }
             filters {
                 excludes {
                     annotatedBy("com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews")
