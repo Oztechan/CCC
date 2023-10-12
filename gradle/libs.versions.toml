@@ -38,7 +38,7 @@ lifecycle = "2.6.2"
 mokoResources = "0.23.0"
 buildKonfig = "0.14.0"
 splashScreen = "1.0.1"
-kover = "0.7.4"
+kover = "0.6.1"
 rootBeer = "0.1.0"
 mockative = "2.0.1"
 firebaseCrashlytics = "18.4.3"
@@ -127,7 +127,7 @@ classpaths-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gr
 classpaths-navigation = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 classpaths-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
 classpaths-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildKonfig" }
-classpaths-kover = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
+classpaths-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 
 [plugins]
 
