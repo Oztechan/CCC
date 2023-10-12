@@ -43,7 +43,7 @@ rootBeer = "0.1.0"
 mockative = "2.0.1"
 firebaseCrashlytics = "18.4.3"
 anrWatchDog = "1.4.0"
-kermit = "2.0.1"
+kermit = "2.0.2"
 
 [libraries]
 # COMMON
