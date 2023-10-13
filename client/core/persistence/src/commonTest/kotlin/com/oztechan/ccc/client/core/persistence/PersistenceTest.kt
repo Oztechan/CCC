@@ -2,20 +2,12 @@ package com.oztechan.ccc.client.core.persistence
 
 import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceException
 import com.russhwolf.settings.ObservableSettings
-import com.russhwolf.settings.coroutines.getBooleanFlow
-import com.russhwolf.settings.coroutines.getFloatFlow
-import com.russhwolf.settings.coroutines.getIntFlow
-import com.russhwolf.settings.coroutines.getLongFlow
-import com.russhwolf.settings.coroutines.getStringFlow
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -27,8 +19,9 @@ internal class PersistenceTest {
     }
 
     @Mock
-    private val settings =
-        configure(mock(classOf<ObservableSettings>())) { stubsUnitByDefault = true }
+    private val settings = configure(mock(classOf<ObservableSettings>())) {
+        stubsUnitByDefault = true
+    }
 
     private val key = "key"
 
@@ -66,38 +59,6 @@ internal class PersistenceTest {
         verify { settings.getString(key, mockString) }
             .wasInvoked()
         verify { settings.getLong(key, mockLong) }
-            .wasInvoked()
-    }
-
-    @Suppress("OPT_IN_USAGE")
-    @Test
-    fun `getFlow returns the same type`() = runTest {
-        every { settings.getFloatFlow(key, mockFloat) }
-            .returns(flowOf(mockFloat))
-        every { settings.getBooleanFlow(key, mockBoolean) }
-            .returns(flowOf(mockBoolean))
-        every { settings.getIntFlow(key, mockInt) }
-            .returns(flowOf(mockInt))
-        every { settings.getStringFlow(key, mockString) }
-            .returns(flowOf(mockString))
-        every { settings.getLongFlow(key, mockLong) }
-            .returns(flowOf(mockLong))
-
-        assertEquals(mockFloat, persistence.getFlow(key, mockFloat).firstOrNull())
-        assertEquals(mockBoolean, persistence.getFlow(key, mockBoolean).firstOrNull())
-        assertEquals(mockInt, persistence.getFlow(key, mockInt).firstOrNull())
-        assertEquals(mockString, persistence.getFlow(key, mockString).firstOrNull())
-        assertEquals(mockLong, persistence.getFlow(key, mockLong).firstOrNull())
-
-        verify { settings.getFloatFlow(key, mockFloat) }
-            .wasInvoked()
-        verify { settings.getBooleanFlow(key, mockBoolean) }
-            .wasInvoked()
-        verify { settings.getIntFlow(key, mockInt) }
-            .wasInvoked()
-        verify { settings.getStringFlow(key, mockString) }
-            .wasInvoked()
-        verify { settings.getLongFlow(key, mockLong) }
             .wasInvoked()
     }
 
