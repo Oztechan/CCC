@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.core.persistence.PersistenceImpl
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.SharedPreferencesSettings
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -14,7 +14,7 @@ private const val KEY_APPLICATION_PREFERENCES = "application_preferences"
 
 actual val clientCorePersistenceModule = module {
     singleOf(::provideSharedPreferences)
-    single<Settings> { SharedPreferencesSettings(get()) }
+    single<ObservableSettings> { SharedPreferencesSettings(get()) }
     singleOf(::PersistenceImpl) { bind<Persistence>() }
 }
 
