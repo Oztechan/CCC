@@ -21,7 +21,9 @@ kotlin {
             dependencies {
                 libs.common.apply {
                     implementation(koinCore)
+                    implementation(coroutines)
                     implementation(multiplatformSettings)
+                    implementation(multiplatformSettingsCoroutines)
                 }
             }
         }
@@ -30,6 +32,7 @@ kotlin {
                 libs.common.apply {
                     implementation(test)
                     implementation(mockative)
+                    implementation(coroutinesTest)
                 }
             }
         }

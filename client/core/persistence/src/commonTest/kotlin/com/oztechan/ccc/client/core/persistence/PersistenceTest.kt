@@ -19,7 +19,9 @@ internal class PersistenceTest {
     }
 
     @Mock
-    private val settings = configure(mock(classOf<Settings>())) { stubsUnitByDefault = true }
+    private val settings = configure(mock(classOf<Settings>())) {
+        stubsUnitByDefault = true
+    }
 
     private val key = "key"
 
