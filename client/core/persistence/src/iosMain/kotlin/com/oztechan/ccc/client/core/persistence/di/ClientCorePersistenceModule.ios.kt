@@ -4,9 +4,13 @@ import com.oztechan.ccc.client.core.persistence.FlowPersistence
 import com.oztechan.ccc.client.core.persistence.FlowPersistenceImpl
 import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.core.persistence.PersistenceImpl
+import com.oztechan.ccc.client.core.persistence.SuspendPersistence
+import com.oztechan.ccc.client.core.persistence.SuspendPersistenceImpl
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
 import com.russhwolf.settings.Settings
+import com.russhwolf.settings.coroutines.SuspendSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -16,6 +20,11 @@ actual val clientCorePersistenceModule = module {
         NSUserDefaultsSettings(get<NativeDependencyWrapper>().userDefaults)
     }
     single<Settings> { get<ObservableSettings>() }
+    @Suppress("OPT_IN_USAGE")
+    single<SuspendSettings> { get<ObservableSettings>().toSuspendSettings() }
+
     singleOf(::PersistenceImpl) { bind<Persistence>() }
     singleOf(::FlowPersistenceImpl) { bind<FlowPersistence>() }
+    @Suppress("OPT_IN_USAGE")
+    singleOf(::SuspendPersistenceImpl) { bind<SuspendPersistence>() }
 }
