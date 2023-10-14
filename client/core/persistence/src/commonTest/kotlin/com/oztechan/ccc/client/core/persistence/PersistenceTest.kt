@@ -1,7 +1,7 @@
 package com.oztechan.ccc.client.core.persistence
 
 import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceException
-import com.russhwolf.settings.ObservableSettings
+import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.configure
@@ -19,7 +19,7 @@ internal class PersistenceTest {
     }
 
     @Mock
-    private val settings = configure(mock(classOf<ObservableSettings>())) {
+    private val settings = configure(mock(classOf<Settings>())) {
         stubsUnitByDefault = true
     }
 
