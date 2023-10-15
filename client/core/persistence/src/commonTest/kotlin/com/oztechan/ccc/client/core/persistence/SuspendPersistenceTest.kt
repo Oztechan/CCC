@@ -82,7 +82,7 @@ internal class SuspendPersistenceTest {
     }
 
     @Test
-    fun `setSuspend throw UnsupportedPersistenceException when unsupported type tried to saved or read`() =
+    fun `UnsupportedPersistenceException throw when unsupported type tried to saved or read`() =
         runTest {
             val mockObject = object {}
 
