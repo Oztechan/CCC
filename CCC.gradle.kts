@@ -81,7 +81,6 @@ allprojects {
     tasks.withType<KotlinCompile> {
         kotlinOptions {
             allWarningsAsErrors = true
-            freeCompilerArgs += "-opt-in=com.russhwolf.settings.ExperimentalSettingsApi"
         }
     }
 }
