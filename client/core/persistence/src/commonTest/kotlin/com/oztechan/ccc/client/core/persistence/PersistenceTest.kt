@@ -1,6 +1,12 @@
 package com.oztechan.ccc.client.core.persistence
 
 import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceException
+import com.oztechan.ccc.client.core.persistence.fakes.Fakes.KEY
+import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockBoolean
+import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockFloat
+import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockInt
+import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockLong
+import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockString
 import com.russhwolf.settings.Settings
 import io.mockative.Mock
 import io.mockative.classOf
@@ -8,7 +14,6 @@ import io.mockative.configure
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
-import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -23,62 +28,54 @@ internal class PersistenceTest {
         stubsUnitByDefault = true
     }
 
-    private val key = "key"
-
-    private val mockFloat = Random.nextFloat()
-    private val mockBoolean = Random.nextBoolean()
-    private val mockInt = Random.nextInt()
-    private val mockString = Random.nextInt().toString()
-    private val mockLong = Random.nextLong()
-
     @Test
     fun `getValue returns the same type`() {
-        every { settings.getFloat(key, mockFloat) }
+        every { settings.getFloat(KEY, mockFloat) }
             .returns(mockFloat)
-        every { settings.getBoolean(key, mockBoolean) }
+        every { settings.getBoolean(KEY, mockBoolean) }
             .returns(mockBoolean)
-        every { settings.getInt(key, mockInt) }
+        every { settings.getInt(KEY, mockInt) }
             .returns(mockInt)
-        every { settings.getString(key, mockString) }
+        every { settings.getString(KEY, mockString) }
             .returns(mockString)
-        every { settings.getLong(key, mockLong) }
+        every { settings.getLong(KEY, mockLong) }
             .returns(mockLong)
 
-        assertEquals(mockFloat, persistence.getValue(key, mockFloat))
-        assertEquals(mockBoolean, persistence.getValue(key, mockBoolean))
-        assertEquals(mockInt, persistence.getValue(key, mockInt))
-        assertEquals(mockString, persistence.getValue(key, mockString))
-        assertEquals(mockLong, persistence.getValue(key, mockLong))
+        assertEquals(mockFloat, persistence.getValue(KEY, mockFloat))
+        assertEquals(mockBoolean, persistence.getValue(KEY, mockBoolean))
+        assertEquals(mockInt, persistence.getValue(KEY, mockInt))
+        assertEquals(mockString, persistence.getValue(KEY, mockString))
+        assertEquals(mockLong, persistence.getValue(KEY, mockLong))
 
-        verify { settings.getFloat(key, mockFloat) }
+        verify { settings.getFloat(KEY, mockFloat) }
             .wasInvoked()
-        verify { settings.getBoolean(key, mockBoolean) }
+        verify { settings.getBoolean(KEY, mockBoolean) }
             .wasInvoked()
-        verify { settings.getInt(key, mockInt) }
+        verify { settings.getInt(KEY, mockInt) }
             .wasInvoked()
-        verify { settings.getString(key, mockString) }
+        verify { settings.getString(KEY, mockString) }
             .wasInvoked()
-        verify { settings.getLong(key, mockLong) }
+        verify { settings.getLong(KEY, mockLong) }
             .wasInvoked()
     }
 
     @Test
     fun `setValue sets the same type`() {
-        persistence.setValue(key, mockFloat)
-        persistence.setValue(key, mockBoolean)
-        persistence.setValue(key, mockInt)
-        persistence.setValue(key, mockString)
-        persistence.setValue(key, mockLong)
+        persistence.setValue(KEY, mockFloat)
+        persistence.setValue(KEY, mockBoolean)
+        persistence.setValue(KEY, mockInt)
+        persistence.setValue(KEY, mockString)
+        persistence.setValue(KEY, mockLong)
 
-        verify { settings.putFloat(key, mockFloat) }
+        verify { settings.putFloat(KEY, mockFloat) }
             .wasInvoked()
-        verify { settings.putBoolean(key, mockBoolean) }
+        verify { settings.putBoolean(KEY, mockBoolean) }
             .wasInvoked()
-        verify { settings.putInt(key, mockInt) }
+        verify { settings.putInt(KEY, mockInt) }
             .wasInvoked()
-        verify { settings.putString(key, mockString) }
+        verify { settings.putString(KEY, mockString) }
             .wasInvoked()
-        verify { settings.putLong(key, mockLong) }
+        verify { settings.putLong(KEY, mockLong) }
             .wasInvoked()
     }
 
@@ -87,10 +84,10 @@ internal class PersistenceTest {
         val mockObject = object {}
 
         assertFailsWith(UnsupportedPersistenceException::class) {
-            persistence.setValue(key, mockObject)
+            persistence.setValue(KEY, mockObject)
         }
         assertFailsWith(UnsupportedPersistenceException::class) {
-            persistence.getValue(key, mockObject)
+            persistence.getValue(KEY, mockObject)
         }
     }
 }
