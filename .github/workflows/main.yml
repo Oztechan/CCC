@@ -267,7 +267,7 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/actions/setup-gradle@v3.3.1
         with:
-          arguments: check koverMergedXmlReport --parallel
+          arguments: koverXmlReport --parallel
           build-scan-publish: true
           build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
           build-scan-terms-of-use-agree: "yes"
@@ -276,7 +276,7 @@ jobs:
         uses: actions/upload-artifact@v4.3.2
         with:
           name: coverageReport
-          path: build/reports/kover/merged/xml/report.xml
+          path: build/reports/kover/report.xml
 
       - name: Cancel other jobs if this fails
         if: failure()
