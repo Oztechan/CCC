@@ -34,17 +34,20 @@ version = ProjectSettings.getVersionName(project)
 
 allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
-        koverMerged {
-            filters {
-                annotations {
-                    excludes += listOf(
-                        "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
-                        "androidx.compose.ui.tooling.preview.Preview",
-                        "androidx.compose.runtime.Composable"
-                    )
+        rootProject.dependencies.add("kover", project(path))
+        koverReport {
+            defaults {
+                if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
+                    mergeWith("release")
                 }
             }
-            enable()
+            filters {
+                excludes {
+                    annotatedBy("com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews")
+                    annotatedBy("androidx.compose.ui.tooling.preview.Preview")
+                    annotatedBy("androidx.compose.runtime.Composable")
+                }
+            }
         }
     }
 
