@@ -31,16 +31,23 @@ buildscript {
 
 group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
-
+fun Project.koverMerge(buildVariant: String) {
+    koverReport {
+        defaults {
+            mergeWith(buildVariant)
+        }
+    }
+}
 allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
         rootProject.dependencies.add("kover", project(path))
+        if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
+            koverMerge("androidRelease")
+        }
+        if (pluginManager.hasPlugin(rootProject.libs.plugins.androidApp.get().pluginId)) {
+            koverMerge("androidRelease")
+        }
         koverReport {
-            defaults {
-                if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
-                    mergeWith("androidRelease")
-                }
-            }
             filters {
                 excludes {
                     annotatedBy("com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews")
