@@ -38,7 +38,7 @@ allprojects {
         koverReport {
             defaults {
                 if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
-                    mergeWith("release")
+                    mergeWith("androidRelease")
                 }
             }
             filters {
