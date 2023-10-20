@@ -44,6 +44,7 @@ mockative = "2.0.1"
 firebaseCrashlytics = "18.4.3"
 anrWatchDog = "1.4.0"
 kermit = "2.0.2"
+konsist = "0.11.0"
 
 [libraries]
 # COMMON
@@ -64,6 +65,7 @@ common-mockative = { module = "io.mockative:mockative", version.ref = "mockative
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 common-kermitCrashlytics = { module = "co.touchlab:kermit-crashlytics", version.ref = "kermit" }
 common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
+common-konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
 # ANDROID
 android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugaring" }
