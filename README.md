@@ -37,6 +37,8 @@ graph TD;
     common-->backend(backend)
     
     submodule{submodule}
+
+    test
 ```
 
 All the modules in the project are grouped into 6 targets:
@@ -45,6 +47,7 @@ All the modules in the project are grouped into 6 targets:
 - `client` is a KMM module that shared between `ios` and `android`.
 - `common` is a KMP modules that shared between all the platforms (`android`, `ios` and `backend`)
 - `submodule` these are different git repositories and can be used in any of these modules. (arrows are not shown for the sake of simplicity)
+- `test` contains architectural test cases
 
 ## How to clone
 
