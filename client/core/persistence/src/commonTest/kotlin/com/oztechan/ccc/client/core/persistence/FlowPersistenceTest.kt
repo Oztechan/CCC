@@ -22,7 +22,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 @Suppress("OPT_IN_USAGE")
-class FlowPersistenceTest {
+internal class FlowPersistenceTest {
     private val flowPersistence: FlowPersistence by lazy {
         FlowPersistenceImpl(flowSettings)
     }

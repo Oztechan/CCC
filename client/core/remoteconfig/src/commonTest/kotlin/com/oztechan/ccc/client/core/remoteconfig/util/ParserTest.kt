@@ -6,7 +6,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertNull
 
-class ParserTest {
+internal class ParserTest {
 
     @BeforeTest
     fun setup() {

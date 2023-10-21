@@ -6,7 +6,7 @@ import com.lemonappdev.konsist.api.ext.list.withoutNameEndingWith
 import com.lemonappdev.konsist.api.verify.assert
 import org.junit.Test
 
-class PackagingTest {
+internal class PackagingTest {
     @Test
     fun `classes with 'ViewModel' suffix should reside in 'viewmodel' package`() {
         Konsist.scopeFromProject()
