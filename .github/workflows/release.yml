@@ -109,7 +109,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToGooglePlay:
     runs-on: ubuntu-latest
@@ -144,7 +144,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToHuaweiAppGallery:
     runs-on: ubuntu-latest
@@ -175,7 +175,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   DeployToServer:
     runs-on: ubuntu-latest
@@ -206,7 +206,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToAppStore:
     runs-on: macos-13
@@ -240,7 +240,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
     runs-on: ubuntu-latest
