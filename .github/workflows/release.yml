@@ -60,7 +60,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -214,7 +214,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
           fetch-depth: 0

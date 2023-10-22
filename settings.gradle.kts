@@ -92,6 +92,7 @@ include(
     // DataSource modules
     ":common:datasource:conversion",
     // endregion
+    ":test",
 )
 
 // region Git Submodules independent modules and project hosted in different repository
