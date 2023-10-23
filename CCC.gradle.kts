@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     libs.plugins.apply {
+        alias(kotlinJvm).apply(false)
         alias(kover)
         alias(detekt)
     }
