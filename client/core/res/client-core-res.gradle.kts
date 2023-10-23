@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 
 plugins {
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
+        alias(kotlinMultiplatform)
         id(androidLib.get().pluginId)
         id(mokoResources.get().pluginId)
     }
