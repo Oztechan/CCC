@@ -137,7 +137,7 @@ classpaths-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kove
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
 android = { id = "org.jetbrains.kotlin.android" }
 jvm = { id = "org.jetbrains.kotlin.jvm" }
-androidApp = { id = "com.android.application" }
+androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLib = { id = "com.android.library" }
 safeArgs = { id = "androidx.navigation.safeargs" }
 buildKonfig = { id = "com.codingfeline.buildkonfig" }
