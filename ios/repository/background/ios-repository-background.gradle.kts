@@ -1,6 +1,6 @@
 plugins {
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
+        alias(kotlinMultiplatform)
         alias(ksp)
     }
 }
