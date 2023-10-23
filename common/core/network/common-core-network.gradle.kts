@@ -5,7 +5,7 @@ import config.key.secret
 
 plugins {
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
+        alias(kotlinMultiplatform)
         id(androidLib.get().pluginId)
         id(buildKonfig.get().pluginId)
         alias(serialization)
