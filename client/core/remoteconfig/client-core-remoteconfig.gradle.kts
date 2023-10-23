@@ -2,7 +2,7 @@ plugins {
     libs.plugins.apply {
         id(androidLib.get().pluginId)
         id(multiplatform.get().pluginId)
-        id(kotlinXSerialization.get().pluginId)
+        alias(serialization)
     }
 }
 

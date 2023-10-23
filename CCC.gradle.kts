@@ -20,7 +20,6 @@ buildscript {
             classpath(firebasePerPlugin)
             classpath(crashlytics)
             classpath(navigation) // todo can be removed once compose migration done
-            classpath(kotlinSerialization)
             classpath(sqlDelight)
             classpath(mokoResources)
             classpath(buildKonfig)
