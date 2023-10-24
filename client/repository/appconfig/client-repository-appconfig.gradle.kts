@@ -4,7 +4,7 @@ import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 
 plugins {
     libs.plugins.apply {
-        id(androidLib.get().pluginId)
+        alias(androidLibrary)
         alias(kotlinMultiplatform)
         id(buildKonfig.get().pluginId)
         alias(ksp)
