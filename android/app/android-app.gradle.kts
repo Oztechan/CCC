@@ -13,7 +13,7 @@ plugins {
         id(crashlytics.get().pluginId)
         id(googleServices.get().pluginId)
         id(firebasePerPlugin.get().pluginId)
-        id(android.get().pluginId)
+        alias(kotlinAndroid)
     }
 }
 
