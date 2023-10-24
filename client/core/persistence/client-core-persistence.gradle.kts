@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        id(androidLib.get().pluginId)
+        alias(androidLibrary)
         alias(ksp)
     }
 }

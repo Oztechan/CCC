@@ -3,7 +3,7 @@ import config.DeviceFlavour.Companion.implementation
 
 plugins {
     libs.plugins.apply {
-        id(androidLib.get().pluginId)
+        alias(androidLibrary)
         alias(kotlinAndroid)
         id(safeArgs.get().pluginId) // todo can be removed once compose migration done
     }
