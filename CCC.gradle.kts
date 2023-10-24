@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform).apply(false)
+        alias(kotlinJvm).apply(false)
         alias(kotlinAndroid).apply(false)
         alias(androidLibrary).apply(false)
         alias(kover)
