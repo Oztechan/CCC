@@ -9,6 +9,7 @@ plugins {
         alias(kotlinMultiplatform).apply(false)
         alias(androidApplication).apply(false)
         alias(kotlinAndroid).apply(false)
+        alias(androidLibrary).apply(false)
         alias(kover)
         alias(detekt)
     }

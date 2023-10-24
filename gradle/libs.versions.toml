@@ -138,7 +138,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 jvm = { id = "org.jetbrains.kotlin.jvm" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
-androidLib = { id = "com.android.library" }
+androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 safeArgs = { id = "androidx.navigation.safeargs" }
 buildKonfig = { id = "com.codingfeline.buildkonfig" }
 crashlytics = { id = "com.google.firebase.crashlytics" }

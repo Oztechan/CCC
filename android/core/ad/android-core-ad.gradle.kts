@@ -9,7 +9,7 @@ import config.key.string
 
 plugins {
     libs.plugins.apply {
-        id(androidLib.get().pluginId)
+        alias(androidLibrary)
         alias(kotlinAndroid)
     }
 }
