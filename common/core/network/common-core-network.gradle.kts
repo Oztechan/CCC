@@ -8,7 +8,7 @@ plugins {
         alias(kotlinMultiplatform)
         id(kotlinXSerialization.get().pluginId)
         alias(androidLibrary)
-        id(buildKonfig.get().pluginId)
+        alias(buildKonfig)
     }
 }
 

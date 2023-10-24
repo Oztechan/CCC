@@ -129,7 +129,6 @@ classpaths-firebasePerPlugin = { module = "com.google.firebase:perf-plugin", ver
 classpaths-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
 classpaths-navigation = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 classpaths-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
-classpaths-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildKonfig" }
 classpaths-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 
 [plugins]
@@ -140,7 +139,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApp = { id = "com.android.application" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 safeArgs = { id = "androidx.navigation.safeargs" }
-buildKonfig = { id = "com.codingfeline.buildkonfig" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 crashlytics = { id = "com.google.firebase.crashlytics" }
 googleServices = { id = "com.google.gms.google-services" }
 firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }

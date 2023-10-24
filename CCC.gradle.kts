@@ -10,6 +10,7 @@ plugins {
         alias(kotlinJvm).apply(false)
         alias(kotlinAndroid).apply(false)
         alias(androidLibrary).apply(false)
+        alias(buildKonfig).apply(false)
         alias(kover)
         alias(detekt)
     }
@@ -27,7 +28,6 @@ buildscript {
             classpath(kotlinSerialization)
             classpath(sqlDelight)
             classpath(mokoResources)
-            classpath(buildKonfig)
             classpath(kover)
         }
     }
