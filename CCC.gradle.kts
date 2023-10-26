@@ -11,6 +11,7 @@ plugins {
         alias(kotlinAndroid).apply(false)
         alias(androidApplication).apply(false)
         alias(androidLibrary).apply(false)
+        alias(sqlDelight).apply(false)
         alias(kover)
         alias(detekt)
     }
@@ -21,10 +22,8 @@ buildscript {
         libs.classpaths.apply {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
-            classpath(gsm)
             classpath(firebasePerPlugin)
             classpath(crashlytics)
-            classpath(sqlDelight)
             classpath(mokoResources)
             classpath(buildKonfig)
             classpath(kover)
