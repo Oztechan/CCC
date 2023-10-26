@@ -27,7 +27,6 @@ buildscript {
             classpath(sqlDelight)
             classpath(mokoResources)
             classpath(buildKonfig)
-            classpath(kover)
         }
     }
 }
