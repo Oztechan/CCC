@@ -2,7 +2,7 @@ plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
         alias(androidLibrary)
-        id(sqlDelight.get().pluginId)
+        alias(sqlDelight)
     }
 }
 
