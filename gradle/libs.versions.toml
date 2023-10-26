@@ -122,7 +122,6 @@ processors-mockative = { module = "io.mockative:mockative-processor", version.re
 # CLASSPATHS
 classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-classpaths-kotlinSerialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
 classpaths-sqlDelight = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqlDelight" }
 classpaths-gsm = { module = "com.google.gms:google-services", version.ref = "gsm" }
 classpaths-firebasePerPlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerPlugin" }
@@ -143,9 +142,9 @@ buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig"
 crashlytics = { id = "com.google.firebase.crashlytics" }
 googleServices = { id = "com.google.gms.google-services" }
 firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
-kotlinXSerialization = { id = "kotlinx-serialization" }
 sqlDelight = { id = "com.squareup.sqldelight" }
 mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
