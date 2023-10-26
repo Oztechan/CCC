@@ -9,11 +9,11 @@ import config.key.secret
 
 plugins {
     libs.plugins.apply {
-        id(androidApp.get().pluginId)
+        alias(androidApplication)
         id(crashlytics.get().pluginId)
-        id(googleServices.get().pluginId)
         id(firebasePerPlugin.get().pluginId)
         alias(kotlinAndroid)
+        alias(googleServices)
     }
 }
 
