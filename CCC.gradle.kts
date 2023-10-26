@@ -21,7 +21,6 @@ buildscript {
         libs.classpaths.apply {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
-            classpath(gsm)
             classpath(firebasePerPlugin)
             classpath(crashlytics)
             classpath(navigation) // todo can be removed once compose migration done
