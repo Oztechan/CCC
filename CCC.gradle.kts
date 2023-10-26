@@ -25,7 +25,6 @@ buildscript {
             classpath(crashlytics)
             classpath(navigation) // todo can be removed once compose migration done
             classpath(sqlDelight)
-            classpath(mokoResources)
             classpath(buildKonfig)
             classpath(kover)
         }
