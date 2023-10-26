@@ -11,9 +11,9 @@ plugins {
     libs.plugins.apply {
         alias(androidApplication)
         id(crashlytics.get().pluginId)
-        id(googleServices.get().pluginId)
         id(firebasePerPlugin.get().pluginId)
         alias(kotlinAndroid)
+        alias(googleServices)
     }
 }
 
