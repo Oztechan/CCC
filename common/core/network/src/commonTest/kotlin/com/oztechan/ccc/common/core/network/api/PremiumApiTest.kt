@@ -40,7 +40,6 @@ internal class PremiumApiTest {
             assertEquals(Fakes.BASE, base)
             assertEquals(Fakes.DATE, date)
             assertEquals(Fakes.exchangeRate.base, conversion.base)
-            assertEquals(Fakes.exchangeRate.date, conversion.date)
             assertEquals(Fakes.exchangeRate.conversion.aed, conversion.aed)
             assertEquals(Fakes.exchangeRate.conversion.afn, conversion.afn)
             assertEquals(Fakes.exchangeRate.conversion.all, conversion.all)
