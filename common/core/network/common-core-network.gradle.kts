@@ -43,6 +43,7 @@ kotlin {
                 libs.common.apply {
                     implementation(test)
                     implementation(coroutinesTest)
+                    implementation(ktorClientMock)
                 }
             }
         }
