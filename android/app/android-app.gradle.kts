@@ -13,7 +13,7 @@ plugins {
         id(firebasePerPlugin.get().pluginId)
         alias(kotlinAndroid)
         alias(googleServices)
-        alias(firebaseCrashlytics)
+        alias(firebaseCrashlyticsPlugin)
     }
 }
 

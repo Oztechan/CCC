@@ -23,7 +23,7 @@ firebaseRemoteConfig = "21.5.0"
 googleServices = "4.4.0"
 firebasePer = "20.4.1"
 firebasePerPlugin = "1.4.2"
-firebaseCrashlytics = "2.9.9"
+firebaseCrashlyticsPlugin = "2.9.9"
 googleAds = "22.4.0"
 huaweiAds = "3.4.66.303"
 huaweiOsm = "1.3.35"
@@ -135,7 +135,7 @@ androidApplication = { id = "com.android.application", version.ref = "androidGra
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 safeArgs = { id = "androidx.navigation.safeargs" }
 buildKonfig = { id = "com.codingfeline.buildkonfig" }
-firebaseCrashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
+firebaseCrashlyticsPlugin = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
 sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelight" }
