@@ -27,7 +27,6 @@ buildscript {
             classpath(navigation) // todo can be removed once compose migration done
             classpath(mokoResources)
             classpath(buildKonfig)
-            classpath(kover)
         }
     }
 }
