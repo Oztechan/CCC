@@ -23,7 +23,6 @@ buildscript {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
             classpath(firebasePerPlugin)
-            classpath(crashlytics)
             classpath(navigation) // todo can be removed once compose migration done
             classpath(mokoResources)
             classpath(buildKonfig)
