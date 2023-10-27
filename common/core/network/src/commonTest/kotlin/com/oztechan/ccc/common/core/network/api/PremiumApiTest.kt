@@ -18,7 +18,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
-class PremiumApiTest {
+internal class PremiumApiTest {
     @Suppress("LongMethod")
     @Test
     fun getExchangeRateSuccess() = runTest {

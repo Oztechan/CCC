@@ -18,7 +18,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
-class BackendApiTest {
+internal class BackendApiTest {
     @Suppress("LongMethod")
     @Test
     fun getExchangeRateSuccess() = runTest {
