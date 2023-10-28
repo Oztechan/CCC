@@ -23,7 +23,6 @@ buildscript {
         libs.classpaths.apply {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
-            classpath(crashlytics)
         }
     }
 }
