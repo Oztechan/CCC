@@ -119,7 +119,6 @@ jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref
 processors-mockative = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 
 # CLASSPATHS
-classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [plugins]
