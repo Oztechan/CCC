@@ -11,6 +11,7 @@ plugins {
         alias(kotlinAndroid).apply(false)
         alias(androidApplication).apply(false)
         alias(androidLibrary).apply(false)
+        alias(buildKonfig).apply(false)
         alias(sqlDelight).apply(false)
         alias(kover)
         alias(detekt)
@@ -24,9 +25,6 @@ buildscript {
             classpath(kotlinGradlePlugin)
             classpath(firebasePerPlugin)
             classpath(navigation) // todo can be removed once compose migration done
-            classpath(mokoResources)
-            classpath(buildKonfig)
-            classpath(kover)
         }
     }
 }

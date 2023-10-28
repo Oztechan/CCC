@@ -7,7 +7,7 @@ plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
         alias(androidLibrary)
-        id(buildKonfig.get().pluginId)
+        alias(buildKonfig)
         alias(serialization)
     }
 }
@@ -43,6 +43,7 @@ kotlin {
                 libs.common.apply {
                     implementation(test)
                     implementation(coroutinesTest)
+                    implementation(ktorClientMock)
                 }
             }
         }

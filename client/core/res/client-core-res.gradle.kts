@@ -4,7 +4,7 @@ plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
         alias(androidLibrary)
-        id(mokoResources.get().pluginId)
+        alias(mokoResources)
     }
 }
 
