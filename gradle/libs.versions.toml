@@ -124,7 +124,6 @@ processors-mockative = { module = "io.mockative:mockative-processor", version.re
 classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 classpaths-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
-classpaths-navigation = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 [plugins]
 
@@ -133,7 +132,7 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-safeArgs = { id = "androidx.navigation.safeargs" }
+safeArgs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 crashlytics = { id = "com.google.firebase.crashlytics" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }

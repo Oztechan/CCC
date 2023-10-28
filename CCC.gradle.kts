@@ -24,7 +24,6 @@ buildscript {
             classpath(androidGradlePlugin)
             classpath(kotlinGradlePlugin)
             classpath(crashlytics)
-            classpath(navigation) // todo can be removed once compose migration done
         }
     }
 }

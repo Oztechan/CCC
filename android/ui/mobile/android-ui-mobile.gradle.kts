@@ -5,7 +5,7 @@ plugins {
     libs.plugins.apply {
         alias(androidLibrary)
         alias(kotlinAndroid)
-        id(safeArgs.get().pluginId) // todo can be removed once compose migration done
+        alias(safeArgs) // todo can be removed once compose migration done
     }
 }
 
