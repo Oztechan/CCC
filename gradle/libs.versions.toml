@@ -125,7 +125,6 @@ classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", ve
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 classpaths-firebasePerPlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerPlugin" }
 classpaths-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
-classpaths-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildKonfig" }
 
 [plugins]
 
@@ -135,7 +134,7 @@ kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 safeArgs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
-buildKonfig = { id = "com.codingfeline.buildkonfig" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 crashlytics = { id = "com.google.firebase.crashlytics" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
