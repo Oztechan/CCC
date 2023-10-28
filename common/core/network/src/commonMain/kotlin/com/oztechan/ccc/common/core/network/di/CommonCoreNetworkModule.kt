@@ -5,6 +5,7 @@ import com.oztechan.ccc.common.core.network.api.backend.BackendApiImpl
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
 import com.oztechan.ccc.common.core.network.api.premium.PremiumApiImpl
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -26,6 +27,10 @@ val commonCoreNetworkModule = module {
 }
 
 private fun provideHttpClient() = HttpClient {
+    setupHttpClientConfig()
+}
+
+internal fun HttpClientConfig<*>.setupHttpClientConfig() {
     install(ContentNegotiation) {
         json(
             json = Json {

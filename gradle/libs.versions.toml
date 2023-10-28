@@ -41,7 +41,7 @@ splashScreen = "1.0.1"
 kover = "0.6.1"
 rootBeer = "0.1.0"
 mockative = "2.0.1"
-firebaseCrashlytics = "18.5.0"
+firebaseCrashlytics = "18.5.1"
 anrWatchDog = "1.4.0"
 kermit = "2.0.2"
 konsist = "0.11.0"
@@ -57,6 +57,7 @@ common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", ve
 common-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 common-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 common-ktorClientContentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+common-ktorClientMock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
 common-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 common-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
@@ -124,9 +125,7 @@ classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", ve
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 classpaths-firebasePerPlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerPlugin" }
 classpaths-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
-classpaths-mokoResources = { module = "dev.icerock.moko:resources-generator", version.ref = "mokoResources" }
 classpaths-buildKonfig = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildKonfig" }
-classpaths-kover = { module = "org.jetbrains.kotlinx:kover", version.ref = "kover" }
 
 [plugins]
 
@@ -141,7 +140,7 @@ crashlytics = { id = "com.google.firebase.crashlytics" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
 sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelight" }
-mokoResources = { id = "dev.icerock.mobile.multiplatform-resources" }
+mokoResources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "mokoResources" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

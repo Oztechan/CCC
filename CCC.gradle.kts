@@ -24,9 +24,7 @@ buildscript {
             classpath(kotlinGradlePlugin)
             classpath(firebasePerPlugin)
             classpath(crashlytics)
-            classpath(mokoResources)
             classpath(buildKonfig)
-            classpath(kover)
         }
     }
 }
