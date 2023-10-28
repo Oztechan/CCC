@@ -121,7 +121,6 @@ jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref
 processors-mockative = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 
 # CLASSPATHS
-classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 classpaths-firebasePerPlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerPlugin" }
 classpaths-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics" }
