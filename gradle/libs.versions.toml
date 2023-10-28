@@ -121,8 +121,6 @@ processors-mockative = { module = "io.mockative:mockative-processor", version.re
 # CLASSPATHS
 classpaths-androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-classpaths-firebasePerPlugin = { module = "com.google.firebase:perf-plugin", version.ref = "firebasePerPlugin" }
-classpaths-navigation = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 
 [plugins]
 
@@ -131,11 +129,11 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-safeArgs = { id = "androidx.navigation.safeargs" }
+safeArgs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 firebaseCrashlyticsPlugin = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-firebasePerPlugin = { id = "com.google.firebase.firebase-perf" }
+firebasePerPlugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerPlugin" }
 sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelight" }
 mokoResources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "mokoResources" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
