@@ -118,9 +118,6 @@ jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref
 # PROCESSORS
 processors-mockative = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
 
-# CLASSPATHS
-classpaths-kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-
 [plugins]
 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
