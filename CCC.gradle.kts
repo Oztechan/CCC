@@ -18,14 +18,6 @@ plugins {
     }
 }
 
-buildscript {
-    dependencies {
-        libs.classpaths.apply {
-            classpath(kotlinGradlePlugin)
-        }
-    }
-}
-
 group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
