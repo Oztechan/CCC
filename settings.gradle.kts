@@ -124,15 +124,12 @@ rootProject.name = "CCC"
 rootProject.updateBuildFileNames()
 
 fun ProjectDescriptor.updateBuildFileNames() {
-    if (name.startsWith("submodule")) return
-
-    buildFileName = if (this == rootProject) {
-        rootProject.name
-    } else {
-        path.drop(1).replace(":", "-")
-    }.let {
-        "$it.gradle.kts"
-    }
+    buildFileName = path
+        .drop(1)
+        .replace(":", "-")
+        .dropLastWhile { it != '-' }
+        .plus(name)
+        .plus(".gradle.kts")
 
     if (children.isNotEmpty()) {
         children.forEach { it.updateBuildFileNames() }
