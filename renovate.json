@@ -9,19 +9,19 @@
   "rebaseWhen": "conflicted",
   "gitAuthor": "Renovate <renovate@oztechan.com>",
   "commitBody": "Co-authored-by: Mustafa Ozhan <mr.mustafa.ozhan@gmail.com>",
-  "commitMessageAction": "[Oztechan/CCC#1457] Dependency update",
+  "commitMessageAction": "[Oztechan/Config#12] Update",
   "git-submodules": {
     "enabled": true,
     "groupName": "Git Submodules"
   },
   "lockFileMaintenance": {
     "enabled": true,
-    "commitMessageAction": "[Oztechan/CCC#1457] Lock file maintenance"
+    "commitMessageAction": "[Oztechan/Config#12] Lock file maintenance"
   },
   "packageRules": [
     {
       "matchPackagePatterns": [
-        "^org.jetbrains.kotlin:kotlin",
+        "^org.jetbrains.kotlin.",
         "^com.google.devtools.ksp",
         "^androidx.compose.compiler"
       ],
