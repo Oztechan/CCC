@@ -7,9 +7,6 @@ plugins {
 }
 
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
@@ -18,40 +15,29 @@ kotlin {
 
     jvm()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(koinCore)
-                    implementation(coroutines)
-                    implementation(sqlDelightCoroutinesExt)
-                }
-                implementation(project(Modules.Common.Core.model))
+        commonMain.dependencies {
+            libs.common.apply {
+                implementation(koinCore)
+                implementation(coroutines)
+                implementation(sqlDelightCoroutinesExt)
+            }
+            implementation(project(Modules.Common.Core.model))
+        }
+        commonTest.dependencies {
+            libs.common.apply {
+                implementation(test)
+                implementation(coroutinesTest)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(test)
-                    implementation(coroutinesTest)
-                }
-            }
+        androidMain.dependencies {
+            implementation(libs.android.sqlliteDriver)
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.android.sqlliteDriver)
-            }
+        iosMain.dependencies {
+            implementation(libs.ios.sqlliteDriver)
         }
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ios.sqlliteDriver)
-            }
-        }
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.jvm.sqlliteDriver)
-            }
+        jvmMain.dependencies {
+            implementation(libs.jvm.sqlliteDriver)
         }
     }
 }

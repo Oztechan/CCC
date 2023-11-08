@@ -7,38 +7,30 @@ plugins {
 }
 
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(koinCore)
-                    implementation(coroutines)
-                    implementation(kermit)
-                }
-                Modules.Common.Core.apply {
-                    implementation(project(database))
-                    implementation(project(model))
-                    implementation(project(infrastructure))
-                }
+        commonMain.dependencies {
+            libs.common.apply {
+                implementation(koinCore)
+                implementation(coroutines)
+                implementation(kermit)
+            }
+            Modules.Common.Core.apply {
+                implementation(project(database))
+                implementation(project(model))
+                implementation(project(infrastructure))
             }
         }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(test)
-                    implementation(mockative)
-                    implementation(coroutinesTest)
-                }
+        commonTest.dependencies {
+            libs.common.apply {
+                implementation(test)
+                implementation(mockative)
+                implementation(coroutinesTest)
             }
         }
     }
