@@ -9,9 +9,6 @@ plugins {
 }
 
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     listOf(
@@ -25,17 +22,12 @@ kotlin {
         }
     }
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.common.mokoResources)
-            }
+        commonMain.dependencies {
+            implementation(libs.common.mokoResources)
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.common.test)
-            }
+        commonTest.dependencies {
+            implementation(libs.common.test)
         }
     }
 }

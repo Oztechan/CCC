@@ -7,34 +7,24 @@ plugins {
 }
 
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(ktorJson)
-                    implementation(kermit)
-                }
+        commonMain.dependencies {
+            libs.common.apply {
+                implementation(ktorJson)
+                implementation(kermit)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.common.test)
-            }
+        commonTest.dependencies {
+            implementation(libs.common.test)
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.android.firebaseRemoteConfig)
-            }
+        androidMain.dependencies {
+            implementation(libs.android.firebaseRemoteConfig)
         }
     }
 }

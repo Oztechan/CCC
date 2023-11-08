@@ -69,6 +69,8 @@ allprojects {
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions {
+            // todo remove when not needed anymore
+            freeCompilerArgs += "-Xexpect-actual-classes"
             allWarningsAsErrors = true
         }
     }

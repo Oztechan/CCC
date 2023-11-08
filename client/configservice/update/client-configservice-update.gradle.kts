@@ -6,27 +6,19 @@ plugins {
 }
 
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.common.koinCore)
-                implementation(project(Modules.Client.Core.remoteConfig))
-            }
+        commonMain.dependencies {
+            implementation(libs.common.koinCore)
+            implementation(project(Modules.Client.Core.remoteConfig))
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.common.test)
-            }
+        commonTest.dependencies {
+            implementation(libs.common.test)
         }
     }
 }
