@@ -3,7 +3,7 @@
 kotlin = "1.9.20"
 ksp = "1.9.20-1.0.14"
 detekt = "1.23.3"
-androidGradlePlugin = "8.1.2"
+androidGradlePlugin = "8.1.3"
 composeCompiler = "1.5.4"
 compose = "1.5.4"
 glance = "1.0.0"
