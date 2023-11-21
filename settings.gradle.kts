@@ -22,6 +22,24 @@ dependencyResolutionManagement {
     }
 }
 
+plugins {
+    id("com.gradle.enterprise") version ("3.15.1")
+}
+
+gradleEnterprise {
+    buildScan {
+        termsOfServiceUrl = "https://gradle.com/terms-of-service"
+        termsOfServiceAgree = "yes"
+        publishAlways()
+
+        obfuscation {
+            username { null }
+            hostname { null }
+            ipAddresses { null }
+        }
+    }
+}
+
 include(
     // region Android only modules
     ":android:app",
@@ -92,6 +110,7 @@ include(
     // DataSource modules
     ":common:datasource:conversion",
     // endregion
+    ":test",
 )
 
 // region Git Submodules independent modules and project hosted in different repository
@@ -105,15 +124,12 @@ rootProject.name = "CCC"
 rootProject.updateBuildFileNames()
 
 fun ProjectDescriptor.updateBuildFileNames() {
-    if (name.startsWith("submodule")) return
-
-    buildFileName = if (this == rootProject) {
-        rootProject.name
-    } else {
-        path.drop(1).replace(":", "-")
-    }.let {
-        "$it.gradle.kts"
-    }
+    buildFileName = path
+        .drop(1)
+        .replace(":", "-")
+        .dropLastWhile { it != '-' }
+        .plus(name)
+        .plus(".gradle.kts")
 
     if (children.isNotEmpty()) {
         children.forEach { it.updateBuildFileNames() }

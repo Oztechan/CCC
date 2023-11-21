@@ -1,7 +1,7 @@
 plugins {
     libs.plugins.apply {
         application
-        id(jvm.get().pluginId)
+        alias(kotlinJvm)
         alias(ksp)
     }
 }

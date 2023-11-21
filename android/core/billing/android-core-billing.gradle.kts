@@ -3,8 +3,8 @@ import config.DeviceFlavour.Companion.implementation
 
 plugins {
     libs.plugins.apply {
-        id(androidLib.get().pluginId)
-        id(android.get().pluginId)
+        alias(androidLibrary)
+        alias(kotlinAndroid)
     }
 }
 

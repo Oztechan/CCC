@@ -1,38 +1,41 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
-        id(androidLib.get().pluginId)
+        alias(kotlinMultiplatform)
+        alias(androidLibrary)
         alias(ksp)
     }
 }
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(koinCore)
-                    implementation(multiplatformSettings)
-                }
+        commonMain.dependencies {
+            libs.common.apply {
+                implementation(koinCore)
+                implementation(coroutines)
+                implementation(multiplatformSettings)
+                implementation(multiplatformSettingsCoroutines)
             }
         }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(test)
-                    implementation(mockative)
-                }
+        commonTest.dependencies {
+            libs.common.apply {
+                implementation(test)
+                implementation(mockative)
+                implementation(coroutinesTest)
             }
         }
+    }
+}
+// todo remove after https://github.com/russhwolf/multiplatform-settings/issues/119
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs += "-opt-in=com.russhwolf.settings.ExperimentalSettingsApi"
     }
 }
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-class BaseDBDataSourceTest {
+internal class BaseDBDataSourceTest {
     @Suppress("OPT_IN_USAGE")
     private val subject = object : BaseDBDataSource(UnconfinedTestDispatcher()) {
         suspend fun <T> query(

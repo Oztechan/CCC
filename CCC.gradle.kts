@@ -6,26 +6,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     libs.plugins.apply {
+        alias(kotlinMultiplatform).apply(false)
+        alias(kotlinJvm).apply(false)
+        alias(kotlinAndroid).apply(false)
+        alias(androidApplication).apply(false)
+        alias(androidLibrary).apply(false)
+        alias(buildKonfig).apply(false)
+        alias(sqlDelight).apply(false)
         alias(kover)
         alias(detekt)
-    }
-}
-
-buildscript {
-    dependencies {
-        libs.classpaths.apply {
-            classpath(androidGradlePlugin)
-            classpath(kotlinGradlePlugin)
-            classpath(gsm)
-            classpath(firebasePerPlugin)
-            classpath(crashlytics)
-            classpath(navigation) // todo can be removed once compose migration done
-            classpath(kotlinSerialization)
-            classpath(sqlDelight)
-            classpath(mokoResources)
-            classpath(buildKonfig)
-            classpath(kover)
-        }
     }
 }
 
@@ -80,6 +69,8 @@ allprojects {
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions {
+            // todo remove when not needed anymore
+            freeCompilerArgs += "-Xexpect-actual-classes"
             allWarningsAsErrors = true
         }
     }

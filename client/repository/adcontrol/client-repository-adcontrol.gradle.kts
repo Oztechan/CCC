@@ -1,37 +1,29 @@
 plugins {
     libs.plugins.apply {
-        id(androidLib.get().pluginId)
-        id(multiplatform.get().pluginId)
+        alias(androidLibrary)
+        alias(kotlinMultiplatform)
         alias(ksp)
     }
 }
 
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(libs.common.koinCore)
-                implementation(project(Modules.Client.Storage.app))
-                implementation(project(Modules.Client.ConfigService.ad))
-                implementation(project(Modules.Client.Core.shared))
-            }
+        commonMain.dependencies {
+            implementation(libs.common.koinCore)
+            implementation(project(Modules.Client.Storage.app))
+            implementation(project(Modules.Client.ConfigService.ad))
+            implementation(project(Modules.Client.Core.shared))
         }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(test)
-                    implementation(mockative)
-                }
+        commonTest.dependencies {
+            libs.common.apply {
+                implementation(test)
+                implementation(mockative)
             }
         }
     }

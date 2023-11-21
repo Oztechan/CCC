@@ -9,7 +9,7 @@ import kotlinx.datetime.plus
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class PremiumUtilTest {
+internal class PremiumUtilTest {
 
     @Test
     fun calculatePremiumEnd() = nowAsLong().let {

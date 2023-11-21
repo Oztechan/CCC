@@ -65,7 +65,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -109,7 +109,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeAndroid:
     runs-on: ubuntu-latest
@@ -120,7 +120,7 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
 
       - name: Download Android Artifacts
         uses: actions/download-artifact@v3.0.2
@@ -150,7 +150,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   XCodeBuild:
     runs-on: macos-13
@@ -159,7 +159,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -208,7 +208,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
     runs-on: macos-13
@@ -218,7 +218,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
 
       - name: Download iOS IPA
         uses: actions/download-artifact@v3.0.2
@@ -237,7 +237,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   Quality:
     runs-on: macos-13
@@ -246,7 +246,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
 
@@ -273,7 +273,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadQualityReports:
     runs-on: ubuntu-latest
@@ -282,7 +282,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
 
       - name: Download Coverage Report
         uses: actions/download-artifact@v3.0.2
@@ -320,7 +320,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   CodeAnalysis:
     runs-on: ubuntu-latest
@@ -329,7 +329,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
 
@@ -353,7 +353,7 @@ jobs:
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
     runs-on: ubuntu-latest

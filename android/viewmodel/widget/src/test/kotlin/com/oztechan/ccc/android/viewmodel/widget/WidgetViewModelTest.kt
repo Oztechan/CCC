@@ -35,7 +35,7 @@ import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.days
 
-class WidgetViewModelTest {
+internal class WidgetViewModelTest {
 
     private val viewModel: WidgetViewModel by lazy {
         WidgetViewModel(
