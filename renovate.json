@@ -9,14 +9,14 @@
   "rebaseWhen": "conflicted",
   "gitAuthor": "Renovate <renovate@oztechan.com>",
   "commitBody": "Co-authored-by: Mustafa Ozhan <mr.mustafa.ozhan@gmail.com>",
-  "commitMessageAction": "[Oztechan/Config#12] Update",
+  "commitMessageAction": "[Oztechan/Global#12] Update",
   "git-submodules": {
     "enabled": true,
     "groupName": "Git Submodules"
   },
   "lockFileMaintenance": {
     "enabled": true,
-    "commitMessageAction": "[Oztechan/Config#12] Lock file maintenance"
+    "commitMessageAction": "[Oztechan/Global#12] Lock file maintenance"
   },
   "packageRules": [
     {
