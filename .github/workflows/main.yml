@@ -318,6 +318,10 @@ jobs:
         with:
           name: coverageReport
 
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.3
+
       - name: Set Job Status
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
