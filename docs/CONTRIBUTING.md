@@ -12,7 +12,7 @@ Example:
 
 ## Commit Message
 
-Every commit message should match the following format `[Oztechan/REPO_NAME#ISSUE_ID] Commit message`
+Every commit message should match the following format `[Oztechan/#ISSUE_ID] Commit message`
 
 Example:
 
@@ -27,7 +27,7 @@ Example:
 Pull Request title should follow below format:
 
 ```
-[Oztechan/REPO_NAME#ISSUE_ID] ISSUE_TITLE
+[Oztechan/#ISSUE_ID] ISSUE_TITLE
 ```
 
 Example:
@@ -38,7 +38,7 @@ Example:
 
 ### Description
 
-Description has to have `Resloves Oztechan/REPO_NAME#ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
+Description has to have `Resloves Oztechan/#ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
 
 Example:
 
