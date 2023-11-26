@@ -14,7 +14,7 @@ on:
 
 jobs:
   ProjectAutomations:
-    uses: Oztechan/Global/.github/workflows/project-comosite.yml@bf9138c8831500b721597822e6edf51b30423bf3
+    uses: Oztechan/Global/.github/workflows/project-composite.yml@bf9138c8831500b721597822e6edf51b30423bf3
     with:
       project_id: 2
     secrets: inherit
