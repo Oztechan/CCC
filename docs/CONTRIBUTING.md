@@ -17,7 +17,7 @@ Every commit message should match the following format `[Oztechan/CCC#ISSUE_ID] 
 Example:
 
 ```
-[Oztechan/Global#123] My cool feature
+[Oztechan/CCC#ISSUE_ID] My cool feature
 ```
 
 ## Pull Request
@@ -33,17 +33,17 @@ Pull Request title should follow below format:
 Example:
 
 ```
-[Oztechan/Global#123] Whatever the name of ticket is
+[Oztechan/CCC#ISSUE_ID] Whatever the name of ticket is
 ```
 
 ### Description
 
-Description has to have `Resloves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
+Description has to have `Resolves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
 
 Example:
 
 ```
-Resolves Oztechan/Global#123
+Resolves Oztechan/CCC#123
 
 Some description.
 ```
