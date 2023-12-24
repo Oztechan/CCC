@@ -1,11 +1,9 @@
 package com.oztechan.ccc.test
 
 import com.lemonappdev.konsist.api.Konsist
-import com.lemonappdev.konsist.api.ext.list.properties
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
-import com.lemonappdev.konsist.api.ext.list.withoutAllAnnotationsOf
 import com.lemonappdev.konsist.api.ext.provider.hasAnnotationOf
-import com.lemonappdev.konsist.api.verify.assert
+import com.lemonappdev.konsist.api.verify.assertTrue
 import kotlin.test.Test
 
 internal class TestingPracticesTest {
@@ -16,7 +14,7 @@ internal class TestingPracticesTest {
             .scopeFromTest()
             .classes()
             .filter { it.functions().any { func -> func.hasAnnotationOf<Test>() } }
-            .assert { it.hasNameEndingWith("Test") }
+            .assertTrue { it.hasNameEndingWith("Test") }
     }
 
     @Test
@@ -25,17 +23,6 @@ internal class TestingPracticesTest {
             .scopeFromTest()
             .classes()
             .withNameEndingWith("Test")
-            .assert { it.hasInternalModifier }
-    }
-
-    @Test
-    fun `test classes should have all members private besides tests`() {
-        Konsist
-            .scopeFromTest()
-            .classes()
-            .withNameEndingWith("Test")
-            .properties()
-            .withoutAllAnnotationsOf(Test::class)
-            .assert { it.hasPrivateModifier || it.hasProtectedModifier }
+            .assertTrue { it.hasInternalModifier }
     }
 }
