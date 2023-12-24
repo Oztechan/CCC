@@ -3,7 +3,7 @@ package com.oztechan.ccc.test
 import com.lemonappdev.konsist.api.Konsist
 import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
 import com.lemonappdev.konsist.api.ext.list.withoutNameEndingWith
-import com.lemonappdev.konsist.api.verify.assert
+import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.Test
 
 internal class PackagingTest {
@@ -12,7 +12,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("ViewModel")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..viewmodel..")
             }
@@ -23,7 +23,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("Repository")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..repository..")
             }
@@ -31,7 +31,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("RepositoryImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..repository..")
             }
@@ -42,7 +42,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("Storage")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..storage..")
             }
@@ -50,7 +50,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("StorageImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..storage..")
             }
@@ -61,7 +61,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("DataSource")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..datasource..")
             }
@@ -69,7 +69,7 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("DataSourceImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..datasource..")
             }
@@ -81,7 +81,7 @@ internal class PackagingTest {
             .interfaces()
             .withNameEndingWith("Service")
             .withoutNameEndingWith("ConfigService")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..service..")
             }
@@ -89,7 +89,7 @@ internal class PackagingTest {
             .classes()
             .withNameEndingWith("ServiceImpl")
             .withoutNameEndingWith("ConfigServiceImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..service..")
             }
@@ -100,14 +100,14 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("ConfigService")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..configservice..")
             }
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("ConfigServiceImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..configservice..")
             }
@@ -118,14 +118,14 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("Controller")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..controller..")
             }
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("ControllerImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..controller..")
             }
@@ -136,14 +136,14 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("Persistence")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..persistence..")
             }
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("PersistenceImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..persistence..")
             }
@@ -154,14 +154,14 @@ internal class PackagingTest {
         Konsist.scopeFromProject()
             .interfaces()
             .withNameEndingWith("Api")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..api..")
             }
         Konsist.scopeFromProject()
             .classes()
             .withNameEndingWith("ApiImpl")
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.resideInPackage("..api..")
             }

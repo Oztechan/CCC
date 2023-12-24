@@ -6,8 +6,8 @@ import com.lemonappdev.konsist.api.declaration.KoFunctionDeclaration
 import com.lemonappdev.konsist.api.declaration.KoPropertyDeclaration
 import com.lemonappdev.konsist.api.ext.list.indexOfFirstInstance
 import com.lemonappdev.konsist.api.ext.list.indexOfLastInstance
-import com.lemonappdev.konsist.api.verify.assert
-import com.lemonappdev.konsist.api.verify.assertNot
+import com.lemonappdev.konsist.api.verify.assertFalse
+import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.Test
 
 internal class ConventionTest {
@@ -16,7 +16,7 @@ internal class ConventionTest {
         Konsist
             .scopeFromProject()
             .classes()
-            .assert {
+            .assertTrue {
                 println(it.name)
                 val lastKoPropertyDeclarationIndex = it
                     .declarations(includeNested = false, includeLocal = false)
@@ -39,11 +39,11 @@ internal class ConventionTest {
         Konsist
             .scopeFromProject()
             .classes()
-            .assert {
+            .assertTrue {
                 println(it.name)
 
                 val companionObject = it.objects(includeNested = false).lastOrNull { obj ->
-                    obj.hasModifiers(KoModifier.COMPANION)
+                    obj.hasModifier(KoModifier.COMPANION)
                 }
 
                 if (companionObject != null) {
@@ -60,7 +60,7 @@ internal class ConventionTest {
         Konsist
             .scopeFromProject()
             .files
-            .assertNot {
+            .assertFalse {
                 println(it.name)
                 it.text.isEmpty()
             }
@@ -71,7 +71,7 @@ internal class ConventionTest {
         Konsist
             .scopeFromProject()
             .packages
-            .assert {
+            .assertTrue {
                 println(it.name)
                 it.hasMatchingPath
             }
@@ -82,7 +82,7 @@ internal class ConventionTest {
         Konsist
             .scopeFromProject()
             .imports
-            .assertNot {
+            .assertFalse {
                 println(it.name)
                 it.isWildcard
             }
@@ -93,7 +93,7 @@ internal class ConventionTest {
         Konsist
             .scopeFromProject()
             .files
-            .assert {
+            .assertTrue {
                 it.moduleName.replace("/", ".").let { modulePackaging ->
                     println(
                         it.moduleName + "==" + it.name + "==" + it.packagee?.fullyQualifiedName + "==" + modulePackaging
