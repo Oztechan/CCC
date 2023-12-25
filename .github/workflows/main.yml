@@ -144,7 +144,7 @@ jobs:
           file: huawei/release/app-huawei-release.apk
 
       - name: Delete Android Artifacts
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.0.0
         with:
           name: androidArtifacts
 
@@ -231,7 +231,7 @@ jobs:
         run: fastlane distribute
 
       - name: Delete iOS IPA
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.0.0
         with:
           name: iOSArtifacts
 
@@ -314,7 +314,7 @@ jobs:
             -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
 
       - name: Delete Coverage Report
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.0.0
         with:
           name: coverageReport
 
