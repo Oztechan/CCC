@@ -90,19 +90,19 @@ jobs:
           arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.0.0
         with:
           name: googleBundle
           path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.0.0
         with:
           name: huaweiBundle
           path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.0.0
         with:
           name: backendJar
           path: backend/app/build/libs/app-*.jar
@@ -119,7 +119,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.0
         with:
           name: googleBundle
 
@@ -154,7 +154,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.0
         with:
           name: huaweiBundle
 
@@ -185,7 +185,7 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.0
         with:
           name: backendJar
           path: artifact
