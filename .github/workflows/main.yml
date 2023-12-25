@@ -146,6 +146,7 @@ jobs:
       - name: Delete Android Artifacts
         uses: geekyeggo/delete-artifact@v4.0.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: androidArtifacts
 
       - name: Set Job Status
@@ -233,6 +234,7 @@ jobs:
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v4.0.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: iOSArtifacts
 
       - name: Set Job Status
@@ -316,6 +318,7 @@ jobs:
       - name: Delete Coverage Report
         uses: geekyeggo/delete-artifact@v4.0.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: coverageReport
 
       - name: Set Job Status
