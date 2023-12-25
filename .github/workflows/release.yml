@@ -138,8 +138,9 @@ jobs:
           status: completed
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.0.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: googleBundle
 
       - name: Set Job Status
@@ -169,8 +170,9 @@ jobs:
           file-name: "app-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.0.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: huaweiBundle
 
       - name: Set Job Status
@@ -200,8 +202,9 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.0.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: backendJar
 
       - name: Set Job Status
