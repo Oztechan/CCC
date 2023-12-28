@@ -63,7 +63,6 @@ common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-
 common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
-common-kermitCrashlytics = { module = "co.touchlab:kermit-crashlytics", version.ref = "kermit" }
 common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 common-konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
