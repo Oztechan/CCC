@@ -14,7 +14,7 @@ on:
 
 jobs:
   ProjectAutomations:
-    uses: Oztechan/Global/.github/workflows/reusable-project.yml@16463724051046da0133678b4a6cca76a09675b1
+    uses: Oztechan/Global/.github/workflows/reusable-project.yml@1dd2e4a7b811136e54d715db6333b9c3acd59a6d
     with:
       project_id: 2
     secrets: inherit
