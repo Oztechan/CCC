@@ -13,15 +13,8 @@ on:
       - converted_to_draft
 
 jobs:
-  milestone:
-    runs-on: ubuntu-latest
-    steps: [ run: echo ]
-    outputs:
-      value: ${{ secrets.MILESTONE }}
-
   ProjectAutomations:
-    uses: Oztechan/Global/.github/workflows/reusable-project.yml@0bed513a4f3df10c36274b6d7dd7dea0c945e76f
+    uses: Oztechan/Global/.github/workflows/reusable-project.yml@b8df77b8be081fcf7cc4f8e524fb3cc53c1e4154
     with:
       project_id: 2
-      milestone: ${{ needs.milestone.outputs.value }}
     secrets: inherit
