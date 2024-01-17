@@ -111,7 +111,7 @@ GEM
     gh_inspector (1.1.3)
     google-apis-androidpublisher_v3 (0.54.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    google-apis-core (0.11.2)
+    google-apis-core (0.11.3)
       addressable (~> 2.5, >= 2.5.1)
       googleauth (>= 0.16.2, < 2.a)
       httpclient (>= 2.8.1, < 3.a)
@@ -119,7 +119,6 @@ GEM
       representable (~> 3.0)
       retriable (>= 2.0, < 4.a)
       rexml
-      webrick
     google-apis-firebaseappdistribution_v1 (0.3.0)
       google-apis-core (>= 0.11.0, < 2.a)
     google-apis-firebaseappdistribution_v1alpha (0.2.0)
@@ -197,7 +196,6 @@ GEM
       tty-cursor (~> 0.7)
     uber (0.1.0)
     unicode-display_width (2.5.0)
-    webrick (1.8.1)
     word_wrap (1.0.0)
     xcode-install (2.8.1)
       claide (>= 0.9.1)
