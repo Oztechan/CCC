@@ -2,7 +2,7 @@
 
 ## Branch
 
-Branch name should start with `ISSUE_ID` and after the id there should be `-` then continues with description of branch or title of ticket. Use `_` for empty spaces.
+Branch name should start with `ISSUE_ID` and after the id there should be `-` and then it continues with description of branch or title of ticket. Use `_` for empty spaces.
 
 Example:
 
@@ -38,7 +38,7 @@ Example:
 
 ### Description
 
-Description has to have `Resolves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
+Description has to have `Resolves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help project automations.
 
 Example:
 
