@@ -8,7 +8,7 @@ CREATE TABLE CurrencyTemp(
     isActive INTEGER NOT NULL DEFAULT 0
 );
 
-INSERT INTO CurrencyTemp(code, name, symbol, rate, isActive)
+INSERT OR REPLACE INTO CurrencyTemp(code, name, symbol, rate, isActive)
 SELECT name, longName, symbol, rate, isActive
 FROM Currency;
 

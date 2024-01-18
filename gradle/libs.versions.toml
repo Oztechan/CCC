@@ -1,49 +1,49 @@
 [versions]
 
-kotlin = "1.9.20"
-ksp = "1.9.20-1.0.14"
-detekt = "1.23.3"
-androidGradlePlugin = "8.1.3"
-composeCompiler = "1.5.4"
+kotlin = "1.9.22"
+ksp = "1.9.22-1.0.16"
+detekt = "1.23.4"
+androidGradlePlugin = "8.2.1"
+composeCompiler = "1.5.8"
 compose = "1.5.4"
 glance = "1.0.0"
 material3 = "1.1.2"
 androidDesugaring = "2.0.4"
-androidMaterial = "1.10.0"
-composeActivity = "1.8.1"
+androidMaterial = "1.11.0"
+composeActivity = "1.8.2"
 constraintLayout = "2.1.4"
-koinCore = "3.5.0"
-koinCompose = "3.5.0"
-koinAndroid = "3.5.0"
-koinKtor = "3.5.1"
-ktor = "2.3.6"
-multiplatformSettings = "1.1.0"
-firebaseAnalytics = "21.3.0"
+koinCore = "3.5.3"
+koinCompose = "3.5.3"
+koinAndroid = "3.5.3"
+koinKtor = "3.5.3"
+ktor = "2.3.7"
+multiplatformSettings = "1.1.1"
+firebaseAnalytics = "21.5.0"
 firebaseRemoteConfig = "21.6.0"
 googleServices = "4.4.0"
 firebasePer = "20.5.1"
 firebasePerPlugin = "1.4.2"
 firebaseCrashlyticsPlugin = "2.9.9"
-googleAds = "22.5.0"
-huaweiAds = "3.4.67.300"
+googleAds = "22.6.0"
+huaweiAds = "3.4.68.301"
 huaweiOsm = "1.3.35"
-navigation = "2.7.5"
+navigation = "2.7.6"
 playCore = "1.10.3"
-kotlinXDateTime = "0.4.1"
+kotlinXDateTime = "0.5.0"
 coroutines = "1.7.3"
-billing = "6.0.1"
-leakCanary = "2.12"
+billing = "6.1.0"
+leakCanary = "2.13"
 sqlDelight = "1.5.5"
-lifecycle = "2.6.2"
+lifecycle = "2.7.0"
 mokoResources = "0.23.0"
-buildKonfig = "0.15.0"
+buildKonfig = "0.15.1"
 splashScreen = "1.0.1"
 kover = "0.6.1"
 rootBeer = "0.1.0"
 mockative = "2.0.1"
 anrWatchDog = "1.4.0"
 kermit = "2.0.2"
-konsist = "0.11.0"
+konsist = "0.13.0"
 
 [libraries]
 # COMMON
@@ -63,7 +63,6 @@ common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-
 common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
-common-kermitCrashlytics = { module = "co.touchlab:kermit-crashlytics", version.ref = "kermit" }
 common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 common-konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 
@@ -81,9 +80,9 @@ android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "g
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 android-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 android-koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
-android-firebaseAnalytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebaseAnalytics" }
-android-firebaseRemoteConfig = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebaseRemoteConfig" }
-android-firebasePer = { module = "com.google.firebase:firebase-perf-ktx", version.ref = "firebasePer" }
+android-firebaseAnalytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
+android-firebaseRemoteConfig = { module = "com.google.firebase:firebase-config", version.ref = "firebaseRemoteConfig" }
+android-firebasePer = { module = "com.google.firebase:firebase-perf", version.ref = "firebasePer" }
 android-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 android-ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
