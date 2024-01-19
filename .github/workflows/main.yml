@@ -227,7 +227,9 @@ jobs:
 
       - name: Distribute
         working-directory: ios
-        run: fastlane distribute
+        run: |
+          sudo chown -R $(whoami) /var/lib/gems/3.0.0
+          fastlane distribute
 
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v4.0.0
