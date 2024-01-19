@@ -212,7 +212,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -227,9 +227,12 @@ jobs:
           name: iOSArtifacts
           path: ios
 
+      # was necessary to use chown to fix permission issues in linux machines
       - name: Distribute
         working-directory: ios
-        run: fastlane distribute
+        run: |
+          sudo chown -R $(whoami) /var/lib/gems/3.0.0
+          fastlane distribute
 
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v4.0.0
