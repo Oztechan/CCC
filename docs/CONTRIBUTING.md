@@ -12,12 +12,12 @@ Example:
 
 ## Commit Message
 
-Every commit message should match the following format `[/#ISSUE_ID] Commit message`
+Every commit message should match the following format `[Oztechan/CCC#ISSUE_ID] Commit message`
 
 Example:
 
 ```
-[/#ISSUE_ID] My cool feature
+[Oztechan/CCC#ISSUE_ID] My cool feature
 ```
 
 ## Pull Request
@@ -27,23 +27,23 @@ Example:
 Pull Request title should follow below format:
 
 ```
-[/#ISSUE_ID] ISSUE_TITLE
+[Oztechan/CCC#ISSUE_ID] ISSUE_TITLE
 ```
 
 Example:
 
 ```
-[/#ISSUE_ID] Whatever the name of ticket is
+[Oztechan/CCC#ISSUE_ID] Whatever the name of ticket is
 ```
 
 ### Description
 
-Description has to have `Resolves /#ISSUE_ID` with relevant issue. It will help project automations.
+Description has to have `Resolves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help project automations.
 
 Example:
 
 ```
-Resolves /#123
+Resolves Oztechan/CCC#123
 
 Some description.
 ```
