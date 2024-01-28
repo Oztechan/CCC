@@ -5,5 +5,6 @@ interface CalculationStorage {
 
     var precision: Int
 
-    var lastInput: String
+    suspend fun getLastInput(): String
+    suspend fun setLastInput(value: String)
 }
