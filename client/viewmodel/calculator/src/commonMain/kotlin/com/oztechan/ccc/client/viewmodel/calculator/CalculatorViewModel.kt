@@ -74,7 +74,7 @@ class CalculatorViewModel(
                     copy(
                         currencyList = currencyDataSource.getActiveCurrencies(),
                         base = calculationStorage.currentBase,
-                        input = calculationStorage.lastInput,
+                        input = calculationStorage.getLastInput(),
                         loading = true
                     )
                 }
@@ -103,7 +103,7 @@ class CalculatorViewModel(
         .distinctUntilChanged()
         .onEach {
             Logger.d { "CalculatorViewModel observeInput $it" }
-            calculationStorage.lastInput = it
+            calculationStorage.setLastInput(it)
             calculateOutput(it)
         }
         .launchIn(viewModelScope)

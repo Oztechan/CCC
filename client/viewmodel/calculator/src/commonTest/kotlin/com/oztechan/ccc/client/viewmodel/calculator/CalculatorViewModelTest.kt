@@ -98,9 +98,6 @@ internal class CalculatorViewModelTest {
         every { calculationStorage.currentBase }
             .returns(currency1.code)
 
-        every { calculationStorage.lastInput }
-            .returns("")
-
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
@@ -111,6 +108,9 @@ internal class CalculatorViewModelTest {
             .returns(shouldShowAds)
 
         runTest {
+            coEvery { calculationStorage.getLastInput() }
+                .returns("")
+
             coEvery { currencyDataSource.getActiveCurrencies() }
                 .returns(currencyList)
 
@@ -157,7 +157,7 @@ internal class CalculatorViewModelTest {
         every { calculationStorage.currentBase }
             .returns(currency1.code)
 
-        every { calculationStorage.lastInput }
+        coEvery { calculationStorage.getLastInput() }
             .returns(mock)
 
         viewModel.state.firstOrNull().let {
