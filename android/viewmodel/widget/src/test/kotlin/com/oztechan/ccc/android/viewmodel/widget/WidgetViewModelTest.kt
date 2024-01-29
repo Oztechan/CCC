@@ -20,7 +20,6 @@ import io.mockative.coVerify
 import io.mockative.configure
 import io.mockative.every
 import io.mockative.mock
-import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
@@ -84,12 +83,12 @@ internal class WidgetViewModelTest {
         every { appStorage.premiumEndDate }
             .returns(mockEndDate)
 
-        every { calculationStorage.currentBase }
-            .returns(base)
-
         runTest {
             coEvery { calculationStorage.getPrecision() }
                 .returns(3)
+
+            coEvery { calculationStorage.getBase() }
+                .returns(base)
 
             coEvery { backendApiService.getConversion(base) }
                 .returns(conversion)
@@ -102,7 +101,7 @@ internal class WidgetViewModelTest {
     @Test
     fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
         // first currency
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns(firstBase)
 
         coEvery { backendApiService.getConversion(firstBase) }
@@ -119,7 +118,7 @@ internal class WidgetViewModelTest {
         }
 
         // middle currency
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns(base)
 
         coEvery { backendApiService.getConversion(base) }
@@ -136,7 +135,7 @@ internal class WidgetViewModelTest {
         }
 
         // last currency
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns(lastBase)
 
         coEvery { backendApiService.getConversion(lastBase) }
@@ -223,7 +222,7 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasNotInvoked()
 
-        verify { calculationStorage.currentBase = any<String>() }
+        coVerify { calculationStorage.setBase(any<String>()) }
             .wasNotInvoked()
     }
 
@@ -239,10 +238,10 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify { calculationStorage.currentBase = lastBase }
+        coVerify { calculationStorage.setBase(lastBase) }
             .wasInvoked()
 
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns(lastBase)
 
         viewModel.event.onNextClick()
@@ -250,7 +249,7 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify { calculationStorage.currentBase = firstBase }
+        coVerify { calculationStorage.setBase(firstBase) }
             .wasInvoked()
     }
 
@@ -265,10 +264,10 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify { calculationStorage.currentBase = firstBase }
+        coVerify { calculationStorage.setBase(firstBase) }
             .wasInvoked()
 
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns(firstBase)
 
         viewModel.event.onPreviousClick()
@@ -276,7 +275,7 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify { calculationStorage.currentBase = lastBase }
+        coVerify { calculationStorage.setBase(lastBase) }
             .wasInvoked()
     }
 
@@ -293,7 +292,7 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        verify { calculationStorage.currentBase }
+        coVerify { calculationStorage.getBase() }
             .wasInvoked()
     }
 
