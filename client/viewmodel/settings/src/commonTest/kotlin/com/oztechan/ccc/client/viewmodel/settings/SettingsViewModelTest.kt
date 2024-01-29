@@ -121,9 +121,6 @@ internal class SettingsViewModelTest {
         every { appStorage.premiumEndDate }
             .returns(0)
 
-        every { calculationStorage.precision }
-            .returns(mockedPrecision)
-
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
@@ -138,6 +135,11 @@ internal class SettingsViewModelTest {
 
         every { appConfigRepository.getVersion() }
             .returns(version)
+
+        runTest {
+            coEvery { calculationStorage.getPrecision() }
+                .returns(mockedPrecision)
+        }
     }
 
     // init
@@ -389,7 +391,7 @@ internal class SettingsViewModelTest {
 
             println("-----")
 
-            verify { calculationStorage.precision = value.indexToNumber() }
+            coVerify { calculationStorage.setPrecision(value.indexToNumber()) }
                 .wasInvoked()
         }
     }

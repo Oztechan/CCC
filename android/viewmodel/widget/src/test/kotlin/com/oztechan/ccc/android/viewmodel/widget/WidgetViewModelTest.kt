@@ -87,10 +87,10 @@ internal class WidgetViewModelTest {
         every { calculationStorage.currentBase }
             .returns(base)
 
-        every { calculationStorage.precision }
-            .returns(3)
-
         runTest {
+            coEvery { calculationStorage.getPrecision() }
+                .returns(3)
+
             coEvery { backendApiService.getConversion(base) }
                 .returns(conversion)
 
@@ -203,7 +203,10 @@ internal class WidgetViewModelTest {
                 it.currencyList.forEach { currency ->
                     conversion.getRateFromCode(currency.code).let { rate ->
                         assertNotNull(rate)
-                        assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
+                        assertEquals(
+                            rate.getFormatted(calculationStorage.getPrecision()),
+                            currency.rate
+                        )
                     }
                 }
             }

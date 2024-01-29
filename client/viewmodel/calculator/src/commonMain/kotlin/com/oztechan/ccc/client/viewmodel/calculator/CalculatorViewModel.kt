@@ -53,7 +53,8 @@ class CalculatorViewModel(
     private val conversionDataSource: ConversionDataSource,
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
+) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(),
+    CalculatorEvent {
     // region SEED
     private val _state =
         MutableStateFlow(CalculatorState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
@@ -108,7 +109,7 @@ class CalculatorViewModel(
         }
         .launchIn(viewModelScope)
 
-    private fun updateConversion() {
+    private suspend fun updateConversion() {
         _state.update { copy(loading = true) }
 
         data.conversion?.let {
@@ -120,15 +121,15 @@ class CalculatorViewModel(
         }
     }
 
-    private fun updateConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
-        .let {
-            data.conversion = it
-            calculateConversions(it, ConversionState.Online(it.date))
-
-            viewModelScope.launch {
-                conversionDataSource.insertConversion(it)
+    private fun updateConversionSuccess(conversion: Conversion) =
+        conversion.copy(date = nowAsDateString())
+            .let {
+                data.conversion = it
+                viewModelScope.launch {
+                    calculateConversions(it, ConversionState.Online(it.date))
+                    conversionDataSource.insertConversion(it)
+                }
             }
-        }
 
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
@@ -145,11 +146,14 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
+    private suspend fun calculateConversions(
+        conversion: Conversion?,
+        conversionState: ConversionState
+    ) = _state.update {
         copy(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculationStorage.precision)
+                    .getFormatted(calculationStorage.getPrecision())
                     .toStandardDigits()
             },
             conversionState = conversionState,
@@ -160,7 +164,7 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = viewModelScope.launch {
         val output = data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
-            .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
+            .mapTo { if (isFinite()) getFormatted(calculationStorage.getPrecision()) else "" }
 
         _state.update { copy(output = output) }
 
@@ -184,22 +188,23 @@ class CalculatorViewModel(
         }
     }
 
-    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
-        data.conversion = null
-        calculationStorage.currentBase = newBase
-        _state.update {
-            copy(
-                base = newBase,
-                input = _state.value.input,
-                symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
-            )
-        }
+    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
+        viewModelScope.launchIgnored {
+            data.conversion = null
+            calculationStorage.currentBase = newBase
+            _state.update {
+                copy(
+                    base = newBase,
+                    input = _state.value.input,
+                    symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
+                )
+            }
 
-        if (shouldTrack) {
-            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+            if (shouldTrack) {
+                analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+                analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+            }
         }
-    }
 
     // region Event
     override fun onKeyPress(key: String) {

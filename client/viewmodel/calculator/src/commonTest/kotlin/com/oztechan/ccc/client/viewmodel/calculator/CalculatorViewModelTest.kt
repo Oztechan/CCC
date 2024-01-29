@@ -101,15 +101,15 @@ internal class CalculatorViewModelTest {
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
-        every { calculationStorage.precision }
-            .returns(3)
-
         every { adControlRepository.shouldShowBannerAd() }
             .returns(shouldShowAds)
 
         runTest {
             coEvery { calculationStorage.getLastInput() }
                 .returns("")
+
+            coEvery { calculationStorage.getPrecision() }
+                .returns(3)
 
             coEvery { currencyDataSource.getActiveCurrencies() }
                 .returns(currencyList)
@@ -182,7 +182,7 @@ internal class CalculatorViewModelTest {
 
                 val result = currencyList.onEach { currency ->
                     currency.rate = conversion.calculateRate(currency.code, it.output)
-                        .getFormatted(calculationStorage.precision)
+                        .getFormatted(calculationStorage.getPrecision())
                         .toStandardDigits()
                 }
 
