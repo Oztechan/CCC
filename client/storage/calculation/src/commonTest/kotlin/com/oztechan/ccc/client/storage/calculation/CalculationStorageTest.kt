@@ -33,7 +33,7 @@ internal class CalculationStorageTest {
 
         assertEquals(DEFAULT_CURRENT_BASE, subject.getBase())
 
-        coVerify { suspendPersistence.setSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+        coVerify { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .wasInvoked()
     }
 
