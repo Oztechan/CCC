@@ -73,8 +73,10 @@ internal class WatchersViewModelTest {
         every { watcherDataSource.getWatchersFlow() }
             .returns(flowOf(watcherList))
 
-        every { adControlRepository.shouldShowBannerAd() }
-            .returns(shouldShowAds)
+        runTest {
+            coEvery { adControlRepository.shouldShowBannerAd() }
+                .returns(shouldShowAds)
+        }
     }
 
     // init
@@ -86,7 +88,7 @@ internal class WatchersViewModelTest {
             assertEquals(watcherList, it.watcherList)
         }
 
-        verify { adControlRepository.shouldShowBannerAd() }
+        coVerify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 

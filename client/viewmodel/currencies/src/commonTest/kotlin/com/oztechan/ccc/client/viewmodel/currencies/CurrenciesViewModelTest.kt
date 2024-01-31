@@ -90,13 +90,13 @@ internal class CurrenciesViewModelTest {
         every { currencyDataSource.getCurrenciesFlow() }
             .returns(currencyListFlow)
 
-        every { appStorage.firstRun }
-            .returns(false)
-
-        every { adControlRepository.shouldShowBannerAd() }
-            .returns(shouldShowAds)
-
         runTest {
+            coEvery { appStorage.isFirstRun() }
+                .returns(false)
+
+            coEvery { adControlRepository.shouldShowBannerAd() }
+                .returns(shouldShowAds)
+
             coEvery { calculationStorage.getBase() }
                 .returns(currency1.code)
         }
@@ -148,10 +148,10 @@ internal class CurrenciesViewModelTest {
             assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
 
-        verify { adControlRepository.shouldShowBannerAd() }
+        coVerify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
 
-        verify { appStorage.firstRun }
+        coVerify { appStorage.isFirstRun() }
             .wasInvoked()
     }
 
@@ -193,7 +193,7 @@ internal class CurrenciesViewModelTest {
     @Test
     fun `don't show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY it is firstRun`() =
         runTest {
-            every { appStorage.firstRun }
+            coEvery { appStorage.isFirstRun() }
                 .returns(true)
 
             coEvery { calculationStorage.getBase() }
@@ -275,7 +275,7 @@ internal class CurrenciesViewModelTest {
     // Event
     @Test
     fun updateAllCurrenciesState() = runTest {
-        every { appStorage.firstRun }
+        coEvery { appStorage.isFirstRun() }
             .returns(false)
 
         coEvery { calculationStorage.getBase() }
@@ -398,7 +398,7 @@ internal class CurrenciesViewModelTest {
 
     @Test
     fun onDoneClick() = runTest {
-        every { appStorage.firstRun }
+        coEvery { appStorage.isFirstRun() }
             .returns(true)
 
         // where there is single currency
@@ -425,7 +425,7 @@ internal class CurrenciesViewModelTest {
 
             assertFalse { viewModel.state.value.isOnboardingVisible }
 
-            verify { appStorage.firstRun = false }
+            coVerify { appStorage.setFirstRun(false) }
                 .wasInvoked()
         }
 

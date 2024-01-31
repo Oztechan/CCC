@@ -7,10 +7,11 @@ internal class AppStorageImpl(
     private val persistence: Persistence,
     private val suspendPersistence: SuspendPersistence
 ) : AppStorage {
+    override suspend fun isFirstRun(): Boolean =
+        suspendPersistence.getSuspend(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
 
-    override var firstRun
-        get() = persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
-        set(value) = persistence.setValue(KEY_FIRST_RUN, value)
+    override suspend fun setFirstRun(value: Boolean) =
+        suspendPersistence.setSuspend(KEY_FIRST_RUN, value)
 
     override suspend fun getAppTheme(): Int =
         suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME)

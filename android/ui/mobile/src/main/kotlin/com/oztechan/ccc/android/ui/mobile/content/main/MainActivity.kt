@@ -55,7 +55,9 @@ class MainActivity : BaseActivity() {
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                setDestination(if (shouldOnboardUser) R.id.sliderFragment else R.id.calculatorFragment)
+                shouldOnboardUser?.let { shouldOnboardUser ->
+                    setDestination(if (shouldOnboardUser) R.id.sliderFragment else R.id.calculatorFragment)
+                }
 
                 // if dark mode is supported use theming according to user preference
                 it.appTheme

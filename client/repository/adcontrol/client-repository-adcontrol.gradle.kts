@@ -23,6 +23,7 @@ kotlin {
         commonTest.dependencies {
             libs.common.apply {
                 implementation(test)
+                implementation(coroutinesTest)
                 implementation(mockative)
             }
         }

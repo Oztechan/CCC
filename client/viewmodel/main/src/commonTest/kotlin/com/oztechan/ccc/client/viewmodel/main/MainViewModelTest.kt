@@ -98,10 +98,10 @@ internal class MainViewModelTest {
         every { adControlRepository.shouldShowInterstitialAd() }
             .returns(false)
 
-        every { appStorage.firstRun }
-            .returns(isFirstRun)
-
         runTest {
+            coEvery { appStorage.isFirstRun() }
+                .returns(isFirstRun)
+
             coEvery { appStorage.getAppTheme() }
                 .returns(appThemeValue)
         }
@@ -146,7 +146,7 @@ internal class MainViewModelTest {
             assertEquals(appThemeValue, it.appTheme)
         }
 
-        verify { appStorage.firstRun }
+        coVerify { appStorage.isFirstRun() }
             .wasInvoked()
 
         coVerify { appStorage.getAppTheme() }
@@ -403,7 +403,7 @@ internal class MainViewModelTest {
         coEvery { appStorage.getAppTheme() }
             .returns(newAppThemeValue)
 
-        every { appStorage.firstRun }
+        coEvery { appStorage.isFirstRun() }
             .returns(newIsFirstRun)
 
         viewModel.state
@@ -415,7 +415,7 @@ internal class MainViewModelTest {
                 assertEquals(newAppThemeValue, it.appTheme)
             }
 
-        verify { appStorage.firstRun }
+        coVerify { appStorage.isFirstRun() }
             .wasInvoked()
 
         coVerify { appStorage.getAppTheme() }
