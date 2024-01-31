@@ -34,11 +34,7 @@ class MainViewModel(
     analyticsManager: AnalyticsManager,
 ) : BaseSEEDViewModel<MainState, MainEffect, MainEvent, MainData>(), MainEvent {
     // region SEED
-    private val _state = MutableStateFlow(
-        MainState(
-            shouldOnboardUser = appStorage.firstRun
-        )
-    )
+    private val _state = MutableStateFlow(MainState())
     override val state: StateFlow<MainState> = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<MainEffect>()
@@ -53,7 +49,8 @@ class MainViewModel(
         viewModelScope.launch {
             _state.update {
                 copy(
-                    appTheme = appStorage.getAppTheme()
+                    appTheme = appStorage.getAppTheme(),
+                    shouldOnboardUser = appStorage.isFirstRun()
                 )
             }
             with(analyticsManager) {
@@ -133,7 +130,7 @@ class MainViewModel(
 
         _state.update {
             copy(
-                shouldOnboardUser = appStorage.firstRun,
+                shouldOnboardUser = appStorage.isFirstRun(),
                 appTheme = appStorage.getAppTheme()
             )
         }

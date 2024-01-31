@@ -8,8 +8,8 @@ import com.oztechan.ccc.common.core.model.Currency
 
 // State
 data class CurrenciesState(
-    val isBannerAdVisible: Boolean,
-    val isOnboardingVisible: Boolean,
+    val isBannerAdVisible: Boolean = false,
+    val isOnboardingVisible: Boolean? = null,
     val currencyList: List<Currency> = listOf(),
     val loading: Boolean = true,
     val selectionVisibility: Boolean = false

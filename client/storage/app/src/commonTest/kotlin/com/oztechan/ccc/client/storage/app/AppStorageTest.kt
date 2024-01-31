@@ -37,13 +37,13 @@ internal class AppStorageTest {
 
     // defaults
     @Test
-    fun `default firstRun`() {
-        every { persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+    fun `get default firstRun`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .returns(DEFAULT_FIRST_RUN)
 
-        assertEquals(DEFAULT_FIRST_RUN, subject.firstRun)
+        assertEquals(DEFAULT_FIRST_RUN, subject.isFirstRun())
 
-        verify { persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+        coVerify { suspendPersistence.getSuspend(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .wasInvoked()
     }
 
@@ -82,11 +82,11 @@ internal class AppStorageTest {
 
     // setters
     @Test
-    fun `set firstRun`() {
+    fun `set firstRun`() = runTest {
         val mockedValue = Random.nextBoolean()
-        subject.firstRun = mockedValue
+        subject.setFirstRun(mockedValue)
 
-        verify { persistence.setValue(KEY_FIRST_RUN, mockedValue) }
+        coVerify { suspendPersistence.setSuspend(KEY_FIRST_RUN, mockedValue) }
             .wasInvoked()
     }
 

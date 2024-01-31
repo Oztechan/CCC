@@ -8,7 +8,7 @@ internal class AdControlRepositoryImpl(
     private val appStorage: AppStorage,
     private val adConfigService: AdConfigService
 ) : AdControlRepository {
-    override fun shouldShowBannerAd() = !appStorage.firstRun &&
+    override suspend fun shouldShowBannerAd() = !appStorage.isFirstRun() &&
         appStorage.premiumEndDate.isPassed() &&
         appStorage.sessionCount > adConfigService.config.bannerAdSessionCount
 

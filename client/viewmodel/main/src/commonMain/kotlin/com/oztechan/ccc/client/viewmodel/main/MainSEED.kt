@@ -8,7 +8,7 @@ import kotlinx.coroutines.Job
 
 // State
 data class MainState(
-    var shouldOnboardUser: Boolean,
+    var shouldOnboardUser: Boolean? = null,
     var appTheme: Int? = null
 ) : BaseState
 

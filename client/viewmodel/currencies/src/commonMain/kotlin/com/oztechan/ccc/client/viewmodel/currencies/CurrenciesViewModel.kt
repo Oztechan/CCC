@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
@@ -38,12 +39,7 @@ class CurrenciesViewModel(
 ) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(),
     CurrenciesEvent {
     // region SEED
-    private val _state = MutableStateFlow(
-        CurrenciesState(
-            isBannerAdVisible = adControlRepository.shouldShowBannerAd(),
-            isOnboardingVisible = appStorage.firstRun
-        )
-    )
+    private val _state = MutableStateFlow(CurrenciesState())
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<CurrenciesEffect>()
@@ -55,6 +51,14 @@ class CurrenciesViewModel(
     // endregion
 
     init {
+        viewModelScope.launch {
+            _state.update {
+                copy(
+                    isOnboardingVisible = appStorage.isFirstRun(),
+                    isBannerAdVisible = adControlRepository.shouldShowBannerAd()
+                )
+            }
+        }
         currencyDataSource.getCurrenciesFlow()
             .onEach { currencyList ->
 
@@ -80,7 +84,7 @@ class CurrenciesViewModel(
     private suspend fun verifyListSize() = data.unFilteredList
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
-        ?.whetherNot { appStorage.firstRun }
+        ?.whetherNot { appStorage.isFirstRun() }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private suspend fun verifyCurrentBase() = calculationStorage.getBase().either(
@@ -131,7 +135,7 @@ class CurrenciesViewModel(
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
-                appStorage.firstRun = false
+                appStorage.setFirstRun(false)
                 _state.update { copy(isOnboardingVisible = false) }
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
