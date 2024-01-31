@@ -7,7 +7,8 @@ interface AppStorage {
     suspend fun getAppTheme(): Int
     suspend fun setAppTheme(value: Int)
 
-    var premiumEndDate: Long
+    suspend fun getPremiumEndDate(): Long
+    suspend fun setPremiumEndDate(value: Long)
 
     var sessionCount: Long
 }

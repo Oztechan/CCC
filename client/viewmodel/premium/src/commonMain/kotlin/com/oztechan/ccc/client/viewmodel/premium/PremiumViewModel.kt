@@ -44,29 +44,31 @@ class PremiumViewModel(
     ) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumActivated ${adType?.data?.duration.orEmpty()}" }
         adType?.let {
-            appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
+            appStorage.setPremiumEndDate(it.calculatePremiumEnd(startDate))
             _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
         }
     }
 
-    override fun onRestorePurchase(oldPurchaseList: List<OldPurchase>) {
-        Logger.d { "PremiumViewModel onRestorePurchase" }
-        oldPurchaseList
-            .maxByOrNull {
-                it.type.calculatePremiumEnd(it.date)
-            }?.whether(
-                { type.calculatePremiumEnd(date).isNotPassed() },
-                { date > appStorage.premiumEndDate },
-                { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
-            )?.run {
-                onPremiumActivated(
-                    adType = PremiumType.getById(type.data.id),
-                    startDate = this.date,
-                    isRestorePurchase = true
-                )
-                _state.update { copy(loading = false) }
-            }
-    }
+    override fun onRestorePurchase(oldPurchaseList: List<OldPurchase>) =
+        viewModelScope.launchIgnored {
+            Logger.d { "PremiumViewModel onRestorePurchase" }
+            val premiumEndDate = appStorage.getPremiumEndDate()
+            oldPurchaseList
+                .maxByOrNull {
+                    it.type.calculatePremiumEnd(it.date)
+                }?.whether(
+                    { type.calculatePremiumEnd(date).isNotPassed() },
+                    { date > premiumEndDate },
+                    { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
+                )?.run {
+                    onPremiumActivated(
+                        adType = PremiumType.getById(type.data.id),
+                        startDate = this.date,
+                        isRestorePurchase = true
+                    )
+                    _state.update { copy(loading = false) }
+                }
+        }
 
     override fun onAddPurchaseMethods(premiumDataList: List<PremiumData>) {
         Logger.d { "PremiumViewModel onAddPurchaseMethods" }

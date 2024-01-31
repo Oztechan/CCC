@@ -56,7 +56,7 @@ class MainViewModel(
             with(analyticsManager) {
                 setUserProperty(
                     UserProperty.IsPremium(
-                        appStorage.premiumEndDate.isNotPassed().toString()
+                        appStorage.getPremiumEndDate().isNotPassed().toString()
                     )
                 )
                 setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
