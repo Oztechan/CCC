@@ -14,6 +14,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
+import com.github.submob.scopemob.whether
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
@@ -57,9 +58,11 @@ class MainActivity : BaseActivity() {
                 setDestination(if (shouldOnboardUser) R.id.sliderFragment else R.id.calculatorFragment)
 
                 // if dark mode is supported use theming according to user preference
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    AppCompatDelegate.setDefaultNightMode(getThemeMode(it.appTheme))
-                }
+                it.appTheme
+                    ?.whether { Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q }
+                    ?.let { appTheme ->
+                        AppCompatDelegate.setDefaultNightMode(getThemeMode(appTheme))
+                    }
             }
         }.launchIn(lifecycleScope)
 

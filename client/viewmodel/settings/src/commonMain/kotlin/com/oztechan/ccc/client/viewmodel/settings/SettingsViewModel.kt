@@ -61,7 +61,7 @@ class SettingsViewModel(
         viewModelScope.launch {
             _state.update {
                 copy(
-                    appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
+                    appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.getAppTheme()),
                     premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
                     precision = calculationStorage.getPrecision(),
                     version = appConfigRepository.getVersion()
@@ -181,7 +181,7 @@ class SettingsViewModel(
     override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onThemeChange $theme" }
         _state.update { copy(appThemeType = theme) }
-        appStorage.appTheme = theme.themeValue
+        appStorage.setAppTheme(theme.themeValue)
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
     // endregion

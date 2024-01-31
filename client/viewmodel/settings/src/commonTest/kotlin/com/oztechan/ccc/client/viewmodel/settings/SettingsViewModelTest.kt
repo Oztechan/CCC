@@ -115,9 +115,6 @@ internal class SettingsViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        every { appStorage.appTheme }
-            .returns(-1)
-
         every { appStorage.premiumEndDate }
             .returns(0)
 
@@ -139,6 +136,9 @@ internal class SettingsViewModelTest {
         runTest {
             coEvery { calculationStorage.getPrecision() }
                 .returns(mockedPrecision)
+
+            coEvery { appStorage.getAppTheme() }
+                .returns(-1)
         }
     }
 
@@ -408,7 +408,7 @@ internal class SettingsViewModelTest {
             assertEquals(mockTheme.themeValue, it.themeValue)
         }
 
-        verify { appStorage.appTheme = mockTheme.themeValue }
+        coVerify { appStorage.setAppTheme(mockTheme.themeValue) }
             .wasInvoked()
     }
 }
