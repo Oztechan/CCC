@@ -8,9 +8,12 @@ import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.storage.app.AppStorage
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
+import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -108,61 +111,64 @@ internal class AppConfigRepositoryTest {
     }
 
     @Test
-    fun `shouldShowAppReview should return true when sessionCount is biggerThan remote sessionCount`() {
-        val mockInteger = Random.nextInt()
+    fun `shouldShowAppReview should return true when sessionCount is biggerThan remote sessionCount`() =
+        runTest {
+            val mockInteger = Random.nextInt()
 
-        every { reviewConfigService.config }
-            .returns(ReviewConfig(appReviewSessionCount = mockInteger, 0L))
+            every { reviewConfigService.config }
+                .returns(ReviewConfig(appReviewSessionCount = mockInteger, 0L))
 
-        every { appStorage.sessionCount }
-            .returns(mockInteger.toLong() + 1)
+            coEvery { appStorage.getSessionCount() }
+                .returns(mockInteger.toLong() + 1)
 
-        assertTrue { subject.shouldShowAppReview() }
+            assertTrue { subject.shouldShowAppReview() }
 
-        verify { appStorage.sessionCount }
-            .wasInvoked()
+            coVerify { appStorage.getSessionCount() }
+                .wasInvoked()
 
-        verify { reviewConfigService.config }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `shouldShowAppReview should return false when sessionCount is less than remote sessionCount`() {
-        val mockInteger = Random.nextInt()
-
-        every { reviewConfigService.config }
-            .returns(ReviewConfig(appReviewSessionCount = mockInteger, 0L))
-
-        every { appStorage.sessionCount }
-            .returns(mockInteger.toLong() - 1)
-
-        assertFalse { subject.shouldShowAppReview() }
-
-        verify { appStorage.sessionCount }
-            .wasInvoked()
-
-        verify { reviewConfigService.config }
-            .wasInvoked()
-    }
+            verify { reviewConfigService.config }
+                .wasInvoked()
+        }
 
     @Test
-    fun `shouldShowAppReview should return false when sessionCount is equal to remote sessionCount`() {
-        val mockInteger = Random.nextInt()
+    fun `shouldShowAppReview should return false when sessionCount is less than remote sessionCount`() =
+        runTest {
+            val mockInteger = Random.nextInt()
 
-        every { reviewConfigService.config }
-            .returns(ReviewConfig(appReviewSessionCount = mockInteger, 0L))
+            every { reviewConfigService.config }
+                .returns(ReviewConfig(appReviewSessionCount = mockInteger, 0L))
 
-        every { appStorage.sessionCount }
-            .returns(mockInteger.toLong())
+            coEvery { appStorage.getSessionCount() }
+                .returns(mockInteger.toLong() - 1)
 
-        assertFalse { subject.shouldShowAppReview() }
+            assertFalse { subject.shouldShowAppReview() }
 
-        verify { appStorage.sessionCount }
-            .wasInvoked()
+            coVerify { appStorage.getSessionCount() }
+                .wasInvoked()
 
-        verify { reviewConfigService.config }
-            .wasInvoked()
-    }
+            verify { reviewConfigService.config }
+                .wasInvoked()
+        }
+
+    @Test
+    fun `shouldShowAppReview should return false when sessionCount is equal to remote sessionCount`() =
+        runTest {
+            val mockInteger = Random.nextInt()
+
+            every { reviewConfigService.config }
+                .returns(ReviewConfig(appReviewSessionCount = mockInteger, 0L))
+
+            coEvery { appStorage.getSessionCount() }
+                .returns(mockInteger.toLong())
+
+            assertFalse { subject.shouldShowAppReview() }
+
+            coVerify { appStorage.getSessionCount() }
+                .wasInvoked()
+
+            verify { reviewConfigService.config }
+                .wasInvoked()
+        }
 
     @Test
     fun getVersion() {

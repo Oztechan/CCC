@@ -10,5 +10,6 @@ interface AppStorage {
     suspend fun getPremiumEndDate(): Long
     suspend fun setPremiumEndDate(value: Long)
 
-    var sessionCount: Long
+    suspend fun getSessionCount(): Long
+    suspend fun setSessionCount(value: Long)
 }
