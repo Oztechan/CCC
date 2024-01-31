@@ -1,18 +1,22 @@
 package com.oztechan.ccc.client.storage.app
 
 import com.oztechan.ccc.client.core.persistence.Persistence
+import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 
 internal class AppStorageImpl(
-    private val persistence: Persistence
+    private val persistence: Persistence,
+    private val suspendPersistence: SuspendPersistence
 ) : AppStorage {
 
     override var firstRun
         get() = persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
         set(value) = persistence.setValue(KEY_FIRST_RUN, value)
 
-    override var appTheme
-        get() = persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME)
-        set(value) = persistence.setValue(KEY_APP_THEME, value)
+    override suspend fun getAppTheme(): Int =
+        suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME)
+
+    override suspend fun setAppTheme(value: Int) =
+        suspendPersistence.setSuspend(KEY_APP_THEME, value)
 
     override var premiumEndDate
         get() = persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)

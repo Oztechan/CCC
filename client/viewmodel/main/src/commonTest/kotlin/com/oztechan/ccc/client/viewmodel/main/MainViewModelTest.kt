@@ -21,6 +21,8 @@ import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.configure
 import io.mockative.every
 import io.mockative.mock
@@ -84,9 +86,6 @@ internal class MainViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        every { appStorage.appTheme }
-            .returns(appThemeValue)
-
         every { appStorage.premiumEndDate }
             .returns(nowAsLong())
 
@@ -101,11 +100,16 @@ internal class MainViewModelTest {
 
         every { appStorage.firstRun }
             .returns(isFirstRun)
+
+        runTest {
+            coEvery { appStorage.getAppTheme() }
+                .returns(appThemeValue)
+        }
     }
 
     // Analytics
     @Test
-    fun ifUserPropertiesSetCorrect() {
+    fun ifUserPropertiesSetCorrect() = runTest {
         viewModel // init
 
         verify {
@@ -118,11 +122,11 @@ internal class MainViewModelTest {
             .wasInvoked()
         verify { analyticsManager.setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
             .wasInvoked()
-        verify {
+        coVerify {
             analyticsManager.setUserProperty(
                 UserProperty.AppTheme(
                     AppTheme.getAnalyticsThemeName(
-                        appStorage.appTheme,
+                        appStorage.getAppTheme(),
                         mockDevice
                     )
                 )
@@ -145,7 +149,7 @@ internal class MainViewModelTest {
         verify { appStorage.firstRun }
             .wasInvoked()
 
-        verify { appStorage.appTheme }
+        coVerify { appStorage.getAppTheme() }
             .wasInvoked()
     }
 
@@ -396,7 +400,7 @@ internal class MainViewModelTest {
         val newAppThemeValue = appThemeValue + 10
         val newIsFirstRun = isFirstRun.not()
 
-        every { appStorage.appTheme }
+        coEvery { appStorage.getAppTheme() }
             .returns(newAppThemeValue)
 
         every { appStorage.firstRun }
@@ -414,7 +418,7 @@ internal class MainViewModelTest {
         verify { appStorage.firstRun }
             .wasInvoked()
 
-        verify { appStorage.appTheme }
+        coVerify { appStorage.getAppTheme() }
             .wasInvoked()
     }
 }

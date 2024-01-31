@@ -3,7 +3,8 @@ package com.oztechan.ccc.client.storage.app
 interface AppStorage {
     var firstRun: Boolean
 
-    var appTheme: Int
+    suspend fun getAppTheme(): Int
+    suspend fun setAppTheme(value: Int)
 
     var premiumEndDate: Long
 
