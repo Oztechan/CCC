@@ -29,8 +29,7 @@ class WatchersViewModel(
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
     // region SEED
-    private val _state =
-        MutableStateFlow(WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
+    private val _state = MutableStateFlow(WatchersState())
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<WatchersEffect>()
@@ -42,6 +41,13 @@ class WatchersViewModel(
     // endregion
 
     init {
+        viewModelScope.launch {
+            _state.update {
+                copy(
+                    isBannerAdVisible = adControlRepository.shouldShowBannerAd()
+                )
+            }
+        }
         watcherDataSource.getWatchersFlow()
             .onEach {
                 _state.update { copy(watcherList = it) }
@@ -70,10 +76,11 @@ class WatchersViewModel(
         watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
     }
 
-    override fun onTargetChanged(watcher: Watcher, newTarget: String) = viewModelScope.launchIgnored {
-        Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
-        watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
-    }
+    override fun onTargetChanged(watcher: Watcher, newTarget: String) =
+        viewModelScope.launchIgnored {
+            Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
+            watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
+        }
 
     override fun onAddClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onAddClick" }
@@ -95,10 +102,11 @@ class WatchersViewModel(
         watcherDataSource.deleteWatcher(watcher.id)
     }
 
-    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = viewModelScope.launchIgnored {
-        Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
-        watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
-    }
+    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) =
+        viewModelScope.launchIgnored {
+            Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
+            watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
+        }
 
     override fun onRateChange(watcher: Watcher, rate: String): String {
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
