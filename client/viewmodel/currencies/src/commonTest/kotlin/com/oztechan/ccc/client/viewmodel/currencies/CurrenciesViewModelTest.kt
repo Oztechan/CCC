@@ -143,8 +143,7 @@ internal class CurrenciesViewModelTest {
             assertNotNull(it)
             assertEquals(currencyList, it.currencyList)
             assertFalse { it.selectionVisibility }
-            assertNotNull(it.isOnboardingVisible)
-            assertFalse { it.isOnboardingVisible!! } // mocked false
+            assertFalse { it.isOnboardingVisible } // mocked false
             assertEquals(currencyList.toMutableList(), viewModel.data.unFilteredList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
         }
@@ -412,8 +411,7 @@ internal class CurrenciesViewModelTest {
         }.firstOrNull().let {
             assertIs<CurrenciesEffect.FewCurrency>(it)
             assertTrue { viewModel.data.query.isEmpty() }
-            assertNotNull(viewModel.state.value.isOnboardingVisible)
-            assertTrue { viewModel.state.value.isOnboardingVisible!! }
+            assertTrue { viewModel.state.value.isOnboardingVisible }
         }
 
         // where there are 2 active currencies
@@ -425,8 +423,7 @@ internal class CurrenciesViewModelTest {
             assertIs<CurrenciesEffect.OpenCalculator>(it)
             assertTrue { viewModel.data.query.isEmpty() }
 
-            assertNotNull(viewModel.state.value.isOnboardingVisible)
-            assertFalse { viewModel.state.value.isOnboardingVisible!! }
+            assertFalse { viewModel.state.value.isOnboardingVisible }
 
             coVerify { appStorage.setFirstRun(false) }
                 .wasInvoked()
@@ -441,8 +438,7 @@ internal class CurrenciesViewModelTest {
         }.firstOrNull().let {
             assertIs<CurrenciesEffect.FewCurrency>(it)
             assertTrue { viewModel.data.query.isEmpty() }
-            assertNotNull(viewModel.state.value.isOnboardingVisible)
-            assertFalse { viewModel.state.value.isOnboardingVisible!! }
+            assertFalse { viewModel.state.value.isOnboardingVisible }
         }
     }
 }
