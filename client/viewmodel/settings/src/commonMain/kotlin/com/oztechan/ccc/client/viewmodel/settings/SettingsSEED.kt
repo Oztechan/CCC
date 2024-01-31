@@ -9,7 +9,7 @@ import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 
 // State
 data class SettingsState(
-    val isBannerAdVisible: Boolean,
+    val isBannerAdVisible: Boolean = false,
     val activeCurrencyCount: Int = 0,
     val activeWatcherCount: Int = 0,
     val appThemeType: AppTheme = AppTheme.SYSTEM_DEFAULT,
