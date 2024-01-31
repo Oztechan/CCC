@@ -66,7 +66,11 @@ class CurrenciesViewModel(
 
                 currencyList.filter { it.isActive }
                     .let {
-                        analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
+                        analyticsManager.setUserProperty(
+                            UserProperty.CurrencyCount(
+                                it.count().toString()
+                            )
+                        )
                     }
             }.launchIn(viewModelScope)
 
@@ -79,7 +83,7 @@ class CurrenciesViewModel(
         ?.whetherNot { appStorage.firstRun }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
+    private suspend fun verifyCurrentBase() = calculationStorage.getBase().either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -89,7 +93,7 @@ class CurrenciesViewModel(
     )?.mapTo {
         state.value.currencyList.firstOrNull { it.isActive }?.code.orEmpty()
     }?.let { newBase ->
-        calculationStorage.currentBase = newBase
+        calculationStorage.setBase(newBase)
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))

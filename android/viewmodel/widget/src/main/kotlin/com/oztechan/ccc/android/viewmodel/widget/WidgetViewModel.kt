@@ -30,7 +30,6 @@ class WidgetViewModel(
     // region SEED
     private val _state = MutableStateFlow(
         WidgetState(
-            currentBase = calculationStorage.currentBase,
             isPremium = appStorage.premiumEndDate.isNotPassed()
         )
     )
@@ -44,12 +43,22 @@ class WidgetViewModel(
     override val data = WidgetData()
     // endregion
 
-    private fun refreshWidgetData() {
+    init {
+        viewModelScope.launchIgnored {
+            _state.update {
+                it.copy(
+                    currentBase = calculationStorage.getBase()
+                )
+            }
+        }
+    }
+
+    private suspend fun refreshWidgetData() {
         _state.update {
             it.copy(
                 currencyList = listOf(),
                 lastUpdate = "",
-                currentBase = calculationStorage.currentBase,
+                currentBase = calculationStorage.getBase(),
                 isPremium = appStorage.premiumEndDate.isNotPassed()
             )
         }
@@ -61,10 +70,10 @@ class WidgetViewModel(
 
     private fun getFreshWidgetData() = viewModelScope.launch {
         val conversion = backendApiService
-            .getConversion(calculationStorage.currentBase)
+            .getConversion(calculationStorage.getBase())
 
         currencyDataSource.getActiveCurrencies()
-            .filterNot { it.code == calculationStorage.currentBase }
+            .filterNot { it.code == calculationStorage.getBase() }
             .onEach {
                 it.rate = conversion.getRateFromCode(it.code)
                     ?.getFormatted(calculationStorage.getPrecision())
@@ -86,7 +95,7 @@ class WidgetViewModel(
 
         val newBaseIndex = activeCurrencies
             .map { it.code }
-            .indexOf(calculationStorage.currentBase)
+            .indexOf(calculationStorage.getBase())
             .let {
                 if (isToNext) {
                     it + 1
@@ -97,7 +106,7 @@ class WidgetViewModel(
                 (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
             }
 
-        calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
+        calculationStorage.setBase(activeCurrencies[newBaseIndex].code)
     }
 
     // region Event
