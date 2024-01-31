@@ -59,13 +59,13 @@ internal class AppStorageTest {
     }
 
     @Test
-    fun `default premiumEndDate`() {
-        every { persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
+    fun `get default premiumEndDate`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
             .returns(DEFAULT_PREMIUM_END_DATE)
 
-        assertEquals(DEFAULT_PREMIUM_END_DATE, subject.premiumEndDate)
+        assertEquals(DEFAULT_PREMIUM_END_DATE, subject.getPremiumEndDate())
 
-        verify { persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
+        coVerify { suspendPersistence.getSuspend(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
             .wasInvoked()
     }
 
@@ -100,11 +100,11 @@ internal class AppStorageTest {
     }
 
     @Test
-    fun `set premiumEndDate`() {
+    fun `set premiumEndDate`() = runTest {
         val mockValue = Random.nextLong()
-        subject.premiumEndDate = mockValue
+        subject.setPremiumEndDate(mockValue)
 
-        verify { persistence.setValue(KEY_PREMIUM_END_DATE, mockValue) }
+        coVerify { suspendPersistence.setSuspend(KEY_PREMIUM_END_DATE, mockValue) }
             .wasInvoked()
     }
 

@@ -9,9 +9,9 @@ internal class AdControlRepositoryImpl(
     private val adConfigService: AdConfigService
 ) : AdControlRepository {
     override suspend fun shouldShowBannerAd() = !appStorage.isFirstRun() &&
-        appStorage.premiumEndDate.isPassed() &&
+        appStorage.getPremiumEndDate().isPassed() &&
         appStorage.sessionCount > adConfigService.config.bannerAdSessionCount
 
-    override fun shouldShowInterstitialAd() = appStorage.premiumEndDate.isPassed() &&
+    override suspend fun shouldShowInterstitialAd() = appStorage.getPremiumEndDate().isPassed() &&
         appStorage.sessionCount > adConfigService.config.interstitialAdSessionCount
 }
