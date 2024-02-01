@@ -296,7 +296,7 @@ jobs:
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.1.5
+        uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
