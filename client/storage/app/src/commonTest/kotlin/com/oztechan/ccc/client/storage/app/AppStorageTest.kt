@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.storage.app
 
-import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
@@ -14,10 +13,7 @@ import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.coEvery
 import io.mockative.coVerify
-import io.mockative.configure
-import io.mockative.every
 import io.mockative.mock
-import io.mockative.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
@@ -26,11 +22,8 @@ import kotlin.test.assertEquals
 internal class AppStorageTest {
 
     private val subject: AppStorage by lazy {
-        AppStorageImpl(persistence, suspendPersistence)
+        AppStorageImpl(suspendPersistence)
     }
-
-    @Mock
-    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
 
     @Mock
     private val suspendPersistence = mock(classOf<SuspendPersistence>())
@@ -70,13 +63,13 @@ internal class AppStorageTest {
     }
 
     @Test
-    fun `default sessionCount`() {
-        every { persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
+    fun `get default sessionCount`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .returns(DEFAULT_SESSION_COUNT)
 
-        assertEquals(DEFAULT_SESSION_COUNT, subject.sessionCount)
+        assertEquals(DEFAULT_SESSION_COUNT, subject.getSessionCount())
 
-        verify { persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
+        coVerify { suspendPersistence.getSuspend(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .wasInvoked()
     }
 
@@ -109,11 +102,11 @@ internal class AppStorageTest {
     }
 
     @Test
-    fun `set sessionCount`() {
+    fun `set sessionCount`() = runTest {
         val mockValue = Random.nextLong()
-        subject.sessionCount = mockValue
+        subject.setSessionCount(mockValue)
 
-        verify { persistence.setValue(KEY_SESSION_COUNT, mockValue) }
+        coVerify { suspendPersistence.setSuspend(KEY_SESSION_COUNT, mockValue) }
             .wasInvoked()
     }
 }

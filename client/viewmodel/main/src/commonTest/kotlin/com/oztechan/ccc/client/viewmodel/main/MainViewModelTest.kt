@@ -86,13 +86,13 @@ internal class MainViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        every { appStorage.sessionCount }
-            .returns(1L)
-
         every { appConfigRepository.getDeviceType() }
             .returns(mockDevice)
 
         runTest {
+            coEvery { appStorage.getSessionCount() }
+                .returns(1L)
+
             coEvery { appStorage.getPremiumEndDate() }
                 .returns(nowAsLong())
 
@@ -120,7 +120,13 @@ internal class MainViewModelTest {
             )
         }.wasInvoked()
 
-        verify { analyticsManager.setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
+        coVerify {
+            analyticsManager.setUserProperty(
+                UserProperty.SessionCount(
+                    appStorage.getSessionCount().toString()
+                )
+            )
+        }
             .wasInvoked()
 
         coVerify {
@@ -163,7 +169,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `onResume adjustSessionCount`() = with(viewModel) {
+    fun `onResume adjustSessionCount`() = runTest {
         val mockSessionCount = Random.nextLong()
 
         every { reviewConfigService.config }
@@ -172,7 +178,7 @@ internal class MainViewModelTest {
         every { adConfigService.config }
             .returns(AdConfig(0, 0, 0L, 0L))
 
-        every { appStorage.sessionCount }
+        coEvery { appStorage.getSessionCount() }
             .returns(mockSessionCount)
 
         every { appConfigRepository.checkAppUpdate(false) }
@@ -181,26 +187,26 @@ internal class MainViewModelTest {
         every { appConfigRepository.checkAppUpdate(true) }
             .returns(false)
 
-        every { appConfigRepository.shouldShowAppReview() }
+        coEvery { appConfigRepository.shouldShowAppReview() }
             .returns(true)
 
         every { appConfigRepository.getMarketLink() }
             .returns("")
 
-        assertTrue { data.isNewSession }
+        assertTrue { viewModel.data.isNewSession }
 
-        event.onResume()
+        viewModel.event.onResume()
 
-        verify { appStorage.sessionCount = mockSessionCount + 1 }
+        coVerify { appStorage.setSessionCount(mockSessionCount + 1) }
             .wasInvoked()
-        assertFalse { data.isNewSession }
+        assertFalse { viewModel.data.isNewSession }
 
-        event.onResume()
+        viewModel.event.onResume()
 
-        verify { appStorage.sessionCount = mockSessionCount + 1 }
+        coVerify { appStorage.setSessionCount(mockSessionCount + 1) }
             .wasNotInvoked()
 
-        assertFalse { data.isNewSession }
+        assertFalse { viewModel.data.isNewSession }
     }
 
     @Test
@@ -213,7 +219,7 @@ internal class MainViewModelTest {
         every { adConfigService.config }
             .returns(AdConfig(0, 0, 0L, 0L))
 
-        every { appStorage.sessionCount }
+        coEvery { appStorage.getSessionCount() }
             .returns(mockSessionCount)
 
         every { appConfigRepository.checkAppUpdate(false) }
@@ -222,7 +228,7 @@ internal class MainViewModelTest {
         coEvery { adControlRepository.shouldShowInterstitialAd() }
             .returns(true)
 
-        every { appConfigRepository.shouldShowAppReview() }
+        coEvery { appConfigRepository.shouldShowAppReview() }
             .returns(true)
 
         coEvery { appStorage.getPremiumEndDate() }
@@ -252,32 +258,31 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `onResume checkAppUpdate nothing happens when check update returns null`() =
-        with(viewModel) {
-            val mockSessionCount = Random.nextLong()
+    fun `onResume checkAppUpdate nothing happens when check update returns null`() = runTest {
+        val mockSessionCount = Random.nextLong()
 
-            every { reviewConfigService.config }
-                .returns(ReviewConfig(0, 0L))
+        every { reviewConfigService.config }
+            .returns(ReviewConfig(0, 0L))
 
-            every { adConfigService.config }
-                .returns(AdConfig(0, 0, 0L, 0L))
+        every { adConfigService.config }
+            .returns(AdConfig(0, 0, 0L, 0L))
 
-            every { appStorage.sessionCount }
-                .returns(mockSessionCount)
+        coEvery { appStorage.getSessionCount() }
+            .returns(mockSessionCount)
 
-            every { appConfigRepository.checkAppUpdate(false) }
-                .returns(null)
+        every { appConfigRepository.checkAppUpdate(false) }
+            .returns(null)
 
-            every { appConfigRepository.shouldShowAppReview() }
-                .returns(true)
+        coEvery { appConfigRepository.shouldShowAppReview() }
+            .returns(true)
 
-            event.onResume()
+        viewModel.event.onResume()
 
-            assertFalse { data.isAppUpdateShown }
+        assertFalse { viewModel.data.isAppUpdateShown }
 
-            verify { appConfigRepository.checkAppUpdate(false) }
-                .wasInvoked()
-        }
+        verify { appConfigRepository.checkAppUpdate(false) }
+            .wasInvoked()
+    }
 
     @Test
     fun `onResume checkAppUpdate app review should ask when check update returns not null`() =
@@ -285,7 +290,7 @@ internal class MainViewModelTest {
             val mockSessionCount = Random.nextLong()
             val mockBoolean = Random.nextBoolean()
 
-            every { appStorage.sessionCount }
+            coEvery { appStorage.getSessionCount() }
                 .returns(mockSessionCount)
 
             every { adConfigService.config }
@@ -297,7 +302,7 @@ internal class MainViewModelTest {
             every { reviewConfigService.config }
                 .returns(ReviewConfig(0, 0L))
 
-            every { appConfigRepository.shouldShowAppReview() }
+            coEvery { appConfigRepository.shouldShowAppReview() }
                 .returns(true)
 
             every { appConfigRepository.getMarketLink() }
@@ -329,13 +334,13 @@ internal class MainViewModelTest {
             every { adConfigService.config }
                 .returns(AdConfig(0, 0, 0L, 0L))
 
-            every { appStorage.sessionCount }
+            coEvery { appStorage.getSessionCount() }
                 .returns(mockSessionCount)
 
             every { appConfigRepository.checkAppUpdate(false) }
                 .returns(null)
 
-            every { appConfigRepository.shouldShowAppReview() }
+            coEvery { appConfigRepository.shouldShowAppReview() }
                 .returns(true)
 
             viewModel.effect.onSubscription {
@@ -344,7 +349,7 @@ internal class MainViewModelTest {
                 assertIs<MainEffect.RequestReview>(it)
             }
 
-            verify { appConfigRepository.shouldShowAppReview() }
+            coVerify { appConfigRepository.shouldShowAppReview() }
                 .wasInvoked()
 
             verify { reviewConfigService.config }
@@ -353,7 +358,7 @@ internal class MainViewModelTest {
 
     @Test
     fun `onResume checkReview should do nothing when shouldShowAppReview returns false`() =
-        with(viewModel) {
+        runTest {
             val mockSessionCount = Random.nextLong()
 
             every { reviewConfigService.config }
@@ -362,18 +367,18 @@ internal class MainViewModelTest {
             every { adConfigService.config }
                 .returns(AdConfig(0, 0, 0L, 0L))
 
-            every { appStorage.sessionCount }
+            coEvery { appStorage.getSessionCount() }
                 .returns(mockSessionCount)
 
             every { appConfigRepository.checkAppUpdate(false) }
                 .returns(null)
 
-            every { appConfigRepository.shouldShowAppReview() }
+            coEvery { appConfigRepository.shouldShowAppReview() }
                 .returns(false)
 
-            onResume()
+            viewModel.onResume()
 
-            verify { appConfigRepository.shouldShowAppReview() }
+            coVerify { appConfigRepository.shouldShowAppReview() }
                 .wasInvoked()
         }
 
@@ -382,7 +387,7 @@ internal class MainViewModelTest {
         every { appConfigRepository.checkAppUpdate(false) }
             .returns(false)
 
-        every { appConfigRepository.shouldShowAppReview() }
+        coEvery { appConfigRepository.shouldShowAppReview() }
             .returns(true)
 
         every { adConfigService.config }

@@ -1,10 +1,8 @@
 package com.oztechan.ccc.client.storage.app
 
-import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 
 internal class AppStorageImpl(
-    private val persistence: Persistence,
     private val suspendPersistence: SuspendPersistence
 ) : AppStorage {
     override suspend fun isFirstRun(): Boolean =
@@ -25,9 +23,11 @@ internal class AppStorageImpl(
     override suspend fun setPremiumEndDate(value: Long) =
         suspendPersistence.setSuspend(KEY_PREMIUM_END_DATE, value)
 
-    override var sessionCount: Long
-        get() = persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)
-        set(value) = persistence.setValue(KEY_SESSION_COUNT, value)
+    override suspend fun getSessionCount(): Long =
+        suspendPersistence.getSuspend(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)
+
+    override suspend fun setSessionCount(value: Long) =
+        suspendPersistence.setSuspend(KEY_SESSION_COUNT, value)
 
     companion object {
         internal const val KEY_FIRST_RUN = "firs_run"

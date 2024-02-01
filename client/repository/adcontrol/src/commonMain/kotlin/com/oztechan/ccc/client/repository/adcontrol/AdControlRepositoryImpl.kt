@@ -10,8 +10,8 @@ internal class AdControlRepositoryImpl(
 ) : AdControlRepository {
     override suspend fun shouldShowBannerAd() = !appStorage.isFirstRun() &&
         appStorage.getPremiumEndDate().isPassed() &&
-        appStorage.sessionCount > adConfigService.config.bannerAdSessionCount
+        appStorage.getSessionCount() > adConfigService.config.bannerAdSessionCount
 
     override suspend fun shouldShowInterstitialAd() = appStorage.getPremiumEndDate().isPassed() &&
-        appStorage.sessionCount > adConfigService.config.interstitialAdSessionCount
+        appStorage.getSessionCount() > adConfigService.config.interstitialAdSessionCount
 }
