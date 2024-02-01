@@ -5,7 +5,7 @@ import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.Flow
 
 @Suppress("OPT_IN_USAGE")
-class FlowPersistenceImpl(private val flowSettings: FlowSettings) : FlowPersistence {
+internal class FlowPersistenceImpl(private val flowSettings: FlowSettings) : FlowPersistence {
     @Suppress("UNCHECKED_CAST")
     override fun <T : Any> getFlow(key: String, defaultValue: T): Flow<T> =
         when (defaultValue) {

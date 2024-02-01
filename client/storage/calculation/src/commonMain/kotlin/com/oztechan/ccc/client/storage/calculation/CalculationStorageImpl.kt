@@ -2,7 +2,7 @@ package com.oztechan.ccc.client.storage.calculation
 
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 
-class CalculationStorageImpl(
+internal class CalculationStorageImpl(
     private val suspendPersistence: SuspendPersistence
 ) : CalculationStorage {
 

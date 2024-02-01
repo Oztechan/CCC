@@ -6,6 +6,7 @@ import com.lemonappdev.konsist.api.declaration.KoFunctionDeclaration
 import com.lemonappdev.konsist.api.declaration.KoPropertyDeclaration
 import com.lemonappdev.konsist.api.ext.list.indexOfFirstInstance
 import com.lemonappdev.konsist.api.ext.list.indexOfLastInstance
+import com.lemonappdev.konsist.api.ext.list.withNameEndingWith
 import com.lemonappdev.konsist.api.verify.assertFalse
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.Test
@@ -105,5 +106,14 @@ internal class ConventionTest {
                     }
                 }
             }
+    }
+
+    @Test
+    fun `Impl classes should be internal`() {
+        Konsist
+            .scopeFromProject()
+            .classes()
+            .withNameEndingWith("Impl")
+            .assertTrue { it.hasInternalModifier }
     }
 }
