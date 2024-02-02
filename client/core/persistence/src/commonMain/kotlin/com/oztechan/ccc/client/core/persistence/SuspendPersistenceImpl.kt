@@ -4,7 +4,8 @@ import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceExce
 import com.russhwolf.settings.coroutines.SuspendSettings
 
 @Suppress("OPT_IN_USAGE")
-class SuspendPersistenceImpl(private val suspendSettings: SuspendSettings) : SuspendPersistence {
+internal class SuspendPersistenceImpl(private val suspendSettings: SuspendSettings) :
+    SuspendPersistence {
 
     @Suppress("UNCHECKED_CAST")
     override suspend fun <T : Any> getSuspend(key: String, defaultValue: T): T =
