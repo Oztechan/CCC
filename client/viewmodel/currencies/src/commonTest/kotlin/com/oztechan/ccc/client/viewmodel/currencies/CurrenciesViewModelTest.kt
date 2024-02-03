@@ -157,6 +157,13 @@ internal class CurrenciesViewModelTest {
     }
 
     @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertEquals(currencyList, viewModel.data.unFilteredList)
+        assertTrue { viewModel.data.query.isEmpty() }
+    }
+
+    @Test
     fun `show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY and not firstRun`() =
         runTest {
             every { currencyDataSource.getCurrenciesFlow() }

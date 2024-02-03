@@ -42,6 +42,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -158,6 +159,12 @@ internal class SettingsViewModelTest {
 
         coVerify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
+    }
+
+    @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertFalse { viewModel.data.synced }
     }
 
     @Test

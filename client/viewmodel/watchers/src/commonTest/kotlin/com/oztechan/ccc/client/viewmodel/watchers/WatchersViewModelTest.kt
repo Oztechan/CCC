@@ -92,6 +92,11 @@ internal class WatchersViewModelTest {
             .wasInvoked()
     }
 
+    @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+    }
+
     // Analytics
     @Test
     fun ifUserPropertiesSetCorrect() {

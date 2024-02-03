@@ -164,6 +164,11 @@ internal class WidgetViewModelTest {
     }
 
     @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+    }
+
+    @Test
     fun `if user is premium api call and db query are invoked`() = runTest {
         coEvery { appStorage.getPremiumEndDate() }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
