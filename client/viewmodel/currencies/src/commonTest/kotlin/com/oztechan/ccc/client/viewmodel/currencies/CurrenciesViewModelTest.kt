@@ -146,6 +146,7 @@ internal class CurrenciesViewModelTest {
             assertFalse { it.isOnboardingVisible } // mocked false
             assertEquals(currencyList.toMutableList(), viewModel.data.unFilteredList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertFalse { it.loading }
         }
 
         coVerify { adControlRepository.shouldShowBannerAd() }

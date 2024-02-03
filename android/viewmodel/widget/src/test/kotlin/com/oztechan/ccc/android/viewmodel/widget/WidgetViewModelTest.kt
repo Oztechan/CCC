@@ -31,6 +31,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.days
 
 internal class WidgetViewModelTest {
@@ -152,9 +153,11 @@ internal class WidgetViewModelTest {
     }
 
     @Test
-    fun `init sets isPremium and currentBase`() = runTest {
+    fun `init updates states correctly`() = runTest {
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
+            assertTrue { it.currencyList.isEmpty() }
+            assertEquals("", it.lastUpdate)
             assertEquals(base, it.currentBase)
             assertEquals(appStorage.getPremiumEndDate().isNotPassed(), it.isPremium)
         }

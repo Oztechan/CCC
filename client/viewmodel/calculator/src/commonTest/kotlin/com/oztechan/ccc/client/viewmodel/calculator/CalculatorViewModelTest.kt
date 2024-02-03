@@ -140,10 +140,13 @@ internal class CalculatorViewModelTest {
             assertNotNull(it)
             assertEquals(currency1.code, it.base)
             assertEquals("", it.input)
+            assertEquals("", it.output)
+            assertEquals(currency1.symbol, it.symbol)
             assertIs<ConversionState.Online>(it.conversionState)
             assertEquals(ConversionState.Online(nowAsDateString()), it.conversionState)
             assertEquals(currencyList, it.currencyList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertFalse { it.loading }
         }
 
         coVerify { adControlRepository.shouldShowBannerAd() }
@@ -151,7 +154,7 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `init sets the latest base and input`() = runTest {
+    fun `init updates the latest base and input`() = runTest {
         val mock = "mock"
 
         coEvery { calculationStorage.getBase() }

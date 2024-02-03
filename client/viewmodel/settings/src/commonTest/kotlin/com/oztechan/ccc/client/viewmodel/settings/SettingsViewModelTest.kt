@@ -153,6 +153,7 @@ internal class SettingsViewModelTest {
             assertEquals(mockedPrecision, it.precision)
             assertEquals(version, it.version)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertIs<PremiumStatus.NeverActivated>(it.premiumStatus)
         }
 
         coVerify { adControlRepository.shouldShowBannerAd() }
