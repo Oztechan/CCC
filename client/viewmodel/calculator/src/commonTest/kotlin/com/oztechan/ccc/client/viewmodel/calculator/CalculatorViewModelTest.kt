@@ -170,7 +170,6 @@ internal class CalculatorViewModelTest {
         }
     }
 
-
     @Test
     fun `init updates data correctly`() {
         assertNotNull(viewModel.data)
