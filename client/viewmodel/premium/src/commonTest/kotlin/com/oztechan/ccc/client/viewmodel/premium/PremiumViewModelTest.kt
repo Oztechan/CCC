@@ -52,6 +52,16 @@ internal class PremiumViewModelTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
     }
 
+    @Test
+    fun `init updates states correctly`() = runTest {
+        val premiumTypes: List<PremiumType> = listOf(PremiumType.VIDEO)
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertTrue { it.loading }
+            assertEquals(premiumTypes, it.premiumTypes)
+        }
+    }
+
     // SEED
     @Test
     fun `check data is null`() {
