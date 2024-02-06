@@ -95,7 +95,7 @@ jobs:
           arguments: assemble
 
       - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v4.3.0
+        uses: actions/upload-artifact@v4.3.1
         if: github.event_name == 'push'
         with:
           name: androidArtifacts
@@ -195,7 +195,7 @@ jobs:
         run: fastlane build
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.3.0
+        uses: actions/upload-artifact@v4.3.1
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -267,7 +267,7 @@ jobs:
           arguments: check koverMergedXmlReport --parallel
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4.3.0
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: coverageReport
           path: build/reports/kover/merged/xml/report.xml
