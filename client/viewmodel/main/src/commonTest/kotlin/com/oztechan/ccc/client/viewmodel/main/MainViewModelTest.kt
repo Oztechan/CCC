@@ -160,6 +160,16 @@ internal class MainViewModelTest {
             .wasInvoked()
     }
 
+    @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertFalse { viewModel.data.adVisibility }
+        assertFalse { viewModel.data.isAppUpdateShown }
+        assertTrue { viewModel.data.isNewSession }
+        assertNotNull(viewModel.data.adJob)
+        assertTrue { viewModel.data.adJob.isActive }
+    }
+
     // event
     @Test
     fun onPause() = with(viewModel) {

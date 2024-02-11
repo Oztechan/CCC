@@ -64,7 +64,7 @@ internal class PremiumViewModelTest {
 
     // SEED
     @Test
-    fun `check data is null`() {
+    fun `init updates data correctly`() {
         assertNull(viewModel.data)
     }
 

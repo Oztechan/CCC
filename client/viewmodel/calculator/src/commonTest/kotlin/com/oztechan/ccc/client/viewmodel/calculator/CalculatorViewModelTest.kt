@@ -171,6 +171,13 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertNotNull(viewModel.data.conversion)
+        assertNotNull(viewModel.data.parser)
+    }
+
+    @Test
     fun `when api fails and there is conversion in db then conversion rates are calculated`() =
         runTest {
             coEvery { backendApiService.getConversion(currency1.code) }
