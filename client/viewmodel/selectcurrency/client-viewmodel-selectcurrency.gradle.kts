@@ -29,6 +29,10 @@ kotlin {
                 implementation(project(currency))
             }
 
+            Modules.Client.Storage.apply {
+                implementation(project(calculation))
+            }
+
             Modules.Common.Core.apply {
                 implementation(project(model))
             }
