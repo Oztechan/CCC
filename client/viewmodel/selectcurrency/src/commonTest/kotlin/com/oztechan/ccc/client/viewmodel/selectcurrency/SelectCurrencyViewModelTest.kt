@@ -6,8 +6,10 @@ package com.oztechan.ccc.client.viewmodel.selectcurrency
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coVerify
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
@@ -31,11 +33,14 @@ import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 internal class SelectCurrencyViewModelTest {
 
     private val subject: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(currencyDataSource)
+        SelectCurrencyViewModel(currencyDataSource, calculationStorage)
     }
 
     @Mock
     private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+
+    @Mock
+    private val calculationStorage = mock(classOf<CalculationStorage>())
 
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
@@ -97,8 +102,10 @@ internal class SelectCurrencyViewModelTest {
         subject.effect.onSubscription {
             subject.event.onItemClick(currencyDollar)
         }.firstOrNull().let {
-            assertIs<SelectCurrencyEffect.CurrencyChange>(it)
-            assertEquals(currencyDollar.code, it.newBase)
+            assertIs<SelectCurrencyEffect.DismissDialog>(it)
+
+            coVerify { calculationStorage.setBase(currencyDollar.code) }
+                .wasInvoked()
         }
     }
 
