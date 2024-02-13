@@ -49,29 +49,13 @@ struct WatchersRootView: View {
         .sheet(
             isPresented: $baseBarInfo.isShown,
             content: {
-                SelectCurrencyRootView(
-                    isBarShown: $baseBarInfo.isShown,
-                    onCurrencySelected: {
-                        observable.event.onBaseChanged(
-                            watcher: baseBarInfo.watcher!,
-                            newBase: $0
-                        )
-                    }
-                ).environmentObject(navigationStack)
+                SelectCurrencyRootView(isBarShown: $baseBarInfo.isShown).environmentObject(navigationStack)
             }
         )
         .sheet(
             isPresented: $targetBarInfo.isShown,
             content: {
-                SelectCurrencyRootView(
-                    isBarShown: $targetBarInfo.isShown,
-                    onCurrencySelected: {
-                        observable.event.onTargetChanged(
-                            watcher: targetBarInfo.watcher!,
-                            newTarget: $0
-                        )
-                    }
-                ).environmentObject(navigationStack)
+                SelectCurrencyRootView(isBarShown: $targetBarInfo.isShown).environmentObject(navigationStack)
             }
         )
         .onAppear {

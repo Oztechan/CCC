@@ -24,8 +24,6 @@ struct SelectCurrencyRootView: View {
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
-    var onCurrencySelected: (String) -> Void
-
     var body: some View {
         SelectCurrencyView(
             event: observable.event,
@@ -45,7 +43,7 @@ struct SelectCurrencyRootView: View {
         case let currencyChangeEffect as SelectCurrencyEffect.DismissDialog:
             isBarShown = false
         case is SelectCurrencyEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesRootView(onBaseChange: onCurrencySelected))
+            navigationStack.push(CurrenciesRootView())
         default:
             logger.i(message: { "SelectCurrencyRootView unknown effect" })
         }
