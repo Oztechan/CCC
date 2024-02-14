@@ -56,7 +56,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         binding.observeStates()
         binding.setListeners()
         observeEffects()
-        observeNavigationResults()
     }
 
     override fun onResume() {
