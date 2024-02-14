@@ -300,11 +300,5 @@ class CalculatorViewModel(
         Logger.d { "CalculatorViewModel onSettingsClicked" }
         _effect.emit(CalculatorEffect.OpenSettings)
     }
-
-    override fun onBaseChange(base: String) {
-        Logger.d { "CalculatorViewModel onBaseChange $base" }
-        currentBaseChanged(base)
-        calculateOutput(_state.value.input)
-    }
     // endregion
 }
