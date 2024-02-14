@@ -76,13 +76,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         super.onDestroyView()
     }
 
-    private fun observeNavigationResults() = getNavigationResult<String>(
-        CHANGE_BASE_EVENT,
-        R.id.calculatorFragment
-    )?.observe(viewLifecycleOwner) {
-        Logger.i { "CalculatorFragment observeNavigationResults $it" }
-    }
-
     private fun FragmentCalculatorBinding.initViews() = viewLifecycleOwner.lifecycleScope.launch {
         recyclerViewMain.adapter = calculatorAdapter
     }
