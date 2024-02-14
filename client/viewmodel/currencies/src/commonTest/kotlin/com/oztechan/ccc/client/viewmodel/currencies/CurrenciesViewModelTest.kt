@@ -193,9 +193,10 @@ internal class CurrenciesViewModelTest {
                     }
                 )
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-            }
+            viewModel // init
+
+            coVerify { calculationStorage.setBase(currency1.code) }
+                .wasNotInvoked()
         }
 
     @Test
@@ -215,9 +216,10 @@ internal class CurrenciesViewModelTest {
                     }
                 )
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-            }
+            viewModel // init
+
+            coVerify { calculationStorage.setBase(currency1.code) }
+                .wasNotInvoked()
         }
 
     @Test
@@ -236,20 +238,12 @@ internal class CurrenciesViewModelTest {
             val firstActiveBase = currency1.code // first active currency
 
             every { currencyDataSource.getCurrenciesFlow() }
-                .returns(
-                    flow {
-                        delay(1.seconds.inWholeMilliseconds)
-                        emit(currencyList)
-                    }
-                )
+                .returns(flowOf(currencyList))
 
             coEvery { calculationStorage.getBase() }
                 .returns("")
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(firstActiveBase, it.newBase)
-            }
+            viewModel // init
 
             coVerify { calculationStorage.setBase(firstActiveBase) }
                 .wasInvoked()
@@ -261,20 +255,12 @@ internal class CurrenciesViewModelTest {
             currency1 = currency1.copy(isActive = false) // make first item in list not active
 
             every { currencyDataSource.getCurrenciesFlow() }
-                .returns(
-                    flow {
-                        delay(1.seconds.inWholeMilliseconds)
-                        emit(listOf(currency1, currency2, currency3))
-                    }
-                )
+                .returns(flowOf(listOf(currency1, currency2, currency3)))
 
             coEvery { calculationStorage.getBase() }
                 .returns(currency1.code) // not active one
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(currency2.code, it.newBase)
-            }
+            viewModel // init
 
             coVerify { calculationStorage.setBase(currency2.code) }
                 .wasInvoked()
