@@ -499,28 +499,4 @@ internal class CalculatorViewModelTest {
             assertEquals(key, it.input)
         }
     }
-
-    @Test
-    fun onBaseChanged() = runTest {
-        coEvery { calculationStorage.getBase() }
-            .returns(currency1.code)
-
-        coEvery { backendApiService.getConversion(currency1.code) }
-            .returns(conversion)
-
-        viewModel.state.onSubscription {
-            viewModel.event.onBaseChange(currency1.code)
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertNotNull(viewModel.data.conversion)
-            assertEquals(currency1.code, viewModel.data.conversion!!.base)
-            assertEquals(currency1.code, it.base)
-
-            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
-                .wasInvoked()
-
-            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
-                .wasInvoked()
-        }
-    }
 }

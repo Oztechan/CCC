@@ -32,7 +32,6 @@ interface CalculatorEvent : BaseEvent {
     fun onPasteToInput(text: String)
     fun onBarClick()
     fun onSettingsClicked()
-    fun onBaseChange(base: String)
 }
 
 // Effect
