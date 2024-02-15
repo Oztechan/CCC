@@ -19,7 +19,6 @@ import com.oztechan.ccc.android.ui.mobile.util.copyToClipBoard
 import com.oztechan.ccc.android.ui.mobile.util.dataState
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
 import com.oztechan.ccc.android.ui.mobile.util.getFromClipBoard
-import com.oztechan.ccc.android.ui.mobile.util.getNavigationResult
 import com.oztechan.ccc.android.ui.mobile.util.setBackgroundByName
 import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
@@ -57,7 +56,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         binding.observeStates()
         binding.setListeners()
         observeEffects()
-        observeNavigationResults()
     }
 
     override fun onResume() {
@@ -75,13 +73,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         binding.adViewContainer.destroyBanner()
         binding.recyclerViewMain.adapter = null
         super.onDestroyView()
-    }
-
-    private fun observeNavigationResults() = getNavigationResult<String>(
-        CHANGE_BASE_EVENT,
-        R.id.calculatorFragment
-    )?.observe(viewLifecycleOwner) {
-        Logger.i { "CalculatorFragment observeNavigationResults $it" }
     }
 
     private fun FragmentCalculatorBinding.initViews() = viewLifecycleOwner.lifecycleScope.launch {
@@ -206,9 +197,5 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private fun Button.setKeyboardListener() = setOnClickListener {
         calculatorViewModel.event.onKeyPress(text.toString())
-    }
-
-    companion object {
-        const val CHANGE_BASE_EVENT = "change_base"
     }
 }
