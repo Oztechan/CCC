@@ -7,9 +7,10 @@ interface CalculationStorage {
     suspend fun getBase(): String
     suspend fun setBase(value: String)
 
-    suspend fun getPrecision(): Int
-    suspend fun setPrecision(value: Int)
-
+    fun getLastInputFlow(): Flow<String>
     suspend fun getLastInput(): String
     suspend fun setLastInput(value: String)
+
+    suspend fun getPrecision(): Int
+    suspend fun setPrecision(value: Int)
 }
