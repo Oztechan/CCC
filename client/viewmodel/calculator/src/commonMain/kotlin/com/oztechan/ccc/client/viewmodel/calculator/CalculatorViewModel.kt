@@ -42,7 +42,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -68,21 +67,24 @@ class CalculatorViewModel(
     // endregion
 
     init {
-        currencyDataSource.getActiveCurrenciesFlow()
-            .onStart {
-                _state.update {
-                    copy(
-                        currencyList = currencyDataSource.getActiveCurrencies(),
-                        base = calculationStorage.getBase(),
-                        input = calculationStorage.getLastInput(),
-                        loading = true,
-                        isBannerAdVisible = adControlRepository.shouldShowBannerAd()
-                    )
-                }
-                updateConversion()
-                observeBase()
-                observeInput()
+        viewModelScope.launch {
+            _state.update {
+                copy(
+                    currencyList = currencyDataSource.getActiveCurrencies(),
+                    base = calculationStorage.getBase(),
+                    input = calculationStorage.getLastInput(),
+                    symbol = currencyDataSource.getCurrencyByCode(calculationStorage.getBase())?.symbol.orEmpty(),
+                    loading = true,
+                    isBannerAdVisible = adControlRepository.shouldShowBannerAd()
+                )
             }
+
+            observeInput()
+            updateConversion()
+            calculateOutput(calculationStorage.getLastInput())
+        }
+
+        currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
                 Logger.d { "CalculatorViewModel currencyList changed: ${it.joinToString(",")}" }
                 _state.update { copy(currencyList = it) }
@@ -90,15 +92,14 @@ class CalculatorViewModel(
                 analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
             }
             .launchIn(viewModelScope)
-    }
 
-    private fun observeBase() = state.map { it.base }
-        .distinctUntilChanged()
-        .onEach {
-            Logger.d { "CalculatorViewModel observeBase $it" }
-            currentBaseChanged(it, true)
-        }
-        .launchIn(viewModelScope)
+        calculationStorage.getBaseFlow()
+            .onEach {
+                Logger.d { "CalculatorViewModel base changed: $it" }
+                currentBaseChanged(it)
+            }
+            .launchIn(viewModelScope)
+    }
 
     private fun observeInput() = state.map { it.input }
         .distinctUntilChanged()
@@ -188,23 +189,21 @@ class CalculatorViewModel(
         }
     }
 
-    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
-        viewModelScope.launchIgnored {
-            data.conversion = null
-            calculationStorage.setBase(newBase)
-            _state.update {
-                copy(
-                    base = newBase,
-                    input = _state.value.input,
-                    symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
-                )
-            }
-
-            if (shouldTrack) {
-                analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-                analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
-            }
+    private fun currentBaseChanged(newBase: String) = viewModelScope.launchIgnored {
+        data.conversion = null
+        _state.update {
+            copy(
+                base = newBase,
+                input = _state.value.input,
+                symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
+            )
         }
+
+        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+
+        calculateOutput(_state.value.input)
+    }
 
     // region Event
     override fun onKeyPress(key: String) {
@@ -223,10 +222,10 @@ class CalculatorViewModel(
         }
     }
 
-    override fun onItemClick(currency: Currency) = with(currency) {
+    override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onItemClick ${currency.code}" }
 
-        val newInput = rate.toSupportedCharacters().let {
+        val newInput = currency.rate.toSupportedCharacters().let {
             if (it.last() == CHAR_DOT) {
                 it.dropLast(1)
             } else {
@@ -235,11 +234,9 @@ class CalculatorViewModel(
         }
 
         _state.update {
-            copy(
-                base = code,
-                input = newInput
-            )
+            copy(input = newInput)
         }
+        calculationStorage.setBase(currency.code)
     }
 
     override fun onItemImageLongClick(currency: Currency) {

@@ -98,6 +98,9 @@ internal class CalculatorViewModelTest {
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
+        every { calculationStorage.getBaseFlow() }
+            .returns(flowOf(currency1.code))
+
         runTest {
             coEvery { adControlRepository.shouldShowBannerAd() }
                 .returns(shouldShowAds)
@@ -175,6 +178,31 @@ internal class CalculatorViewModelTest {
         assertNotNull(viewModel.data)
         assertNotNull(viewModel.data.conversion)
         assertNotNull(viewModel.data.parser)
+    }
+
+    @Test
+    fun `base changes are observed correctly`() = runTest {
+        coEvery { calculationStorage.getBase() }
+            .returns(currency1.code)
+
+        coEvery { calculationStorage.getBaseFlow() }
+            .returns(flowOf(currency1.code))
+
+        coEvery { backendApiService.getConversion(currency1.code) }
+            .returns(conversion)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertNotNull(viewModel.data.conversion)
+            assertEquals(currency1.code, viewModel.data.conversion!!.base)
+            assertEquals(currency1.code, it.base)
+
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+                .wasInvoked()
+
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+                .wasInvoked()
+        }
     }
 
     @Test
