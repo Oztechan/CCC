@@ -1,74 +1,64 @@
 plugins {
     libs.plugins.apply {
-        id(multiplatform.get().pluginId)
-        id(androidLib.get().pluginId)
+        alias(kotlinMultiplatform)
+        alias(androidLibrary)
         alias(ksp)
     }
 }
 kotlin {
-    @Suppress("OPT_IN_USAGE")
-    targetHierarchy.default()
-
     androidTarget()
 
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(koinCore)
-                    implementation(coroutines)
-                    implementation(kotlinXDateTime)
-                    implementation(kermit)
-                }
+        commonMain.dependencies {
+            libs.common.apply {
+                implementation(koinCore)
+                implementation(coroutines)
+                implementation(kotlinXDateTime)
+                implementation(kermit)
+            }
 
-                Modules.Client.Core.apply {
-                    implementation(project(viewModel))
-                    implementation(project(shared))
-                    implementation(project(analytics))
-                }
+            Modules.Client.Core.apply {
+                implementation(project(viewModel))
+                implementation(project(shared))
+                implementation(project(analytics))
+            }
 
-                Modules.Client.Storage.apply {
-                    implementation(project(app))
-                    implementation(project(calculation))
-                }
+            Modules.Client.Storage.apply {
+                implementation(project(app))
+                implementation(project(calculation))
+            }
 
-                Modules.Client.DataSource.apply {
-                    implementation(project(currency))
-                    implementation(project(watcher))
-                }
-                Modules.Common.DataSource.apply {
-                    implementation(project(conversion))
-                }
-                Modules.Common.Core.apply {
-                    implementation(project(model))
-                }
-                Modules.Client.Service.apply {
-                    implementation(project(backend))
-                }
-                Modules.Client.Repository.apply {
-                    implementation(project(adControl))
-                    implementation(project(appConfig))
-                }
+            Modules.Client.DataSource.apply {
+                implementation(project(currency))
+                implementation(project(watcher))
+            }
+            Modules.Common.DataSource.apply {
+                implementation(project(conversion))
+            }
+            Modules.Common.Core.apply {
+                implementation(project(model))
+            }
+            Modules.Client.Service.apply {
+                implementation(project(backend))
+            }
+            Modules.Client.Repository.apply {
+                implementation(project(adControl))
+                implementation(project(appConfig))
             }
         }
-        val commonTest by getting {
-            dependencies {
-                libs.common.apply {
-                    implementation(test)
-                    implementation(mockative)
-                    implementation(coroutinesTest)
-                }
+        commonTest.dependencies {
+            libs.common.apply {
+                implementation(test)
+                implementation(mockative)
+                implementation(coroutinesTest)
             }
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.android.lifecycleViewmodel)
-            }
+        androidMain.dependencies {
+            implementation(libs.android.lifecycleViewmodel)
         }
     }
 }

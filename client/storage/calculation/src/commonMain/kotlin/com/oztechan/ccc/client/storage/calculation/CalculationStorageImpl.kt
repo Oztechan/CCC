@@ -1,22 +1,33 @@
 package com.oztechan.ccc.client.storage.calculation
 
-import com.oztechan.ccc.client.core.persistence.Persistence
+import com.oztechan.ccc.client.core.persistence.FlowPersistence
+import com.oztechan.ccc.client.core.persistence.SuspendPersistence
+import kotlinx.coroutines.flow.Flow
 
-class CalculationStorageImpl(
-    private val persistence: Persistence
+internal class CalculationStorageImpl(
+    private val suspendPersistence: SuspendPersistence,
+    private val flowPersistence: FlowPersistence
 ) : CalculationStorage {
+    override fun getBaseFlow(): Flow<String> =
+        flowPersistence.getFlow(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
 
-    override var currentBase
-        get() = persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
-        set(value) = persistence.setValue(KEY_CURRENT_BASE, value)
+    override suspend fun getBase(): String =
+        suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
 
-    override var precision: Int
-        get() = persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION)
-        set(value) = persistence.setValue(KEY_PRECISION, value)
+    override suspend fun setBase(value: String) =
+        suspendPersistence.setSuspend(KEY_CURRENT_BASE, value)
 
-    override var lastInput: String
-        get() = persistence.getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT)
-        set(value) = persistence.setValue(KEY_LAST_INPUT, value)
+    override suspend fun getPrecision(): Int =
+        suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION)
+
+    override suspend fun setPrecision(value: Int) =
+        suspendPersistence.setSuspend(KEY_PRECISION, value)
+
+    override suspend fun getLastInput(): String =
+        suspendPersistence.getSuspend(KEY_LAST_INPUT, DEFAULT_LAST_INPUT)
+
+    override suspend fun setLastInput(value: String) =
+        suspendPersistence.setSuspend(KEY_LAST_INPUT, value)
 
     companion object {
         internal const val DEFAULT_CURRENT_BASE = ""

@@ -3,7 +3,7 @@ package com.oztechan.ccc.client.core.shared.util
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class FormatUtilTest {
+internal class FormatUtilTest {
     @Test
     fun toSupportedCharacters() {
         assertEquals("..-", ",٫ −".toSupportedCharacters())

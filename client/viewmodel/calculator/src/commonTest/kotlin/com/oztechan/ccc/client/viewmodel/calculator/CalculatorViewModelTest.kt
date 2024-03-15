@@ -95,22 +95,25 @@ internal class CalculatorViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        every { calculationStorage.currentBase }
-            .returns(currency1.code)
-
-        every { calculationStorage.lastInput }
-            .returns("")
-
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
-        every { calculationStorage.precision }
-            .returns(3)
-
-        every { adControlRepository.shouldShowBannerAd() }
-            .returns(shouldShowAds)
+        every { calculationStorage.getBaseFlow() }
+            .returns(flowOf(currency1.code))
 
         runTest {
+            coEvery { adControlRepository.shouldShowBannerAd() }
+                .returns(shouldShowAds)
+
+            coEvery { calculationStorage.getBase() }
+                .returns(currency1.code)
+
+            coEvery { calculationStorage.getLastInput() }
+                .returns("")
+
+            coEvery { calculationStorage.getPrecision() }
+                .returns(3)
+
             coEvery { currencyDataSource.getActiveCurrencies() }
                 .returns(currencyList)
 
@@ -140,30 +143,65 @@ internal class CalculatorViewModelTest {
             assertNotNull(it)
             assertEquals(currency1.code, it.base)
             assertEquals("", it.input)
+            assertEquals("", it.output)
+            assertEquals(currency1.symbol, it.symbol)
             assertIs<ConversionState.Online>(it.conversionState)
             assertEquals(ConversionState.Online(nowAsDateString()), it.conversionState)
             assertEquals(currencyList, it.currencyList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertFalse { it.loading }
         }
 
-        verify { adControlRepository.shouldShowBannerAd() }
+        coVerify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
     @Test
-    fun `init sets the latest base and input`() = runTest {
+    fun `init updates the latest base and input`() = runTest {
         val mock = "mock"
 
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns(currency1.code)
 
-        every { calculationStorage.lastInput }
+        coEvery { calculationStorage.getLastInput() }
             .returns(mock)
 
         viewModel.state.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency1.code, it.base)
             assertEquals(mock, it.input)
+        }
+    }
+
+    @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertNotNull(viewModel.data.conversion)
+        assertNotNull(viewModel.data.parser)
+    }
+
+    @Test
+    fun `base changes are observed correctly`() = runTest {
+        coEvery { calculationStorage.getBase() }
+            .returns(currency1.code)
+
+        coEvery { calculationStorage.getBaseFlow() }
+            .returns(flowOf(currency1.code))
+
+        coEvery { backendApiService.getConversion(currency1.code) }
+            .returns(conversion)
+
+        viewModel.state.firstOrNull().let {
+            assertNotNull(it)
+            assertNotNull(viewModel.data.conversion)
+            assertEquals(currency1.code, viewModel.data.conversion!!.base)
+            assertEquals(currency1.code, it.base)
+
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+                .wasInvoked()
+
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+                .wasInvoked()
         }
     }
 
@@ -182,7 +220,7 @@ internal class CalculatorViewModelTest {
 
                 val result = currencyList.onEach { currency ->
                     currency.rate = conversion.calculateRate(currency.code, it.output)
-                        .getFormatted(calculationStorage.precision)
+                        .getFormatted(calculationStorage.getPrecision())
                         .toStandardDigits()
                 }
 
@@ -487,30 +525,6 @@ internal class CalculatorViewModelTest {
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(key, it.input)
-        }
-    }
-
-    @Test
-    fun onBaseChanged() = runTest {
-        every { calculationStorage.currentBase }
-            .returns(currency1.code)
-
-        coEvery { backendApiService.getConversion(currency1.code) }
-            .returns(conversion)
-
-        viewModel.state.onSubscription {
-            viewModel.event.onBaseChange(currency1.code)
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertNotNull(viewModel.data.conversion)
-            assertEquals(currency1.code, viewModel.data.conversion!!.base)
-            assertEquals(currency1.code, it.base)
-
-            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
-                .wasInvoked()
-
-            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
-                .wasInvoked()
         }
     }
 }

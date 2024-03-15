@@ -42,6 +42,7 @@ import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
@@ -115,29 +116,31 @@ internal class SettingsViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
-        every { appStorage.appTheme }
-            .returns(-1)
-
-        every { appStorage.premiumEndDate }
-            .returns(0)
-
-        every { calculationStorage.precision }
-            .returns(mockedPrecision)
-
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
         every { watcherDataSource.getWatchersFlow() }
             .returns(flowOf(watcherLists))
 
-        every { adControlRepository.shouldShowBannerAd() }
-            .returns(shouldShowAds)
-
         every { appConfigRepository.getDeviceType() }
             .returns(Device.IOS)
 
         every { appConfigRepository.getVersion() }
             .returns(version)
+
+        runTest {
+            coEvery { appStorage.getPremiumEndDate() }
+                .returns(0)
+
+            coEvery { adControlRepository.shouldShowBannerAd() }
+                .returns(shouldShowAds)
+
+            coEvery { calculationStorage.getPrecision() }
+                .returns(mockedPrecision)
+
+            coEvery { appStorage.getAppTheme() }
+                .returns(-1)
+        }
     }
 
     // init
@@ -151,15 +154,22 @@ internal class SettingsViewModelTest {
             assertEquals(mockedPrecision, it.precision)
             assertEquals(version, it.version)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertIs<PremiumStatus.NeverActivated>(it.premiumStatus)
         }
 
-        verify { adControlRepository.shouldShowBannerAd() }
+        coVerify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
     @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertFalse { viewModel.data.synced }
+    }
+
+    @Test
     fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest {
-        every { appStorage.premiumEndDate }
+        coEvery { appStorage.getPremiumEndDate() }
             .returns(0)
 
         viewModel.state.firstOrNull().let {
@@ -170,7 +180,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is passed PremiumStatus is Expired`() = runTest {
-        every { appStorage.premiumEndDate }
+        coEvery { appStorage.getPremiumEndDate() }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
@@ -181,7 +191,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is not passed PremiumStatus is Active`() = runTest {
-        every { appStorage.premiumEndDate }
+        coEvery { appStorage.getPremiumEndDate() }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
@@ -321,10 +331,10 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Premium>(it)
         }
 
-        verify { appStorage.premiumEndDate }
+        coVerify { appStorage.getPremiumEndDate() }
             .wasInvoked()
 
-        every { appStorage.premiumEndDate }
+        coEvery { appStorage.getPremiumEndDate() }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
@@ -333,7 +343,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
-        verify { appStorage.premiumEndDate }
+        coVerify { appStorage.getPremiumEndDate() }
             .wasInvoked()
     }
 
@@ -389,7 +399,7 @@ internal class SettingsViewModelTest {
 
             println("-----")
 
-            verify { calculationStorage.precision = value.indexToNumber() }
+            coVerify { calculationStorage.setPrecision(value.indexToNumber()) }
                 .wasInvoked()
         }
     }
@@ -406,7 +416,7 @@ internal class SettingsViewModelTest {
             assertEquals(mockTheme.themeValue, it.themeValue)
         }
 
-        verify { appStorage.appTheme = mockTheme.themeValue }
+        coVerify { appStorage.setAppTheme(mockTheme.themeValue) }
             .wasInvoked()
     }
 }

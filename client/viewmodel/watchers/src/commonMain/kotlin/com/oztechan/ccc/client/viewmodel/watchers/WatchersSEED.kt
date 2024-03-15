@@ -7,7 +7,7 @@ import com.oztechan.ccc.client.core.viewmodel.BaseState
 import com.oztechan.ccc.common.core.model.Watcher
 
 data class WatchersState(
-    val isBannerAdVisible: Boolean,
+    val isBannerAdVisible: Boolean = false,
     val watcherList: List<Watcher> = emptyList()
 ) : BaseState
 

@@ -2,7 +2,7 @@
 
 ## Branch
 
-Branch name should start with `ISSUE_ID` and after the id there should be `-` then continues with description of branch or title of ticket. Use `_` for empty spaces.
+Branch name should start with `ISSUE_ID` and after the id there should be `-` and then it continues with description of branch or title of ticket. Use `_` for empty spaces.
 
 Example:
 
@@ -17,7 +17,7 @@ Every commit message should match the following format `[Oztechan/CCC#ISSUE_ID] 
 Example:
 
 ```
-[Oztechan/CCC#123] My cool feature
+[Oztechan/CCC#ISSUE_ID] My cool feature
 ```
 
 ## Pull Request
@@ -38,7 +38,7 @@ Example:
 
 ### Description
 
-Description has to have `Resloves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help automatically close relevant issue once the PR is merged.
+Description has to have `Resolves Oztechan/CCC#ISSUE_ID` with relevant issue. It will help project automations.
 
 Example:
 

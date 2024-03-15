@@ -1,9 +1,9 @@
 package com.oztechan.ccc.client.core.remoteconfig
 
 import co.touchlab.kermit.Logger
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
-import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfig
 
 actual abstract class BaseConfigService<T> actual constructor(
     default: T,

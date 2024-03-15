@@ -5,7 +5,7 @@ import com.oztechan.ccc.client.core.shared.model.AppTheme
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class DeviceUtilTest {
+internal class DeviceUtilTest {
     @Test
     fun getThemeMode() {
         assertEquals(

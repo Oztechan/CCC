@@ -1,6 +1,7 @@
 package com.oztechan.ccc.client.storage.calculation
 
-import com.oztechan.ccc.client.core.persistence.Persistence
+import com.oztechan.ccc.client.core.persistence.FlowPersistence
+import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_PRECISION
@@ -9,81 +10,98 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Compan
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_PRECISION
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.configure
+import io.mockative.coEvery
+import io.mockative.coVerify
 import io.mockative.every
 import io.mockative.mock
-import io.mockative.verify
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class CalculationStorageTest {
     private val subject: CalculationStorage by lazy {
-        CalculationStorageImpl(persistence)
+        CalculationStorageImpl(suspendPersistence, flowPersistence)
     }
 
     @Mock
-    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
+    private val suspendPersistence = mock(classOf<SuspendPersistence>())
+
+    @Mock
+    private val flowPersistence = mock(classOf<FlowPersistence>())
+
+    @Test
+    fun getBaseFlow() = runTest {
+        every { flowPersistence.getFlow(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+            .returns(flowOf(DEFAULT_CURRENT_BASE))
+
+        assertEquals(DEFAULT_CURRENT_BASE, subject.getBaseFlow().first())
+
+        coVerify { flowPersistence.getFlow(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+            .wasInvoked()
+    }
 
     // defaults
     @Test
-    fun `default currentBase`() {
-        every { persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+    fun `get default base`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .returns(DEFAULT_CURRENT_BASE)
 
-        assertEquals(DEFAULT_CURRENT_BASE, subject.currentBase)
+        assertEquals(DEFAULT_CURRENT_BASE, subject.getBase())
 
-        verify { persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+        coVerify { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .wasInvoked()
     }
 
     @Test
-    fun `default precision`() {
-        every { persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION) }
+    fun `get default precision`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
             .returns(DEFAULT_PRECISION)
 
-        assertEquals(DEFAULT_PRECISION, subject.precision)
+        assertEquals(DEFAULT_PRECISION, subject.getPrecision())
 
-        verify { persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION) }
+        coVerify { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
             .wasInvoked()
     }
 
     @Test
-    fun `default lastInput`() {
-        every { persistence.getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+    fun `get default lastInput`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
             .returns(DEFAULT_LAST_INPUT)
 
-        assertEquals(DEFAULT_LAST_INPUT, subject.lastInput)
+        assertEquals(DEFAULT_LAST_INPUT, subject.getLastInput())
 
-        verify { persistence.getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+        coVerify { suspendPersistence.getSuspend(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
             .wasInvoked()
     }
 
     // setters
     @Test
-    fun `set currentBase`() {
+    fun `set base`() = runTest {
         val mockValue = "mock"
-        subject.currentBase = mockValue
+        subject.setBase(mockValue)
 
-        verify { persistence.setValue(KEY_CURRENT_BASE, mockValue) }
+        coVerify { suspendPersistence.setSuspend(KEY_CURRENT_BASE, mockValue) }
             .wasInvoked()
     }
 
     @Test
-    fun `set precision`() {
+    fun `set precision`() = runTest {
         val mockValue = Random.nextInt()
-        subject.precision = mockValue
+        subject.setPrecision(mockValue)
 
-        verify { persistence.setValue(KEY_PRECISION, mockValue) }
+        coVerify { suspendPersistence.setSuspend(KEY_PRECISION, mockValue) }
             .wasInvoked()
     }
 
     @Test
-    fun `set lastInput`() {
+    fun `set lastInput`() = runTest {
         val mockValue = "mock"
-        subject.lastInput = mockValue
+        subject.setLastInput(mockValue)
 
-        verify { persistence.setValue(KEY_LAST_INPUT, mockValue) }
+        coVerify { suspendPersistence.setSuspend(KEY_LAST_INPUT, mockValue) }
             .wasInvoked()
     }
 }

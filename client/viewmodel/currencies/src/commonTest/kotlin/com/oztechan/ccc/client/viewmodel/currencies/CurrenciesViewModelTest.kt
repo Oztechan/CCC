@@ -14,6 +14,7 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import io.mockative.Mock
 import io.mockative.classOf
+import io.mockative.coEvery
 import io.mockative.coVerify
 import io.mockative.configure
 import io.mockative.every
@@ -89,14 +90,16 @@ internal class CurrenciesViewModelTest {
         every { currencyDataSource.getCurrenciesFlow() }
             .returns(currencyListFlow)
 
-        every { appStorage.firstRun }
-            .returns(false)
+        runTest {
+            coEvery { appStorage.isFirstRun() }
+                .returns(false)
 
-        every { calculationStorage.currentBase }
-            .returns(currency1.code)
+            coEvery { adControlRepository.shouldShowBannerAd() }
+                .returns(shouldShowAds)
 
-        every { adControlRepository.shouldShowBannerAd() }
-            .returns(shouldShowAds)
+            coEvery { calculationStorage.getBase() }
+                .returns(currency1.code)
+        }
     }
 
     // Analytics
@@ -143,13 +146,21 @@ internal class CurrenciesViewModelTest {
             assertFalse { it.isOnboardingVisible } // mocked false
             assertEquals(currencyList.toMutableList(), viewModel.data.unFilteredList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertFalse { it.loading }
         }
 
-        verify { adControlRepository.shouldShowBannerAd() }
+        coVerify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
 
-        verify { appStorage.firstRun }
+        coVerify { appStorage.isFirstRun() }
             .wasInvoked()
+    }
+
+    @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertEquals(currencyList, viewModel.data.unFilteredList)
+        assertTrue { viewModel.data.query.isEmpty() }
     }
 
     @Test
@@ -171,7 +182,7 @@ internal class CurrenciesViewModelTest {
     @Test
     fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() =
         runTest {
-            every { calculationStorage.currentBase }
+            coEvery { calculationStorage.getBase() }
                 .returns("") // in order to get ChangeBase effect, have to have an effect to finish test
 
             every { currencyDataSource.getCurrenciesFlow() }
@@ -182,18 +193,19 @@ internal class CurrenciesViewModelTest {
                     }
                 )
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-            }
+            viewModel // init
+
+            coVerify { calculationStorage.setBase(currency1.code) }
+                .wasNotInvoked()
         }
 
     @Test
     fun `don't show FewCurrency effect if there is less than MINIMUM_ACTIVE_CURRENCY it is firstRun`() =
         runTest {
-            every { appStorage.firstRun }
+            coEvery { appStorage.isFirstRun() }
                 .returns(true)
 
-            every { calculationStorage.currentBase }
+            coEvery { calculationStorage.getBase() }
                 .returns("") // in order to get ChangeBase effect, have to have an effect to finish test
 
             every { currencyDataSource.getCurrenciesFlow() }
@@ -204,9 +216,10 @@ internal class CurrenciesViewModelTest {
                     }
                 )
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-            }
+            viewModel // init
+
+            coVerify { calculationStorage.setBase(currency1.code) }
+                .wasNotInvoked()
         }
 
     @Test
@@ -225,22 +238,14 @@ internal class CurrenciesViewModelTest {
             val firstActiveBase = currency1.code // first active currency
 
             every { currencyDataSource.getCurrenciesFlow() }
-                .returns(
-                    flow {
-                        delay(1.seconds.inWholeMilliseconds)
-                        emit(currencyList)
-                    }
-                )
+                .returns(flowOf(currencyList))
 
-            every { calculationStorage.currentBase }
+            coEvery { calculationStorage.getBase() }
                 .returns("")
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(firstActiveBase, it.newBase)
-            }
+            viewModel // init
 
-            verify { calculationStorage.currentBase = firstActiveBase }
+            coVerify { calculationStorage.setBase(firstActiveBase) }
                 .wasInvoked()
         }
 
@@ -250,41 +255,31 @@ internal class CurrenciesViewModelTest {
             currency1 = currency1.copy(isActive = false) // make first item in list not active
 
             every { currencyDataSource.getCurrenciesFlow() }
-                .returns(
-                    flow {
-                        delay(1.seconds.inWholeMilliseconds)
-                        emit(listOf(currency1, currency2, currency3))
-                    }
-                )
+                .returns(flowOf(listOf(currency1, currency2, currency3)))
 
-            every { calculationStorage.currentBase }
+            coEvery { calculationStorage.getBase() }
                 .returns(currency1.code) // not active one
 
-            viewModel.effect.firstOrNull().let {
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(currency2.code, it.newBase)
-            }
+            viewModel // init
 
-            verify { calculationStorage.currentBase = currency2.code }
+            coVerify { calculationStorage.setBase(currency2.code) }
                 .wasInvoked()
         }
 
     // Event
     @Test
-    fun updateAllCurrenciesState() {
-        every { appStorage.firstRun }
+    fun updateAllCurrenciesState() = runTest {
+        coEvery { appStorage.isFirstRun() }
             .returns(false)
 
-        every { calculationStorage.currentBase }
+        coEvery { calculationStorage.getBase() }
             .returns("EUR")
 
         val mockValue = Random.nextBoolean()
         viewModel.event.updateAllCurrenciesState(mockValue)
 
-        runTest {
-            coVerify { currencyDataSource.updateCurrencyStates(mockValue) }
-                .wasInvoked()
-        }
+        coVerify { currencyDataSource.updateCurrencyStates(mockValue) }
+            .wasInvoked()
     }
 
     @Test
@@ -397,7 +392,7 @@ internal class CurrenciesViewModelTest {
 
     @Test
     fun onDoneClick() = runTest {
-        every { appStorage.firstRun }
+        coEvery { appStorage.isFirstRun() }
             .returns(true)
 
         // where there is single currency
@@ -424,7 +419,7 @@ internal class CurrenciesViewModelTest {
 
             assertFalse { viewModel.state.value.isOnboardingVisible }
 
-            verify { appStorage.firstRun = false }
+            coVerify { appStorage.setFirstRun(false) }
                 .wasInvoked()
         }
 

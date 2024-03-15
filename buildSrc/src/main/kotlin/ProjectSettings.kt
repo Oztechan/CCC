@@ -15,9 +15,6 @@ object ProjectSettings {
     private const val VERSION_DIF = 750
     private const val BASE_VERSION_CODE = 937
 
-    const val PROJECT_NAME = "CCC"
-    const val HOMEPAGE = "https://github.com/Oztechan/CCC"
-
     const val PROJECT_ID = "com.oztechan.ccc"
 
     const val ANDROID_APP_ID = "mustafaozhan.github.com.mycurrencies"
@@ -26,8 +23,6 @@ object ProjectSettings {
     const val COMPILE_SDK_VERSION = 34
     const val MIN_SDK_VERSION = 21
     const val TARGET_SDK_VERSION = 33
-
-    const val IOS_DEPLOYMENT_TARGET = "14.0"
 
     val JAVA_VERSION = JavaVersion.VERSION_17
 

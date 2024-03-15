@@ -15,7 +15,7 @@ import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 
-class BaseNetworkServiceTest {
+internal class BaseNetworkServiceTest {
 
     @Suppress("OPT_IN_USAGE")
     private val subject = object : BaseNetworkService(UnconfinedTestDispatcher()) {

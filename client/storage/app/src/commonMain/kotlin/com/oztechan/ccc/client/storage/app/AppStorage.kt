@@ -1,11 +1,15 @@
 package com.oztechan.ccc.client.storage.app
 
 interface AppStorage {
-    var firstRun: Boolean
+    suspend fun isFirstRun(): Boolean
+    suspend fun setFirstRun(value: Boolean)
 
-    var appTheme: Int
+    suspend fun getAppTheme(): Int
+    suspend fun setAppTheme(value: Int)
 
-    var premiumEndDate: Long
+    suspend fun getPremiumEndDate(): Long
+    suspend fun setPremiumEndDate(value: Long)
 
-    var sessionCount: Long
+    suspend fun getSessionCount(): Long
+    suspend fun setSessionCount(value: Long)
 }

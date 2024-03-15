@@ -4,14 +4,14 @@ import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
 
 object Fakes {
-    private const val base = "EUR"
-    private const val date = "12.12.2022"
+    internal const val BASE = "EUR"
+    internal const val DATE = "12.12.2022"
 
     val exchangeRate = ExchangeRate(
-        base,
-        date,
+        BASE,
+        DATE,
         Conversion(
-            "", // not returned from API
+            BASE,
             "", // not returned from API
             1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0,
             13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0,

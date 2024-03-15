@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import com.oztechan.ccc.client.core.remoteconfig.model.UpdateConfig as AppUpdateRCModel
 
-class UpdateConfigMapperTest {
+internal class UpdateConfigMapperTest {
 
     @Test
     fun toUpdateConfigModel() {

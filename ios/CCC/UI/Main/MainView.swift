@@ -18,10 +18,13 @@ struct MainView: View {
             transitionType: .default,
             easing: Animation.easeInOut
         ) {
-            if state.shouldOnboardUser {
+            switch state.shouldOnboardUser {
+            case true:
                 IntroSlideRootView()
-            } else {
+            case false:
                 CalculatorRootView()
+            default:
+                EmptyView()
             }
         }
     }

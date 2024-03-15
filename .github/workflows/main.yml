@@ -65,7 +65,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -84,18 +84,18 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v2.9.0
+        uses: gradle/gradle-build-action@v3.1.0
         with:
           arguments: assemble
 
       - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.3.1
         if: github.event_name == 'push'
         with:
           name: androidArtifacts
@@ -105,11 +105,11 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.4
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeAndroid:
     runs-on: ubuntu-latest
@@ -120,10 +120,10 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
 
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: androidArtifacts
 
@@ -144,13 +144,14 @@ jobs:
           file: huawei/release/app-huawei-release.apk
 
       - name: Delete Android Artifacts
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.1.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: androidArtifacts
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   XCodeBuild:
     runs-on: macos-13
@@ -159,7 +160,7 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
           fetch-depth: 0
@@ -184,7 +185,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
@@ -194,7 +195,7 @@ jobs:
         run: fastlane build
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.3.1
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -204,40 +205,44 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.4
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
-    runs-on: macos-13
+    runs-on: ubuntu-latest
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
 
       - name: Download iOS IPA
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: iOSArtifacts
           path: ios
 
+      # was necessary to use chown to fix permission issues in linux machines
       - name: Distribute
         working-directory: ios
-        run: fastlane distribute
+        run: |
+          sudo chown -R $(whoami) /var/lib/gems/3.0.0
+          fastlane distribute
 
       - name: Delete iOS IPA
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.1.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: iOSArtifacts
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   Quality:
     runs-on: macos-13
@@ -246,34 +251,34 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v2.9.0
+        uses: gradle/gradle-build-action@v3.1.0
         with:
           arguments: check koverXmlReport --parallel
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v3.1.3
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: coverageReport
           path: build/reports/kover/report.xml
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.4
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadQualityReports:
     runs-on: ubuntu-latest
@@ -282,16 +287,16 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
 
       - name: Download Coverage Report
-        uses: actions/download-artifact@v3.0.2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: coverageReport
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3.1.4
+        uses: codecov/codecov-action@v4.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
@@ -303,7 +308,7 @@ jobs:
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.0.2
+        uses: sonarsource/sonarcloud-github-action@v2.1.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -314,13 +319,14 @@ jobs:
             -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
 
       - name: Delete Coverage Report
-        uses: geekyeggo/delete-artifact@v2.0.0
+        uses: geekyeggo/delete-artifact@v4.1.0
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           name: coverageReport
 
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   CodeAnalysis:
     runs-on: ubuntu-latest
@@ -329,18 +335,18 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.1.0
+        uses: actions/checkout@v4.1.1
         with:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3.13.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v2.9.0
+        uses: gradle/gradle-build-action@v3.1.0
         with:
           arguments: detektAll
 
@@ -351,9 +357,13 @@ jobs:
         with:
           args: --strict
 
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.4
+
       - name: Set Job Status
         id: status
-        run: echo "::set-output name=status::success"
+        run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
     runs-on: ubuntu-latest
