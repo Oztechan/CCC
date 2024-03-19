@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
       "state" : {
-        "revision" : "668673ea23b3e71b9f2540d8fb9464c4dc32ecc0",
-        "version" : "2.2.0"
+        "revision" : "cfe8b2ae16b9bc81f4cdf1d1a12a01a452489c32",
+        "version" : "2.3.0"
       }
     },
     {
