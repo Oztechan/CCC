@@ -8,7 +8,8 @@ let package = Package(
     products: [
         .library(
             name: "CCC",
-            targets: ["CCC"]),
+            targets: ["CCC"]
+        )
     ],
     dependencies: [
         .package(
