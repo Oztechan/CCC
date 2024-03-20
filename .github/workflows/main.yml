@@ -84,13 +84,13 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4.0.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v3.0.0
+        uses: gradle/gradle-build-action@v3.1.0
         with:
           arguments: assemble
 
@@ -123,7 +123,7 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v4.1.2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: androidArtifacts
 
@@ -185,7 +185,7 @@ jobs:
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4.0.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
@@ -222,7 +222,7 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Download iOS IPA
-        uses: actions/download-artifact@v4.1.2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: iOSArtifacts
           path: ios
@@ -256,13 +256,13 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4.0.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v3.0.0
+        uses: gradle/gradle-build-action@v3.1.0
         with:
           arguments: check koverMergedXmlReport --parallel
 
@@ -290,13 +290,13 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Download Coverage Report
-        uses: actions/download-artifact@v4.1.2
+        uses: actions/download-artifact@v4.1.4
         with:
           name: coverageReport
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.0.1
+        uses: codecov/codecov-action@v4.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
@@ -340,13 +340,13 @@ jobs:
           submodules: 'recursive'
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4.0.0
+        uses: actions/setup-java@v4.2.1
         with:
           java-version: 17
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v3.0.0
+        uses: gradle/gradle-build-action@v3.1.0
         with:
           arguments: detektAll
 
