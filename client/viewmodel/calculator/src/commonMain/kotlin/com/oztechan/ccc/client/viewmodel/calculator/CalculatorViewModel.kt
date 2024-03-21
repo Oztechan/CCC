@@ -38,10 +38,10 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
@@ -67,6 +67,32 @@ class CalculatorViewModel(
     // endregion
 
     init {
+        combine(
+            currencyDataSource.getActiveCurrenciesFlow(),
+            calculationStorage.getBaseFlow(),
+            state.map { it.input }.distinctUntilChanged(),
+        ) { activeCurrencies, base, input ->
+            Logger.d {
+                """
+                CalculatorViewModel combined values:
+                base: $base, input: $input, activeCurrencies: ${activeCurrencies.joinToString(",") { it.code }}
+                """.trimIndent()
+            }
+
+            _state.update { copy(currencyList = activeCurrencies) }
+
+            analyticsManager.setUserProperty(
+                UserProperty.CurrencyCount(activeCurrencies.count().toString())
+            )
+
+            if (state.value.base != base) {
+                currentBaseChanged(base, input)
+            }
+
+            calculateOutput(input)
+            calculationStorage.setLastInput(input)
+        }.launchIn(viewModelScope)
+
         viewModelScope.launch {
             _state.update {
                 copy(
@@ -78,37 +104,8 @@ class CalculatorViewModel(
                     isBannerAdVisible = adControlRepository.shouldShowBannerAd()
                 )
             }
-
-            observeInput()
-            updateConversion()
-            calculateOutput(calculationStorage.getLastInput())
         }
-
-        currencyDataSource.getActiveCurrenciesFlow()
-            .onEach {
-                Logger.d { "CalculatorViewModel currencyList changed: ${it.joinToString(",")}" }
-                _state.update { copy(currencyList = it) }
-
-                analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
-            }
-            .launchIn(viewModelScope)
-
-        calculationStorage.getBaseFlow()
-            .onEach {
-                Logger.d { "CalculatorViewModel base changed: $it" }
-                currentBaseChanged(it)
-            }
-            .launchIn(viewModelScope)
     }
-
-    private fun observeInput() = state.map { it.input }
-        .distinctUntilChanged()
-        .onEach {
-            Logger.d { "CalculatorViewModel observeInput $it" }
-            calculationStorage.setLastInput(it)
-            calculateOutput(it)
-        }
-        .launchIn(viewModelScope)
 
     private suspend fun updateConversion() {
         _state.update { copy(loading = true) }
@@ -189,20 +186,19 @@ class CalculatorViewModel(
         }
     }
 
-    private fun currentBaseChanged(newBase: String) = viewModelScope.launchIgnored {
+    private fun currentBaseChanged(newBase: String, input: String) = viewModelScope.launchIgnored {
+        Logger.d { "CalculatorViewModel currentBaseChanged $newBase" }
         data.conversion = null
         _state.update {
             copy(
                 base = newBase,
-                input = _state.value.input,
+                input = input,
                 symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
             )
         }
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
-
-        calculateOutput(_state.value.input)
     }
 
     // region Event
