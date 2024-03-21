@@ -43,6 +43,17 @@ internal class CalculationStorageTest {
             .wasInvoked()
     }
 
+    @Test
+    fun getLastInputFlow() = runTest {
+        every { flowPersistence.getFlow(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+            .returns(flowOf(DEFAULT_LAST_INPUT))
+
+        assertEquals(DEFAULT_LAST_INPUT, subject.getLastInputFlow().first())
+
+        coVerify { flowPersistence.getFlow(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
+            .wasInvoked()
+    }
+
     // defaults
     @Test
     fun `get default base`() = runTest {
@@ -52,17 +63,6 @@ internal class CalculationStorageTest {
         assertEquals(DEFAULT_CURRENT_BASE, subject.getBase())
 
         coVerify { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
-            .wasInvoked()
-    }
-
-    @Test
-    fun `get default precision`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
-            .returns(DEFAULT_PRECISION)
-
-        assertEquals(DEFAULT_PRECISION, subject.getPrecision())
-
-        coVerify { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
             .wasInvoked()
     }
 
@@ -77,6 +77,17 @@ internal class CalculationStorageTest {
             .wasInvoked()
     }
 
+    @Test
+    fun `get default precision`() = runTest {
+        coEvery { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
+            .returns(DEFAULT_PRECISION)
+
+        assertEquals(DEFAULT_PRECISION, subject.getPrecision())
+
+        coVerify { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
+            .wasInvoked()
+    }
+
     // setters
     @Test
     fun `set base`() = runTest {
@@ -88,20 +99,20 @@ internal class CalculationStorageTest {
     }
 
     @Test
-    fun `set precision`() = runTest {
-        val mockValue = Random.nextInt()
-        subject.setPrecision(mockValue)
-
-        coVerify { suspendPersistence.setSuspend(KEY_PRECISION, mockValue) }
-            .wasInvoked()
-    }
-
-    @Test
     fun `set lastInput`() = runTest {
         val mockValue = "mock"
         subject.setLastInput(mockValue)
 
         coVerify { suspendPersistence.setSuspend(KEY_LAST_INPUT, mockValue) }
+            .wasInvoked()
+    }
+
+    @Test
+    fun `set precision`() = runTest {
+        val mockValue = Random.nextInt()
+        subject.setPrecision(mockValue)
+
+        coVerify { suspendPersistence.setSuspend(KEY_PRECISION, mockValue) }
             .wasInvoked()
     }
 }
