@@ -34,6 +34,7 @@ import com.oztechan.ccc.client.viewmodel.calculator.util.getConversionStringFrom
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -73,10 +74,8 @@ class CalculatorViewModel(
             state.map { it.input }.distinctUntilChanged(),
         ) { activeCurrencies, base, input ->
             Logger.d {
-                """
-                CalculatorViewModel combined values:
-                base: $base, input: $input, activeCurrencies: ${activeCurrencies.joinToString(",") { it.code }}
-                """.trimIndent()
+                "CalculatorViewModel combined: " +
+                    "base: $base, input: $input, activeCurrencies: ${activeCurrencies.joinToString(",") { it.code }}"
             }
 
             _state.update { copy(currencyList = activeCurrencies) }
@@ -232,6 +231,10 @@ class CalculatorViewModel(
         _state.update {
             copy(input = newInput)
         }
+
+        @Suppress("MagicNumber")
+        delay(100)
+
         calculationStorage.setBase(currency.code)
     }
 
