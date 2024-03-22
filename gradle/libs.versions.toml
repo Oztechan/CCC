@@ -71,7 +71,6 @@ android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", ver
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 android-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
-android-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
 android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 android-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
