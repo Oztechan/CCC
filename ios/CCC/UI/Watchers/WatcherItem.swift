@@ -16,9 +16,6 @@ struct WatcherItem: View {
     @State private var relationSelection = 0
     @State private var amount = ""
 
-    @Binding var isBaseBarShown: Bool
-    @Binding var isTargetBarShown: Bool
-
     let watcher: Provider.Watcher
     let event: WatchersEvent
 

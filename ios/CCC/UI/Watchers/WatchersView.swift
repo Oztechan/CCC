@@ -33,8 +33,6 @@ struct WatchersView: View {
                     Form {
                         List(state.watcherList, id: \.id) { watcher in
                             WatcherItem(
-                                isBaseBarShown: $baseBarInfo.isShown,
-                                isTargetBarShown: $targetBarInfo.isShown,
                                 watcher: watcher,
                                 event: event
                             )
