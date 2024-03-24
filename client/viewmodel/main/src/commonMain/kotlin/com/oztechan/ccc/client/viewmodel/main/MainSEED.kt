@@ -9,7 +9,7 @@ import kotlinx.coroutines.Job
 // State
 data class MainState(
     var shouldOnboardUser: Boolean,
-    var appTheme: Int? = null
+    var appTheme: Int
 ) : BaseState
 
 // Effect

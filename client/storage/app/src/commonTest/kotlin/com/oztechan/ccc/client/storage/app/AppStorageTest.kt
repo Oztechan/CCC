@@ -1,7 +1,6 @@
 package com.oztechan.ccc.client.storage.app
 
 import com.oztechan.ccc.client.core.persistence.Persistence
-import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_PREMIUM_END_DATE
@@ -12,13 +11,10 @@ import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_PREMIUM_
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_SESSION_COUNT
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
 import io.mockative.configure
 import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
-import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -26,14 +22,11 @@ import kotlin.test.assertEquals
 internal class AppStorageTest {
 
     private val subject: AppStorage by lazy {
-        AppStorageImpl(persistence, suspendPersistence)
+        AppStorageImpl(persistence)
     }
 
     @Mock
     private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
-
-    @Mock
-    private val suspendPersistence = mock(classOf<SuspendPersistence>())
 
     // defaults
     @Test
@@ -48,13 +41,13 @@ internal class AppStorageTest {
     }
 
     @Test
-    fun `get default appTheme`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME) }
+    fun `default appTheme`() {
+        every { persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .returns(DEFAULT_APP_THEME)
 
-        assertEquals(DEFAULT_APP_THEME, subject.getAppTheme())
+        assertEquals(DEFAULT_APP_THEME, subject.appTheme)
 
-        coVerify { suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME) }
+        verify { persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .wasInvoked()
     }
 
@@ -91,11 +84,11 @@ internal class AppStorageTest {
     }
 
     @Test
-    fun `set appTheme`() = runTest {
+    fun `set appTheme`() {
         val mockValue = Random.nextInt()
-        subject.setAppTheme(mockValue)
+        subject.appTheme = mockValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_APP_THEME, mockValue) }
+        verify { persistence.setValue(KEY_APP_THEME, mockValue) }
             .wasInvoked()
     }
 
