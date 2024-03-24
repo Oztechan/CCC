@@ -16,7 +16,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Modules.Common.Core.infrastructure))
             libs.common.apply {
                 implementation(koinCore)
                 implementation(coroutines)
