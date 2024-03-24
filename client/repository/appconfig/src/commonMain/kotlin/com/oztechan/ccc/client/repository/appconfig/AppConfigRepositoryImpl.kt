@@ -27,8 +27,8 @@ internal class AppConfigRepositoryImpl(
             it.updateForceVersion > BuildKonfig.versionCode
         } ?: run { null } // do not show
 
-    override suspend fun shouldShowAppReview(): Boolean = reviewConfigService.config
-        .whether { appStorage.getSessionCount() > it.appReviewSessionCount }
+    override fun shouldShowAppReview(): Boolean = reviewConfigService.config
+        .whether { appStorage.sessionCount > it.appReviewSessionCount }
         ?.mapTo { true }
         ?: false
 

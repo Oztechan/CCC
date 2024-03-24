@@ -59,7 +59,7 @@ class MainViewModel(
                         appStorage.getPremiumEndDate().isNotPassed().toString()
                     )
                 )
-                setUserProperty(UserProperty.SessionCount(appStorage.getSessionCount().toString()))
+                setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
                 setUserProperty(
                     UserProperty.AppTheme(
                         AppTheme.getAnalyticsThemeName(
@@ -88,9 +88,9 @@ class MainViewModel(
         }
     }
 
-    private suspend fun adjustSessionCount() {
+    private fun adjustSessionCount() {
         if (data.isNewSession) {
-            appStorage.setSessionCount(appStorage.getSessionCount() + 1)
+            appStorage.sessionCount++
             data.isNewSession = false
         }
     }
@@ -109,7 +109,7 @@ class MainViewModel(
         }
     }
 
-    private suspend fun checkReview() {
+    private fun checkReview() {
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
                 delay(reviewConfigService.config.appReviewDialogDelay)

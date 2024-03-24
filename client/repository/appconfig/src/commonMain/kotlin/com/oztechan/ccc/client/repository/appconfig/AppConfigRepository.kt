@@ -10,7 +10,7 @@ interface AppConfigRepository {
 
     fun checkAppUpdate(isAppUpdateShown: Boolean): Boolean?
 
-    suspend fun shouldShowAppReview(): Boolean
+    fun shouldShowAppReview(): Boolean
 
     fun getVersion(): String
 }
