@@ -24,7 +24,7 @@ struct BugReportSlideRootView: View {
             subTitle1: String(\.slide_bug_report_text_1),
             subTitle2: String(\.slide_bug_report_text_2),
             buttonText: String(\.got_it),
-            buttonAction: { navigationStack.push(CurrenciesRootView()) }
+            buttonAction: { navigationStack.push(CurrenciesRootView(onBaseChange: { _ in })) }
         )
         .onAppear {
             analyticsManager.trackScreen(screenName: ScreenName.Slider(position: 2))

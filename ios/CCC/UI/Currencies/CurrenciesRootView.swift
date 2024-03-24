@@ -24,6 +24,8 @@ struct CurrenciesRootView: View {
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
+    var onBaseChange: (String) -> Void
+
     var body: some View {
         CurrenciesView(
             event: observable.event,
@@ -48,6 +50,8 @@ struct CurrenciesRootView: View {
             navigationStack.push(CalculatorRootView())
         case is CurrenciesEffect.Back:
             navigationStack.pop()
+        case let changeBaseEffect as CurrenciesEffect.ChangeBase:
+            onBaseChange(changeBaseEffect.newBase)
         default:
             logger.i(message: { "CurrenciesRootView unknown effect" })
         }

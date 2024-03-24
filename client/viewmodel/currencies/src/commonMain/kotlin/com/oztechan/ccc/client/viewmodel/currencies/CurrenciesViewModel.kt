@@ -101,6 +101,8 @@ class CurrenciesViewModel(
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+
+        _effect.emit(CurrenciesEffect.ChangeBase(newBase))
     }
 
     private fun filterList(txt: String) = data.unFilteredList

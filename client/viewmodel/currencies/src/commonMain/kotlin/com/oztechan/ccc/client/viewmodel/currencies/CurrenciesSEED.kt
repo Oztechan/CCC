@@ -30,6 +30,7 @@ sealed class CurrenciesEffect : BaseEffect {
     data object FewCurrency : CurrenciesEffect()
     data object OpenCalculator : CurrenciesEffect()
     data object Back : CurrenciesEffect()
+    data class ChangeBase(val newBase: String) : CurrenciesEffect()
 }
 
 // Data
