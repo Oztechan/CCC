@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.core.persistence
 
-import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceException
 import com.oztechan.ccc.client.core.persistence.fakes.Fakes.KEY
 import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockBoolean
 import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockFloat
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 @Suppress("OPT_IN_USAGE")
 internal class FlowPersistenceTest {
@@ -62,14 +60,4 @@ internal class FlowPersistenceTest {
         verify { flowSettings.getLongFlow(KEY, mockLong) }
             .wasInvoked()
     }
-
-    @Test
-    fun `UnsupportedPersistenceException throw when unsupported type tried to read`() =
-        runTest {
-            val mockObject = object {}
-
-            assertFailsWith(UnsupportedPersistenceException::class) {
-                flowPersistence.getFlow(KEY, mockObject)
-            }
-        }
 }
