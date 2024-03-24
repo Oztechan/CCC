@@ -12,11 +12,9 @@ class CalculationStorageImpl(
         get() = persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
         set(value) = persistence.setValue(KEY_CURRENT_BASE, value)
 
-    override suspend fun getPrecision(): Int =
-        suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION)
-
-    override suspend fun setPrecision(value: Int) =
-        suspendPersistence.setSuspend(KEY_PRECISION, value)
+    override var precision: Int
+        get() = persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION)
+        set(value) = persistence.setValue(KEY_PRECISION, value)
 
     override suspend fun getLastInput(): String =
         suspendPersistence.getSuspend(KEY_LAST_INPUT, DEFAULT_LAST_INPUT)

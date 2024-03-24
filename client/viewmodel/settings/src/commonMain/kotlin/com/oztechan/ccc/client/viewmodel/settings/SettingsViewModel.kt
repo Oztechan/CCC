@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
@@ -58,15 +57,13 @@ class SettingsViewModel(
     // endregion
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                copy(
-                    appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
-                    premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
-                    precision = calculationStorage.getPrecision(),
-                    version = appConfigRepository.getVersion()
-                )
-            }
+        _state.update {
+            copy(
+                appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
+                premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
+                precision = calculationStorage.precision,
+                version = appConfigRepository.getVersion()
+            )
         }
 
         currencyDataSource.getActiveCurrenciesFlow()
@@ -170,12 +167,10 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.SelectPrecision)
     }
 
-    override fun onPrecisionSelect(index: Int) = viewModelScope.launchIgnored {
+    override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
-        index.indexToNumber().let {
-            calculationStorage.setPrecision(it)
-            _state.update { copy(precision = it) }
-        }
+        calculationStorage.precision = index.indexToNumber()
+        _state.update { copy(precision = index.indexToNumber()) }
     }
 
     override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {

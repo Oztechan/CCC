@@ -109,7 +109,7 @@ class CalculatorViewModel(
         }
         .launchIn(viewModelScope)
 
-    private suspend fun updateConversion() {
+    private fun updateConversion() {
         _state.update { copy(loading = true) }
 
         data.conversion?.let {
@@ -125,8 +125,9 @@ class CalculatorViewModel(
         conversion.copy(date = nowAsDateString())
             .let {
                 data.conversion = it
+                calculateConversions(it, ConversionState.Online(it.date))
+
                 viewModelScope.launch {
-                    calculateConversions(it, ConversionState.Online(it.date))
                     conversionDataSource.insertConversion(it)
                 }
             }
@@ -146,14 +147,12 @@ class CalculatorViewModel(
         }
     }
 
-    private suspend fun calculateConversions(
-        conversion: Conversion?,
-        conversionState: ConversionState
-    ) = _state.update {
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) =
+        _state.update {
         copy(
             currencyList = _state.value.currencyList.onEach {
                 it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculationStorage.getPrecision())
+                    .getFormatted(calculationStorage.precision)
                     .toStandardDigits()
             },
             conversionState = conversionState,
@@ -164,7 +163,7 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = viewModelScope.launch {
         val output = data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
-            .mapTo { if (isFinite()) getFormatted(calculationStorage.getPrecision()) else "" }
+            .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
 
         _state.update { copy(output = output) }
 

@@ -45,13 +45,13 @@ internal class CalculationStorageTest {
     }
 
     @Test
-    fun `default precision`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
+    fun `default precision`() {
+        every { persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION) }
             .returns(DEFAULT_PRECISION)
 
-        assertEquals(DEFAULT_PRECISION, subject.getPrecision())
+        assertEquals(DEFAULT_PRECISION, subject.precision)
 
-        coVerify { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
+        verify { persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION) }
             .wasInvoked()
     }
 
@@ -77,11 +77,11 @@ internal class CalculationStorageTest {
     }
 
     @Test
-    fun `set precision`() = runTest {
+    fun `set precision`() {
         val mockValue = Random.nextInt()
-        subject.setPrecision(mockValue)
+        subject.precision = mockValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_PRECISION, mockValue) }
+        verify { persistence.setValue(KEY_PRECISION, mockValue) }
             .wasInvoked()
     }
 
