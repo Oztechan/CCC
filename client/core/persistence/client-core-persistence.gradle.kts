@@ -16,16 +16,13 @@ kotlin {
         commonMain.dependencies {
             libs.common.apply {
                 implementation(koinCore)
-                implementation(coroutines)
                 implementation(multiplatformSettings)
-                implementation(multiplatformSettingsCoroutines)
             }
         }
         commonTest.dependencies {
             libs.common.apply {
                 implementation(test)
                 implementation(mockative)
-                implementation(coroutinesTest)
             }
         }
     }
