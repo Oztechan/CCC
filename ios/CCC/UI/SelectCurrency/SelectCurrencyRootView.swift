@@ -40,7 +40,7 @@ struct SelectCurrencyRootView: View {
     private func onEffect(effect: SelectCurrencyEffect) {
         logger.i(message: { "SelectCurrencyRootView onEffect \(effect.description)" })
         switch effect {
-        case is SelectCurrencyEffect.DismissDialog:
+        case let currencyChangeEffect as SelectCurrencyEffect.DismissDialog:
             isBarShown = false
         case is SelectCurrencyEffect.OpenCurrencies:
             navigationStack.push(CurrenciesRootView())
