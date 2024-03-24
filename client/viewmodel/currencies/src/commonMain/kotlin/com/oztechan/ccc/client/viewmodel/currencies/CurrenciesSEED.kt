@@ -8,8 +8,8 @@ import com.oztechan.ccc.common.core.model.Currency
 
 // State
 data class CurrenciesState(
-    val isBannerAdVisible: Boolean = false,
-    val isOnboardingVisible: Boolean = false,
+    val isBannerAdVisible: Boolean,
+    val isOnboardingVisible: Boolean,
     val currencyList: List<Currency> = listOf(),
     val loading: Boolean = true,
     val selectionVisibility: Boolean = false
@@ -30,6 +30,7 @@ sealed class CurrenciesEffect : BaseEffect {
     data object FewCurrency : CurrenciesEffect()
     data object OpenCalculator : CurrenciesEffect()
     data object Back : CurrenciesEffect()
+    data class ChangeBase(val newBase: String) : CurrenciesEffect()
 }
 
 // Data

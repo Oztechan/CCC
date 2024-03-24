@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
@@ -39,7 +38,12 @@ class CurrenciesViewModel(
 ) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(),
     CurrenciesEvent {
     // region SEED
-    private val _state = MutableStateFlow(CurrenciesState())
+    private val _state = MutableStateFlow(
+        CurrenciesState(
+            isBannerAdVisible = adControlRepository.shouldShowBannerAd(),
+            isOnboardingVisible = appStorage.firstRun
+        )
+    )
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<CurrenciesEffect>()
@@ -51,14 +55,6 @@ class CurrenciesViewModel(
     // endregion
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                copy(
-                    isOnboardingVisible = appStorage.isFirstRun(),
-                    isBannerAdVisible = adControlRepository.shouldShowBannerAd()
-                )
-            }
-        }
         currencyDataSource.getCurrenciesFlow()
             .onEach { currencyList ->
 
@@ -84,10 +80,10 @@ class CurrenciesViewModel(
     private suspend fun verifyListSize() = data.unFilteredList
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
-        ?.whetherNot { appStorage.isFirstRun() }
+        ?.whetherNot { appStorage.firstRun }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private suspend fun verifyCurrentBase() = calculationStorage.getBase().either(
+    private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -97,10 +93,12 @@ class CurrenciesViewModel(
     )?.mapTo {
         state.value.currencyList.firstOrNull { it.isActive }?.code.orEmpty()
     }?.let { newBase ->
-        calculationStorage.setBase(newBase)
+        calculationStorage.currentBase = newBase
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+
+        _effect.emit(CurrenciesEffect.ChangeBase(newBase))
     }
 
     private fun filterList(txt: String) = data.unFilteredList
@@ -133,7 +131,7 @@ class CurrenciesViewModel(
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
-                appStorage.setFirstRun(false)
+                appStorage.firstRun = false
                 _state.update { copy(isOnboardingVisible = false) }
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)

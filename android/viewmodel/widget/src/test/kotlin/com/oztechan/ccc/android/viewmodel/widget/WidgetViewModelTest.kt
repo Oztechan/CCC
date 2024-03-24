@@ -18,7 +18,9 @@ import io.mockative.classOf
 import io.mockative.coEvery
 import io.mockative.coVerify
 import io.mockative.configure
+import io.mockative.every
 import io.mockative.mock
+import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
@@ -80,16 +82,16 @@ internal class WidgetViewModelTest {
 
         val mockEndDate = Random.nextLong()
 
+        every { appStorage.premiumEndDate }
+            .returns(mockEndDate)
+
+        every { calculationStorage.currentBase }
+            .returns(base)
+
+        every { calculationStorage.precision }
+            .returns(3)
+
         runTest {
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(mockEndDate)
-
-            coEvery { calculationStorage.getPrecision() }
-                .returns(3)
-
-            coEvery { calculationStorage.getBase() }
-                .returns(base)
-
             coEvery { backendApiService.getConversion(base) }
                 .returns(conversion)
 
@@ -101,7 +103,7 @@ internal class WidgetViewModelTest {
     @Test
     fun `ArrayIndexOutOfBoundsException never thrown`() = runTest {
         // first currency
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(firstBase)
 
         coEvery { backendApiService.getConversion(firstBase) }
@@ -118,7 +120,7 @@ internal class WidgetViewModelTest {
         }
 
         // middle currency
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(base)
 
         coEvery { backendApiService.getConversion(base) }
@@ -135,7 +137,7 @@ internal class WidgetViewModelTest {
         }
 
         // last currency
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(lastBase)
 
         coEvery { backendApiService.getConversion(lastBase) }
@@ -159,7 +161,7 @@ internal class WidgetViewModelTest {
             assertTrue { it.currencyList.isEmpty() }
             assertEquals("", it.lastUpdate)
             assertEquals(base, it.currentBase)
-            assertEquals(appStorage.getPremiumEndDate().isNotPassed(), it.isPremium)
+            assertEquals(appStorage.premiumEndDate.isNotPassed(), it.isPremium)
         }
     }
 
@@ -170,7 +172,7 @@ internal class WidgetViewModelTest {
 
     @Test
     fun `if user is premium api call and db query are invoked`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -184,7 +186,7 @@ internal class WidgetViewModelTest {
 
     @Test
     fun `if user is not premium no api call and db query are not invoked`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -199,7 +201,7 @@ internal class WidgetViewModelTest {
     @Test
     fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() =
         runTest {
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
             viewModel.state.onSubscription {
@@ -209,10 +211,7 @@ internal class WidgetViewModelTest {
                 it.currencyList.forEach { currency ->
                     conversion.getRateFromCode(currency.code).let { rate ->
                         assertNotNull(rate)
-                        assertEquals(
-                            rate.getFormatted(calculationStorage.getPrecision()),
-                            currency.rate
-                        )
+                        assertEquals(rate.getFormatted(calculationStorage.precision), currency.rate)
                     }
                 }
             }
@@ -221,7 +220,7 @@ internal class WidgetViewModelTest {
     @Test
     fun `when onRefreshClick called with null, base is not updated`() = runTest {
         // to not invoke getFreshWidgetData
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -229,7 +228,7 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasNotInvoked()
 
-        coVerify { calculationStorage.setBase(any<String>()) }
+        verify { calculationStorage.currentBase = any<String>() }
             .wasNotInvoked()
     }
 
@@ -237,7 +236,7 @@ internal class WidgetViewModelTest {
     @Test
     fun onNextClick() = runTest {
         // when onNextClick, base is updated next or the first active currency
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onNextClick()
@@ -245,10 +244,10 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        coVerify { calculationStorage.setBase(lastBase) }
+        verify { calculationStorage.currentBase = lastBase }
             .wasInvoked()
 
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(lastBase)
 
         viewModel.event.onNextClick()
@@ -256,14 +255,14 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        coVerify { calculationStorage.setBase(firstBase) }
+        verify { calculationStorage.currentBase = firstBase }
             .wasInvoked()
     }
 
     @Test
     fun onPreviousClick() = runTest {
         // when onRefreshClick, base is updated previous or the last active currency
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onPreviousClick()
@@ -271,10 +270,10 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        coVerify { calculationStorage.setBase(firstBase) }
+        verify { calculationStorage.currentBase = firstBase }
             .wasInvoked()
 
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(firstBase)
 
         viewModel.event.onPreviousClick()
@@ -282,13 +281,13 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        coVerify { calculationStorage.setBase(lastBase) }
+        verify { calculationStorage.currentBase = lastBase }
             .wasInvoked()
     }
 
     @Test
     fun onRefreshClick() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -299,7 +298,7 @@ internal class WidgetViewModelTest {
         coVerify { currencyDataSource.getActiveCurrencies() }
             .wasInvoked()
 
-        coVerify { calculationStorage.getBase() }
+        verify { calculationStorage.currentBase }
             .wasInvoked()
     }
 

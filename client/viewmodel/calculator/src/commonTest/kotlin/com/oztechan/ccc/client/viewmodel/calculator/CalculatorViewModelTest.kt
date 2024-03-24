@@ -34,7 +34,6 @@ import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onSubscription
@@ -48,8 +47,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 internal class CalculatorViewModelTest {
 
@@ -98,25 +95,22 @@ internal class CalculatorViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
+
+        every { calculationStorage.lastInput }
+            .returns("")
+
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
-        every { calculationStorage.getBaseFlow() }
-            .returns(flowOf(currency1.code))
+        every { calculationStorage.precision }
+            .returns(3)
+
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
 
         runTest {
-            coEvery { adControlRepository.shouldShowBannerAd() }
-                .returns(shouldShowAds)
-
-            coEvery { calculationStorage.getBase() }
-                .returns(currency1.code)
-
-            coEvery { calculationStorage.getLastInput() }
-                .returns("")
-
-            coEvery { calculationStorage.getPrecision() }
-                .returns(3)
-
             coEvery { currencyDataSource.getActiveCurrencies() }
                 .returns(currencyList)
 
@@ -152,10 +146,10 @@ internal class CalculatorViewModelTest {
             assertEquals(ConversionState.Online(nowAsDateString()), it.conversionState)
             assertEquals(currencyList, it.currencyList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
-            assertTrue { it.loading }
+            assertFalse { it.loading }
         }
 
-        coVerify { adControlRepository.shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
@@ -163,10 +157,10 @@ internal class CalculatorViewModelTest {
     fun `init updates the latest base and input`() = runTest {
         val mock = "mock"
 
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(currency1.code)
 
-        coEvery { calculationStorage.getLastInput() }
+        every { calculationStorage.lastInput }
             .returns(mock)
 
         viewModel.state.firstOrNull().let {
@@ -184,31 +178,6 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `base changes are observed correctly`() = runTest {
-        coEvery { calculationStorage.getBase() }
-            .returns(currency1.code)
-
-        coEvery { calculationStorage.getBaseFlow() }
-            .returns(flowOf(currency1.code))
-
-        coEvery { backendApiService.getConversion(currency1.code) }
-            .returns(conversion)
-
-        viewModel.state.firstOrNull().let {
-            assertNotNull(it)
-            assertNotNull(viewModel.data.conversion)
-            assertEquals(currency1.code, viewModel.data.conversion!!.base)
-            assertEquals(currency1.code, it.base)
-
-            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
-                .wasInvoked()
-
-            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
-                .wasInvoked()
-        }
-    }
-
-    @Test
     fun `when api fails and there is conversion in db then conversion rates are calculated`() =
         runTest {
             coEvery { backendApiService.getConversion(currency1.code) }
@@ -223,7 +192,7 @@ internal class CalculatorViewModelTest {
 
                 val result = currencyList.onEach { currency ->
                     currency.rate = conversion.calculateRate(currency.code, it.output)
-                        .getFormatted(calculationStorage.getPrecision())
+                        .getFormatted(calculationStorage.precision)
                         .toStandardDigits()
                 }
 
@@ -259,29 +228,32 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `when there is few currency app doesn't make API call or search in DB`() = runTest {
-        every { currencyDataSource.getActiveCurrenciesFlow() }
-            .returns(flowOf(listOf(currency1)))
+    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() =
+        runTest {
+            coEvery { backendApiService.getConversion(currency1.code) }
+                .throws(Exception())
 
-        viewModel.effect.onSubscription {
-            viewModel.event.onKeyPress("1") // trigger api call
-        }.firstOrNull().let {
-            assertIs<CalculatorEffect.FewCurrency>(it)
+            coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+                .returns(null)
 
-            viewModel.state.value.let { state ->
-                assertNotNull(state)
-                assertFalse { state.loading }
-                assertNull(viewModel.data.conversion)
-                assertEquals(ConversionState.None, state.conversionState)
+            every { currencyDataSource.getActiveCurrenciesFlow() }
+                .returns(flowOf(listOf(currency1)))
+
+            viewModel.effect.onSubscription {
+                viewModel.event.onKeyPress("1") // trigger api call
+            }.firstOrNull().let {
+                assertIs<CalculatorEffect.FewCurrency>(it)
+
+                viewModel.state.value.let { state ->
+                    assertNotNull(state)
+                    assertFalse { state.loading }
+                    assertEquals(ConversionState.Error, state.conversionState)
+                }
             }
+
+            coVerify { conversionDataSource.getConversionByBase(currency1.code) }
+                .wasInvoked()
         }
-
-        coVerify { conversionDataSource.getConversionByBase(currency1.code) }
-            .wasNotInvoked()
-
-        coVerify { backendApiService.getConversion(currency1.code) }
-            .wasNotInvoked()
-    }
 
     @Test
     fun `when input is too long it should drop the last digit and give TooBigInput effect`() =
@@ -369,42 +341,32 @@ internal class CalculatorViewModelTest {
         var currency = currency1
         viewModel.state.onSubscription {
             viewModel.event.onItemClick(currency1)
-            delay(100)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency1.code, it.base)
             assertEquals(currency1.rate, it.input)
         }
 
-        coVerify { calculationStorage.setBase(currency1.code) }
-            .wasInvoked()
-
         // when last digit is . it should be removed
         currency = currency.copy(rate = "123.")
 
         viewModel.state.onSubscription {
             viewModel.event.onItemClick(currency)
-            delay(100)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency.code, it.base)
             assertEquals("123", it.input)
         }
-        coVerify { calculationStorage.setBase(currency.code) }
-            .wasInvoked()
 
         currency = currency.copy(rate = "123 456.78")
 
         viewModel.state.onSubscription {
             viewModel.event.onItemClick(currency)
-            delay(100)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency.code, it.base)
             assertEquals("123456.78", it.input)
         }
-        coVerify { calculationStorage.setBase(currency.code) }
-            .wasInvoked()
     }
 
     @Test
@@ -447,7 +409,6 @@ internal class CalculatorViewModelTest {
         val output = "5"
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress(output)
-            delay(100)
             viewModel.event.onOutputLongClick()
         }.firstOrNull().let {
             assertEquals(CalculatorEffect.CopyToClipboard(output), it)
@@ -536,6 +497,30 @@ internal class CalculatorViewModelTest {
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(key, it.input)
+        }
+    }
+
+    @Test
+    fun onBaseChanged() = runTest {
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
+
+        coEvery { backendApiService.getConversion(currency1.code) }
+            .returns(conversion)
+
+        viewModel.state.onSubscription {
+            viewModel.event.onBaseChange(currency1.code)
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertNotNull(viewModel.data.conversion)
+            assertEquals(currency1.code, viewModel.data.conversion!!.base)
+            assertEquals(currency1.code, it.base)
+
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+                .wasInvoked()
+
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+                .wasInvoked()
         }
     }
 }

@@ -1,33 +1,26 @@
 package com.oztechan.ccc.client.storage.app
 
-import com.oztechan.ccc.client.core.persistence.SuspendPersistence
+import com.oztechan.ccc.client.core.persistence.Persistence
 
 internal class AppStorageImpl(
-    private val suspendPersistence: SuspendPersistence
+    private val persistence: Persistence
 ) : AppStorage {
-    override suspend fun isFirstRun(): Boolean =
-        suspendPersistence.getSuspend(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
 
-    override suspend fun setFirstRun(value: Boolean) =
-        suspendPersistence.setSuspend(KEY_FIRST_RUN, value)
+    override var firstRun
+        get() = persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN)
+        set(value) = persistence.setValue(KEY_FIRST_RUN, value)
 
-    override suspend fun getAppTheme(): Int =
-        suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME)
+    override var appTheme
+        get() = persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME)
+        set(value) = persistence.setValue(KEY_APP_THEME, value)
 
-    override suspend fun setAppTheme(value: Int) =
-        suspendPersistence.setSuspend(KEY_APP_THEME, value)
+    override var premiumEndDate
+        get() = persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)
+        set(value) = persistence.setValue(KEY_PREMIUM_END_DATE, value)
 
-    override suspend fun getPremiumEndDate(): Long =
-        suspendPersistence.getSuspend(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)
-
-    override suspend fun setPremiumEndDate(value: Long) =
-        suspendPersistence.setSuspend(KEY_PREMIUM_END_DATE, value)
-
-    override suspend fun getSessionCount(): Long =
-        suspendPersistence.getSuspend(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)
-
-    override suspend fun setSessionCount(value: Long) =
-        suspendPersistence.setSuspend(KEY_SESSION_COUNT, value)
+    override var sessionCount: Long
+        get() = persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)
+        set(value) = persistence.setValue(KEY_SESSION_COUNT, value)
 
     companion object {
         internal const val KEY_FIRST_RUN = "firs_run"

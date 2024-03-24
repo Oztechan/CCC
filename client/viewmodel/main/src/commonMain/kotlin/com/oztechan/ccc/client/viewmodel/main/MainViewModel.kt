@@ -11,7 +11,6 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
@@ -34,7 +33,12 @@ class MainViewModel(
     analyticsManager: AnalyticsManager,
 ) : BaseSEEDViewModel<MainState, MainEffect, MainEvent, MainData>(), MainEvent {
     // region SEED
-    private val _state = MutableStateFlow(MainState())
+    private val _state = MutableStateFlow(
+        MainState(
+            shouldOnboardUser = appStorage.firstRun,
+            appTheme = appStorage.appTheme
+        )
+    )
     override val state: StateFlow<MainState> = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<MainEffect>()
@@ -46,30 +50,22 @@ class MainViewModel(
     // endregion
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                copy(
-                    appTheme = appStorage.getAppTheme(),
-                    shouldOnboardUser = appStorage.isFirstRun()
+        with(analyticsManager) {
+            setUserProperty(
+                UserProperty.IsPremium(
+                    appStorage.premiumEndDate.isNotPassed().toString()
                 )
-            }
-            with(analyticsManager) {
-                setUserProperty(
-                    UserProperty.IsPremium(
-                        appStorage.getPremiumEndDate().isNotPassed().toString()
+            )
+            setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString()))
+            setUserProperty(
+                UserProperty.AppTheme(
+                    AppTheme.getAnalyticsThemeName(
+                        appStorage.appTheme,
+                        appConfigRepository.getDeviceType()
                     )
                 )
-                setUserProperty(UserProperty.SessionCount(appStorage.getSessionCount().toString()))
-                setUserProperty(
-                    UserProperty.AppTheme(
-                        AppTheme.getAnalyticsThemeName(
-                            appStorage.getAppTheme(),
-                            appConfigRepository.getDeviceType()
-                        )
-                    )
-                )
-                setUserProperty(UserProperty.DevicePlatform(appConfigRepository.getDeviceType().name))
-            }
+            )
+            setUserProperty(UserProperty.DevicePlatform(appConfigRepository.getDeviceType().name))
         }
     }
 
@@ -88,9 +84,9 @@ class MainViewModel(
         }
     }
 
-    private suspend fun adjustSessionCount() {
+    private fun adjustSessionCount() {
         if (data.isNewSession) {
-            appStorage.setSessionCount(appStorage.getSessionCount() + 1)
+            appStorage.sessionCount++
             data.isNewSession = false
         }
     }
@@ -109,7 +105,7 @@ class MainViewModel(
         }
     }
 
-    private suspend fun checkReview() {
+    private fun checkReview() {
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
                 delay(reviewConfigService.config.appReviewDialogDelay)
@@ -125,13 +121,13 @@ class MainViewModel(
         data.adVisibility = false
     }
 
-    override fun onResume() = viewModelScope.launchIgnored {
+    override fun onResume() {
         Logger.d { "MainViewModel onResume" }
 
         _state.update {
             copy(
-                shouldOnboardUser = appStorage.isFirstRun(),
-                appTheme = appStorage.getAppTheme()
+                shouldOnboardUser = appStorage.firstRun,
+                appTheme = appStorage.appTheme
             )
         }
 

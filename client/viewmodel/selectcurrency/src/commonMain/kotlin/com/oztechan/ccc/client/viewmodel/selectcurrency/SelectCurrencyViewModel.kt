@@ -10,7 +10,6 @@ import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +19,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class SelectCurrencyViewModel(
-    currencyDataSource: CurrencyDataSource,
-    private val calculationStorage: CalculationStorage,
+    currencyDataSource: CurrencyDataSource
 ) : BaseSEEDViewModel<SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>(), SelectCurrencyEvent {
     // region SEED
     private val _state = MutableStateFlow(SelectCurrencyState())
@@ -51,8 +49,7 @@ class SelectCurrencyViewModel(
     // region Event
     override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
         Logger.d { "SelectCurrencyViewModel onItemClick ${currency.code}" }
-        calculationStorage.setBase(currency.code)
-        _effect.emit(SelectCurrencyEffect.DismissDialog)
+        _effect.emit(SelectCurrencyEffect.CurrencyChange(currency.code))
     }
 
     override fun onSelectClick() = viewModelScope.launchIgnored {

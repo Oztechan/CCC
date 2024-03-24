@@ -116,31 +116,29 @@ internal class SettingsViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
+        every { appStorage.appTheme }
+            .returns(-1)
+
+        every { appStorage.premiumEndDate }
+            .returns(0)
+
+        every { calculationStorage.precision }
+            .returns(mockedPrecision)
+
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
         every { watcherDataSource.getWatchersFlow() }
             .returns(flowOf(watcherLists))
 
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
+
         every { appConfigRepository.getDeviceType() }
             .returns(Device.IOS)
 
         every { appConfigRepository.getVersion() }
             .returns(version)
-
-        runTest {
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(0)
-
-            coEvery { adControlRepository.shouldShowBannerAd() }
-                .returns(shouldShowAds)
-
-            coEvery { calculationStorage.getPrecision() }
-                .returns(mockedPrecision)
-
-            coEvery { appStorage.getAppTheme() }
-                .returns(-1)
-        }
     }
 
     // init
@@ -157,7 +155,7 @@ internal class SettingsViewModelTest {
             assertIs<PremiumStatus.NeverActivated>(it.premiumStatus)
         }
 
-        coVerify { adControlRepository.shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 
@@ -169,7 +167,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(0)
 
         viewModel.state.firstOrNull().let {
@@ -180,7 +178,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is passed PremiumStatus is Expired`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
@@ -191,7 +189,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is not passed PremiumStatus is Active`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
@@ -331,10 +329,10 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Premium>(it)
         }
 
-        coVerify { appStorage.getPremiumEndDate() }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
 
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
@@ -343,7 +341,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
-        coVerify { appStorage.getPremiumEndDate() }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
     }
 
@@ -399,7 +397,7 @@ internal class SettingsViewModelTest {
 
             println("-----")
 
-            coVerify { calculationStorage.setPrecision(value.indexToNumber()) }
+            verify { calculationStorage.precision = value.indexToNumber() }
                 .wasInvoked()
         }
     }
@@ -416,7 +414,7 @@ internal class SettingsViewModelTest {
             assertEquals(mockTheme.themeValue, it.themeValue)
         }
 
-        coVerify { appStorage.setAppTheme(mockTheme.themeValue) }
+        verify { appStorage.appTheme = mockTheme.themeValue }
             .wasInvoked()
     }
 }

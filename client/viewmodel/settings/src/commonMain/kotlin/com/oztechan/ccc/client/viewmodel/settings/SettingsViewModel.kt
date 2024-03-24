@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
@@ -45,7 +44,8 @@ class SettingsViewModel(
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
     // region SEED
-    private val _state = MutableStateFlow(SettingsState())
+    private val _state =
+        MutableStateFlow(SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<SettingsEffect>()
@@ -57,16 +57,13 @@ class SettingsViewModel(
     // endregion
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                copy(
-                    appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.getAppTheme()),
-                    premiumStatus = appStorage.getPremiumEndDate().toPremiumStatus(),
-                    precision = calculationStorage.getPrecision(),
-                    version = appConfigRepository.getVersion(),
-                    isBannerAdVisible = adControlRepository.shouldShowBannerAd()
-                )
-            }
+        _state.update {
+            copy(
+                appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
+                premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
+                precision = calculationStorage.precision,
+                version = appConfigRepository.getVersion()
+            )
         }
 
         currencyDataSource.getActiveCurrenciesFlow()
@@ -141,7 +138,7 @@ class SettingsViewModel(
 
     override fun onPremiumClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        if (appStorage.getPremiumEndDate().isPassed()) {
+        if (appStorage.premiumEndDate.isPassed()) {
             _effect.emit(SettingsEffect.Premium)
         } else {
             _effect.emit(SettingsEffect.AlreadyPremium)
@@ -170,18 +167,16 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.SelectPrecision)
     }
 
-    override fun onPrecisionSelect(index: Int) = viewModelScope.launchIgnored {
+    override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
-        index.indexToNumber().let {
-            calculationStorage.setPrecision(it)
-            _state.update { copy(precision = it) }
-        }
+        calculationStorage.precision = index.indexToNumber()
+        _state.update { copy(precision = index.indexToNumber()) }
     }
 
     override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onThemeChange $theme" }
         _state.update { copy(appThemeType = theme) }
-        appStorage.setAppTheme(theme.themeValue)
+        appStorage.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }
     // endregion

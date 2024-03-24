@@ -14,10 +14,10 @@ import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.util.calculatePremiumEnd
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
 import io.mockative.configure
+import io.mockative.every
 import io.mockative.mock
+import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
@@ -72,7 +72,7 @@ internal class PremiumViewModelTest {
     @Test
     fun onPremiumActivated() = runTest {
         viewModel.event.onPremiumActivated(null)
-        coVerify { appStorage.getPremiumEndDate() }
+        verify { appStorage.premiumEndDate }
             .wasNotInvoked()
 
         PremiumType.values().forEach { premiumType ->
@@ -84,7 +84,7 @@ internal class PremiumViewModelTest {
                 assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
 
-                coVerify { appStorage.setPremiumEndDate(premiumType.calculatePremiumEnd(now)) }
+                verify { appStorage.premiumEndDate = premiumType.calculatePremiumEnd(now) }
                     .wasInvoked()
             }
         }
@@ -92,7 +92,7 @@ internal class PremiumViewModelTest {
 
     @Test
     fun onRestorePurchase() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(0)
 
         val now = nowAsLong()
@@ -109,30 +109,34 @@ internal class PremiumViewModelTest {
             assertTrue { it.isRestorePurchase }
             assertFalse { viewModel.state.value.loading }
 
-            coVerify { appStorage.setPremiumEndDate(it.premiumType.calculatePremiumEnd(now)) }
+            verify { appStorage.premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
                 .wasInvoked()
         }
 
         // onRestorePurchase shouldn't do anything if all the old purchases out of dated
         var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
 
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
         viewModel.event.onRestorePurchase(listOf(oldPurchase))
 
-        coVerify { appStorage.setPremiumEndDate(oldPurchase.type.calculatePremiumEnd(oldPurchase.date)) }
+        verify {
+            appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
+        }
             .wasNotInvoked()
 
         // onRestorePurchase shouldn't do anything if the old purchase is already expired
         oldPurchase = OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
 
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(0)
 
         viewModel.event.onRestorePurchase(listOf(oldPurchase))
 
-        coVerify { appStorage.setPremiumEndDate(oldPurchase.type.calculatePremiumEnd(oldPurchase.date)) }
+        verify {
+            appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
+        }
             .wasNotInvoked()
     }
 

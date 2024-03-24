@@ -1,6 +1,6 @@
 package com.oztechan.ccc.client.storage.app
 
-import com.oztechan.ccc.client.core.persistence.SuspendPersistence
+import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_APP_THEME
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_FIRST_RUN
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.DEFAULT_PREMIUM_END_DATE
@@ -11,10 +11,10 @@ import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_PREMIUM_
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_SESSION_COUNT
 import io.mockative.Mock
 import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
+import io.mockative.configure
+import io.mockative.every
 import io.mockative.mock
-import kotlinx.coroutines.test.runTest
+import io.mockative.verify
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,91 +22,91 @@ import kotlin.test.assertEquals
 internal class AppStorageTest {
 
     private val subject: AppStorage by lazy {
-        AppStorageImpl(suspendPersistence)
+        AppStorageImpl(persistence)
     }
 
     @Mock
-    private val suspendPersistence = mock(classOf<SuspendPersistence>())
+    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
 
     // defaults
     @Test
-    fun `get default firstRun`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+    fun `default firstRun`() {
+        every { persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .returns(DEFAULT_FIRST_RUN)
 
-        assertEquals(DEFAULT_FIRST_RUN, subject.isFirstRun())
+        assertEquals(DEFAULT_FIRST_RUN, subject.firstRun)
 
-        coVerify { suspendPersistence.getSuspend(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
+        verify { persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
             .wasInvoked()
     }
 
     @Test
-    fun `get default appTheme`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME) }
+    fun `default appTheme`() {
+        every { persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .returns(DEFAULT_APP_THEME)
 
-        assertEquals(DEFAULT_APP_THEME, subject.getAppTheme())
+        assertEquals(DEFAULT_APP_THEME, subject.appTheme)
 
-        coVerify { suspendPersistence.getSuspend(KEY_APP_THEME, DEFAULT_APP_THEME) }
+        verify { persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME) }
             .wasInvoked()
     }
 
     @Test
-    fun `get default premiumEndDate`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
+    fun `default premiumEndDate`() {
+        every { persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
             .returns(DEFAULT_PREMIUM_END_DATE)
 
-        assertEquals(DEFAULT_PREMIUM_END_DATE, subject.getPremiumEndDate())
+        assertEquals(DEFAULT_PREMIUM_END_DATE, subject.premiumEndDate)
 
-        coVerify { suspendPersistence.getSuspend(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
+        verify { persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
             .wasInvoked()
     }
 
     @Test
-    fun `get default sessionCount`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
+    fun `default sessionCount`() {
+        every { persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .returns(DEFAULT_SESSION_COUNT)
 
-        assertEquals(DEFAULT_SESSION_COUNT, subject.getSessionCount())
+        assertEquals(DEFAULT_SESSION_COUNT, subject.sessionCount)
 
-        coVerify { suspendPersistence.getSuspend(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
+        verify { persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
             .wasInvoked()
     }
 
     // setters
     @Test
-    fun `set firstRun`() = runTest {
+    fun `set firstRun`() {
         val mockedValue = Random.nextBoolean()
-        subject.setFirstRun(mockedValue)
+        subject.firstRun = mockedValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_FIRST_RUN, mockedValue) }
+        verify { persistence.setValue(KEY_FIRST_RUN, mockedValue) }
             .wasInvoked()
     }
 
     @Test
-    fun `set appTheme`() = runTest {
+    fun `set appTheme`() {
         val mockValue = Random.nextInt()
-        subject.setAppTheme(mockValue)
+        subject.appTheme = mockValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_APP_THEME, mockValue) }
+        verify { persistence.setValue(KEY_APP_THEME, mockValue) }
             .wasInvoked()
     }
 
     @Test
-    fun `set premiumEndDate`() = runTest {
+    fun `set premiumEndDate`() {
         val mockValue = Random.nextLong()
-        subject.setPremiumEndDate(mockValue)
+        subject.premiumEndDate = mockValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_PREMIUM_END_DATE, mockValue) }
+        verify { persistence.setValue(KEY_PREMIUM_END_DATE, mockValue) }
             .wasInvoked()
     }
 
     @Test
-    fun `set sessionCount`() = runTest {
+    fun `set sessionCount`() {
         val mockValue = Random.nextLong()
-        subject.setSessionCount(mockValue)
+        subject.sessionCount = mockValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_SESSION_COUNT, mockValue) }
+        verify { persistence.setValue(KEY_SESSION_COUNT, mockValue) }
             .wasInvoked()
     }
 }
