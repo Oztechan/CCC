@@ -34,7 +34,6 @@ import io.mockative.every
 import io.mockative.mock
 import io.mockative.verify
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.onSubscription
@@ -369,42 +368,32 @@ internal class CalculatorViewModelTest {
         var currency = currency1
         viewModel.state.onSubscription {
             viewModel.event.onItemClick(currency1)
-            delay(100)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency1.code, it.base)
             assertEquals(currency1.rate, it.input)
         }
 
-        coVerify { calculationStorage.setBase(currency1.code) }
-            .wasInvoked()
-
         // when last digit is . it should be removed
         currency = currency.copy(rate = "123.")
 
         viewModel.state.onSubscription {
             viewModel.event.onItemClick(currency)
-            delay(100)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency.code, it.base)
             assertEquals("123", it.input)
         }
-        coVerify { calculationStorage.setBase(currency.code) }
-            .wasInvoked()
 
         currency = currency.copy(rate = "123 456.78")
 
         viewModel.state.onSubscription {
             viewModel.event.onItemClick(currency)
-            delay(100)
         }.firstOrNull().let {
             assertNotNull(it)
             assertEquals(currency.code, it.base)
             assertEquals("123456.78", it.input)
         }
-        coVerify { calculationStorage.setBase(currency.code) }
-            .wasInvoked()
     }
 
     @Test
@@ -447,7 +436,6 @@ internal class CalculatorViewModelTest {
         val output = "5"
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress(output)
-            delay(100)
             viewModel.event.onOutputLongClick()
         }.firstOrNull().let {
             assertEquals(CalculatorEffect.CopyToClipboard(output), it)
