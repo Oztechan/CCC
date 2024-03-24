@@ -83,7 +83,7 @@ class CurrenciesViewModel(
         ?.whetherNot { appStorage.firstRun }
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
-    private suspend fun verifyCurrentBase() = calculationStorage.getBase().either(
+    private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
         { isEmpty() },
         { base ->
             state.value.currencyList
@@ -93,7 +93,7 @@ class CurrenciesViewModel(
     )?.mapTo {
         state.value.currencyList.firstOrNull { it.isActive }?.code.orEmpty()
     }?.let { newBase ->
-        calculationStorage.setBase(newBase)
+        calculationStorage.currentBase = newBase
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))

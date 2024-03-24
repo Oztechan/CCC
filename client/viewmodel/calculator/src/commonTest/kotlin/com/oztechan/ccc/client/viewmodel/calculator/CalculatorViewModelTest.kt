@@ -97,6 +97,9 @@ internal class CalculatorViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
+
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
@@ -104,9 +107,6 @@ internal class CalculatorViewModelTest {
             .returns(shouldShowAds)
 
         runTest {
-            coEvery { calculationStorage.getBase() }
-                .returns(currency1.code)
-
             coEvery { calculationStorage.getLastInput() }
                 .returns("")
 
@@ -159,7 +159,7 @@ internal class CalculatorViewModelTest {
     fun `init updates the latest base and input`() = runTest {
         val mock = "mock"
 
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(currency1.code)
 
         coEvery { calculationStorage.getLastInput() }
@@ -501,7 +501,7 @@ internal class CalculatorViewModelTest {
 
     @Test
     fun onBaseChanged() = runTest {
-        coEvery { calculationStorage.getBase() }
+        every { calculationStorage.currentBase }
             .returns(currency1.code)
 
         coEvery { backendApiService.getConversion(currency1.code) }

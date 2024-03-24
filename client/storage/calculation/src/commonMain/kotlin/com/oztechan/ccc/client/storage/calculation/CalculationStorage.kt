@@ -1,8 +1,7 @@
 package com.oztechan.ccc.client.storage.calculation
 
 interface CalculationStorage {
-    suspend fun getBase(): String
-    suspend fun setBase(value: String)
+    var currentBase: String
 
     suspend fun getPrecision(): Int
     suspend fun setPrecision(value: Int)

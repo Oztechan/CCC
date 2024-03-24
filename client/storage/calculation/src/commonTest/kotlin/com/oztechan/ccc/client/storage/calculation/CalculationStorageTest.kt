@@ -1,5 +1,6 @@
 package com.oztechan.ccc.client.storage.calculation
 
+import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_LAST_INPUT
@@ -11,7 +12,10 @@ import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.coEvery
 import io.mockative.coVerify
+import io.mockative.configure
+import io.mockative.every
 import io.mockative.mock
+import io.mockative.verify
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
@@ -19,26 +23,29 @@ import kotlin.test.assertEquals
 
 internal class CalculationStorageTest {
     private val subject: CalculationStorage by lazy {
-        CalculationStorageImpl(suspendPersistence)
+        CalculationStorageImpl(persistence, suspendPersistence)
     }
+
+    @Mock
+    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
 
     @Mock
     private val suspendPersistence = mock(classOf<SuspendPersistence>())
 
     // defaults
     @Test
-    fun `get default currentBase`() = runTest {
-        coEvery { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+    fun `default currentBase`() {
+        every { persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .returns(DEFAULT_CURRENT_BASE)
 
-        assertEquals(DEFAULT_CURRENT_BASE, subject.getBase())
+        assertEquals(DEFAULT_CURRENT_BASE, subject.currentBase)
 
-        coVerify { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
+        verify { persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .wasInvoked()
     }
 
     @Test
-    fun `get default precision`() = runTest {
+    fun `default precision`() = runTest {
         coEvery { suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION) }
             .returns(DEFAULT_PRECISION)
 
@@ -61,11 +68,11 @@ internal class CalculationStorageTest {
 
     // setters
     @Test
-    fun `set currentBase`() = runTest {
+    fun `set currentBase`() {
         val mockValue = "mock"
-        subject.setBase(mockValue)
+        subject.currentBase = mockValue
 
-        coVerify { suspendPersistence.setSuspend(KEY_CURRENT_BASE, mockValue) }
+        verify { persistence.setValue(KEY_CURRENT_BASE, mockValue) }
             .wasInvoked()
     }
 

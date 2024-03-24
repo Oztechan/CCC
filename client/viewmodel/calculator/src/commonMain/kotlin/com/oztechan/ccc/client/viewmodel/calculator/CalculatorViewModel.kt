@@ -74,7 +74,7 @@ class CalculatorViewModel(
                 _state.update {
                     copy(
                         currencyList = currencyDataSource.getActiveCurrencies(),
-                        base = calculationStorage.getBase(),
+                        base = calculationStorage.currentBase,
                         input = calculationStorage.getLastInput(),
                         loading = true
                     )
@@ -115,7 +115,7 @@ class CalculatorViewModel(
         data.conversion?.let {
             calculateConversions(it, ConversionState.Cached(it.date))
         } ?: viewModelScope.launch {
-            runCatching { backendApiService.getConversion(calculationStorage.getBase()) }
+            runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
                 .onFailure(::updateConversionFailed)
                 .onSuccess(::updateConversionSuccess)
         }
@@ -134,7 +134,7 @@ class CalculatorViewModel(
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
-            calculationStorage.getBase()
+            calculationStorage.currentBase
         )?.let {
             calculateConversions(it, ConversionState.Offline(it.date))
         } ?: run {
@@ -191,7 +191,7 @@ class CalculatorViewModel(
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
         viewModelScope.launchIgnored {
             data.conversion = null
-            calculationStorage.setBase(newBase)
+            calculationStorage.currentBase = newBase
             _state.update {
                 copy(
                     base = newBase,
@@ -251,7 +251,7 @@ class CalculatorViewModel(
             _effect.emit(
                 CalculatorEffect.ShowConversion(
                     currency.getConversionStringFromBase(
-                        calculationStorage.getBase(),
+                        calculationStorage.currentBase,
                         data.conversion
                     ),
                     currency.code

@@ -1,16 +1,16 @@
 package com.oztechan.ccc.client.storage.calculation
 
+import com.oztechan.ccc.client.core.persistence.Persistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 
-internal class CalculationStorageImpl(
+class CalculationStorageImpl(
+    private val persistence: Persistence,
     private val suspendPersistence: SuspendPersistence
 ) : CalculationStorage {
 
-    override suspend fun getBase(): String =
-        suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
-
-    override suspend fun setBase(value: String) =
-        suspendPersistence.setSuspend(KEY_CURRENT_BASE, value)
+    override var currentBase
+        get() = persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
+        set(value) = persistence.setValue(KEY_CURRENT_BASE, value)
 
     override suspend fun getPrecision(): Int =
         suspendPersistence.getSuspend(KEY_PRECISION, DEFAULT_PRECISION)
