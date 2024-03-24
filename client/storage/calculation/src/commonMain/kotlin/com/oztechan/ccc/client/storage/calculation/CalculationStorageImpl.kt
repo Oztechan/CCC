@@ -1,11 +1,9 @@
 package com.oztechan.ccc.client.storage.calculation
 
 import com.oztechan.ccc.client.core.persistence.Persistence
-import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 
 class CalculationStorageImpl(
-    private val persistence: Persistence,
-    private val suspendPersistence: SuspendPersistence
+    private val persistence: Persistence
 ) : CalculationStorage {
 
     override var currentBase
@@ -16,11 +14,9 @@ class CalculationStorageImpl(
         get() = persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION)
         set(value) = persistence.setValue(KEY_PRECISION, value)
 
-    override suspend fun getLastInput(): String =
-        suspendPersistence.getSuspend(KEY_LAST_INPUT, DEFAULT_LAST_INPUT)
-
-    override suspend fun setLastInput(value: String) =
-        suspendPersistence.setSuspend(KEY_LAST_INPUT, value)
+    override var lastInput: String
+        get() = persistence.getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT)
+        set(value) = persistence.setValue(KEY_LAST_INPUT, value)
 
     companion object {
         internal const val DEFAULT_CURRENT_BASE = ""
