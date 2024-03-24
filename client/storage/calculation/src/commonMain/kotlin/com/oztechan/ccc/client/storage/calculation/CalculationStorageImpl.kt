@@ -1,15 +1,10 @@
 package com.oztechan.ccc.client.storage.calculation
 
-import com.oztechan.ccc.client.core.persistence.FlowPersistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
-import kotlinx.coroutines.flow.Flow
 
 internal class CalculationStorageImpl(
-    private val suspendPersistence: SuspendPersistence,
-    private val flowPersistence: FlowPersistence
+    private val suspendPersistence: SuspendPersistence
 ) : CalculationStorage {
-    override fun getBaseFlow(): Flow<String> =
-        flowPersistence.getFlow(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)
 
     override suspend fun getBase(): String =
         suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE)

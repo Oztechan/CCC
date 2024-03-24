@@ -1,9 +1,6 @@
 package com.oztechan.ccc.client.storage.calculation
 
-import kotlinx.coroutines.flow.Flow
-
 interface CalculationStorage {
-    fun getBaseFlow(): Flow<String>
     suspend fun getBase(): String
     suspend fun setBase(value: String)
 

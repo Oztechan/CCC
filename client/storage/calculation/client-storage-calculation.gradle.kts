@@ -14,12 +14,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.common.koinCore)
             implementation(project(Modules.Client.Core.persistence))
-
-            libs.common.apply {
-                implementation(koinCore)
-                implementation(coroutines)
-            }
         }
         commonTest.dependencies {
             libs.common.apply {

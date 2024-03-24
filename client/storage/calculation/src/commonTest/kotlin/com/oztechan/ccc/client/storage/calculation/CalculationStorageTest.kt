@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.storage.calculation
 
-import com.oztechan.ccc.client.core.persistence.FlowPersistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.DEFAULT_LAST_INPUT
@@ -12,10 +11,7 @@ import io.mockative.Mock
 import io.mockative.classOf
 import io.mockative.coEvery
 import io.mockative.coVerify
-import io.mockative.every
 import io.mockative.mock
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
 import kotlin.test.Test
@@ -23,29 +19,15 @@ import kotlin.test.assertEquals
 
 internal class CalculationStorageTest {
     private val subject: CalculationStorage by lazy {
-        CalculationStorageImpl(suspendPersistence, flowPersistence)
+        CalculationStorageImpl(suspendPersistence)
     }
 
     @Mock
     private val suspendPersistence = mock(classOf<SuspendPersistence>())
 
-    @Mock
-    private val flowPersistence = mock(classOf<FlowPersistence>())
-
-    @Test
-    fun getBaseFlow() = runTest {
-        every { flowPersistence.getFlow(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
-            .returns(flowOf(DEFAULT_CURRENT_BASE))
-
-        assertEquals(DEFAULT_CURRENT_BASE, subject.getBaseFlow().first())
-
-        coVerify { flowPersistence.getFlow(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
-            .wasInvoked()
-    }
-
     // defaults
     @Test
-    fun `get default base`() = runTest {
+    fun `get default currentBase`() = runTest {
         coEvery { suspendPersistence.getSuspend(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
             .returns(DEFAULT_CURRENT_BASE)
 
@@ -79,7 +61,7 @@ internal class CalculationStorageTest {
 
     // setters
     @Test
-    fun `set base`() = runTest {
+    fun `set currentBase`() = runTest {
         val mockValue = "mock"
         subject.setBase(mockValue)
 
