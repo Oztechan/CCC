@@ -116,6 +116,9 @@ internal class SettingsViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
+        every { appStorage.premiumEndDate }
+            .returns(0)
+
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
@@ -129,9 +132,6 @@ internal class SettingsViewModelTest {
             .returns(version)
 
         runTest {
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(0)
-
             coEvery { adControlRepository.shouldShowBannerAd() }
                 .returns(shouldShowAds)
 
@@ -169,7 +169,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is never set PremiumStatus is NeverActivated`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(0)
 
         viewModel.state.firstOrNull().let {
@@ -180,7 +180,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is passed PremiumStatus is Expired`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
@@ -191,7 +191,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun `when premiumEndDate is not passed PremiumStatus is Active`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.state.firstOrNull().let {
@@ -331,10 +331,10 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Premium>(it)
         }
 
-        coVerify { appStorage.getPremiumEndDate() }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
 
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
@@ -343,7 +343,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
-        coVerify { appStorage.getPremiumEndDate() }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
     }
 

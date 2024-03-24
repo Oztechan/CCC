@@ -45,7 +45,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount - 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -56,7 +56,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasNotInvoked()
 
             verify { appStorage.sessionCount }
@@ -72,7 +72,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount - 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -83,7 +83,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasInvoked()
 
             verify { appStorage.sessionCount }
@@ -99,7 +99,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount - 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -110,7 +110,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasNotInvoked()
 
             verify { appStorage.sessionCount }
@@ -126,7 +126,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount + 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -137,7 +137,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasNotInvoked()
 
             verify { appStorage.sessionCount }
@@ -153,7 +153,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount + 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -164,7 +164,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasNotInvoked()
 
             verify { appStorage.sessionCount }
@@ -180,7 +180,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount + 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -191,7 +191,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasInvoked()
 
             verify { appStorage.sessionCount }
@@ -207,7 +207,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount - 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -218,7 +218,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasInvoked()
 
             verify { appStorage.sessionCount }
@@ -234,7 +234,7 @@ internal class AdControlRepositoryTest {
             every { appStorage.sessionCount }
                 .returns(mockedSessionCount + 1L)
 
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
             coEvery { appStorage.isFirstRun() }
@@ -245,7 +245,7 @@ internal class AdControlRepositoryTest {
             coVerify { appStorage.isFirstRun() }
                 .wasInvoked()
 
-            coVerify { appStorage.getPremiumEndDate() }
+            verify { appStorage.premiumEndDate }
                 .wasInvoked()
 
             verify { appStorage.sessionCount }
@@ -256,86 +256,82 @@ internal class AdControlRepositoryTest {
         }
 
     @Test
-    fun `shouldShowInterstitialAd returns false when session count bigger than remote and premiumNotExpired 01`() =
-        runTest {
-            every { appStorage.sessionCount }
-                .returns(mockedSessionCount.toLong() + 1)
+    fun `shouldShowInterstitialAd returns false when session count bigger than remote and premiumNotExpired 01`() {
+        every { appStorage.sessionCount }
+            .returns(mockedSessionCount.toLong() + 1)
 
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
-            assertFalse { subject.shouldShowInterstitialAd() }
+        assertFalse { subject.shouldShowInterstitialAd() }
 
-            coVerify { appStorage.getPremiumEndDate() }
-                .wasInvoked()
+        verify { appStorage.premiumEndDate }
+            .wasInvoked()
 
-            verify { adConfigService.config.interstitialAdSessionCount }
-                .wasNotInvoked()
+        verify { adConfigService.config.interstitialAdSessionCount }
+            .wasNotInvoked()
 
-            verify { appStorage.sessionCount }
-                .wasNotInvoked()
-        }
-
-    @Test
-    fun `shouldShowInterstitialAd returns true when session count bigger than remote and premiumExpired 11`() =
-        runTest {
-            every { appStorage.sessionCount }
-                .returns(mockedSessionCount.toLong() + 1)
-
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
-
-            assertTrue { subject.shouldShowInterstitialAd() }
-
-            coVerify { appStorage.getPremiumEndDate() }
-                .wasInvoked()
-
-            verify { adConfigService.config }
-                .wasInvoked()
-
-            verify { appStorage.sessionCount }
-                .wasInvoked()
-        }
+        verify { appStorage.sessionCount }
+            .wasNotInvoked()
+    }
 
     @Test
-    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumExpired 00`() =
-        runTest {
-            every { appStorage.sessionCount }
-                .returns(mockedSessionCount.toLong() - 1)
+    fun `shouldShowInterstitialAd returns true when session count bigger than remote and premiumExpired 11`() {
+        every { appStorage.sessionCount }
+            .returns(mockedSessionCount.toLong() + 1)
 
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
-            assertFalse { subject.shouldShowInterstitialAd() }
+        assertTrue { subject.shouldShowInterstitialAd() }
 
-            coVerify { appStorage.getPremiumEndDate() }
-                .wasInvoked()
+        verify { appStorage.premiumEndDate }
+            .wasInvoked()
 
-            verify { adConfigService.config }
-                .wasNotInvoked()
+        verify { adConfigService.config }
+            .wasInvoked()
 
-            verify { appStorage.sessionCount }
-                .wasNotInvoked()
-        }
+        verify { appStorage.sessionCount }
+            .wasInvoked()
+    }
 
     @Test
-    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumNotExpired 10`() =
-        runTest {
-            every { appStorage.sessionCount }
-                .returns(mockedSessionCount.toLong() - 1)
+    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumExpired 00`() {
+        every { appStorage.sessionCount }
+            .returns(mockedSessionCount.toLong() - 1)
 
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
-            assertFalse { subject.shouldShowInterstitialAd() }
+        assertFalse { subject.shouldShowInterstitialAd() }
 
-            coVerify { appStorage.getPremiumEndDate() }
-                .wasInvoked()
+        verify { appStorage.premiumEndDate }
+            .wasInvoked()
 
-            verify { adConfigService.config }
-                .wasInvoked()
+        verify { adConfigService.config }
+            .wasNotInvoked()
 
-            verify { appStorage.sessionCount }
-                .wasInvoked()
-        }
+        verify { appStorage.sessionCount }
+            .wasNotInvoked()
+    }
+
+    @Test
+    fun `shouldShowInterstitialAd returns false when session count smaller than remote and premiumNotExpired 10`() {
+        every { appStorage.sessionCount }
+            .returns(mockedSessionCount.toLong() - 1)
+
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
+
+        assertFalse { subject.shouldShowInterstitialAd() }
+
+        verify { appStorage.premiumEndDate }
+            .wasInvoked()
+
+        verify { adConfigService.config }
+            .wasInvoked()
+
+        verify { appStorage.sessionCount }
+            .wasInvoked()
+    }
 }

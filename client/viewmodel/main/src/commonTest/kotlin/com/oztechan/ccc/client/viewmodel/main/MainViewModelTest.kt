@@ -86,19 +86,19 @@ internal class MainViewModelTest {
         @Suppress("OPT_IN_USAGE")
         Dispatchers.setMain(UnconfinedTestDispatcher())
 
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong())
+
         every { appStorage.sessionCount }
             .returns(1L)
 
         every { appConfigRepository.getDeviceType() }
             .returns(mockDevice)
 
+        every { adControlRepository.shouldShowInterstitialAd() }
+            .returns(false)
+
         runTest {
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(nowAsLong())
-
-            coEvery { adControlRepository.shouldShowInterstitialAd() }
-                .returns(false)
-
             coEvery { appStorage.isFirstRun() }
                 .returns(isFirstRun)
 
@@ -112,17 +112,16 @@ internal class MainViewModelTest {
     fun ifUserPropertiesSetCorrect() = runTest {
         viewModel // init
 
-        coVerify {
+        verify {
             analyticsManager.setUserProperty(
                 UserProperty.IsPremium(
-                    appStorage.getPremiumEndDate().isNotPassed().toString()
+                    appStorage.premiumEndDate.isNotPassed().toString()
                 )
             )
-        }.wasInvoked()
-
+        }
+            .wasInvoked()
         verify { analyticsManager.setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
             .wasInvoked()
-
         coVerify {
             analyticsManager.setUserProperty(
                 UserProperty.AppTheme(
@@ -229,13 +228,13 @@ internal class MainViewModelTest {
         every { appConfigRepository.checkAppUpdate(false) }
             .returns(null)
 
-        coEvery { adControlRepository.shouldShowInterstitialAd() }
+        every { adControlRepository.shouldShowInterstitialAd() }
             .returns(true)
 
         every { appConfigRepository.shouldShowAppReview() }
             .returns(true)
 
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
@@ -254,10 +253,10 @@ internal class MainViewModelTest {
         verify { reviewConfigService.config }
             .wasInvoked()
 
-        coVerify { adControlRepository.shouldShowInterstitialAd() }
+        verify { adControlRepository.shouldShowInterstitialAd() }
             .wasInvoked()
 
-        coVerify { appStorage.getPremiumEndDate() }
+        verify { appStorage.premiumEndDate }
             .wasInvoked()
     }
 

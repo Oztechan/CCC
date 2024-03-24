@@ -18,6 +18,7 @@ import io.mockative.classOf
 import io.mockative.coEvery
 import io.mockative.coVerify
 import io.mockative.configure
+import io.mockative.every
 import io.mockative.mock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
@@ -80,10 +81,10 @@ internal class WidgetViewModelTest {
 
         val mockEndDate = Random.nextLong()
 
-        runTest {
-            coEvery { appStorage.getPremiumEndDate() }
-                .returns(mockEndDate)
+        every { appStorage.premiumEndDate }
+            .returns(mockEndDate)
 
+        runTest {
             coEvery { calculationStorage.getPrecision() }
                 .returns(3)
 
@@ -159,7 +160,7 @@ internal class WidgetViewModelTest {
             assertTrue { it.currencyList.isEmpty() }
             assertEquals("", it.lastUpdate)
             assertEquals(base, it.currentBase)
-            assertEquals(appStorage.getPremiumEndDate().isNotPassed(), it.isPremium)
+            assertEquals(appStorage.premiumEndDate.isNotPassed(), it.isPremium)
         }
     }
 
@@ -170,7 +171,7 @@ internal class WidgetViewModelTest {
 
     @Test
     fun `if user is premium api call and db query are invoked`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -184,7 +185,7 @@ internal class WidgetViewModelTest {
 
     @Test
     fun `if user is not premium no api call and db query are not invoked`() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -199,7 +200,7 @@ internal class WidgetViewModelTest {
     @Test
     fun `when onRefreshClick called all the conversion rates for currentBase is calculated`() =
         runTest {
-            coEvery { appStorage.getPremiumEndDate() }
+            every { appStorage.premiumEndDate }
                 .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
             viewModel.state.onSubscription {
@@ -221,7 +222,7 @@ internal class WidgetViewModelTest {
     @Test
     fun `when onRefreshClick called with null, base is not updated`() = runTest {
         // to not invoke getFreshWidgetData
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()
@@ -237,7 +238,7 @@ internal class WidgetViewModelTest {
     @Test
     fun onNextClick() = runTest {
         // when onNextClick, base is updated next or the first active currency
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onNextClick()
@@ -263,7 +264,7 @@ internal class WidgetViewModelTest {
     @Test
     fun onPreviousClick() = runTest {
         // when onRefreshClick, base is updated previous or the last active currency
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() - 1.days.inWholeMilliseconds)
 
         viewModel.event.onPreviousClick()
@@ -288,7 +289,7 @@ internal class WidgetViewModelTest {
 
     @Test
     fun onRefreshClick() = runTest {
-        coEvery { appStorage.getPremiumEndDate() }
+        every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
 
         viewModel.event.onRefreshClick()

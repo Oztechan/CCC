@@ -19,11 +19,9 @@ internal class AppStorageImpl(
     override suspend fun setAppTheme(value: Int) =
         suspendPersistence.setSuspend(KEY_APP_THEME, value)
 
-    override suspend fun getPremiumEndDate(): Long =
-        suspendPersistence.getSuspend(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)
-
-    override suspend fun setPremiumEndDate(value: Long) =
-        suspendPersistence.setSuspend(KEY_PREMIUM_END_DATE, value)
+    override var premiumEndDate
+        get() = persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE)
+        set(value) = persistence.setValue(KEY_PREMIUM_END_DATE, value)
 
     override var sessionCount: Long
         get() = persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT)

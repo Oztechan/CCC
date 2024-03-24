@@ -11,7 +11,7 @@ data class WidgetState(
     var currencyList: List<Currency> = listOf(),
     var lastUpdate: String = "",
     var currentBase: String = "",
-    var isPremium: Boolean = true
+    var isPremium: Boolean
 ) : BaseState
 
 // Event

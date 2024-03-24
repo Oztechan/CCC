@@ -28,7 +28,11 @@ class WidgetViewModel(
 ) : BaseSEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(), WidgetEvent {
 
     // region SEED
-    private val _state = MutableStateFlow(WidgetState())
+    private val _state = MutableStateFlow(
+        WidgetState(
+            isPremium = appStorage.premiumEndDate.isNotPassed()
+        )
+    )
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<WidgetEffect>()
@@ -43,8 +47,7 @@ class WidgetViewModel(
         viewModelScope.launchIgnored {
             _state.update {
                 it.copy(
-                    currentBase = calculationStorage.getBase(),
-                    isPremium = appStorage.getPremiumEndDate().isNotPassed()
+                    currentBase = calculationStorage.getBase()
                 )
             }
         }
@@ -56,7 +59,7 @@ class WidgetViewModel(
                 currencyList = listOf(),
                 lastUpdate = "",
                 currentBase = calculationStorage.getBase(),
-                isPremium = appStorage.getPremiumEndDate().isNotPassed()
+                isPremium = appStorage.premiumEndDate.isNotPassed()
             )
         }
 

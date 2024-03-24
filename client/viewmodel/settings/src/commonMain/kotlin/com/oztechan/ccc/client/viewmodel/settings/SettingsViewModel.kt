@@ -61,7 +61,7 @@ class SettingsViewModel(
             _state.update {
                 copy(
                     appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.getAppTheme()),
-                    premiumStatus = appStorage.getPremiumEndDate().toPremiumStatus(),
+                    premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
                     precision = calculationStorage.getPrecision(),
                     version = appConfigRepository.getVersion(),
                     isBannerAdVisible = adControlRepository.shouldShowBannerAd()
@@ -141,7 +141,7 @@ class SettingsViewModel(
 
     override fun onPremiumClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        if (appStorage.getPremiumEndDate().isPassed()) {
+        if (appStorage.premiumEndDate.isPassed()) {
             _effect.emit(SettingsEffect.Premium)
         } else {
             _effect.emit(SettingsEffect.AlreadyPremium)
