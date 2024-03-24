@@ -82,6 +82,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         R.id.calculatorFragment
     )?.observe(viewLifecycleOwner) {
         Logger.i { "CalculatorFragment observeNavigationResults $it" }
+        calculatorViewModel.event.onBaseChange(it)
     }
 
     private fun FragmentCalculatorBinding.initViews() = viewLifecycleOwner.lifecycleScope.launch {
