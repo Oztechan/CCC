@@ -100,10 +100,10 @@ internal class CalculatorViewModelTest {
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyList))
 
-        runTest {
-            coEvery { adControlRepository.shouldShowBannerAd() }
-                .returns(shouldShowAds)
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
 
+        runTest {
             coEvery { calculationStorage.getBase() }
                 .returns(currency1.code)
 
@@ -151,7 +151,7 @@ internal class CalculatorViewModelTest {
             assertTrue { it.loading }
         }
 
-        coVerify { adControlRepository.shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 

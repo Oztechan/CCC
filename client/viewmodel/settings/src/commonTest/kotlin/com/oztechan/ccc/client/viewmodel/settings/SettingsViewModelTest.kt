@@ -125,6 +125,9 @@ internal class SettingsViewModelTest {
         every { watcherDataSource.getWatchersFlow() }
             .returns(flowOf(watcherLists))
 
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(shouldShowAds)
+
         every { appConfigRepository.getDeviceType() }
             .returns(Device.IOS)
 
@@ -132,9 +135,6 @@ internal class SettingsViewModelTest {
             .returns(version)
 
         runTest {
-            coEvery { adControlRepository.shouldShowBannerAd() }
-                .returns(shouldShowAds)
-
             coEvery { calculationStorage.getPrecision() }
                 .returns(mockedPrecision)
 
@@ -157,7 +157,7 @@ internal class SettingsViewModelTest {
             assertIs<PremiumStatus.NeverActivated>(it.premiumStatus)
         }
 
-        coVerify { adControlRepository.shouldShowBannerAd() }
+        verify { adControlRepository.shouldShowBannerAd() }
             .wasInvoked()
     }
 

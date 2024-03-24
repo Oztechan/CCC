@@ -1,8 +1,7 @@
 package com.oztechan.ccc.client.storage.app
 
 interface AppStorage {
-    suspend fun isFirstRun(): Boolean
-    suspend fun setFirstRun(value: Boolean)
+    var firstRun: Boolean
 
     suspend fun getAppTheme(): Int
     suspend fun setAppTheme(value: Int)

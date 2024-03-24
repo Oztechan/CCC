@@ -45,7 +45,8 @@ class SettingsViewModel(
     private val analyticsManager: AnalyticsManager
 ) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
     // region SEED
-    private val _state = MutableStateFlow(SettingsState())
+    private val _state =
+        MutableStateFlow(SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<SettingsEffect>()
@@ -63,8 +64,7 @@ class SettingsViewModel(
                     appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.getAppTheme()),
                     premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
                     precision = calculationStorage.getPrecision(),
-                    version = appConfigRepository.getVersion(),
-                    isBannerAdVisible = adControlRepository.shouldShowBannerAd()
+                    version = appConfigRepository.getVersion()
                 )
             }
         }

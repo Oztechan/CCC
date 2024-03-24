@@ -56,7 +56,8 @@ class CalculatorViewModel(
 ) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(),
     CalculatorEvent {
     // region SEED
-    private val _state = MutableStateFlow(CalculatorState())
+    private val _state =
+        MutableStateFlow(CalculatorState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
     override val state = _state.asStateFlow()
 
     private val _effect = MutableSharedFlow<CalculatorEffect>()
@@ -75,8 +76,7 @@ class CalculatorViewModel(
                         currencyList = currencyDataSource.getActiveCurrencies(),
                         base = calculationStorage.getBase(),
                         input = calculationStorage.getLastInput(),
-                        loading = true,
-                        isBannerAdVisible = adControlRepository.shouldShowBannerAd()
+                        loading = true
                     )
                 }
                 updateConversion()
