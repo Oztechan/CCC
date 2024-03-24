@@ -88,7 +88,7 @@ class CalculatorViewModel(
                 _state.update { copy(currencyList = it) }
 
                 analyticsManager.setUserProperty(UserProperty.CurrencyCount(it.count().toString()))
-        }
+            }
             .launchIn(viewModelScope)
     }
 
@@ -149,16 +149,16 @@ class CalculatorViewModel(
 
     private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) =
         _state.update {
-        copy(
-            currencyList = _state.value.currencyList.onEach {
-                it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculationStorage.precision)
-                    .toStandardDigits()
-            },
-            conversionState = conversionState,
-            loading = false
-        )
-    }
+            copy(
+                currencyList = _state.value.currencyList.onEach {
+                    it.rate = conversion.calculateRate(it.code, _state.value.output)
+                        .getFormatted(calculationStorage.precision)
+                        .toStandardDigits()
+                },
+                conversionState = conversionState,
+                loading = false
+            )
+        }
 
     private fun calculateOutput(input: String) = viewModelScope.launch {
         val output = data.parser
@@ -194,7 +194,7 @@ class CalculatorViewModel(
             _state.update {
                 copy(
                     base = newBase,
-                input = input,
+                    input = input,
                     symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
                 )
             }
