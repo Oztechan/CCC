@@ -8,7 +8,6 @@ import com.oztechan.ccc.client.core.persistence.SuspendPersistence
 import com.oztechan.ccc.client.core.persistence.SuspendPersistenceImpl
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.ObservableSettings
-import com.russhwolf.settings.Settings
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.coroutines.SuspendSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
@@ -21,7 +20,6 @@ actual val clientCorePersistenceModule = module {
     single<ObservableSettings> {
         NSUserDefaultsSettings(get<NativeDependencyWrapper>().userDefaults)
     }
-    single<Settings> { get<ObservableSettings>() }
     @Suppress("OPT_IN_USAGE")
     single<SuspendSettings> { get<ObservableSettings>().toSuspendSettings() }
     @Suppress("OPT_IN_USAGE")
