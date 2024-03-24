@@ -47,8 +47,6 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 internal class CalculatorViewModelTest {
 
@@ -148,7 +146,7 @@ internal class CalculatorViewModelTest {
             assertEquals(ConversionState.Online(nowAsDateString()), it.conversionState)
             assertEquals(currencyList, it.currencyList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
-            assertTrue { it.loading }
+            assertFalse { it.loading }
         }
 
         verify { adControlRepository.shouldShowBannerAd() }
@@ -230,29 +228,32 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun `when there is few currency app doesn't make API call or search in DB`() = runTest {
-        every { currencyDataSource.getActiveCurrenciesFlow() }
-            .returns(flowOf(listOf(currency1)))
+    fun `when api fails and there is no offline and no enough currency few currency effect emitted`() =
+        runTest {
+            coEvery { backendApiService.getConversion(currency1.code) }
+                .throws(Exception())
 
-        viewModel.effect.onSubscription {
-            viewModel.event.onKeyPress("1") // trigger api call
-        }.firstOrNull().let {
-            assertIs<CalculatorEffect.FewCurrency>(it)
+            coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+                .returns(null)
 
-            viewModel.state.value.let { state ->
-                assertNotNull(state)
-                assertFalse { state.loading }
-                assertNull(viewModel.data.conversion)
-                assertEquals(ConversionState.None, state.conversionState)
+            every { currencyDataSource.getActiveCurrenciesFlow() }
+                .returns(flowOf(listOf(currency1)))
+
+            viewModel.effect.onSubscription {
+                viewModel.event.onKeyPress("1") // trigger api call
+            }.firstOrNull().let {
+                assertIs<CalculatorEffect.FewCurrency>(it)
+
+                viewModel.state.value.let { state ->
+                    assertNotNull(state)
+                    assertFalse { state.loading }
+                    assertEquals(ConversionState.Error, state.conversionState)
+                }
             }
+
+            coVerify { conversionDataSource.getConversionByBase(currency1.code) }
+                .wasInvoked()
         }
-
-        coVerify { conversionDataSource.getConversionByBase(currency1.code) }
-            .wasNotInvoked()
-
-        coVerify { backendApiService.getConversion(currency1.code) }
-            .wasNotInvoked()
-    }
 
     @Test
     fun `when input is too long it should drop the last digit and give TooBigInput effect`() =
