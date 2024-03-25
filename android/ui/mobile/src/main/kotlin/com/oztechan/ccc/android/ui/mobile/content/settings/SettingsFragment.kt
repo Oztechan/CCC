@@ -36,7 +36,6 @@ import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import com.oztechan.ccc.client.viewmodel.settings.util.numberToIndex
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -66,6 +65,16 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     @Suppress("LongMethod")
     private fun FragmentSettingsBinding.initViews() {
+        adViewContainer.setBannerAd(
+            adManager = adManager,
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_settings_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_settings_release)
+            },
+            shouldShowAd = settingsViewModel.state.value.isBannerAdVisible
+        )
+
         with(itemCurrencies) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_currency)
             settingsItemTitle.text = getString(R.string.settings_item_currencies_title)
@@ -131,17 +140,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private fun FragmentSettingsBinding.observeStates() = settingsViewModel.state
         .flowWithLifecycle(lifecycle)
-        .onStart {
-            adViewContainer.setBannerAd(
-                adManager = adManager,
-                adId = if (BuildConfig.DEBUG) {
-                    getString(R.string.banner_ad_unit_id_settings_debug)
-                } else {
-                    getString(R.string.banner_ad_unit_id_settings_release)
-                },
-                shouldShowAd = settingsViewModel.state.value.isBannerAdVisible
-            )
-        }
         .onEach {
             with(it) {
                 itemCurrencies.settingsItemValue.text = requireContext().getString(
