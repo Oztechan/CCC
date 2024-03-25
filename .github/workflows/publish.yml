@@ -8,33 +8,7 @@ on:
 jobs:
 
   PublishRelease:
-    runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.status.outputs.status }}
-    steps:
-
-      - name: PublishRelease
-        uses: marvinpinto/action-automatic-releases@v1.2.1
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: false
-
-      - name: Set Job Status
-        id: status
-        run: echo "status=success" >> $GITHUB_OUTPUT
-
-  Notify:
-    runs-on: ubuntu-latest
-    needs: [ PublishRelease ]
-    if: always()
-    steps:
-
-      - name: Notify slack fail
-        if: false == (needs.PublishRelease.outputs.status == 'success')
-        uses: voxmedia/github-action-slack-notify-build@v1.6.0
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        with:
-          channel: ccc-github
-          status: FAILED
-          color: danger
+    uses: Oztechan/Global/.github/workflows/reusable-publish.yml@v1.0.1
+    with:
+      slack_channel: "ccc-github"
+    secrets: inherit

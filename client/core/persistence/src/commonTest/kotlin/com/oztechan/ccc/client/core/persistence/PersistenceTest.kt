@@ -24,9 +24,7 @@ internal class PersistenceTest {
     }
 
     @Mock
-    private val settings = configure(mock(classOf<Settings>())) {
-        stubsUnitByDefault = true
-    }
+    private val settings = configure(mock(classOf<Settings>())) { stubsUnitByDefault = true }
 
     @Test
     fun `getValue returns the same type`() {
@@ -80,7 +78,7 @@ internal class PersistenceTest {
     }
 
     @Test
-    fun `UnsupportedPersistenceException throw when unsupported type tried to saved or read`() {
+    fun `setValue throw UnsupportedPersistenceException when unsupported type tried to saved or read`() {
         val mockObject = object {}
 
         assertFailsWith(UnsupportedPersistenceException::class) {

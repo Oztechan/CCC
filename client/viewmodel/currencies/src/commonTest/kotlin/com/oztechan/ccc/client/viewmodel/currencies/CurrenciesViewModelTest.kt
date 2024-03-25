@@ -143,6 +143,7 @@ internal class CurrenciesViewModelTest {
             assertFalse { it.isOnboardingVisible } // mocked false
             assertEquals(currencyList.toMutableList(), viewModel.data.unFilteredList)
             assertEquals(shouldShowAds, it.isBannerAdVisible)
+            assertFalse { it.loading }
         }
 
         verify { adControlRepository.shouldShowBannerAd() }
@@ -150,6 +151,13 @@ internal class CurrenciesViewModelTest {
 
         verify { appStorage.firstRun }
             .wasInvoked()
+    }
+
+    @Test
+    fun `init updates data correctly`() {
+        assertNotNull(viewModel.data)
+        assertEquals(currencyList, viewModel.data.unFilteredList)
+        assertTrue { viewModel.data.query.isEmpty() }
     }
 
     @Test

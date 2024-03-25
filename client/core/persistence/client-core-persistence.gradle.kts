@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
@@ -18,24 +16,15 @@ kotlin {
         commonMain.dependencies {
             libs.common.apply {
                 implementation(koinCore)
-                implementation(coroutines)
                 implementation(multiplatformSettings)
-                implementation(multiplatformSettingsCoroutines)
             }
         }
         commonTest.dependencies {
             libs.common.apply {
                 implementation(test)
                 implementation(mockative)
-                implementation(coroutinesTest)
             }
         }
-    }
-}
-// todo remove after https://github.com/russhwolf/multiplatform-settings/issues/119
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += "-opt-in=com.russhwolf.settings.ExperimentalSettingsApi"
     }
 }
 

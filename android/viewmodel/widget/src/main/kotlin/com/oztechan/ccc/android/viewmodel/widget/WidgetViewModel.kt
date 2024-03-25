@@ -66,7 +66,9 @@ class WidgetViewModel(
         currencyDataSource.getActiveCurrencies()
             .filterNot { it.code == calculationStorage.currentBase }
             .onEach {
-                it.rate = conversion.getRateFromCode(it.code)?.getFormatted(calculationStorage.precision).orEmpty()
+                it.rate =
+                    conversion.getRateFromCode(it.code)?.getFormatted(calculationStorage.precision)
+                        .orEmpty()
             }
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
             .let { currencyList ->

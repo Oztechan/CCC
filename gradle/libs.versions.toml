@@ -1,13 +1,13 @@
 [versions]
 
-kotlin = "1.9.22"
-ksp = "1.9.22-1.0.16"
-detekt = "1.23.4"
-androidGradlePlugin = "8.2.1"
-composeCompiler = "1.5.8"
-compose = "1.5.4"
+kotlin = "1.9.23"
+ksp = "1.9.23-1.0.19"
+detekt = "1.23.5"
+androidGradlePlugin = "8.2.2"
+composeCompiler = "1.5.11"
+compose = "1.6.3"
 glance = "1.0.0"
-material3 = "1.1.2"
+material3 = "1.2.1"
 androidDesugaring = "2.0.4"
 androidMaterial = "1.11.0"
 composeActivity = "1.8.2"
@@ -16,22 +16,22 @@ koinCore = "3.5.3"
 koinCompose = "3.5.3"
 koinAndroid = "3.5.3"
 koinKtor = "3.5.3"
-ktor = "2.3.7"
+ktor = "2.3.9"
 multiplatformSettings = "1.1.1"
-firebaseAnalytics = "21.5.0"
-firebaseRemoteConfig = "21.6.0"
-googleServices = "4.4.0"
-firebasePer = "20.5.1"
+firebaseAnalytics = "21.6.1"
+firebaseRemoteConfig = "21.6.3"
+googleServices = "4.4.1"
+firebasePer = "20.5.2"
 firebasePerPlugin = "1.4.2"
 firebaseCrashlyticsPlugin = "2.9.9"
-googleAds = "22.6.0"
-huaweiAds = "3.4.68.301"
+googleAds = "23.0.0"
+huaweiAds = "3.4.69.302"
 huaweiOsm = "1.3.35"
-navigation = "2.7.6"
+navigation = "2.7.7"
 playCore = "1.10.3"
 kotlinXDateTime = "0.5.0"
-coroutines = "1.7.3"
-billing = "6.1.0"
+coroutines = "1.8.0"
+billing = "6.2.0"
 leakCanary = "2.13"
 sqlDelight = "1.5.5"
 lifecycle = "2.7.0"
@@ -42,8 +42,8 @@ kover = "0.6.1"
 rootBeer = "0.1.0"
 mockative = "2.0.1"
 anrWatchDog = "1.4.0"
-kermit = "2.0.2"
-konsist = "0.13.0"
+kermit = "2.0.3"
+konsist = "0.14.0"
 
 [libraries]
 # COMMON
@@ -51,7 +51,6 @@ common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
-common-multiplatformSettingsCoroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinXDateTime" }
 common-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 common-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
@@ -71,7 +70,7 @@ android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", ver
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 android-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
-android-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" }
+android-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # not used dependency, workaround for receiving kotlin compose compiler updates by renovate: https://github.com/renovatebot/renovate/issues/18354
 android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 android-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }

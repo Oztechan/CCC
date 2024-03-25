@@ -53,7 +53,8 @@ class CalculatorViewModel(
     private val conversionDataSource: ConversionDataSource,
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(), CalculatorEvent {
+) : BaseSEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(),
+    CalculatorEvent {
     // region SEED
     private val _state =
         MutableStateFlow(CalculatorState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
@@ -120,15 +121,16 @@ class CalculatorViewModel(
         }
     }
 
-    private fun updateConversionSuccess(conversion: Conversion) = conversion.copy(date = nowAsDateString())
-        .let {
-            data.conversion = it
-            calculateConversions(it, ConversionState.Online(it.date))
+    private fun updateConversionSuccess(conversion: Conversion) =
+        conversion.copy(date = nowAsDateString())
+            .let {
+                data.conversion = it
+                calculateConversions(it, ConversionState.Online(it.date))
 
-            viewModelScope.launch {
-                conversionDataSource.insertConversion(it)
+                viewModelScope.launch {
+                    conversionDataSource.insertConversion(it)
+                }
             }
-        }
 
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
@@ -145,17 +147,18 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) = _state.update {
-        copy(
-            currencyList = _state.value.currencyList.onEach {
-                it.rate = conversion.calculateRate(it.code, _state.value.output)
-                    .getFormatted(calculationStorage.precision)
-                    .toStandardDigits()
-            },
-            conversionState = conversionState,
-            loading = false
-        )
-    }
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) =
+        _state.update {
+            copy(
+                currencyList = _state.value.currencyList.onEach {
+                    it.rate = conversion.calculateRate(it.code, _state.value.output)
+                        .getFormatted(calculationStorage.precision)
+                        .toStandardDigits()
+                },
+                conversionState = conversionState,
+                loading = false
+            )
+        }
 
     private fun calculateOutput(input: String) = viewModelScope.launch {
         val output = data.parser
@@ -184,22 +187,23 @@ class CalculatorViewModel(
         }
     }
 
-    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) = viewModelScope.launchIgnored {
-        data.conversion = null
-        calculationStorage.currentBase = newBase
-        _state.update {
-            copy(
-                base = newBase,
-                input = _state.value.input,
-                symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
-            )
-        }
+    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
+        viewModelScope.launchIgnored {
+            data.conversion = null
+            calculationStorage.currentBase = newBase
+            _state.update {
+                copy(
+                    base = newBase,
+                    input = input,
+                    symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
+                )
+            }
 
-        if (shouldTrack) {
-            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+            if (shouldTrack) {
+                analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+                analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+            }
         }
-    }
 
     // region Event
     override fun onKeyPress(key: String) {

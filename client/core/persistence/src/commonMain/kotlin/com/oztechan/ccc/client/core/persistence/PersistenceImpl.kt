@@ -4,7 +4,6 @@ import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceExce
 import com.russhwolf.settings.Settings
 
 internal class PersistenceImpl(private val settings: Settings) : Persistence {
-
     @Suppress("UNCHECKED_CAST")
     override fun <T : Any> getValue(key: String, defaultValue: T): T = when (defaultValue) {
         is Long -> settings.getLong(key, defaultValue) as T
