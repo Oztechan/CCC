@@ -32,7 +32,6 @@ import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesEffect
 import com.oztechan.ccc.client.viewmodel.currencies.CurrenciesViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -65,6 +64,16 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun FragmentCurrenciesBinding.initViews() {
+        adViewContainer.setBannerAd(
+            adManager = adManager,
+            adId = if (BuildConfig.DEBUG) {
+                getString(R.string.banner_ad_unit_id_currencies_debug)
+            } else {
+                getString(R.string.banner_ad_unit_id_currencies_release)
+            },
+            shouldShowAd = currenciesViewModel.state.value.isBannerAdVisible
+        )
+
         setSpanByOrientation(resources.configuration.orientation)
 
         with(recyclerViewCurrencies) {
@@ -75,17 +84,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private fun FragmentCurrenciesBinding.observeStates() = currenciesViewModel.state
         .flowWithLifecycle(lifecycle)
-        .onStart {
-            adViewContainer.setBannerAd(
-                adManager = adManager,
-                adId = if (BuildConfig.DEBUG) {
-                    getString(R.string.banner_ad_unit_id_currencies_debug)
-                } else {
-                    getString(R.string.banner_ad_unit_id_currencies_release)
-                },
-                shouldShowAd = currenciesViewModel.state.value.isBannerAdVisible
-            )
-        }
         .onEach {
             with(it) {
                 currenciesAdapter.submitList(currencyList)
