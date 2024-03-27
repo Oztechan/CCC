@@ -20,20 +20,30 @@ plugins {
 
 group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
-
+fun Project.koverMerge(buildVariant: String) {
+    koverReport {
+        defaults {
+            mergeWith(buildVariant)
+        }
+    }
+}
 allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
-        koverMerged {
+        rootProject.dependencies.add("kover", project(path))
+        if (pluginManager.hasPlugin(rootProject.libs.plugins.androidLib.get().pluginId)) {
+            koverMerge("androidRelease")
+        }
+        if (pluginManager.hasPlugin(rootProject.libs.plugins.androidApp.get().pluginId)) {
+            koverMerge("androidRelease")
+        }
+        koverReport {
             filters {
-                annotations {
-                    excludes += listOf(
-                        "com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews",
-                        "androidx.compose.ui.tooling.preview.Preview",
-                        "androidx.compose.runtime.Composable"
-                    )
+                excludes {
+                    annotatedBy("com.oztechan.ccc.android.ui.compose.annotations.ThemedPreviews")
+                    annotatedBy("androidx.compose.ui.tooling.preview.Preview")
+                    annotatedBy("androidx.compose.runtime.Composable")
                 }
             }
-            enable()
         }
     }
 

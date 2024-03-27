@@ -264,13 +264,13 @@ jobs:
       - name: Run Quality Jobs
         uses: gradle/gradle-build-action@v3.1.0
         with:
-          arguments: check koverMergedXmlReport --parallel
+          arguments: check koverXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4.3.1
         with:
           name: coverageReport
-          path: build/reports/kover/merged/xml/report.xml
+          path: build/reports/kover/report.xml
 
       - name: Cancel other jobs if this fails
         if: failure()
