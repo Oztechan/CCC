@@ -66,6 +66,10 @@ dependencies {
             implementation(koinCompose)
             implementation(lifecycleRuntime)
             implementation(splashScreen)
+
+            // todo can be removed when SearchView is removed: https://github.com/Oztechan/CCC/issues/3272
+            implementation(appCompat)
+            implementation(appCompatResources)
         }
 
         android.google.apply {
