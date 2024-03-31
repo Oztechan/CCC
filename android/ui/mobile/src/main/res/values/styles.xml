@@ -337,14 +337,19 @@
         <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
-    <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
-        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
+    <style name="BaseBottomInfoStyle" parent="FitStyle">
+        <item name="android:padding">@dimen/margin_sixteen</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="maxLines">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SelectYourCurrenciesStyle" parent="BaseBottomInfoStyle">
         <item name="android:text">@string/txt_select_currencies</item>
     </style>
 
-    <style name="SelectAtLeastTwoCurrenciesStyle" parent="FitStyle">
+    <style name="SelectAtLeastTwoCurrenciesStyle" parent="BaseBottomInfoStyle">
         <item name="android:background">@color/background</item>
-        <item name="android:gravity">center</item>
     </style>
 
     <!-- Item -->
