@@ -294,7 +294,7 @@
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
-        <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:padding">@dimen/margin_twelve</item>
         <item name="android:background">@color/background</item>
     </style>
 
