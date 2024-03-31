@@ -32,7 +32,8 @@
             android:id="@+id/settings_item_sub_title"
             style="@style/SettingsItemSubTitle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/img_settings_item" />
+            app:layout_constraintStart_toEndOf="@+id/img_settings_item"
+            app:layout_constraintTop_toBottomOf="@+id/settings_item_title" />
 
         <TextView
             android:id="@+id/settings_item_value"

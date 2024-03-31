@@ -279,7 +279,7 @@
     </style>
 
     <style name="DataStateStyle" parent="WrapStyle">
-        <item name="android:textSize">@dimen/text_size_xs</item>
+        <item name="android:textSize">@dimen/text_size_xxs</item>
         <item name="android:drawablePadding">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
@@ -427,6 +427,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_settings_item_layout</item>
         <item name="android:background">@drawable/selector_item</item>
+        <item name="android:padding">@dimen/margin_four</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
@@ -455,14 +456,13 @@
 
     <style name="SettingsItemTitle" parent="WrapStyle">
         <item name="android:layout_marginStart">@dimen/margin_twelve</item>
-        <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
     <style name="SettingsItemSubTitle" parent="WrapStyle">
         <item name="android:layout_marginStart">@dimen/margin_twelve</item>
-        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_eight</item>
         <item name="android:textColor">@color/text_weak</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textSize">@dimen/text_size_xs</item>
@@ -471,7 +471,7 @@
     <style name="SettingsItemValue" parent="WrapStyle">
         <item name="android:gravity">end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
-        <item name="android:textSize">@dimen/text_size_xs</item>
+        <item name="android:textSize">@dimen/text_size_xxs</item>
         <item name="android:textColor">@color/text_weak</item>
         <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
     </style>
