@@ -35,6 +35,7 @@
         android:id="@+id/txt_select_currencies"
         style="@style/SelectYourCurrenciesStyle"
         app:layout_constraintBottom_toTopOf="@+id/ad_view_container"
+        app:layout_constraintEnd_toStartOf="@+id/btn_done"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recycler_view_currencies" />
 

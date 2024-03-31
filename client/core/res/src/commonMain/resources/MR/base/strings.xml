@@ -33,7 +33,7 @@
     <string name="btn_select_all">Select all</string>
     <string name="btn_de_select_all">Deselect all</string>
     <string name="btn_done">Done</string>
-    <string name="txt_select_currencies">Select your currencies</string>
+    <string name="txt_select_currencies">Please select your currencies</string>
 
     <!--Snack Texts-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
