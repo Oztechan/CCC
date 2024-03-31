@@ -318,6 +318,8 @@
 
     <style name="SelectButtonStyle" parent="BarButtonStyle">
         <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">@dimen/margin_sixteen</item>
+        <item name="android:paddingBottom">@dimen/margin_sixteen</item>
         <item name="android:background">@color/background_strong</item>
         <item name="android:textColor">@color/text</item>
     </style>
@@ -325,7 +327,7 @@
     <style name="DoneButtonStyle" parent="SelectButtonStyle">
         <item name="android:drawableEnd">@drawable/ic_done</item>
         <item name="android:text">@string/btn_done</item>
-        <item name="android:paddingEnd">@dimen/margin_eight</item>
+        <item name="android:padding">@dimen/margin_sixteen</item>
         <item name="android:background">@color/background_weak</item>
     </style>
 
