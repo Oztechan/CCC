@@ -349,12 +349,13 @@
 
     <!-- Item -->
     <style name="BaseItemLayout">
-        <item name="android:padding">@dimen/margin_two</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/selector_item</item>
-        <item name="android:paddingLeft">@dimen/margin_four</item>
-        <item name="android:paddingRight">@dimen/margin_zero</item>
+        <item name="android:paddingTop">@dimen/margin_two</item>
+        <item name="android:paddingBottom">@dimen/margin_two</item>
+        <item name="android:paddingLeft">@dimen/margin_eight</item>
+        <item name="android:paddingRight">@dimen/margin_four</item>
     </style>
 
     <style name="SelectCurrencyItemLayout" parent="BaseItemLayout">
