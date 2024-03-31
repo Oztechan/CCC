@@ -340,7 +340,7 @@
     </style>
 
     <style name="BaseBottomInfoStyle" parent="FitStyle">
-        <item name="android:padding">@dimen/margin_sixteen</item>
+        <item name="android:padding">@dimen/margin_eight</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
         <item name="maxLines">1</item>
         <item name="android:gravity">center</item>
@@ -348,6 +348,8 @@
 
     <style name="SelectYourCurrenciesStyle" parent="BaseBottomInfoStyle">
         <item name="android:text">@string/txt_select_currencies</item>
+        <item name="android:paddingTop">@dimen/margin_eight</item>
+        <item name="android:paddingBottom">@dimen/margin_eight</item>
     </style>
 
     <style name="SelectAtLeastTwoCurrenciesStyle" parent="BaseBottomInfoStyle">
