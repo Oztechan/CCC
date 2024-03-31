@@ -366,6 +366,11 @@
         <item name="android:paddingEnd">@dimen/margin_four</item>
     </style>
 
+    <style name="CurrenciesItemLayout" parent="BaseItemLayout">
+        <item name="android:paddingTop">@dimen/margin_four</item>
+        <item name="android:paddingBottom">@dimen/margin_four</item>
+    </style>
+
     <style name="SelectCurrencyItemLayout" parent="BaseItemLayout">
         <item name="android:background">@drawable/selector_bottom_sheet</item>
     </style>
