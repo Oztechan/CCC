@@ -251,6 +251,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
+        <item name="android:paddingLeft">@dimen/margin_two</item>
+        <item name="android:paddingRight">@dimen/margin_two</item>
     </style>
 
     <style name="BarTextStyle" parent="WrapStyle">
