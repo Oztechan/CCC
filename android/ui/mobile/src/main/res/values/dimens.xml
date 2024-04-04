@@ -43,7 +43,7 @@
     <dimen name="padding_bottom_slide_layout">48dp</dimen>
     <dimen name="height_width_app_logo">200dp</dimen>
     <dimen name="margin_top_slide_items">20dp</dimen>
-    <dimen name="padding_left_right_slide_item">36dp</dimen>
+    <dimen name="padding_horizontal_slide_item">36dp</dimen>
 
     <!-- Search View -->
     <dimen name="max_width_search_view">256dp</dimen>
