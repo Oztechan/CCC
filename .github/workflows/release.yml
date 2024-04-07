@@ -54,7 +54,7 @@ env:
 jobs:
 
   GenerateGradleArtifacts:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -85,7 +85,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Artifacts
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/gradle-build-action@v3.2.0
         with:
           arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
@@ -112,7 +112,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToGooglePlay:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GenerateGradleArtifacts ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -148,7 +148,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToHuaweiAppGallery:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GenerateGradleArtifacts ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -180,7 +180,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DeployToServer:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GenerateGradleArtifacts ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -246,7 +246,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GenerateGradleArtifacts, UploadToGooglePlay, UploadToHuaweiAppGallery, DeployToServer, UploadToAppStore ]
     if: always()
     steps:

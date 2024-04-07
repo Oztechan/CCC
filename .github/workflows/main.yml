@@ -90,7 +90,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/gradle-build-action@v3.2.0
         with:
           arguments: assemble
 
@@ -112,7 +112,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeAndroid:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GradleBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -212,7 +212,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -262,7 +262,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/gradle-build-action@v3.2.0
         with:
           arguments: check koverMergedXmlReport --parallel
 
@@ -281,7 +281,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadQualityReports:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ Quality ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -329,7 +329,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   CodeAnalysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -346,7 +346,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/gradle-build-action@v3.2.0
         with:
           arguments: detektAll
 
@@ -366,7 +366,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GradleBuild, XCodeBuild, Quality, CodeAnalysis, DistributeAndroid, DistributeIOS, UploadQualityReports ]
     if: always()
     steps:
