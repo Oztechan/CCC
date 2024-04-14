@@ -91,7 +91,7 @@ jobs:
         env:
           DEVELOCITY_INJECTION_ENABLED: true
           DEVELOCITY_URL: https://develocity.your-server.com
-          DEVELOCITY_PLUGIN_VERSION: 3.17
+          DEVELOCITY_PLUGIN_VERSION: 3.17.1
 
       - name: Upload Google App Bundle
         uses: actions/upload-artifact@v4.3.1

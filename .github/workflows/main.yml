@@ -96,7 +96,7 @@ jobs:
         env:
           DEVELOCITY_INJECTION_ENABLED: true
           DEVELOCITY_URL: https://develocity.your-server.com
-          DEVELOCITY_PLUGIN_VERSION: 3.17
+          DEVELOCITY_PLUGIN_VERSION: 3.17.1
 
       - name: Upload Android Artifacts
         uses: actions/upload-artifact@v4.3.1
@@ -272,7 +272,7 @@ jobs:
         env:
           DEVELOCITY_INJECTION_ENABLED: true
           DEVELOCITY_URL: https://develocity.your-server.com
-          DEVELOCITY_PLUGIN_VERSION: 3.17
+          DEVELOCITY_PLUGIN_VERSION: 3.17.1
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4.3.1
@@ -360,7 +360,7 @@ jobs:
         env:
           DEVELOCITY_INJECTION_ENABLED: true
           DEVELOCITY_URL: https://develocity.your-server.com
-          DEVELOCITY_PLUGIN_VERSION: 3.17
+          DEVELOCITY_PLUGIN_VERSION: 3.17.1
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
