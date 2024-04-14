@@ -89,9 +89,6 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v3
-
       - name: Assemble
         uses: gradle/actions/setup-gradle@v3.3.0
         with:
@@ -196,9 +193,6 @@ jobs:
           java-version: 17
           distribution: 'temurin'
 
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v3
-
       - name: Build
         working-directory: ios
         run: fastlane build
@@ -269,9 +263,6 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
-
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v3
 
       - name: Run Quality Jobs
         uses: gradle/actions/setup-gradle@v3.3.0
@@ -359,9 +350,6 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
-
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v3
 
       - name: Detekt
         uses: gradle/actions/setup-gradle@v3.3.0
