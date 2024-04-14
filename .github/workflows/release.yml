@@ -85,7 +85,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Generate Artifacts
-        uses: gradle/gradle-build-action@v3.3.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: :android:app:bundleRelease :backend:app:jar --parallel
 
