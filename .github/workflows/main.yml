@@ -90,7 +90,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v3.3.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: assemble
 
@@ -262,7 +262,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v3.3.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: check koverMergedXmlReport --parallel
 
@@ -346,7 +346,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v3.3.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: detektAll
 
