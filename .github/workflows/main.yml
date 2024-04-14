@@ -93,6 +93,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: assemble
+        env:
+          DEVELOCITY_INJECTION_ENABLED: true
+          DEVELOCITY_URL: https://develocity.your-server.com
+          DEVELOCITY_PLUGIN_VERSION: 3.17
 
       - name: Upload Android Artifacts
         uses: actions/upload-artifact@v4.3.1
@@ -265,6 +269,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: check koverMergedXmlReport --parallel
+        env:
+          DEVELOCITY_INJECTION_ENABLED: true
+          DEVELOCITY_URL: https://develocity.your-server.com
+          DEVELOCITY_PLUGIN_VERSION: 3.17
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4.3.1
@@ -349,6 +357,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: detektAll
+        env:
+          DEVELOCITY_INJECTION_ENABLED: true
+          DEVELOCITY_URL: https://develocity.your-server.com
+          DEVELOCITY_PLUGIN_VERSION: 3.17
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1

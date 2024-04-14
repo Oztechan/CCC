@@ -22,22 +22,6 @@ dependencyResolutionManagement {
     }
 }
 
-plugins {
-    id("com.gradle.enterprise") version "3.17.1"
-}
-
-develocity.buildScan {
-    termsOfUseUrl.set("https://gradle.com/help/legal-terms-of-use")
-    termsOfUseAgree.set("yes")
-    publishing.onlyIf { true }
-
-    obfuscation {
-        username { null }
-        hostname { null }
-        ipAddresses { null }
-    }
-}
-
 include(
     // region Android only modules
     ":android:app",
