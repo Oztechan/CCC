@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: ${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ !contains(github.ref, 'develop')}}
 
 env:
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
