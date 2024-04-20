@@ -9,7 +9,7 @@ import com.google.android.ump.UserMessagingPlatform
 import java.util.concurrent.atomic.AtomicBoolean
 
 // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
-private var isMobileAdsInitializeCalled = AtomicBoolean(false)
+private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
 fun Activity.initAds() {
     Logger.v { "Ads initAds" }
