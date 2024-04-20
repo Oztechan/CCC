@@ -13,7 +13,6 @@ import com.github.submob.logmob.ANRWatchDogHandler
 import com.github.submob.logmob.initLogger
 import com.github.submob.logmob.setCrashlyticsCollection
 import com.oztechan.ccc.android.app.di.initKoin
-import com.oztechan.ccc.android.core.ad.initAds
 import com.oztechan.ccc.client.core.analytics.initAnalytics
 
 class Application : Application() {
@@ -38,8 +37,6 @@ class Application : Application() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
             Thread.setDefaultUncaughtExceptionHandler(ANRWatchDogHandler())
         }
-
-        initAds(this)
 
         initKoin(this)
     }

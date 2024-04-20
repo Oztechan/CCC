@@ -4,7 +4,9 @@ import android.content.Context
 import co.touchlab.kermit.Logger
 import com.huawei.hms.ads.HwAds
 
-fun initAds(context: Context) {
+fun Context.initAds() {
     Logger.v { "Ads initAds" }
-    HwAds.init(context)
+    HwAds.init(this)
+    HwAds.setVideoVolume(0f)
+    HwAds.setVideoMuted(true)
 }

@@ -22,8 +22,6 @@ internal class AdManagerImpl : AdManager {
 
     init {
         Logger.v { "AdManagerImpl init" }
-        MobileAds.setAppVolume(0.0f)
-        MobileAds.setAppMuted(true)
     }
 
     override fun getBannerAd(
