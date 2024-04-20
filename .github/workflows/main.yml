@@ -10,7 +10,6 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: ${{ !contains(github.ref, 'develop')}}
 
-
 env:
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
