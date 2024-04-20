@@ -70,6 +70,7 @@ dependencies {
     }
 
     libs.android.apply {
+        implementation(activity)
         google.apply {
             DeviceFlavour.GOOGLE.implementation(googleAds)
         }
