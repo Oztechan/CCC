@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.android.core.ad.AdManager
-import com.oztechan.ccc.android.core.ad.initAds
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
@@ -47,7 +46,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
         setContentView(R.layout.activity_main)
-        initAds()
+        adManager.initAds(this)
         observeStates()
         observeEffects()
     }
