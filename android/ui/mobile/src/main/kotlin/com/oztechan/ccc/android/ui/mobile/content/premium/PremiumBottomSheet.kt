@@ -16,6 +16,7 @@ import com.oztechan.ccc.android.core.billing.BillingManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.BottomSheetPremiumBinding
+import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
 import com.oztechan.ccc.android.ui.mobile.util.toOldPurchaseList
@@ -155,6 +156,6 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
 
     private fun restartActivity() = activity?.run {
         finish()
-        startActivity(intent)
+        resolveAndStartIntent(intent)
     }
 }
