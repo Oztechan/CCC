@@ -194,7 +194,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.marketLink)))
                 }
 
-                SettingsEffect.PrivacyPolicy -> adManager.showConsentForm(requireActivity())
+                SettingsEffect.PrivacySettings -> adManager.showConsentForm(requireActivity())
 
                 SettingsEffect.OnGitHub -> startIntent(
                     Intent(
@@ -234,7 +234,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         itemFeedback.root.setOnClickListener { onFeedBackClick() }
         itemShare.root.setOnClickListener { onShareClick() }
         itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
-        itemPrivacyPolicy.root.setOnClickListener { onPrivacyPolicyClick() }
+        itemPrivacySettings.root.setOnClickListener { onPrivacySettingsClick() }
         itemPrecision.root.setOnClickListener { onPrecisionClick() }
     }
 
