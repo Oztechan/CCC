@@ -131,6 +131,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_on_github_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_on_github_sub_title)
         }
+        with(itemPrivacySettings) {
+            root.visibleIf(adManager.isPrivacyOptionsRequired())
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_privacy_settings)
+            settingsItemTitle.text = getString(R.string.settings_item_privacy_settings_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_privacy_settings_sub_title)
+        }
         with(itemVersion) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_version)
             settingsItemTitle.text = getString(R.string.settings_item_version_title)
