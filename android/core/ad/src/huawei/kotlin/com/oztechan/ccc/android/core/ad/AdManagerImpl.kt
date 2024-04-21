@@ -6,6 +6,7 @@ import co.touchlab.kermit.Logger
 import com.huawei.hms.ads.AdListener
 import com.huawei.hms.ads.AdParam
 import com.huawei.hms.ads.BannerAdSize
+import com.huawei.hms.ads.HwAds
 import com.huawei.hms.ads.InterstitialAd
 import com.huawei.hms.ads.banner.BannerView
 import com.huawei.hms.ads.reward.Reward
@@ -21,6 +22,13 @@ internal class AdManagerImpl : AdManager {
 
     init {
         Logger.v { "AdManagerImpl init" }
+    }
+
+    override fun initAds(activity: Activity) {
+        Logger.v { "Ads initAds" }
+        HwAds.init(activity)
+        HwAds.setVideoVolume(0f)
+        HwAds.setVideoMuted(true)
     }
 
     override fun getBannerAd(

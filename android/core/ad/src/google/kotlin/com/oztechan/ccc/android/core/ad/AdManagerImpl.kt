@@ -8,12 +8,22 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.ump.ConsentInformation
+import com.google.android.ump.ConsentRequestParameters
+import com.google.android.ump.UserMessagingPlatform
+import java.util.concurrent.atomic.AtomicBoolean
 
-internal class AdManagerImpl : AdManager {
+internal class AdManagerImpl(context: Context) : AdManager {
+    // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
+    private val isMobileAdsInitializeCalled = AtomicBoolean(false)
+
+    private val consentInformation: ConsentInformation =
+        UserMessagingPlatform.getConsentInformation(context)
 
     private val adRequest: AdRequest by lazy {
         AdRequest.Builder().build()
@@ -21,6 +31,34 @@ internal class AdManagerImpl : AdManager {
 
     init {
         Logger.v { "AdManagerImpl init" }
+    }
+
+    override fun initAds(activity: Activity) {
+        Logger.v { "AdManagerImpl initAds" }
+        consentInformation.requestConsentInfoUpdate(
+            activity,
+            ConsentRequestParameters.Builder().build(),
+            {
+                UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity) {
+                    if (it != null) {
+                        Logger.e { "Consent gathering failed: ${it.errorCode}: ${it.message}" }
+                    }
+
+                    // Consent has been gathered.
+                    if (consentInformation.canRequestAds()) {
+                        activity.initializeMobileAdsSdk()
+                    }
+                }
+            },
+            { Logger.e { "Consent gathering failed: ${it.errorCode}: ${it.message}" } }
+        )
+
+        // Check if you can initialize the Google Mobile Ads SDK in parallel
+        // while checking for new consent information. Consent obtained in
+        // the previous session can be used to request ads.
+        if (consentInformation.canRequestAds()) {
+            activity.initializeMobileAdsSdk()
+        }
     }
 
     override fun getBannerAd(
@@ -111,5 +149,18 @@ internal class AdManagerImpl : AdManager {
                 }
             }
         )
+    }
+
+    private fun Activity.initializeMobileAdsSdk() {
+        Logger.v { "AdManagerImpl initializeMobileAdsSdk" }
+
+        if (isMobileAdsInitializeCalled.getAndSet(true)) {
+            Logger.v { "AdManagerImpl initializeMobileAdsSdk is not called, already called" }
+            return
+        }
+
+        MobileAds.initialize(this)
+        MobileAds.setAppVolume(0.0f)
+        MobileAds.setAppMuted(true)
     }
 }

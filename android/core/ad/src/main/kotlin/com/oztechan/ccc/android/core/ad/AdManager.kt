@@ -5,6 +5,8 @@ import android.content.Context
 
 interface AdManager {
 
+    fun initAds(activity: Activity)
+
     fun getBannerAd(
         context: Context,
         width: Int,
