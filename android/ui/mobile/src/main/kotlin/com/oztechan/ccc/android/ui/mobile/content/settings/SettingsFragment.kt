@@ -208,6 +208,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     )
                 }
 
+                SettingsEffect.PrivacySettings -> adManager.showConsentForm(requireActivity())
+
                 SettingsEffect.OnGitHub -> requireContext().resolveAndStartIntent(
                     Intent(
                         Intent.ACTION_VIEW,
@@ -251,6 +253,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         itemFeedback.root.setOnClickListener { onFeedBackClick() }
         itemShare.root.setOnClickListener { onShareClick() }
         itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
+        itemPrivacySettings.root.setOnClickListener { onPrivacySettingsClick() }
         itemPrecision.root.setOnClickListener { onPrecisionClick() }
     }
 

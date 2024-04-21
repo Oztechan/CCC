@@ -65,6 +65,14 @@ internal class AdManagerImpl(context: Context) : AdManager {
         consentInformation.privacyOptionsRequirementStatus ==
             ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
 
+    override fun showConsentForm(activity: Activity) {
+        UserMessagingPlatform.showPrivacyOptionsForm(activity) {
+            if (it != null) {
+                Logger.e { "Showing consent form failed: ${it.errorCode}: ${it.message}" }
+            }
+        }
+    }
+
     override fun getBannerAd(
         context: Context,
         width: Int,
