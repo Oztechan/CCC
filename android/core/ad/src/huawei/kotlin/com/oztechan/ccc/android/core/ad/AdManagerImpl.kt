@@ -31,6 +31,8 @@ internal class AdManagerImpl : AdManager {
         HwAds.setVideoMuted(true)
     }
 
+    override fun isPrivacyOptionsRequired() = false
+
     override fun getBannerAd(
         context: Context,
         width: Int,

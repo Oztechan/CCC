@@ -7,6 +7,8 @@ interface AdManager {
 
     fun initAds(activity: Activity)
 
+    fun isPrivacyOptionsRequired(): Boolean
+
     fun getBannerAd(
         context: Context,
         width: Int,

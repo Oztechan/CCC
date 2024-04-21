@@ -61,6 +61,10 @@ internal class AdManagerImpl(context: Context) : AdManager {
         }
     }
 
+    override fun isPrivacyOptionsRequired() =
+        consentInformation.privacyOptionsRequirementStatus ==
+            ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
+
     override fun getBannerAd(
         context: Context,
         width: Int,
