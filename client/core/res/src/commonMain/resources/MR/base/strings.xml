@@ -33,7 +33,7 @@
     <string name="btn_select_all">Select all</string>
     <string name="btn_de_select_all">Deselect all</string>
     <string name="btn_done">Done</string>
-    <string name="txt_select_currencies">Select your currencies</string>
+    <string name="txt_select_currencies">Please select your currencies</string>
 
     <!--Snack Texts-->
     <string name="choose_at_least_two_currency">Please Select at least 2 currencies.</string>
@@ -134,6 +134,9 @@
 
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
+
+    <string name="settings_item_privacy_settings_title">Privacy Settings</string>
+    <string name="settings_item_privacy_settings_sub_title">Update your privacy settings</string>
 
     <string name="settings_item_version_title">Version</string>
     <string name="settings_item_version_sub_title">App version</string>

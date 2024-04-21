@@ -109,7 +109,6 @@
     <style name="BarBaseImageView">
         <item name="android:layout_width">@dimen/currency_icon_size</item>
         <item name="android:layout_height">@dimen/currency_icon_size</item>
-        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
         <item name="srcCompat">@color/transparent</item>
     </style>
@@ -174,7 +173,7 @@
 
     <!-- Slide -->
     <style name="SlideLinearLayout">
-        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
+        <item name="android:layout_marginStart">@dimen/margin_eight</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dots_height</item>
         <item name="android:layout_marginBottom">@dimen/dots_margin_bottom</item>
@@ -219,8 +218,8 @@
         <item name="android:lineSpacingMultiplier">1.2</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:paddingLeft">@dimen/padding_left_right_slide_item</item>
-        <item name="android:paddingRight">@dimen/padding_left_right_slide_item</item>
+        <item name="android:paddingStart">@dimen/padding_horizontal_slide_item</item>
+        <item name="android:paddingEnd">@dimen/padding_horizontal_slide_item</item>
         <item name="android:layout_marginTop">@dimen/margin_top_slide_items</item>
     </style>
 
@@ -251,6 +250,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingBottom">@dimen/margin_eight</item>
+        <item name="android:paddingStart">@dimen/margin_two</item>
+        <item name="android:paddingEnd">@dimen/margin_two</item>
     </style>
 
     <style name="BarTextStyle" parent="WrapStyle">
@@ -279,7 +280,7 @@
     </style>
 
     <style name="DataStateStyle" parent="WrapStyle">
-        <item name="android:textSize">@dimen/text_size_xs</item>
+        <item name="android:textSize">@dimen/text_size_xxs</item>
         <item name="android:drawablePadding">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
     </style>
@@ -294,7 +295,7 @@
         <item name="android:layout_width">@dimen/fit</item>
         <item name="android:gravity">center</item>
         <item name="android:textAppearance">@style/BaseTextStyle</item>
-        <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:padding">@dimen/margin_twelve</item>
         <item name="android:background">@color/background</item>
     </style>
 
@@ -317,6 +318,8 @@
 
     <style name="SelectButtonStyle" parent="BarButtonStyle">
         <item name="android:textAlignment">center</item>
+        <item name="android:paddingTop">@dimen/margin_sixteen</item>
+        <item name="android:paddingBottom">@dimen/margin_sixteen</item>
         <item name="android:background">@color/background_strong</item>
         <item name="android:textColor">@color/text</item>
     </style>
@@ -324,7 +327,7 @@
     <style name="DoneButtonStyle" parent="SelectButtonStyle">
         <item name="android:drawableEnd">@drawable/ic_done</item>
         <item name="android:text">@string/btn_done</item>
-        <item name="android:paddingEnd">@dimen/margin_eight</item>
+        <item name="android:padding">@dimen/margin_sixteen</item>
         <item name="android:background">@color/background_weak</item>
     </style>
 
@@ -337,24 +340,37 @@
         <item name="searchIcon">@drawable/ic_search</item>
     </style>
 
-    <style name="SelectYourCurrenciesStyle" parent="WrapStyle">
-        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
-        <item name="android:text">@string/txt_select_currencies</item>
+    <style name="BaseBottomInfoStyle" parent="FitStyle">
+        <item name="android:padding">@dimen/margin_eight</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="maxLines">1</item>
+        <item name="android:gravity">center</item>
     </style>
 
-    <style name="SelectAtLeastTwoCurrenciesStyle" parent="FitStyle">
+    <style name="SelectYourCurrenciesStyle" parent="BaseBottomInfoStyle">
+        <item name="android:text">@string/txt_select_currencies</item>
+        <item name="android:paddingTop">@dimen/margin_eight</item>
+        <item name="android:paddingBottom">@dimen/margin_eight</item>
+    </style>
+
+    <style name="SelectAtLeastTwoCurrenciesStyle" parent="BaseBottomInfoStyle">
         <item name="android:background">@color/background</item>
-        <item name="android:gravity">center</item>
     </style>
 
     <!-- Item -->
     <style name="BaseItemLayout">
-        <item name="android:padding">@dimen/margin_two</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/selector_item</item>
-        <item name="android:paddingLeft">@dimen/margin_four</item>
-        <item name="android:paddingRight">@dimen/margin_zero</item>
+        <item name="android:paddingTop">@dimen/margin_two</item>
+        <item name="android:paddingBottom">@dimen/margin_two</item>
+        <item name="android:paddingStart">@dimen/margin_eight</item>
+        <item name="android:paddingEnd">@dimen/margin_four</item>
+    </style>
+
+    <style name="CurrenciesItemLayout" parent="BaseItemLayout">
+        <item name="android:paddingTop">@dimen/margin_four</item>
+        <item name="android:paddingBottom">@dimen/margin_four</item>
     </style>
 
     <style name="SelectCurrencyItemLayout" parent="BaseItemLayout">
@@ -365,7 +381,6 @@
     <style name="CalculatorItemImageView">
         <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
-        <item name="android:layout_marginRight">@dimen/margin_four</item>
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
         <item name="android:layout_width">@dimen/currency_icon_size</item>
         <item name="android:layout_height">@dimen/currency_icon_size</item>
@@ -376,28 +391,22 @@
         <item name="android:layout_marginBottom">@dimen/margin_four</item>
         <item name="android:maxLines">1</item>
         <item name="android:paddingStart">@dimen/margin_zero</item>
-        <item name="android:paddingLeft">@dimen/margin_zero</item>
-        <item name="android:paddingRight">@dimen/margin_four</item>
         <item name="android:paddingEnd">@dimen/margin_four</item>\
         <item name="android:textAppearance">@style/ItemTextStyle</item>
     </style>
 
     <style name="CalculatorItemAmountTextStyle" parent="BaseCalculatorItemTextStyle">
         <item name="android:paddingStart">@dimen/margin_two</item>
-        <item name="android:paddingLeft">@dimen/margin_two</item>
-        <item name="android:paddingRight">@dimen/margin_zero</item>
         <item name="android:paddingEnd">@dimen/margin_zero</item>
     </style>
 
     <style name="CalculatorItemSymbolTextStyle" parent="CalculatorItemAmountTextStyle">
-        <item name="android:paddingRight">@dimen/margin_four</item>
         <item name="android:paddingEnd">@dimen/margin_four</item>
         <item name="android:textAppearance">@style/TextStyleSmall</item>
     </style>
 
     <style name="CalculatorItemTypeTextStyle" parent="BaseCalculatorItemTextStyle">
         <item name="android:layout_marginEnd">@dimen/margin_eight</item>
-        <item name="android:layout_marginRight">@dimen/margin_eight</item>
     </style>
 
     <!-- Settings -->
@@ -426,6 +435,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/height_settings_item_layout</item>
         <item name="android:background">@drawable/selector_item</item>
+        <item name="android:padding">@dimen/margin_four</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
@@ -454,14 +464,13 @@
 
     <style name="SettingsItemTitle" parent="WrapStyle">
         <item name="android:layout_marginStart">@dimen/margin_twelve</item>
-        <item name="android:layout_marginTop">@dimen/margin_four</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
     </style>
 
     <style name="SettingsItemSubTitle" parent="WrapStyle">
         <item name="android:layout_marginStart">@dimen/margin_twelve</item>
-        <item name="android:layout_marginBottom">@dimen/margin_four</item>
+        <item name="android:layout_marginBottom">@dimen/margin_eight</item>
         <item name="android:textColor">@color/text_weak</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
         <item name="android:textSize">@dimen/text_size_xs</item>
@@ -470,7 +479,7 @@
     <style name="SettingsItemValue" parent="WrapStyle">
         <item name="android:gravity">end</item>
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Small</item>
-        <item name="android:textSize">@dimen/text_size_xs</item>
+        <item name="android:textSize">@dimen/text_size_xxs</item>
         <item name="android:textColor">@color/text_weak</item>
         <item name="android:layout_marginEnd">@dimen/margin_twelve</item>
     </style>
@@ -487,9 +496,7 @@
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:layout_marginEnd">@dimen/margin_four</item>
-        <item name="android:layout_marginRight">@dimen/margin_four</item>
         <item name="android:layout_marginStart">@dimen/margin_eight</item>
-        <item name="android:layout_marginLeft">@dimen/margin_eight</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:textAppearance">@style/TextStyleSmall</item>
@@ -498,7 +505,6 @@
     <style name="CurrenciesItemCheckBoxStyle" parent="WrapStyle">
         <item name="android:layout_marginTop">@dimen/margin_two</item>
         <item name="android:layout_marginEnd">@dimen/margin_two</item>
-        <item name="android:layout_marginRight">@dimen/margin_two</item>
         <item name="android:layout_marginBottom">@dimen/margin_two</item>
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>

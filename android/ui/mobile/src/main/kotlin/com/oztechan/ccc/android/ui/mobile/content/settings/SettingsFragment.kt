@@ -21,6 +21,7 @@ import com.oztechan.ccc.android.ui.mobile.content.main.ComposeMainActivity
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentSettingsBinding
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
 import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
+import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
 import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSingleChoiceDialog
@@ -97,7 +98,8 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         with(itemDisableAds) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_premium)
             settingsItemTitle.text = getString(R.string.settings_item_premium_title)
-            settingsItemSubTitle.text = getString(R.string.settings_item_premium_sub_title_no_ads_and_widget)
+            settingsItemSubTitle.text =
+                getString(R.string.settings_item_premium_sub_title_no_ads_and_widget)
         }
 
         with(itemPrecision) {
@@ -131,6 +133,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             settingsItemTitle.text = getString(R.string.settings_item_on_github_title)
             settingsItemSubTitle.text = getString(R.string.settings_item_on_github_sub_title)
         }
+        with(itemPrivacySettings) {
+            root.visibleIf(adManager.isPrivacyOptionsRequired())
+            imgSettingsItem.setBackgroundResource(R.drawable.ic_privacy_settings)
+            settingsItemTitle.text = getString(R.string.settings_item_privacy_settings_title)
+            settingsItemSubTitle.text = getString(R.string.settings_item_privacy_settings_sub_title)
+        }
         with(itemVersion) {
             imgSettingsItem.setBackgroundResource(R.drawable.ic_version)
             settingsItemTitle.text = getString(R.string.settings_item_version_title)
@@ -151,8 +159,15 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
                 itemDisableAds.settingsItemValue.text = when (val state = it.premiumStatus) {
                     PremiumStatus.NeverActivated -> ""
-                    is PremiumStatus.Active -> getString(R.string.settings_item_premium_value_will_expire, state.until)
-                    is PremiumStatus.Expired -> getString(R.string.settings_item_premium_value_expired, state.at)
+                    is PremiumStatus.Active -> getString(
+                        R.string.settings_item_premium_value_will_expire,
+                        state.until
+                    )
+
+                    is PremiumStatus.Expired -> getString(
+                        R.string.settings_item_premium_value_expired,
+                        state.at
+                    )
                 }
 
                 itemPrecision.settingsItemValue.text = requireContext().getString(
@@ -185,10 +200,17 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     R.string.rate_and_support,
                     R.string.rate
                 ) {
-                    startIntent(Intent(Intent.ACTION_VIEW, Uri.parse(viewEffect.marketLink)))
+                    requireContext().resolveAndStartIntent(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(viewEffect.marketLink)
+                        )
+                    )
                 }
 
-                SettingsEffect.OnGitHub -> startIntent(
+                SettingsEffect.PrivacySettings -> adManager.showConsentForm(requireActivity())
+
+                SettingsEffect.OnGitHub -> requireContext().resolveAndStartIntent(
                     Intent(
                         Intent.ACTION_VIEW,
                         Uri.parse(getString(R.string.github_url))
@@ -210,7 +232,12 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 SettingsEffect.OnlyOneTimeSync -> view?.showSnack(R.string.txt_already_synced)
                 SettingsEffect.AlreadyPremium -> view?.showSnack(R.string.txt_you_already_have_premium)
                 SettingsEffect.SelectPrecision -> showPrecisionDialog()
-                SettingsEffect.OpenWatchers -> startActivity(Intent(context, ComposeMainActivity::class.java))
+                SettingsEffect.OpenWatchers -> startActivity(
+                    Intent(
+                        context,
+                        ComposeMainActivity::class.java
+                    )
+                )
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -226,6 +253,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         itemFeedback.root.setOnClickListener { onFeedBackClick() }
         itemShare.root.setOnClickListener { onShareClick() }
         itemOnGithub.root.setOnClickListener { onOnGitHubClick() }
+        itemPrivacySettings.root.setOnClickListener { onPrivacySettingsClick() }
         itemPrecision.root.setOnClickListener { onPrecisionClick() }
     }
 
@@ -256,10 +284,6 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         settingsViewModel.state.value.precision.numberToIndex()
     ) {
         settingsViewModel.event.onPrecisionSelect(it)
-    }
-
-    private fun startIntent(intent: Intent) = getBaseActivity()?.packageManager?.let {
-        intent.resolveActivity(it)?.let { startActivity(intent) }
     }
 
     private fun share(marketLink: String) = Intent(Intent.ACTION_SEND).apply {

@@ -22,9 +22,18 @@ internal class AdManagerImpl : AdManager {
 
     init {
         Logger.v { "AdManagerImpl init" }
+    }
+
+    override fun initAds(activity: Activity) {
+        Logger.v { "Ads initAds" }
+        HwAds.init(activity)
         HwAds.setVideoVolume(0f)
         HwAds.setVideoMuted(true)
     }
+
+    override fun isPrivacyOptionsRequired() = false
+
+    override fun showConsentForm(activity: Activity) = Unit
 
     override fun getBannerAd(
         context: Context,

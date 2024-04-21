@@ -5,6 +5,12 @@ import android.content.Context
 
 interface AdManager {
 
+    fun initAds(activity: Activity)
+
+    fun isPrivacyOptionsRequired(): Boolean
+
+    fun showConsentForm(activity: Activity)
+
     fun getBannerAd(
         context: Context,
         width: Int,

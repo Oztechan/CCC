@@ -19,6 +19,7 @@ import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
 import com.oztechan.ccc.android.ui.mobile.util.requestAppReview
+import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.updateBaseContextLocale
 import com.oztechan.ccc.client.viewmodel.main.MainEffect
@@ -46,6 +47,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         Logger.i { "MainActivity onCreate" }
         setContentView(R.layout.activity_main)
+        adManager.initAds(this)
         observeStates()
         observeEffects()
     }
@@ -91,7 +93,7 @@ class MainActivity : BaseActivity() {
         positiveButton = R.string.update,
         cancelable = isCancelable
     ) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(marketLink)))
+        resolveAndStartIntent(Intent(Intent.ACTION_VIEW, Uri.parse(marketLink)))
     }
 
     private fun setDestination(fragmentId: Int) = with(getNavigationController()) {

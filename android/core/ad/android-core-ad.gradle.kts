@@ -72,6 +72,7 @@ dependencies {
     libs.android.apply {
         google.apply {
             DeviceFlavour.GOOGLE.implementation(googleAds)
+            DeviceFlavour.GOOGLE.implementation(ump)
         }
         huawei.apply {
             DeviceFlavour.HUAWEI.implementation(huaweiAds)

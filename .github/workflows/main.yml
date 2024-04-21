@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: ${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ !contains(github.ref, 'develop')}}
 
 env:
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
@@ -90,9 +90,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: assemble
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
+          build-scan-terms-of-use-agree: "yes"
 
       - name: Upload Android Artifacts
         uses: actions/upload-artifact@v4.3.1
@@ -112,7 +115,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeAndroid:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GradleBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -123,7 +126,7 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4.1.5
         with:
           name: androidArtifacts
 
@@ -212,7 +215,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ XCodeBuild ]
     if: github.event_name == 'push'
     outputs:
@@ -222,7 +225,7 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Download iOS IPA
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4.1.5
         with:
           name: iOSArtifacts
           path: ios
@@ -262,9 +265,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: check koverMergedXmlReport --parallel
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
+          build-scan-terms-of-use-agree: "yes"
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4.3.1
@@ -281,7 +287,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadQualityReports:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ Quality ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -290,13 +296,13 @@ jobs:
         uses: actions/checkout@v4.1.1
 
       - name: Download Coverage Report
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4.1.5
         with:
           name: coverageReport
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.1.0
+        uses: codecov/codecov-action@v4.3.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
@@ -329,7 +335,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   CodeAnalysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -346,9 +352,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/gradle-build-action@v3.1.0
+        uses: gradle/actions/setup-gradle@v3.3.0
         with:
           arguments: detektAll
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
+          build-scan-terms-of-use-agree: "yes"
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
@@ -366,7 +375,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [ GradleBuild, XCodeBuild, Quality, CodeAnalysis, DistributeAndroid, DistributeIOS, UploadQualityReports ]
     if: always()
     steps:
