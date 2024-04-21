@@ -9,6 +9,8 @@ interface AdManager {
 
     fun isPrivacyOptionsRequired(): Boolean
 
+    fun showConsentForm(activity: Activity)
+
     fun getBannerAd(
         context: Context,
         width: Int,

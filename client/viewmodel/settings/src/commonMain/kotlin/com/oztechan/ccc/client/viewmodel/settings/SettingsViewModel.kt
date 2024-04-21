@@ -131,6 +131,11 @@ class SettingsViewModel(
         _effect.emit(SettingsEffect.SupportUs(appConfigRepository.getMarketLink()))
     }
 
+    override fun onPrivacyPolicyClick() = viewModelScope.launchIgnored {
+        Logger.d { "SettingsViewModel onPrivacyPolicyClick" }
+        _effect.emit(SettingsEffect.PrivacyPolicy)
+    }
+
     override fun onOnGitHubClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onOnGitHubClick" }
         _effect.emit(SettingsEffect.OnGitHub)

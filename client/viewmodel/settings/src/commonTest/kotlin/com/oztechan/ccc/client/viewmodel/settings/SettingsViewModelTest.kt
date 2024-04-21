@@ -322,6 +322,15 @@ internal class SettingsViewModelTest {
     }
 
     @Test
+    fun onPrivacyPolicyClick() = runTest {
+        viewModel.effect.onSubscription {
+            viewModel.event.onPrivacyPolicyClick()
+        }.firstOrNull().let {
+            assertIs<SettingsEffect.PrivacyPolicy>(it)
+        }
+    }
+
+    @Test
     fun onPremiumClick() = runTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumClick()

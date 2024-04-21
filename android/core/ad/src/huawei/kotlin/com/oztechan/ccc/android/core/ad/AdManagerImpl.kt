@@ -33,6 +33,8 @@ internal class AdManagerImpl : AdManager {
 
     override fun isPrivacyOptionsRequired() = false
 
+    override fun showConsentForm(activity: Activity) = Unit
+
     override fun getBannerAd(
         context: Context,
         width: Int,
