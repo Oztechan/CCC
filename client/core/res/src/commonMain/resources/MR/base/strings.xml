@@ -135,8 +135,8 @@
     <string name="settings_item_on_github_title">On GitHub</string>
     <string name="settings_item_on_github_sub_title">Visit project on GitHub</string>
 
-    <string name="settings_item_privacy_policy_title">Privacy Policy</string>
-    <string name="settings_item_privacy_policy_sub_title">Update your privacy policy</string>
+    <string name="settings_item_privacy_settings_title">Privacy Settings</string>
+    <string name="settings_item_privacy_settings_sub_title">Update your privacy settings</string>
 
     <string name="settings_item_version_title">Version</string>
     <string name="settings_item_version_sub_title">App version</string>
