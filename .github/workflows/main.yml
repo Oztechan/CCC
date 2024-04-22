@@ -98,7 +98,7 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
 
       - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v4.3.2
+        uses: actions/upload-artifact@v4.3.3
         if: github.event_name == 'push'
         with:
           name: androidArtifacts
@@ -198,7 +198,7 @@ jobs:
         run: fastlane build
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.3.2
+        uses: actions/upload-artifact@v4.3.3
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -273,7 +273,7 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4.3.2
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: coverageReport
           path: build/reports/kover/merged/xml/report.xml
