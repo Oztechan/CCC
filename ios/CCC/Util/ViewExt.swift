@@ -86,13 +86,13 @@ extension View {
         isPresented: Binding<Bool>,
         @ViewBuilder view: @escaping () -> PopupContent
     ) -> some View {
-        self.popup(
-            isPresented: isPresented,
-            type: .toast,
-            autohideIn: 2.0,
-            closeOnTapOutside: true,
-            view: view
-        )
+        self.popup(isPresented: isPresented) {
+            view()
+        } customize: {
+            $0.type(.toast)
+                .autohideIn(2.0)
+                .closeOnTap(true)
+        }
     }
 
     func alert<PopupContent: View>(

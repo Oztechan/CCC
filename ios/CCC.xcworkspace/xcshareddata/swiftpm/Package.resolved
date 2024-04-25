@@ -1,4 +1,5 @@
 {
+  "originHash" : "1dc4c6fa43639d9131d41d222f2ae51118c7310a882b389a08a3ed2a100b097a",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -104,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/exyte/PopupView.git",
       "state" : {
-        "revision" : "1b99d6e9872ef91fd57aaef657661b5a00069638",
-        "version" : "1.3.1"
+        "revision" : "8c85ff09d474dd3cfb69aba33046395bcf365573",
+        "version" : "2.9.1"
       }
     },
     {
@@ -131,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
       "state" : {
-        "revision" : "cfe8b2ae16b9bc81f4cdf1d1a12a01a452489c32",
-        "version" : "2.3.0"
+        "revision" : "9b68aa69fb508f0274853e226c734151a973c7b7",
+        "version" : "2.4.0"
       }
     },
     {
@@ -145,6 +146,15 @@
       }
     },
     {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/swiftui-introspect",
+      "state" : {
+        "revision" : "0cd2a5a5895306bc21d54a2254302d24a9a571e4",
+        "version" : "1.1.3"
+      }
+    },
+    {
       "identity" : "swiftui-navigation-stack",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/matteopuc/swiftui-navigation-stack",
@@ -154,5 +164,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
