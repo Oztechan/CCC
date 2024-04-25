@@ -23,6 +23,7 @@ version = ProjectSettings.getVersionName(project)
 
 allprojects {
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
+        rootProject.dependencies.add("kover", project(path))
         koverReport {
             filters {
                 excludes {
