@@ -90,7 +90,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Assemble
-        uses: gradle/actions/setup-gradle@v3.3.1
+        uses: gradle/actions/setup-gradle@v3.3.2
         with:
           arguments: assemble
           build-scan-publish: true
@@ -265,7 +265,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Run Quality Jobs
-        uses: gradle/actions/setup-gradle@v3.3.1
+        uses: gradle/actions/setup-gradle@v3.3.2
         with:
           arguments: check koverXmlReport --parallel
           build-scan-publish: true
@@ -352,7 +352,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Detekt
-        uses: gradle/actions/setup-gradle@v3.3.1
+        uses: gradle/actions/setup-gradle@v3.3.2
         with:
           arguments: detektAll
           build-scan-publish: true
