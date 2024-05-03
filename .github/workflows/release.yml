@@ -143,7 +143,6 @@ jobs:
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: googleBundle
 
       - name: Set Job Status
@@ -175,7 +174,6 @@ jobs:
       - name: Delete App Bundle
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: huaweiBundle
 
       - name: Set Job Status
@@ -207,7 +205,6 @@ jobs:
       - name: Delete Backend Jar
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: backendJar
 
       - name: Set Job Status
