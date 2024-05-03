@@ -59,11 +59,8 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
-        uses: actions/checkout@v4.1.4
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/.github/workflows/reusable-setup-gradle-repo.yml@v1.0.2
 
       - name: Adding secret files
         run: |
@@ -78,19 +75,8 @@ jobs:
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
-
       - name: Generate Artifacts
-        uses: gradle/actions/setup-gradle@v3.3.2
-        with:
-          arguments: :android:app:bundleRelease :backend:app:jar --parallel
-          build-scan-publish: true
-          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
-          build-scan-terms-of-use-agree: "yes"
+        run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
         uses: actions/upload-artifact@v4.3.3
@@ -216,17 +202,8 @@ jobs:
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4.1.4
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/.github/workflows/reusable-setup-gradle-repo.yml@v1.0.2
 
       - name: Adding secret files
         run: |
