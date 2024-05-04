@@ -65,7 +65,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/.github/workflows/composite-setup-gradle-repo.yml@16505430d8c9b0b41f53e1e3edc77a048a9f2b0a
+        uses: Oztechan/Global/.github/workflows/actions@04d3b7607682ea67564a0c7998e7702af801fb5a
 
       - name: Adding secret files
         run: |
@@ -148,7 +148,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/.github/workflows/composite-setup-gradle-repo.yml@16505430d8c9b0b41f53e1e3edc77a048a9f2b0a
+        uses: Oztechan/Global/.github/workflows/actions@04d3b7607682ea67564a0c7998e7702af801fb5a
 
       - name: Adding secret files
         run: |
@@ -229,7 +229,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/.github/workflows/composite-setup-gradle-repo.yml@16505430d8c9b0b41f53e1e3edc77a048a9f2b0a
+        uses: Oztechan/Global/.github/workflows/actions@04d3b7607682ea67564a0c7998e7702af801fb5a
 
       - name: Run Quality Jobs
         run: ./gradlew check koverMergedXmlReport --parallel
@@ -302,7 +302,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/.github/workflows/composite-setup-gradle-repo.yml@16505430d8c9b0b41f53e1e3edc77a048a9f2b0a
+        uses: Oztechan/Global/.github/workflows/actions@04d3b7607682ea67564a0c7998e7702af801fb5a
 
       - name: Detekt
         run: ./gradlew detektAll
