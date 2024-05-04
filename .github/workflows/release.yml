@@ -60,7 +60,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/.github/workflows/reusable-setup-gradle-repo.yml@v1.0.2
+        uses: Oztechan/Global/.github/workflows/actions/setup-gradle-repo.yml@e172c61f99ab946fcf04af89d988713a5aba2df3
 
       - name: Adding secret files
         run: |
@@ -203,7 +203,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/.github/workflows/reusable-setup-gradle-repo.yml@v1.0.2
+        uses: Oztechan/Global/.github/workflows/actions/setup-gradle-repo.yml@e172c61f99ab946fcf04af89d988713a5aba2df3
 
       - name: Adding secret files
         run: |
