@@ -1,16 +1,16 @@
 [versions]
 
-kotlin = "1.9.23"
-ksp = "1.9.23-1.0.20"
+kotlin = "1.9.22"
+ksp = "1.9.22-1.0.18"
+composeCompiler = "1.5.10"
+jetbrainsCompose = "1.5.12"
+compose = "1.6.6"
+activityCompose = "1.8.2"
 detekt = "1.23.6"
 androidGradlePlugin = "8.4.0"
-composeCompiler = "1.5.13"
-compose = "1.6.7"
 glance = "1.0.0"
-material3 = "1.2.1"
 androidDesugaring = "2.0.4"
 androidMaterial = "1.11.0"
-composeActivity = "1.9.0"
 constraintLayout = "2.1.4"
 koinCore = "3.5.6"
 koinCompose = "3.5.6"
@@ -49,6 +49,7 @@ konsist = "0.15.1"
 
 [libraries]
 # COMMON
+common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
@@ -70,12 +71,11 @@ common-konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 # ANDROID
 android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugaring" }
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
-android-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
-android-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # not used dependency, workaround for receiving kotlin compose compiler updates by renovate: https://github.com/renovatebot/renovate/issues/18354
-android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-android-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
+android-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+android-composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
+android-composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
+android-composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 android-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
@@ -125,6 +125,7 @@ processors-mockative = { module = "io.mockative:mockative-processor", version.re
 [plugins]
 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }

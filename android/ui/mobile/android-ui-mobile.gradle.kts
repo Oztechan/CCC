@@ -6,6 +6,7 @@ plugins {
         alias(androidLibrary)
         alias(kotlinAndroid)
         alias(safeArgs) // todo can be removed once compose migration done
+        alias(jetbrainsCompose)
     }
 }
 
@@ -54,11 +55,13 @@ dependencies {
         }
 
         android.apply {
-            implementation(composeToolingPreview)
-            debugImplementation(composeTooling)
-            implementation(material3)
+            compose.apply {
+                implementation(material3)
+            }
+            debugImplementation(composeUiTooling)
+            implementation(composeUiToolingPreview)
+            implementation(activityCompose)
             implementation(androidMaterial)
-            implementation(composeActivity)
             implementation(composeNavigation)
             implementation(constraintLayout)
             implementation(navigation)
