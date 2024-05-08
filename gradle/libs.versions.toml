@@ -7,6 +7,7 @@ composeCompiler = "1.5.13"
 jetbrainsCompose = "1.6.2"
 glance = "1.0.0"
 activityCompose = "1.8.2"
+navigationCompose = "2.7.0-alpha03"
 detekt = "1.23.6"
 androidDesugaring = "2.0.4"
 androidMaterial = "1.11.0"
@@ -48,9 +49,10 @@ konsist = "0.15.1"
 
 [libraries]
 # COMMON
-common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
+common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
+common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinXDateTime" }
@@ -72,7 +74,6 @@ android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", ver
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
 android-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-android-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 android-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }

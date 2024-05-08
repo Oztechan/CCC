@@ -51,6 +51,7 @@ dependencies {
     libs.apply {
         common.apply {
             testImplementation(test)
+            implementation(navigationCompose)
             implementation(kermit)
         }
         compose.apply {
@@ -60,7 +61,6 @@ dependencies {
         }
         android.apply {
             implementation(activityCompose)
-            implementation(composeNavigation)
             implementation(androidMaterial)
             implementation(constraintLayout)
             implementation(navigation)
