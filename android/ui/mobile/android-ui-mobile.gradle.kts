@@ -53,16 +53,15 @@ dependencies {
             testImplementation(test)
             implementation(kermit)
         }
-
+        compose.apply {
+            implementation(material3)
+            debugImplementation(uiTooling)
+            implementation(preview)
+        }
         android.apply {
-            compose.apply {
-                implementation(material3)
-            }
-            debugImplementation(composeUiTooling)
-            implementation(composeUiToolingPreview)
             implementation(activityCompose)
-            implementation(androidMaterial)
             implementation(composeNavigation)
+            implementation(androidMaterial)
             implementation(constraintLayout)
             implementation(navigation)
             implementation(koinAndroid)
