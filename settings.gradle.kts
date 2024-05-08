@@ -6,6 +6,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://dl.bintray.com/icerockdev/plugins")
     }
 }
@@ -15,6 +16,7 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://dl.bintray.com/ekito/koin")
         maven("https://dl.bintray.com/icerockdev/moko")
         maven("https://kotlin.bintray.com/kotlinx/")
