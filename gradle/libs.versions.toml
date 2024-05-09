@@ -1,14 +1,13 @@
 [versions]
 
 kotlin = "1.9.23"
+androidGradlePlugin = "8.4.0"
 ksp = "1.9.23-1.0.20"
 composeCompiler = "1.5.13"
 jetbrainsCompose = "1.6.2"
-compose = "1.6.6"
+glance = "1.0.0"
 activityCompose = "1.8.2"
 detekt = "1.23.6"
-androidGradlePlugin = "8.4.0"
-glance = "1.0.0"
 androidDesugaring = "2.0.4"
 androidMaterial = "1.11.0"
 constraintLayout = "2.1.4"
@@ -73,9 +72,6 @@ android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", ver
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
 android-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-android-composeUi = { module = "androidx.compose.ui:ui", version.ref = "compose" }
-android-composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-android-composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
 android-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
 android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
