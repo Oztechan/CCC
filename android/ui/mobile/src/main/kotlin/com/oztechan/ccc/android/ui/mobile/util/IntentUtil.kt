@@ -7,5 +7,7 @@ import co.touchlab.kermit.Logger
 fun Context.resolveAndStartIntent(intent: Intent) {
     intent.resolveActivity(packageManager)?.let {
         startActivity(intent)
-    } ?: Logger.w { "No activity found to handle the intent: $intent" }
+    } ?: Exception("No activity found to handle the intent: $intent").let {
+        Logger.e(it) { it.message.orEmpty() }
+    }
 }

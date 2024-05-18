@@ -7,6 +7,7 @@
 //
 
 import GoogleMobileAds
+import Provider
 
 final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
     func show() {
@@ -15,7 +16,10 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: { interstitialAd, error in
                 if let error = error {
-                    logger.e(message: { "InterstitialAd show \(error.localizedDescription)" })
+                    let throwable = KotlinThrowable(
+                        message: "InterstitialAd show \(error.localizedDescription)"
+                    )
+                    logger.e(throwable: throwable, tag: logger.tag, message: { String(describing: throwable.message) })
                     return
                 }
 

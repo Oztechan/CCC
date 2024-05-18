@@ -7,6 +7,7 @@
 //
 
 import GoogleMobileAds
+import Provider
 
 final class RewardedAd: NSObject, GADFullScreenContentDelegate {
 
@@ -29,7 +30,10 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
             request: GADRequest(),
             completionHandler: {rewardedAd, error in
                 if error != nil {
-                    logger.e(message: { "RewardedAd show error: \(String(describing: error?.localizedDescription))" })
+                    let throwable = KotlinThrowable(
+                        message: "RewardedAd show error: \(String(describing: error?.localizedDescription))"
+                    )
+                    logger.e(throwable: throwable, tag: logger.tag, message: { String(describing: throwable.message) })
                     self.onError()
                     return
                 }

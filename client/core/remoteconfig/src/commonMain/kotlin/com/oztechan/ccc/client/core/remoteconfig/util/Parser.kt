@@ -12,6 +12,8 @@ inline fun <reified T> String?.parseToObject(): T? = if (!isNullOrEmpty()) {
         null
     }
 } else {
-    Logger.a { "Not parse-able string" }
+    Exception("Not parse-able string").let {
+        Logger.e(it) { it.message.orEmpty() }
+    }
     null
 }
