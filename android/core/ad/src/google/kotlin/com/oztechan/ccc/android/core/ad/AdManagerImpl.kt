@@ -41,7 +41,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
             {
                 UserMessagingPlatform.loadAndShowConsentFormIfRequired(activity) {
                     if (it != null) {
-                        Logger.e { "Consent gathering failed: ${it.errorCode}: ${it.message}" }
+                        Exception("Consent gathering failed: ${it.errorCode}: ${it.message}").let { exception ->
+                            Logger.e(exception) { exception.message.orEmpty() }
+                        }
                     }
 
                     // Consent has been gathered.
@@ -50,7 +52,11 @@ internal class AdManagerImpl(context: Context) : AdManager {
                     }
                 }
             },
-            { Logger.e { "Consent gathering failed: ${it.errorCode}: ${it.message}" } }
+            {
+                Exception("Consent gathering failed: ${it.errorCode}: ${it.message}").let { exception ->
+                    Logger.e(exception) { exception.message.orEmpty() }
+                }
+            }
         )
 
         // Check if you can initialize the Google Mobile Ads SDK in parallel
@@ -68,7 +74,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
     override fun showConsentForm(activity: Activity) {
         UserMessagingPlatform.showPrivacyOptionsForm(activity) {
             if (it != null) {
-                Logger.e { "Showing consent form failed: ${it.errorCode}: ${it.message}" }
+                Exception("Showing consent form failed: ${it.errorCode}: ${it.message}").let { exception ->
+                    Logger.e(exception) { exception.message.orEmpty() }
+                }
             }
         }
     }
@@ -119,7 +127,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     super.onAdFailedToLoad(adError)
-                    Logger.e { "AdManagerImpl showInterstitialAd onAdFailedToLoad ${adError.message}" }
+                    Exception("AdManagerImpl showInterstitialAd onAdFailedToLoad ${adError.message}").let {
+                        Logger.e(it) { it.message.orEmpty() }
+                    }
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -146,7 +156,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
             object : RewardedAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     super.onAdFailedToLoad(adError)
-                    Logger.e { "AdManagerImpl showRewardedAd onAdFailedToLoad ${adError.message}" }
+                    Exception("AdManagerImpl showRewardedAd onAdFailedToLoad ${adError.message}").let {
+                        Logger.e(it) { it.message.orEmpty() }
+                    }
                     onAdFailedToLoad()
                 }
 
