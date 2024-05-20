@@ -6,7 +6,6 @@ import com.oztechan.ccc.client.core.remoteconfig.error.NonParsableStringExceptio
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
-import kotlin.test.assertNull
 
 internal class ParserTest {
 
@@ -18,14 +17,14 @@ internal class ParserTest {
     @Test
     fun `parseToObject returns null when invoked with null`() {
         assertFailsWith<NonParsableStringException> {
-            null.parseToObject<Any>()
+            null.parseToObject()
         }
     }
 
     @Test
     fun `parseToObject returns null when invoked with empty String`() {
         assertFailsWith<NonParsableStringException> {
-            assertNull("".parseToObject())
+            "".parseToObject()
         }
     }
 }
