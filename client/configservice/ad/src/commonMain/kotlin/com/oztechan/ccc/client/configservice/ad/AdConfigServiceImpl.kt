@@ -13,9 +13,9 @@ internal class AdConfigServiceImpl :
     ),
     AdConfigService {
 
-    override fun String?.decode() = parseToObject<AdConfigRCModel>()
-        ?.toAdConfigModel()
-        ?: default
+    override fun String?.decode() = runCatching {
+        parseToObject<AdConfigRCModel>().toAdConfigModel()
+    }.getOrElse { default }
 
     companion object {
         private const val KEY_AD_CONFIG = "ad_config"

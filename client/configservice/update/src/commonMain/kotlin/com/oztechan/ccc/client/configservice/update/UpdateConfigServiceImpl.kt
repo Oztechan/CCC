@@ -13,9 +13,9 @@ internal class UpdateConfigServiceImpl :
     ),
     UpdateConfigService {
 
-    override fun String?.decode() = parseToObject<UpdateConfigRCModel>()
-        ?.toUpdateConfigModel()
-        ?: default
+    override fun String?.decode() = runCatching {
+        parseToObject<UpdateConfigRCModel>().toUpdateConfigModel()
+    }.getOrElse { default }
 
     companion object {
         private const val KEY_AD_CONFIG = "update_config"

@@ -2,8 +2,10 @@ package com.oztechan.ccc.client.core.remoteconfig.util
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.client.core.remoteconfig.error.NonParsableStringException
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNull
 
 internal class ParserTest {
@@ -15,11 +17,15 @@ internal class ParserTest {
 
     @Test
     fun `parseToObject returns null when invoked with null`() {
-        assertNull(null.parseToObject())
+        assertFailsWith<NonParsableStringException> {
+            null.parseToObject<Any>()
+        }
     }
 
     @Test
     fun `parseToObject returns null when invoked with empty String`() {
-        assertNull("".parseToObject())
+        assertFailsWith<NonParsableStringException> {
+            assertNull("".parseToObject())
+        }
     }
 }
