@@ -13,7 +13,7 @@ internal class PersistenceImpl(private val settings: Settings) : Persistence {
         is Boolean -> settings.getBoolean(key, defaultValue) as T
         is Float -> settings.getFloat(key, defaultValue) as T
         else -> throw UnsupportedPersistenceException().also {
-            Logger.e { "Unsupported type: ${defaultValue::class} for key $key and default value $defaultValue" }
+            Logger.e(it) { "Unsupported type: ${defaultValue::class} for key $key and default value $defaultValue" }
         }
     }
 
@@ -24,7 +24,7 @@ internal class PersistenceImpl(private val settings: Settings) : Persistence {
         is Boolean -> settings.putBoolean(key, value)
         is Float -> settings.putFloat(key, value)
         else -> throw UnsupportedPersistenceException().also {
-            Logger.e { "Unsupported type: ${value::class} for key $key and value $value" }
+            Logger.e(it) { "Unsupported type: ${value::class} for key $key and value $value" }
         }
     }
 }
