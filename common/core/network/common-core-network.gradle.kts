@@ -29,6 +29,7 @@ kotlin {
                 implementation(ktorLogging)
                 implementation(ktorClientContentNegotiation)
                 implementation(ktorJson)
+                implementation(kermit)
             }
             implementation(project(Modules.Common.Core.model))
         }

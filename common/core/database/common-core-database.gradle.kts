@@ -21,6 +21,7 @@ kotlin {
                 implementation(koinCore)
                 implementation(coroutines)
                 implementation(sqlDelightCoroutinesExt)
+                implementation(kermit)
             }
             implementation(project(Modules.Common.Core.model))
         }
