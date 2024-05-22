@@ -1,10 +1,10 @@
 [versions]
 
-kotlin = "1.9.23"
+kotlin = "1.9.24"
 androidGradlePlugin = "8.4.0"
-ksp = "1.9.23-1.0.20"
-composeCompiler = "1.5.13"
-jetbrainsCompose = "1.6.2"
+ksp = "1.9.24-1.0.20"
+composeCompiler = "1.5.14"
+jetbrainsCompose = "1.6.10"
 glance = "1.0.0"
 activityCompose = "1.9.0"
 navigationCompose = "2.7.0-alpha07"
