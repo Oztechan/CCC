@@ -17,6 +17,7 @@ kotlin {
             libs.common.apply {
                 implementation(koinCore)
                 implementation(multiplatformSettings)
+                implementation(kermit)
             }
         }
         commonTest.dependencies {
