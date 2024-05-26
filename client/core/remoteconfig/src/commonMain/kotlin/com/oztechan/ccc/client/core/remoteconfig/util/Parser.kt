@@ -8,7 +8,8 @@ import kotlinx.serialization.json.Json
 inline fun <reified T> String?.parseToObject(): T = try {
     Json.decodeFromString<T>(this.orEmpty())
 } catch (exception: Exception) {
-    throw NonParsableStringException(this, exception).also {
+    NonParsableStringException(this, exception).let {
         Logger.e(it) { it.message.orEmpty() }
+        throw it
     }
 }
