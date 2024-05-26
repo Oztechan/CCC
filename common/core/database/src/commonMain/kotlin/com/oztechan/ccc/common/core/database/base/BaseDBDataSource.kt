@@ -19,8 +19,9 @@ open class BaseDBDataSource(private val ioDispatcher: CoroutineDispatcher) {
         try {
             suspendBlock.invoke()
         } catch (e: Throwable) {
-            throw DatabaseException(e).also {
+            DatabaseException(e).let {
                 Logger.e(it) { it.message.orEmpty() }
+                throw it
             }
         }
     }
@@ -28,8 +29,9 @@ open class BaseDBDataSource(private val ioDispatcher: CoroutineDispatcher) {
     protected fun <T : Any> Query<T>.toDBFlowList(): Flow<List<T>> = asFlow()
         .flowOn(ioDispatcher)
         .catch {
-            throw DatabaseException(it).also { exception ->
+            DatabaseException(it).let { exception ->
                 Logger.e(exception) { exception.message.orEmpty() }
+                throw exception
             }
         }.mapToList(ioDispatcher)
 }
