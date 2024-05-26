@@ -78,7 +78,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun observeNavigationResults() = getNavigationResult<String>(
         CHANGE_BASE_EVENT,
         R.id.calculatorFragment
-    )?.observe(viewLifecycleOwner) {
+    ).observe(viewLifecycleOwner) {
         Logger.i { "CalculatorFragment observeNavigationResults $it" }
         calculatorViewModel.event.onBaseChange(it)
     }
