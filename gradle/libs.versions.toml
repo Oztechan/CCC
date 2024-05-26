@@ -1,7 +1,7 @@
 [versions]
 
 kotlin = "1.9.24"
-androidGradlePlugin = "8.4.0"
+androidGradlePlugin = "8.4.1"
 ksp = "1.9.24-1.0.20"
 composeCompiler = "1.5.14"
 jetbrainsCompose = "1.6.10"
