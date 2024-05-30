@@ -76,7 +76,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
             })
         }
 
-        btnNext.setOnClickListener {
+        btnNext.setOnClickListener { _ ->
             getNextItem()
                 .whether { it < layouts.size }
                 ?.let { position -> viewPager.currentItem = position }
