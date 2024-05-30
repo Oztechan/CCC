@@ -149,7 +149,7 @@ internal class BillingManagerImpl(private val context: Context) :
         billingClient.queryPurchaseHistoryAsync(queryPurchaseHistoryParams, this)
 
         billingClient.whether(
-            { isReady },
+            { it.isReady },
             { billingResult.responseCode == BillingClient.BillingResponseCode.OK }
         )?.apply {
             val queryProductDetailsParams = QueryProductDetailsParams.newBuilder()

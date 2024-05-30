@@ -84,7 +84,7 @@ class CurrenciesViewModel(
         ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
 
     private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
-        { isEmpty() },
+        { it.isEmpty() },
         { base ->
             state.value.currencyList
                 .filter { it.code == base }

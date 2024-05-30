@@ -22,7 +22,7 @@ internal class AppConfigRepositoryImpl(
     ): Boolean? = updateConfigService.config
         .whether(
             { !isAppUpdateShown },
-            { updateLatestVersion > BuildKonfig.versionCode }
+            { it.updateLatestVersion > BuildKonfig.versionCode }
         )?.let {
             it.updateForceVersion > BuildKonfig.versionCode
         } ?: run { null } // do not show
