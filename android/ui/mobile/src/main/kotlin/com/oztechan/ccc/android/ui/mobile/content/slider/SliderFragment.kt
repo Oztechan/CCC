@@ -78,7 +78,7 @@ class SliderFragment : BaseVBFragment<FragmentSliderBinding>() {
 
         btnNext.setOnClickListener {
             getNextItem()
-                .whether { this < layouts.size }
+                .whether { it < layouts.size }
                 ?.let { position -> viewPager.currentItem = position }
                 ?: run {
                     bottomBarSeparator.isGone = true
