@@ -1,8 +1,8 @@
 [versions]
 
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 androidGradlePlugin = "8.4.1"
-ksp = "1.9.24-1.0.20"
+ksp = "2.0.0-1.0.21"
 composeCompiler = "1.5.14"
 jetbrainsCompose = "1.6.10"
 glance = "1.0.0"
