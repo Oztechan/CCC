@@ -7,6 +7,7 @@ plugins {
         alias(kotlinAndroid)
         alias(safeArgs) // todo can be removed once compose migration done
         alias(jetbrainsCompose)
+        alias(kotlinPluginCompose)
     }
 }
 
@@ -26,10 +27,6 @@ android {
         viewBinding = true
         compose = true
         buildConfig = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     DeviceFlavour.apply {

@@ -3,7 +3,6 @@
 kotlin = "2.0.0"
 androidGradlePlugin = "8.4.1"
 ksp = "2.0.0-1.0.21"
-composeCompiler = "1.5.14"
 jetbrainsCompose = "1.6.10"
 glance = "1.0.0"
 activityCompose = "1.9.0"
@@ -50,7 +49,6 @@ konsist = "0.15.1"
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
-common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
 common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
@@ -120,6 +118,7 @@ processors-mockative = { module = "io.mockative:mockative-processor", version.re
 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
+kotlinPluginCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
