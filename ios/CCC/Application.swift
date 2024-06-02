@@ -36,6 +36,8 @@ struct Application: App {
         logger.i(message: { "Application init" })
 
         GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().applicationMuted = true
+        GADMobileAds.sharedInstance().applicationVolume = 0
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
