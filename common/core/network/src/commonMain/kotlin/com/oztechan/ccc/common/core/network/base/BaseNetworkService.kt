@@ -1,5 +1,6 @@
 package com.oztechan.ccc.common.core.network.base
 
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.network.error.EmptyParameterException
 import com.oztechan.ccc.common.core.network.error.ModelMappingException
 import com.oztechan.ccc.common.core.network.error.NetworkException
@@ -28,16 +29,22 @@ open class BaseNetworkService(private val ioDispatcher: CoroutineDispatcher) {
     ): T = try {
         suspendBlock.invoke()
     } catch (e: Throwable) {
-        throw when (e) {
+        when (e) {
             is CancellationException -> TerminationException(e)
             is ConnectTimeoutException -> TimeoutException(e)
             is IOException -> NetworkException(e)
             is SerializationException -> ModelMappingException(e)
             else -> UnknownNetworkException(e)
+        }.let {
+            Logger.e(it) { it.message.orEmpty() }
+            throw it
         }
     }
 
     protected fun withEmptyParameterCheck(parameter: String) = parameter.ifEmpty {
-        throw EmptyParameterException()
+        EmptyParameterException().let {
+            Logger.e(it) { it.message.orEmpty() }
+            throw it
+        }
     }
 }

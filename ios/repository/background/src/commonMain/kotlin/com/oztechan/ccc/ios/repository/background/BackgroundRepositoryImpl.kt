@@ -31,7 +31,7 @@ internal class BackgroundRepositoryImpl(
                             }
                         }
                     }.onFailure {
-                        Logger.w(it) { "BackgroundRepositoryImpl shouldSendNotification error onFailure: $it" }
+                        Logger.e(it) { "BackgroundRepositoryImpl shouldSendNotification error onFailure: $it" }
                     }
             }
             return@runBlocking false

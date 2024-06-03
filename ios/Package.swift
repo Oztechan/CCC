@@ -14,15 +14,15 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk",
-            from: "10.23.0"
+            from: "10.27.0"
         ),
         .package(
             url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
-            from: "11.2.0"
+            from: "11.5.0"
         ),
         .package(
             url: "https://github.com/exyte/PopupView.git",
-            from: "1.3.1"
+            from: "2.9.2"
         ),
         .package(
             url: "https://github.com/matteopuc/swiftui-navigation-stack",

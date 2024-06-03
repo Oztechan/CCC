@@ -1,5 +1,6 @@
 package com.oztechan.ccc.common.core.database.base
 
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.error.DatabaseException
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.runtime.coroutines.asFlow
@@ -18,13 +19,19 @@ open class BaseDBDataSource(private val ioDispatcher: CoroutineDispatcher) {
         try {
             suspendBlock.invoke()
         } catch (e: Throwable) {
-            throw DatabaseException(e)
+            DatabaseException(e).let {
+                Logger.e(it) { it.message.orEmpty() }
+                throw it
+            }
         }
     }
 
     protected fun <T : Any> Query<T>.toDBFlowList(): Flow<List<T>> = asFlow()
         .flowOn(ioDispatcher)
         .catch {
-            throw DatabaseException(it)
+            DatabaseException(it).let { exception ->
+                Logger.e(exception) { exception.message.orEmpty() }
+                throw exception
+            }
         }.mapToList(ioDispatcher)
 }

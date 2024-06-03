@@ -1,5 +1,6 @@
 package com.oztechan.ccc.client.core.persistence
 
+import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.persistence.error.UnsupportedPersistenceException
 import com.russhwolf.settings.Settings
 
@@ -11,7 +12,10 @@ internal class PersistenceImpl(private val settings: Settings) : Persistence {
         is Int -> settings.getInt(key, defaultValue) as T
         is Boolean -> settings.getBoolean(key, defaultValue) as T
         is Float -> settings.getFloat(key, defaultValue) as T
-        else -> throw UnsupportedPersistenceException()
+        else -> UnsupportedPersistenceException().let {
+            Logger.e(it) { "Unsupported type: ${defaultValue::class} for key $key and default value $defaultValue" }
+            throw it
+        }
     }
 
     override fun <T : Any> setValue(key: String, value: T) = when (value) {
@@ -20,6 +24,9 @@ internal class PersistenceImpl(private val settings: Settings) : Persistence {
         is Int -> settings.putInt(key, value)
         is Boolean -> settings.putBoolean(key, value)
         is Float -> settings.putFloat(key, value)
-        else -> throw UnsupportedPersistenceException()
+        else -> UnsupportedPersistenceException().let {
+            Logger.e(it) { "Unsupported type: ${value::class} for key $key and value $value" }
+            throw it
+        }
     }
 }

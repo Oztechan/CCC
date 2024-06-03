@@ -6,6 +6,7 @@ plugins {
         alias(androidLibrary)
         alias(kotlinAndroid)
         alias(safeArgs) // todo can be removed once compose migration done
+        alias(jetbrainsCompose)
     }
 }
 
@@ -50,26 +51,23 @@ dependencies {
     libs.apply {
         common.apply {
             testImplementation(test)
+            implementation(navigationCompose)
             implementation(kermit)
         }
-
-        android.apply {
-            implementation(composeToolingPreview)
-            debugImplementation(composeTooling)
+        compose.apply {
             implementation(material3)
+            debugImplementation(uiTooling)
+            implementation(preview)
+        }
+        android.apply {
+            implementation(activityCompose)
             implementation(androidMaterial)
-            implementation(composeActivity)
-            implementation(composeNavigation)
             implementation(constraintLayout)
             implementation(navigation)
             implementation(koinAndroid)
             implementation(koinCompose)
             implementation(lifecycleRuntime)
             implementation(splashScreen)
-
-            // todo can be removed when SearchView is removed: https://github.com/Oztechan/CCC/issues/3272
-            implementation(appCompat)
-            implementation(appCompatResources)
         }
 
         android.google.apply {

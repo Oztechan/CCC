@@ -163,7 +163,7 @@ class CalculatorViewModel(
     private fun calculateOutput(input: String) = viewModelScope.launch {
         val output = data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
-            .mapTo { if (isFinite()) getFormatted(calculationStorage.precision) else "" }
+            .mapTo { if (it.isFinite()) it.getFormatted(calculationStorage.precision) else "" }
 
         _state.update { copy(output = output) }
 
@@ -213,7 +213,7 @@ class CalculatorViewModel(
             KEY_AC -> _state.update { copy(input = "") }
             KEY_DEL ->
                 state.value.input
-                    .whetherNot { isEmpty() }
+                    .whetherNot { it.isEmpty() }
                     ?.apply {
                         _state.update { copy(input = substring(0, length - 1)) }
                     }

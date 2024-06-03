@@ -13,6 +13,7 @@ import com.huawei.hms.ads.reward.Reward
 import com.huawei.hms.ads.reward.RewardAd
 import com.huawei.hms.ads.reward.RewardAdLoadListener
 import com.huawei.hms.ads.reward.RewardAdStatusListener
+import java.lang.Exception
 
 internal class AdManagerImpl : AdManager {
 
@@ -68,7 +69,9 @@ internal class AdManagerImpl : AdManager {
             adListener = object : AdListener() {
                 override fun onAdFailed(adError: Int) {
                     super.onAdFailed(adError)
-                    Logger.e { "AdManagerImpl showInterstitialAd onAdFailed $adError" }
+                    Exception("AdManagerImpl showInterstitialAd onAdFailed $adError").let {
+                        Logger.e(it) { it.message.orEmpty() }
+                    }
                 }
 
                 override fun onAdLoaded() {
@@ -95,7 +98,9 @@ internal class AdManagerImpl : AdManager {
                 object : RewardAdLoadListener() {
                     override fun onRewardAdFailedToLoad(adError: Int) {
                         super.onRewardAdFailedToLoad(adError)
-                        Logger.e { "AdManagerImpl showRewardedAd onRewardAdFailedToLoad $adError" }
+                        Exception("AdManagerImpl showRewardedAd onRewardAdFailedToLoad $adError").let {
+                            Logger.e(it) { it.message.orEmpty() }
+                        }
                         onAdFailedToLoad()
                     }
 

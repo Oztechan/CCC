@@ -55,9 +55,9 @@ class PremiumViewModel(
             .maxByOrNull {
                 it.type.calculatePremiumEnd(it.date)
             }?.whether(
-                { type.calculatePremiumEnd(date).isNotPassed() },
-                { date > appStorage.premiumEndDate },
-                { PremiumType.getPurchaseIds().any { id -> id == type.data.id } }
+                { it.type.calculatePremiumEnd(it.date).isNotPassed() },
+                { it.date > appStorage.premiumEndDate },
+                { PremiumType.getPurchaseIds().any { id -> id == it.type.data.id } }
             )?.run {
                 onPremiumActivated(
                     adType = PremiumType.getById(type.data.id),

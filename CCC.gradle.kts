@@ -7,6 +7,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform).apply(false)
+        alias(jetbrainsCompose).apply(false)
         alias(kotlinJvm).apply(false)
         alias(kotlinAndroid).apply(false)
         alias(androidApplication).apply(false)
@@ -68,9 +69,9 @@ allprojects {
         }
     }
     tasks.withType<KotlinCompile> {
-        kotlinOptions {
+        compilerOptions {
             // todo remove when not needed anymore
-            freeCompilerArgs += "-Xexpect-actual-classes"
+            freeCompilerArgs.add("-Xexpect-actual-classes")
             allWarningsAsErrors = true
         }
     }

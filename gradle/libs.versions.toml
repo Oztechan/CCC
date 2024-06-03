@@ -1,48 +1,47 @@
 [versions]
 
-kotlin = "1.9.23"
-ksp = "1.9.23-1.0.20"
-detekt = "1.23.6"
-androidGradlePlugin = "8.2.2"
-composeCompiler = "1.5.12"
-compose = "1.6.6"
+kotlin = "1.9.24"
+androidGradlePlugin = "8.4.1"
+ksp = "1.9.24-1.0.20"
+composeCompiler = "1.5.14"
+jetbrainsCompose = "1.6.10"
 glance = "1.0.0"
-material3 = "1.2.1"
+activityCompose = "1.9.0"
+navigationCompose = "2.7.0-alpha07"
+detekt = "1.23.6"
 androidDesugaring = "2.0.4"
-androidMaterial = "1.11.0"
-composeActivity = "1.8.2"
+androidMaterial = "1.12.0"
 constraintLayout = "2.1.4"
 koinCore = "3.5.6"
 koinCompose = "3.5.6"
 koinAndroid = "3.5.6"
 koinKtor = "3.5.6"
-ktor = "2.3.10"
+ktor = "2.3.11"
 multiplatformSettings = "1.1.1"
-firebaseAnalytics = "21.6.2"
-firebaseRemoteConfig = "21.6.3"
-googleServices = "4.4.1"
-firebasePer = "20.5.2"
+firebaseAnalytics = "22.0.1"
+firebaseRemoteConfig = "22.0.0"
+googleServices = "4.4.2"
+firebasePer = "21.0.1"
 firebasePerPlugin = "1.4.2"
-firebaseCrashlyticsPlugin = "2.9.9"
-googleAds = "23.0.0"
+firebaseCrashlyticsPlugin = "3.0.1"
+googleAds = "23.1.0"
 googleUmp = "2.2.0"
-huaweiAds = "3.4.70.310"
+huaweiAds = "3.4.71.300"
 huaweiOsm = "1.3.35"
 navigation = "2.7.7"
-appcompat = "1.6.1"
 playCore = "1.10.3"
-kotlinXDateTime = "0.5.0"
-coroutines = "1.8.0"
-billing = "6.2.0"
-leakCanary = "2.13"
+kotlinXDateTime = "0.6.0"
+coroutines = "1.8.1"
+billing = "6.2.1"
+leakCanary = "2.14"
 sqlDelight = "1.5.5"
-lifecycle = "2.7.0"
+lifecycle = "2.8.1"
 mokoResources = "0.23.0"
 buildKonfig = "0.15.1"
 splashScreen = "1.0.1"
 kover = "0.6.1"
 rootBeer = "0.1.0"
-mockative = "2.2.0"
+mockative = "2.2.2"
 anrWatchDog = "1.4.0"
 kermit = "2.0.3"
 konsist = "0.15.1"
@@ -51,6 +50,8 @@ konsist = "0.15.1"
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
+common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
+common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
 common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinXDateTime" }
@@ -70,17 +71,10 @@ common-konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
 # ANDROID
 android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugaring" }
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
-android-material3 = { module = "androidx.compose.material3:material3", version.ref = "material3" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
-android-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # not used dependency, workaround for receiving kotlin compose compiler updates by renovate: https://github.com/renovatebot/renovate/issues/18354
-android-composeToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-android-composeTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
-android-composeActivity = { module = "androidx.activity:activity-compose", version.ref = "composeActivity" }
-android-composeNavigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+android-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
-android-appCompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-android-appCompatResources = { module = "androidx.appcompat:appcompat-resources", version.ref = "appcompat" }
 
 android-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 android-koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
@@ -125,6 +119,7 @@ processors-mockative = { module = "io.mockative:mockative-processor", version.re
 [plugins]
 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }

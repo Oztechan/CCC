@@ -13,9 +13,9 @@ internal class ReviewConfigServiceImpl :
     ),
     ReviewConfigService {
 
-    override fun String?.decode() = parseToObject<ReviewConfigRCModel>()
-        ?.toReviewConfigModel()
-        ?: default
+    override fun String?.decode() = runCatching {
+        parseToObject<ReviewConfigRCModel>().toReviewConfigModel()
+    }.getOrElse { default }
 
     companion object {
         private const val KEY_AD_CONFIG = "review_config"

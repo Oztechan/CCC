@@ -59,16 +59,13 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-13
+    runs-on: macos-14
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
-        uses: actions/checkout@v4.1.1
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
 
       - name: Adding secret files
         run: |
@@ -83,22 +80,11 @@ jobs:
           echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
-
       - name: Assemble
-        uses: gradle/actions/setup-gradle@v3.3.0
-        with:
-          arguments: assemble
-          build-scan-publish: true
-          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
-          build-scan-terms-of-use-agree: "yes"
+        run: ./gradlew assemble
 
       - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.3
         if: github.event_name == 'push'
         with:
           name: androidArtifacts
@@ -123,10 +109,10 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.6
 
       - name: Download Android Artifacts
-        uses: actions/download-artifact@v4.1.5
+        uses: actions/download-artifact@v4.1.7
         with:
           name: androidArtifacts
 
@@ -149,7 +135,6 @@ jobs:
       - name: Delete Android Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: androidArtifacts
 
       - name: Set Job Status
@@ -157,16 +142,13 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   XCodeBuild:
-    runs-on: macos-13
+    runs-on: macos-14
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
-        uses: actions/checkout@v4.1.1
-        with:
-          submodules: 'recursive'
-          fetch-depth: 0
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
 
       - name: Adding secret files
         run: |
@@ -187,18 +169,12 @@ jobs:
           echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
           gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
-
       - name: Build
         working-directory: ios
         run: fastlane build
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.3
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -222,10 +198,10 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.6
 
       - name: Download iOS IPA
-        uses: actions/download-artifact@v4.1.5
+        uses: actions/download-artifact@v4.1.7
         with:
           name: iOSArtifacts
           path: ios
@@ -240,7 +216,6 @@ jobs:
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: iOSArtifacts
 
       - name: Set Job Status
@@ -248,32 +223,19 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Quality:
-    runs-on: macos-13
+    runs-on: macos-14
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
-        uses: actions/checkout@v4.1.1
-        with:
-          submodules: 'recursive'
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
 
       - name: Run Quality Jobs
-        uses: gradle/actions/setup-gradle@v3.3.0
-        with:
-          arguments: check koverMergedXmlReport --parallel
-          build-scan-publish: true
-          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
-          build-scan-terms-of-use-agree: "yes"
+        run: ./gradlew check koverMergedXmlReport --parallel
 
       - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4.3.3
         with:
           name: coverageReport
           path: build/reports/kover/merged/xml/report.xml
@@ -293,16 +255,16 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.6
 
       - name: Download Coverage Report
-        uses: actions/download-artifact@v4.1.5
+        uses: actions/download-artifact@v4.1.7
         with:
           name: coverageReport
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.3.0
+        uses: codecov/codecov-action@v4.4.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
@@ -314,7 +276,7 @@ jobs:
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.1.1
+        uses: sonarsource/sonarcloud-github-action@v2.2.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -327,7 +289,6 @@ jobs:
       - name: Delete Coverage Report
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           name: coverageReport
 
       - name: Set Job Status
@@ -340,24 +301,11 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
-      - name: Clone Repo
-        uses: actions/checkout@v4.1.1
-        with:
-          submodules: 'recursive'
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4.2.1
-        with:
-          java-version: 17
-          distribution: 'temurin'
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
 
       - name: Detekt
-        uses: gradle/actions/setup-gradle@v3.3.0
-        with:
-          arguments: detektAll
-          build-scan-publish: true
-          build-scan-terms-of-use-url: "https://gradle.com/help/legal-terms-of-use"
-          build-scan-terms-of-use-agree: "yes"
+        run: ./gradlew detektAll
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
