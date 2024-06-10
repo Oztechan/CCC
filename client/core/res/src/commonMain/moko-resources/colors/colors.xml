@@ -7,32 +7,39 @@
     ~ 200 variant for dark mode
     ~ 500 variant for light mode
     -->
-    <color name="primary"><!--teal-->
+    <!--teal-->
+    <color name="primary">
         <light>#009688ff</light>
         <dark>#80cbc4ff</dark>
     </color>
-    <color name="secondary"><!--cyan-->
+    <!--cyan-->
+    <color name="secondary">
         <light>#00bcd4ff</light>
         <dark>#80deeaff</dark>
     </color>
-    <color name="tertiary"><!--light blue-->
+    <!--light blue-->
+    <color name="tertiary">
         <light>#03a9f4ff</light>
         <dark>#81d4faff</dark>
     </color>
 
-    <color name="success"><!--green-->
+    <!--green-->
+    <color name="success">
         <light>#4caf50ff</light>
         <dark>#a5d6a7ff</dark>
     </color>
-    <color name="info"><!--blue-->
+    <!--blue-->
+    <color name="info">
         <light>#2196f3ff</light>
         <dark>#90caf9ff</dark>
     </color>
-    <color name="warning"><!--orange-->
+    <!--orange-->
+    <color name="warning">
         <light>#ff9800ff</light>
         <dark>#ffcc80ff</dark>
     </color>
-    <color name="error"><!--red-->
+    <!--red-->
+    <color name="error">
         <light>#f44336ff</light>
         <dark>#ef9a9aff</dark>
     </color>
