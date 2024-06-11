@@ -232,13 +232,13 @@ jobs:
         uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
 
       - name: Run Quality Jobs
-        run: ./gradlew check koverMergedXmlReport --parallel
+        run: ./gradlew check koverXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4.3.3
         with:
           name: coverageReport
-          path: build/reports/kover/merged/xml/report.xml
+          path: build/reports/kover/report.xml
 
       - name: Cancel other jobs if this fails
         if: failure()
