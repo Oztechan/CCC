@@ -109,7 +109,7 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download Android Artifacts
         uses: actions/download-artifact@v4.1.7
@@ -198,7 +198,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download iOS IPA
         uses: actions/download-artifact@v4.1.7
@@ -255,7 +255,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download Coverage Report
         uses: actions/download-artifact@v4.1.7
