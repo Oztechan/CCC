@@ -3,7 +3,6 @@
  */
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import java.io.ByteArrayOutputStream
 import java.io.File
 
 object ProjectSettings {
@@ -48,35 +47,27 @@ object ProjectSettings {
         "0.0.1"
     }
 
-    private fun gitCommitCount(project: Project): String {
-        val os = ByteArrayOutputStream()
-        project.exec {
-            commandLine = "git rev-list --first-parent --count HEAD".split(" ")
-            standardOutput = os
-        }
-        return String(os.toByteArray()).trim()
-    }
+    @Suppress("UnstableApiUsage")
+    private fun gitCommitCount(project: Project): String = project.providers.exec {
+        commandLine("git rev-list --first-parent --count HEAD".split(" "))
+    }.standardOutput.asText.get().trim()
 
-    private fun isMaster(project: Project): Boolean {
-        val os = ByteArrayOutputStream()
-        project.exec {
-            commandLine = "git rev-parse --abbrev-ref HEAD".split(" ")
-            standardOutput = os
-        }
-        return String(os.toByteArray()).trim() == "master"
-    }
+    @Suppress("UnstableApiUsage")
+    private fun isMaster(project: Project): Boolean = project.providers.exec {
+        commandLine("git rev-parse --abbrev-ref HEAD".split(" "))
+    }.standardOutput.asText.get().trim() == "master"
 
     private fun isCI() = System.getenv("CI") == "true"
 
-    @Suppress("TooGenericExceptionCaught")
+    @Suppress("TooGenericExceptionCaught", "UnstableApiUsage")
     private fun Project.setIOSVersion(versionName: String) = try {
-        exec {
+        project.providers.exec {
             workingDir = File("${project.rootDir}/ios")
-            commandLine = "agvtool new-version -all ${getVersionCode(project)}".split(" ")
+            commandLine("agvtool new-version -all ${getVersionCode(project)}".split(" "))
         }
-        exec {
+        project.providers.exec {
             workingDir = File("${project.rootDir}/ios")
-            commandLine = "agvtool new-marketing-version $versionName".split(" ")
+            commandLine("agvtool new-marketing-version $versionName".split(" "))
         }
     } catch (e: Exception) {
         println("agvtool exist only mac environment")
