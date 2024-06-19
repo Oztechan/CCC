@@ -46,9 +46,9 @@ object ProjectSettings {
     } catch (e: Exception) {
         "0.0.1"
     }
-    
+
     @Suppress("UnstableApiUsage")
-    private fun isDevelop(project: Project): Boolean = project.providers.exec {
+    fun isDevelop(project: Project): Boolean = project.providers.exec {
         commandLine("git rev-parse --abbrev-ref HEAD".split(" "))
     }.standardOutput.asText.get().trim() == "develop"
 
