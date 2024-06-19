@@ -103,7 +103,6 @@ jobs:
   DistributeAndroid:
     runs-on: ubuntu-22.04
     needs: [ GradleBuild ]
-    if: github.event_name == 'push'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:

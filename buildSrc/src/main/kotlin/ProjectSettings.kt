@@ -48,6 +48,15 @@ object ProjectSettings {
         "0.0.1"
     }
 
+    fun isDevelop(project: Project): Boolean {
+        val os = ByteArrayOutputStream()
+        project.exec {
+            commandLine = "git rev-parse --abbrev-ref HEAD".split(" ")
+            standardOutput = os
+        }
+        return String(os.toByteArray()).trim() == "develop"
+    }
+
     private fun gitCommitCount(project: Project): String {
         val os = ByteArrayOutputStream()
         project.exec {
