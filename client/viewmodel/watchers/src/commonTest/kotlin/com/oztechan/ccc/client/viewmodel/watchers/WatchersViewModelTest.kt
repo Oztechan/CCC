@@ -11,14 +11,13 @@ import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -44,19 +43,13 @@ internal class WatchersViewModelTest {
         )
     }
 
-    @Mock
-    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+    private val currencyDataSource = mock<CurrencyDataSource>()
 
-    @Mock
-    private val watcherDataSource =
-        configure(mock(classOf<WatcherDataSource>())) { stubsUnitByDefault = true }
+    private val watcherDataSource = mock<WatcherDataSource>(MockMode.autoUnit)
 
-    @Mock
-    private val adControlRepository = mock(classOf<AdControlRepository>())
+    private val adControlRepository = mock<AdControlRepository>()
 
-    @Mock
-    private val analyticsManager =
-        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val watcher = Watcher(1, "EUR", "USD", true, 1.1)
 
@@ -87,7 +80,6 @@ internal class WatchersViewModelTest {
         }
 
         verify { adControlRepository.shouldShowBannerAd() }
-            .wasInvoked()
     }
 
     @Test
@@ -107,7 +99,6 @@ internal class WatchersViewModelTest {
                 )
             )
         }
-            .wasInvoked()
     }
 
     // Event
@@ -149,8 +140,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onBaseChanged(watcher, mockBase)
 
         runTest {
-            coVerify { watcherDataSource.updateWatcherBaseById(mockBase, watcher.id) }
-                .wasInvoked()
+            verifySuspend { watcherDataSource.updateWatcherBaseById(mockBase, watcher.id) }
         }
     }
 
@@ -160,8 +150,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onTargetChanged(watcher, mockBase)
 
         runTest {
-            coVerify { watcherDataSource.updateWatcherTargetById(mockBase, watcher.id) }
-                .wasInvoked()
+            verifySuspend { watcherDataSource.updateWatcherTargetById(mockBase, watcher.id) }
         }
     }
 
@@ -171,31 +160,29 @@ internal class WatchersViewModelTest {
         val currency2 = Currency("EUR", "EUR", "", "", true)
 
         // when there is no active currency
-        coEvery { currencyDataSource.getActiveCurrencies() }
+        everySuspend { currencyDataSource.getActiveCurrencies() }
             .returns(listOf())
 
-        coEvery { watcherDataSource.getWatchers() }
+        everySuspend { watcherDataSource.getWatchers() }
             .returns(listOf())
 
         viewModel.event.onAddClick()
 
-        coVerify { watcherDataSource.addWatcher("", "") }
-            .wasInvoked()
+        verifySuspend { watcherDataSource.addWatcher("", "") }
 
         // when there is few watcher
-        coEvery { watcherDataSource.getWatchers() }
+        everySuspend { watcherDataSource.getWatchers() }
             .returns(listOf(watcher))
 
-        coEvery { currencyDataSource.getActiveCurrencies() }
+        everySuspend { currencyDataSource.getActiveCurrencies() }
             .returns(listOf(currency1, currency2))
 
         viewModel.event.onAddClick()
 
-        coVerify { watcherDataSource.addWatcher(currency1.code, currency2.code) }
-            .wasInvoked()
+        verifySuspend { watcherDataSource.addWatcher(currency1.code, currency2.code) }
 
         // when there are so much watcher
-        coEvery { watcherDataSource.getWatchers() }
+        everySuspend { watcherDataSource.getWatchers() }
             .returns(listOf(watcher, watcher, watcher, watcher, watcher))
 
         viewModel.effect.onSubscription {
@@ -211,8 +198,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onDeleteClick(watcher)
 
         runTest {
-            coVerify { watcherDataSource.deleteWatcher(watcher.id) }
-                .wasInvoked()
+            verifySuspend { watcherDataSource.deleteWatcher(watcher.id) }
         }
     }
 
@@ -222,8 +208,7 @@ internal class WatchersViewModelTest {
         viewModel.event.onRelationChange(watcher, mockBoolean)
 
         runTest {
-            coVerify { watcherDataSource.updateWatcherRelationById(mockBoolean, watcher.id) }
-                .wasInvoked()
+            verifySuspend { watcherDataSource.updateWatcherRelationById(mockBoolean, watcher.id) }
         }
     }
 
@@ -233,13 +218,12 @@ internal class WatchersViewModelTest {
         var rate = "12"
         assertEquals(rate, viewModel.event.onRateChange(watcher, rate))
 
-        coVerify {
+        verifySuspend {
             watcherDataSource.updateWatcherRateById(
                 rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull() ?: 0.0,
                 watcher.id
             )
         }
-            .wasInvoked()
 
         // when rate is not valid
         viewModel.effect.onSubscription {

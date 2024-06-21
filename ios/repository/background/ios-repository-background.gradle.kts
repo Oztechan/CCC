@@ -1,7 +1,7 @@
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        alias(ksp)
+        alias(mokkery)
     }
 }
 
@@ -26,16 +26,7 @@ kotlin {
             libs.common.apply {
                 implementation(test)
                 implementation(coroutinesTest)
-                implementation(mockative)
             }
         }
     }
-}
-
-dependencies {
-    configurations
-        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
-        .forEach {
-            add(it.name, libs.processors.mockative)
-        }
 }

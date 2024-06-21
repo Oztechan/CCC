@@ -7,12 +7,11 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Compan
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_CURRENT_BASE
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_LAST_INPUT
 import com.oztechan.ccc.client.storage.calculation.CalculationStorageImpl.Companion.KEY_PRECISION
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -22,8 +21,7 @@ internal class CalculationStorageTest {
         CalculationStorageImpl(persistence)
     }
 
-    @Mock
-    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
+    private val persistence = mock<Persistence>(MockMode.autoUnit)
 
     // defaults
     @Test
@@ -34,7 +32,6 @@ internal class CalculationStorageTest {
         assertEquals(DEFAULT_CURRENT_BASE, subject.currentBase)
 
         verify { persistence.getValue(KEY_CURRENT_BASE, DEFAULT_CURRENT_BASE) }
-            .wasInvoked()
     }
 
     @Test
@@ -45,7 +42,6 @@ internal class CalculationStorageTest {
         assertEquals(DEFAULT_PRECISION, subject.precision)
 
         verify { persistence.getValue(KEY_PRECISION, DEFAULT_PRECISION) }
-            .wasInvoked()
     }
 
     @Test
@@ -56,7 +52,6 @@ internal class CalculationStorageTest {
         assertEquals(DEFAULT_LAST_INPUT, subject.lastInput)
 
         verify { persistence.getValue(KEY_LAST_INPUT, DEFAULT_LAST_INPUT) }
-            .wasInvoked()
     }
 
     // setters
@@ -66,7 +61,6 @@ internal class CalculationStorageTest {
         subject.currentBase = mockValue
 
         verify { persistence.setValue(KEY_CURRENT_BASE, mockValue) }
-            .wasInvoked()
     }
 
     @Test
@@ -75,7 +69,6 @@ internal class CalculationStorageTest {
         subject.precision = mockValue
 
         verify { persistence.setValue(KEY_PRECISION, mockValue) }
-            .wasInvoked()
     }
 
     @Test
@@ -84,6 +77,5 @@ internal class CalculationStorageTest {
         subject.lastInput = mockValue
 
         verify { persistence.setValue(KEY_LAST_INPUT, mockValue) }
-            .wasInvoked()
     }
 }

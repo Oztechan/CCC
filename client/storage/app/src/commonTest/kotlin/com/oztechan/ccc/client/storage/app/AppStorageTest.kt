@@ -9,12 +9,11 @@ import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_APP_THEM
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_FIRST_RUN
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_PREMIUM_END_DATE
 import com.oztechan.ccc.client.storage.app.AppStorageImpl.Companion.KEY_SESSION_COUNT
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -25,8 +24,7 @@ internal class AppStorageTest {
         AppStorageImpl(persistence)
     }
 
-    @Mock
-    private val persistence = configure(mock(classOf<Persistence>())) { stubsUnitByDefault = true }
+    private val persistence = mock<Persistence>(MockMode.autoUnit)
 
     // defaults
     @Test
@@ -37,7 +35,6 @@ internal class AppStorageTest {
         assertEquals(DEFAULT_FIRST_RUN, subject.firstRun)
 
         verify { persistence.getValue(KEY_FIRST_RUN, DEFAULT_FIRST_RUN) }
-            .wasInvoked()
     }
 
     @Test
@@ -48,7 +45,6 @@ internal class AppStorageTest {
         assertEquals(DEFAULT_APP_THEME, subject.appTheme)
 
         verify { persistence.getValue(KEY_APP_THEME, DEFAULT_APP_THEME) }
-            .wasInvoked()
     }
 
     @Test
@@ -59,7 +55,6 @@ internal class AppStorageTest {
         assertEquals(DEFAULT_PREMIUM_END_DATE, subject.premiumEndDate)
 
         verify { persistence.getValue(KEY_PREMIUM_END_DATE, DEFAULT_PREMIUM_END_DATE) }
-            .wasInvoked()
     }
 
     @Test
@@ -70,7 +65,6 @@ internal class AppStorageTest {
         assertEquals(DEFAULT_SESSION_COUNT, subject.sessionCount)
 
         verify { persistence.getValue(KEY_SESSION_COUNT, DEFAULT_SESSION_COUNT) }
-            .wasInvoked()
     }
 
     // setters
@@ -80,7 +74,6 @@ internal class AppStorageTest {
         subject.firstRun = mockedValue
 
         verify { persistence.setValue(KEY_FIRST_RUN, mockedValue) }
-            .wasInvoked()
     }
 
     @Test
@@ -89,7 +82,6 @@ internal class AppStorageTest {
         subject.appTheme = mockValue
 
         verify { persistence.setValue(KEY_APP_THEME, mockValue) }
-            .wasInvoked()
     }
 
     @Test
@@ -98,7 +90,6 @@ internal class AppStorageTest {
         subject.premiumEndDate = mockValue
 
         verify { persistence.setValue(KEY_PREMIUM_END_DATE, mockValue) }
-            .wasInvoked()
     }
 
     @Test
@@ -107,6 +98,5 @@ internal class AppStorageTest {
         subject.sessionCount = mockValue
 
         verify { persistence.setValue(KEY_SESSION_COUNT, mockValue) }
-            .wasInvoked()
     }
 }

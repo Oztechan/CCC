@@ -7,7 +7,7 @@ plugins {
         alias(androidLibrary)
         alias(kotlinMultiplatform)
         id(buildKonfig.get().pluginId)
-        alias(ksp)
+        alias(mokkery)
     }
 }
 
@@ -31,20 +31,9 @@ kotlin {
             implementation(Submodules.scopemob)
         }
         commonTest.dependencies {
-            libs.common.apply {
-                implementation(test)
-                implementation(mockative)
-            }
+            implementation(libs.common.test)
         }
     }
-}
-
-dependencies {
-    configurations
-        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
-        .forEach {
-            add(it.name, libs.processors.mockative)
-        }
 }
 
 android {
