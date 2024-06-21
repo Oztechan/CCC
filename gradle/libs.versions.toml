@@ -1,10 +1,10 @@
 [versions]
 
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 androidGradlePlugin = "8.5.0"
-composeCompiler = "1.5.14"
 jetbrainsCompose = "1.6.11"
 glance = "1.1.0"
+mokkery = "2.0.0"
 activityCompose = "1.9.0"
 navigationCompose = "2.7.0-alpha07"
 detekt = "1.23.6"
@@ -40,7 +40,6 @@ buildKonfig = "0.15.1"
 splashScreen = "1.0.1"
 kover = "0.8.1"
 rootBeer = "0.1.0"
-mokkery = "1.9.24-1.7.0"
 anrWatchDog = "1.4.0"
 kermit = "2.0.4"
 konsist = "0.15.1"
@@ -49,7 +48,6 @@ konsist = "0.15.1"
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
-common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
 common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
@@ -115,6 +113,7 @@ jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref
 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
+kotlinPluginCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
