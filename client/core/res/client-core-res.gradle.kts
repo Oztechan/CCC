@@ -51,9 +51,8 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = Modules.Client.Core.res.packageName
-    disableStaticFrameworkWarning = true
-    multiplatformResourcesClassName = Modules.Client.Core.res.frameworkName
+    resourcesPackage.set(Modules.Client.Core.res.packageName)
+    resourcesClassName.set(Modules.Client.Core.res.frameworkName)
 }
 
 // todo https://github.com/icerockdev/moko-resources/issues/421

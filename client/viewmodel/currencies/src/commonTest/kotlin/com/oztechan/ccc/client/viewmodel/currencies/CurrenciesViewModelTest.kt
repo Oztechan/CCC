@@ -12,13 +12,13 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coVerify
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verify.VerifyMode
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
@@ -50,23 +50,15 @@ internal class CurrenciesViewModelTest {
         )
     }
 
-    @Mock
-    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
+    private val appStorage = mock<AppStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val calculationStorage =
-        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val currencyDataSource =
-        configure(mock(classOf<CurrencyDataSource>())) { stubsUnitByDefault = true }
+    private val currencyDataSource = mock<CurrencyDataSource>(MockMode.autoUnit)
 
-    @Mock
-    private val adControlRepository = mock(classOf<AdControlRepository>())
+    private val adControlRepository = mock<AdControlRepository>()
 
-    @Mock
-    private val analyticsManager =
-        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private var currency1 = Currency("EUR", "Euro", "€", isActive = true)
     private val currency2 = Currency("USD", "Dollar", "$", isActive = true)
@@ -110,7 +102,6 @@ internal class CurrenciesViewModelTest {
                 )
             )
         }
-            .wasInvoked()
     }
 
     // Analytics
@@ -123,14 +114,13 @@ internal class CurrenciesViewModelTest {
 
         viewModel // init
 
-        verify {
+        verify(VerifyMode.not) {
             analyticsManager.setUserProperty(
                 UserProperty.CurrencyCount(
                     nonActiveCurrencyList.count().toString()
                 )
             )
         }
-            .wasNotInvoked()
     }
 
     // init
@@ -147,10 +137,8 @@ internal class CurrenciesViewModelTest {
         }
 
         verify { adControlRepository.shouldShowBannerAd() }
-            .wasInvoked()
 
         verify { appStorage.firstRun }
-            .wasInvoked()
     }
 
     @Test
@@ -249,7 +237,6 @@ internal class CurrenciesViewModelTest {
             }
 
             verify { calculationStorage.currentBase = firstActiveBase }
-                .wasInvoked()
         }
 
     @Test
@@ -274,7 +261,6 @@ internal class CurrenciesViewModelTest {
             }
 
             verify { calculationStorage.currentBase = currency2.code }
-                .wasInvoked()
         }
 
     // Event
@@ -290,8 +276,7 @@ internal class CurrenciesViewModelTest {
         viewModel.event.updateAllCurrenciesState(mockValue)
 
         runTest {
-            coVerify { currencyDataSource.updateCurrencyStates(mockValue) }
-                .wasInvoked()
+            verifySuspend { currencyDataSource.updateCurrencyStates(mockValue) }
         }
     }
 
@@ -300,9 +285,9 @@ internal class CurrenciesViewModelTest {
         viewModel.event.onItemClick(currency1)
 
         runTest {
-            coVerify {
+            verifySuspend {
                 currencyDataSource.updateCurrencyStateByCode(currency1.code, !currency1.isActive)
-            }.wasInvoked()
+            }
         }
     }
 
@@ -433,7 +418,6 @@ internal class CurrenciesViewModelTest {
             assertFalse { viewModel.state.value.isOnboardingVisible }
 
             verify { appStorage.firstRun = false }
-                .wasInvoked()
         }
 
         // where there are 2 currencies but only 1 active

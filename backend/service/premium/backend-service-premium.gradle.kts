@@ -1,9 +1,13 @@
+import dev.mokkery.gradle.ApplicationRule
+
 plugins {
     libs.plugins.apply {
         alias(kotlinJvm)
-        alias(ksp)
+        alias(mokkery)
     }
 }
+
+mokkery.rule.set(ApplicationRule.Listed("test"))
 
 dependencies {
     libs.common.apply {
@@ -11,12 +15,9 @@ dependencies {
         implementation(coroutines)
         implementation(kermit)
 
-        testImplementation(mockative)
         testImplementation(coroutinesTest)
         testImplementation(test)
     }
-
-    kspTest(libs.processors.mockative)
 
     Modules.Common.Core.apply {
         implementation(project(network))

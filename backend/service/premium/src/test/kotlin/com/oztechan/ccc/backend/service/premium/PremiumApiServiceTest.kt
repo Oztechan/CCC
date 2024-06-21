@@ -8,11 +8,12 @@ import com.oztechan.ccc.common.core.network.api.premium.PremiumApi
 import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.mock
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.throws
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -28,8 +29,7 @@ internal class PremiumApiServiceTest {
         PremiumApiServiceImpl(premiumAPI, UnconfinedTestDispatcher())
     }
 
-    @Mock
-    private val premiumAPI: PremiumApi = mock(classOf())
+    private val premiumAPI: PremiumApi = mock<PremiumApi>()
 
     private val base = "EUR"
     private val exchangeRate = ExchangeRate(base, "12.21.2121", Conversion(base))
@@ -42,13 +42,12 @@ internal class PremiumApiServiceTest {
             assertTrue { it.isFailure }
         }
 
-        coVerify { premiumAPI.getExchangeRate("") }
-            .wasNotInvoked()
+        verifySuspend(VerifyMode.not) { premiumAPI.getExchangeRate("") }
     }
 
     @Test
     fun `getConversion error`() = runTest {
-        coEvery { premiumAPI.getExchangeRate(base) }
+        everySuspend { premiumAPI.getExchangeRate(base) }
             .throws(throwable)
 
         runCatching { subject.getConversion(base) }.let {
@@ -60,13 +59,12 @@ internal class PremiumApiServiceTest {
             assertEquals(throwable.message, it.exceptionOrNull()!!.cause!!.message)
         }
 
-        coVerify { premiumAPI.getExchangeRate(base) }
-            .wasInvoked()
+        verifySuspend { premiumAPI.getExchangeRate(base) }
     }
 
     @Test
     fun `getConversion success`() = runTest {
-        coEvery { premiumAPI.getExchangeRate(base) }
+        everySuspend { premiumAPI.getExchangeRate(base) }
             .returns(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
@@ -76,7 +74,6 @@ internal class PremiumApiServiceTest {
             assertEquals(exchangeRate.toConversionModel(), it.getOrNull())
         }
 
-        coVerify { premiumAPI.getExchangeRate(base) }
-            .wasInvoked()
+        verifySuspend { premiumAPI.getExchangeRate(base) }
     }
 }

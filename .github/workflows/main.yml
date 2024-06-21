@@ -65,7 +65,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.6
 
       - name: Adding secret files
         run: |
@@ -94,7 +94,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -109,7 +109,7 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download Android Artifacts
         uses: actions/download-artifact@v4.1.7
@@ -148,7 +148,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.6
 
       - name: Adding secret files
         run: |
@@ -184,7 +184,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -198,7 +198,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download iOS IPA
         uses: actions/download-artifact@v4.1.7
@@ -229,20 +229,20 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.6
 
       - name: Run Quality Jobs
-        run: ./gradlew check koverMergedXmlReport --parallel
+        run: ./gradlew check koverXmlReport --parallel
 
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4.3.3
         with:
           name: coverageReport
-          path: build/reports/kover/merged/xml/report.xml
+          path: build/reports/kover/report.xml
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -255,7 +255,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download Coverage Report
         uses: actions/download-artifact@v4.1.7
@@ -264,7 +264,7 @@ jobs:
           path: build
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.4.1
+        uses: codecov/codecov-action@v4.5.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/report.xml
@@ -276,7 +276,7 @@ jobs:
           coverage-reports: build/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.2.0
+        uses: sonarsource/sonarcloud-github-action@v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -302,7 +302,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.6
 
       - name: Detekt
         run: ./gradlew detektAll
@@ -316,7 +316,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status

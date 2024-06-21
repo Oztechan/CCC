@@ -804,7 +804,7 @@
 			repositoryURL = "https://github.com/exyte/PopupView.git";
 			requirement = {
 				kind = exactVersion;
-				version = 2.9.2;
+				version = 2.10.1;
 			};
 		};
 		5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
@@ -812,7 +812,7 @@
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
 				kind = exactVersion;
-				version = 11.5.0;
+				version = 11.6.0;
 			};
 		};
 		5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
@@ -828,7 +828,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = exactVersion;
-				version = 10.27.0;
+				version = 10.28.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

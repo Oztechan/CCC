@@ -25,14 +25,14 @@ import com.oztechan.ccc.client.viewmodel.calculator.util.getConversionStringFrom
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.throws
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -61,26 +61,17 @@ internal class CalculatorViewModelTest {
         )
     }
 
-    @Mock
-    private val calculationStorage =
-        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val backendApiService = mock(classOf<BackendApiService>())
+    private val backendApiService = mock<BackendApiService>()
 
-    @Mock
-    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+    private val currencyDataSource = mock<CurrencyDataSource>()
 
-    @Mock
-    private val conversionDataSource =
-        configure(mock(classOf<ConversionDataSource>())) { stubsUnitByDefault = true }
+    private val conversionDataSource = mock<ConversionDataSource>(MockMode.autoUnit)
 
-    @Mock
-    private val adControlRepository = mock(classOf<AdControlRepository>())
+    private val adControlRepository = mock<AdControlRepository>()
 
-    @Mock
-    private val analyticsManager =
-        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val currency1 = Currency("USD", "Dollar", "$", "12345.678", true)
     private val currency2 = Currency("EUR", "Dollar", "$", "12345.678", true)
@@ -111,16 +102,16 @@ internal class CalculatorViewModelTest {
             .returns(shouldShowAds)
 
         runTest {
-            coEvery { currencyDataSource.getActiveCurrencies() }
+            everySuspend { currencyDataSource.getActiveCurrencies() }
                 .returns(currencyList)
 
-            coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+            everySuspend { conversionDataSource.getConversionByBase(currency1.code) }
                 .returns(conversion)
 
-            coEvery { backendApiService.getConversion(currency1.code) }
+            everySuspend { backendApiService.getConversion(currency1.code) }
                 .returns(conversion)
 
-            coEvery { currencyDataSource.getCurrencyByCode(currency1.code) }
+            everySuspend { currencyDataSource.getCurrencyByCode(currency1.code) }
                 .returns(currency1)
         }
     }
@@ -128,8 +119,7 @@ internal class CalculatorViewModelTest {
     @Test
     fun `conversion should be fetched on init`() = runTest {
         viewModel
-        coVerify { backendApiService.getConversion(currency1.code) }
-            .wasInvoked()
+        verifySuspend { backendApiService.getConversion(currency1.code) }
         assertNotNull(viewModel.data.conversion)
     }
 
@@ -150,7 +140,6 @@ internal class CalculatorViewModelTest {
         }
 
         verify { adControlRepository.shouldShowBannerAd() }
-            .wasInvoked()
     }
 
     @Test
@@ -180,7 +169,7 @@ internal class CalculatorViewModelTest {
     @Test
     fun `when api fails and there is conversion in db then conversion rates are calculated`() =
         runTest {
-            coEvery { backendApiService.getConversion(currency1.code) }
+            everySuspend { backendApiService.getConversion(currency1.code) }
                 .throws(Exception())
 
             viewModel.state.onSubscription {
@@ -199,16 +188,15 @@ internal class CalculatorViewModelTest {
                 assertEquals(result, it.currencyList)
             }
 
-            coVerify { conversionDataSource.getConversionByBase(currency1.code) }
-                .wasInvoked()
+            verifySuspend { conversionDataSource.getConversionByBase(currency1.code) }
         }
 
     @Test
     fun `when api fails and there is no conversion in db then error state displayed`() = runTest {
-        coEvery { backendApiService.getConversion(currency1.code) }
+        everySuspend { backendApiService.getConversion(currency1.code) }
             .throws(Exception())
 
-        coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+        everySuspend { conversionDataSource.getConversionByBase(currency1.code) }
             .returns(null)
 
         viewModel.effect.onSubscription {
@@ -223,17 +211,16 @@ internal class CalculatorViewModelTest {
             }
         }
 
-        coVerify { conversionDataSource.getConversionByBase(currency1.code) }
-            .wasInvoked()
+        verifySuspend { conversionDataSource.getConversionByBase(currency1.code) }
     }
 
     @Test
     fun `when api fails and there is no offline and no enough currency few currency effect emitted`() =
         runTest {
-            coEvery { backendApiService.getConversion(currency1.code) }
+            everySuspend { backendApiService.getConversion(currency1.code) }
                 .throws(Exception())
 
-            coEvery { conversionDataSource.getConversionByBase(currency1.code) }
+            everySuspend { conversionDataSource.getConversionByBase(currency1.code) }
                 .returns(null)
 
             every { currencyDataSource.getActiveCurrenciesFlow() }
@@ -251,8 +238,7 @@ internal class CalculatorViewModelTest {
                 }
             }
 
-            coVerify { conversionDataSource.getConversionByBase(currency1.code) }
-                .wasInvoked()
+            verifySuspend { conversionDataSource.getConversionByBase(currency1.code) }
         }
 
     @Test
@@ -314,7 +300,7 @@ internal class CalculatorViewModelTest {
             analyticsManager.setUserProperty(
                 UserProperty.CurrencyCount(currencyList.count().toString())
             )
-        }.wasInvoked()
+        }
     }
 
     // Event
@@ -385,7 +371,6 @@ internal class CalculatorViewModelTest {
             assertEquals(currency1.code, it.code)
 
             verify { analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency1.code))) }
-                .wasInvoked()
         }
     }
 
@@ -400,7 +385,6 @@ internal class CalculatorViewModelTest {
             )
 
             verify { analyticsManager.trackEvent(Event.CopyClipboard) }
-                .wasInvoked()
         }
     }
 
@@ -414,7 +398,6 @@ internal class CalculatorViewModelTest {
             assertEquals(CalculatorEffect.CopyToClipboard(output), it)
 
             verify { analyticsManager.trackEvent(Event.CopyClipboard) }
-                .wasInvoked()
         }
     }
 
@@ -439,7 +422,6 @@ internal class CalculatorViewModelTest {
             assertEquals(text, it.input)
 
             verify { analyticsManager.trackEvent(Event.PasteFromClipboard) }
-                .wasInvoked()
         }
 
         viewModel.state.onSubscription {
@@ -449,7 +431,6 @@ internal class CalculatorViewModelTest {
             assertEquals(text2.toSupportedCharacters(), it.input)
 
             verify { analyticsManager.trackEvent(Event.PasteFromClipboard) }
-                .wasInvoked()
         }
     }
 
@@ -505,7 +486,7 @@ internal class CalculatorViewModelTest {
         every { calculationStorage.currentBase }
             .returns(currency1.code)
 
-        coEvery { backendApiService.getConversion(currency1.code) }
+        everySuspend { backendApiService.getConversion(currency1.code) }
             .returns(conversion)
 
         viewModel.state.onSubscription {
@@ -517,10 +498,7 @@ internal class CalculatorViewModelTest {
             assertEquals(currency1.code, it.base)
 
             verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
-                .wasInvoked()
-
             verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
-                .wasInvoked()
         }
     }
 }

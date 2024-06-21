@@ -8,12 +8,11 @@ import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockInt
 import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockLong
 import com.oztechan.ccc.client.core.persistence.fakes.Fakes.mockString
 import com.russhwolf.settings.Settings
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -23,8 +22,7 @@ internal class PersistenceTest {
         PersistenceImpl(settings)
     }
 
-    @Mock
-    private val settings = configure(mock(classOf<Settings>())) { stubsUnitByDefault = true }
+    private val settings = mock<Settings>(MockMode.autoUnit)
 
     @Test
     fun `getValue returns the same type`() {
@@ -46,15 +44,10 @@ internal class PersistenceTest {
         assertEquals(mockLong, persistence.getValue(KEY, mockLong))
 
         verify { settings.getFloat(KEY, mockFloat) }
-            .wasInvoked()
         verify { settings.getBoolean(KEY, mockBoolean) }
-            .wasInvoked()
         verify { settings.getInt(KEY, mockInt) }
-            .wasInvoked()
         verify { settings.getString(KEY, mockString) }
-            .wasInvoked()
         verify { settings.getLong(KEY, mockLong) }
-            .wasInvoked()
     }
 
     @Test
@@ -66,15 +59,10 @@ internal class PersistenceTest {
         persistence.setValue(KEY, mockLong)
 
         verify { settings.putFloat(KEY, mockFloat) }
-            .wasInvoked()
         verify { settings.putBoolean(KEY, mockBoolean) }
-            .wasInvoked()
         verify { settings.putInt(KEY, mockInt) }
-            .wasInvoked()
         verify { settings.putString(KEY, mockString) }
-            .wasInvoked()
         verify { settings.putLong(KEY, mockLong) }
-            .wasInvoked()
     }
 
     @Test
