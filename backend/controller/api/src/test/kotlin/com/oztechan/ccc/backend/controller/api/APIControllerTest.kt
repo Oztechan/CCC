@@ -3,11 +3,10 @@ package com.oztechan.ccc.backend.controller.api
 import com.oztechan.ccc.backend.controller.api.mapper.toExchangeRateAPIModel
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.mock
+import dev.mokkery.answering.returns
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,8 +16,7 @@ internal class APIControllerTest {
         APIControllerImpl(conversionDataSource)
     }
 
-    @Mock
-    private val conversionDataSource = mock(classOf<ConversionDataSource>())
+    private val conversionDataSource = mock<ConversionDataSource>()
 
     @Test
     fun `getExchangeRateByBase returns getConversionByBase from ConversionDataSource`() =
@@ -26,13 +24,12 @@ internal class APIControllerTest {
             val base = "EUR"
             val result = Conversion(base)
 
-            coEvery { conversionDataSource.getConversionByBase(base) }
+            everySuspend { conversionDataSource.getConversionByBase(base) }
                 .returns(result)
 
             assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
 
-            coVerify { conversionDataSource.getConversionByBase(base) }
-                .wasInvoked()
+            verifySuspend { conversionDataSource.getConversionByBase(base) }
         }
 
     @Test
@@ -41,12 +38,11 @@ internal class APIControllerTest {
             val base = "eur"
             val result = Conversion(base.uppercase())
 
-            coEvery { conversionDataSource.getConversionByBase(base.uppercase()) }
+            everySuspend { conversionDataSource.getConversionByBase(base.uppercase()) }
                 .returns(result)
 
             assertEquals(result.toExchangeRateAPIModel(), subject.getExchangeRateByBase(base))
 
-            coVerify { conversionDataSource.getConversionByBase(base.uppercase()) }
-                .wasInvoked()
+            verifySuspend { conversionDataSource.getConversionByBase(base.uppercase()) }
         }
 }
