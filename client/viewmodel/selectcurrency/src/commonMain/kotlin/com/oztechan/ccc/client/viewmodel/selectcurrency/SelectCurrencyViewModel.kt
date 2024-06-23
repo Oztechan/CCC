@@ -50,7 +50,7 @@ class SelectCurrencyViewModel(
     // region Event
     override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
         Logger.d { "SelectCurrencyViewModel onItemClick ${currency.code}" }
-        _effect.emit(SelectCurrencyEffect.CurrencyChange(currency.code))
+        _effect.emit(SelectCurrencyEffect.CurrencyChange)
     }
 
     override fun onSelectClick() = viewModelScope.launchIgnored {

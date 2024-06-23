@@ -20,6 +20,6 @@ interface SelectCurrencyEvent : BaseEvent {
 
 // Effect
 sealed class SelectCurrencyEffect : BaseEffect {
-    data class CurrencyChange(val newBase: String) : SelectCurrencyEffect()
+    data object CurrencyChange : SelectCurrencyEffect()
     data object OpenCurrencies : SelectCurrencyEffect()
 }
