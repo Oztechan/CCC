@@ -95,6 +95,7 @@ internal class SelectCurrencyViewModelTest {
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
+            assertEquals(currencyDollar.code, it.newBase)
         }
     }
 
