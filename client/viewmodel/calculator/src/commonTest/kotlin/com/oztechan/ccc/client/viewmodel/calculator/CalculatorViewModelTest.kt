@@ -303,6 +303,28 @@ internal class CalculatorViewModelTest {
         }
     }
 
+    @Test
+    fun `when app resumes it calls onBaseChange with null and it sets the base according to the preference`() =
+        runTest {
+            every { calculationStorage.currentBase }
+                .returns(currency1.code)
+
+            everySuspend { backendApiService.getConversion(currency1.code) }
+                .returns(conversion)
+
+            viewModel.state.onSubscription {
+                viewModel.event.onBaseChange(null)
+            }.firstOrNull().let {
+                assertNotNull(it)
+                assertNotNull(viewModel.data.conversion)
+                assertEquals(currency1.code, viewModel.data.conversion!!.base)
+                assertEquals(currency1.code, it.base)
+
+                verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+                verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+            }
+        }
+
     // Event
     @Test
     fun onBarClick() = runTest {
