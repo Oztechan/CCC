@@ -18,24 +18,22 @@ plugins {
 }
 
 android {
-    ProjectSettings.apply {
-        namespace = Modules.Android.app.packageName
-        compileSdk = COMPILE_SDK_VERSION
+    namespace = Modules.Android.app.packageName
+    compileSdk = ProjectSettings.COMPILE_SDK_VERSION
 
-        defaultConfig {
-            minSdk = MIN_SDK_VERSION
-            targetSdk = TARGET_SDK_VERSION
+    defaultConfig {
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+        targetSdk = TARGET_SDK_VERSION
 
-            versionCode = getVersionCode(project)
-            versionName = getVersionName(project)
-        }
+        versionCode = ProjectSettings.getVersionCode(project)
+        versionName = ProjectSettings.getVersionName(project)
+    }
 
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
+    compileOptions {
+        sourceCompatibility = ProjectSettings.JAVA_VERSION
+        targetCompatibility = ProjectSettings.JAVA_VERSION
 
-            isCoreLibraryDesugaringEnabled = true
-        }
+        isCoreLibraryDesugaringEnabled = true
     }
 
     buildFeatures.buildConfig = true
@@ -75,7 +73,8 @@ android {
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
 
-            extensions.getByName<FirebasePerfExtension>("FirebasePerformance").setInstrumentationEnabled(false)
+            extensions.getByName<FirebasePerfExtension>("FirebasePerformance")
+                .setInstrumentationEnabled(false)
         }
     }
 }
