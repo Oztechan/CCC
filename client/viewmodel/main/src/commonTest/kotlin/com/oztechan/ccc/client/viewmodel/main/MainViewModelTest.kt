@@ -108,7 +108,7 @@ internal class MainViewModelTest {
                 )
             }
         }
-
+// todo fix here
 //        verify {
 //            appStorage.sessionCount.let {
 //                analyticsManager.setUserProperty(UserProperty.SessionCount(it.toString()))
