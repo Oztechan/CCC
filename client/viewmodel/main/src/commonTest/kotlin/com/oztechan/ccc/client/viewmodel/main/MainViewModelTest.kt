@@ -84,7 +84,7 @@ internal class MainViewModelTest {
             .returns(nowAsLong())
 
         every { appStorage.sessionCount }
-            .returns(1L)
+            .returns(1L) // suppose to return 1
 
         every { appConfigRepository.getDeviceType() }
             .returns(mockDevice)
@@ -108,12 +108,12 @@ internal class MainViewModelTest {
                 )
             }
         }
-// todo fix here
-//        verify {
-//            appStorage.sessionCount.let {
-//                analyticsManager.setUserProperty(UserProperty.SessionCount(it.toString()))
-//            }
-//        }
+        verify {
+            appStorage.sessionCount.let {
+                println(it) // 0
+                analyticsManager.setUserProperty(UserProperty.SessionCount(it.toString())) // the original, it fails
+            }
+        }
         verify {
             appStorage.appTheme.let {
                 analyticsManager.setUserProperty(
