@@ -222,7 +222,7 @@ internal class AdControlRepositoryTest {
 
         verify { appStorage.premiumEndDate }
 
-        verify(VerifyMode.not) { adConfigService.config.interstitialAdSessionCount }
+        verify(VerifyMode.not) { adConfigService.config }
 
         verify(VerifyMode.not) { appStorage.sessionCount }
     }
