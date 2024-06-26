@@ -69,6 +69,7 @@ internal class MainViewModelTest {
     private val appThemeValue = Random.nextInt()
     private val mockDevice = Device.IOS
     private val isFirstRun: Boolean = Random.nextBoolean()
+    private val sessionCount = 1L
 
     @BeforeTest
     fun setup() {
@@ -84,7 +85,7 @@ internal class MainViewModelTest {
             .returns(nowAsLong())
 
         every { appStorage.sessionCount }
-            .returns(1L)
+            .returns(sessionCount)
 
         every { appConfigRepository.getDeviceType() }
             .returns(mockDevice)
@@ -108,12 +109,10 @@ internal class MainViewModelTest {
                 )
             }
         }
-// todo fix here
-//        verify {
-//            appStorage.sessionCount.let {
-//                analyticsManager.setUserProperty(UserProperty.SessionCount(it.toString()))
-//            }
-//        }
+        verify {
+            appStorage.sessionCount
+            analyticsManager.setUserProperty(UserProperty.SessionCount(sessionCount.toString()))
+        }
         verify {
             appStorage.appTheme.let {
                 analyticsManager.setUserProperty(
