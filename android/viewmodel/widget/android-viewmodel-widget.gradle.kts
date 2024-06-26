@@ -2,7 +2,7 @@ plugins {
     libs.plugins.apply {
         alias(androidLibrary)
         alias(kotlinAndroid)
-        alias(ksp)
+        alias(mokkery)
     }
 }
 
@@ -30,12 +30,9 @@ dependencies {
             implementation(kermit)
 
             testImplementation(test)
-            testImplementation(mockative)
             testImplementation(coroutinesTest)
         }
     }
-
-    kspTest(libs.processors.mockative)
 
     Modules.Common.Core.apply {
         implementation(project(model))

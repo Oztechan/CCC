@@ -12,15 +12,15 @@ import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
-import io.mockative.Mock
-import io.mockative.any
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.matcher.any
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verify.VerifyMode
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
@@ -47,18 +47,13 @@ internal class WidgetViewModelTest {
         )
     }
 
-    @Mock
-    private val calculationStorage =
-        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val backendApiService = mock(classOf<BackendApiService>())
+    private val backendApiService = mock<BackendApiService>()
 
-    @Mock
-    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+    private val currencyDataSource = mock<CurrencyDataSource>()
 
-    @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val appStorage = mock<AppStorage>()
 
     private val base = "EUR"
     private val firstBase = "USD"
@@ -92,10 +87,10 @@ internal class WidgetViewModelTest {
             .returns(3)
 
         runTest {
-            coEvery { backendApiService.getConversion(base) }
+            everySuspend { backendApiService.getConversion(base) }
                 .returns(conversion)
 
-            coEvery { currencyDataSource.getActiveCurrencies() }
+            everySuspend { currencyDataSource.getActiveCurrencies() }
                 .returns(activeCurrencyList)
         }
     }
@@ -106,7 +101,7 @@ internal class WidgetViewModelTest {
         every { calculationStorage.currentBase }
             .returns(firstBase)
 
-        coEvery { backendApiService.getConversion(firstBase) }
+        everySuspend { backendApiService.getConversion(firstBase) }
             .returns(conversion)
 
         repeat(activeCurrencyList.count() + 1) {
@@ -123,7 +118,7 @@ internal class WidgetViewModelTest {
         every { calculationStorage.currentBase }
             .returns(base)
 
-        coEvery { backendApiService.getConversion(base) }
+        everySuspend { backendApiService.getConversion(base) }
             .returns(conversion)
 
         repeat(activeCurrencyList.count() + 1) {
@@ -140,7 +135,7 @@ internal class WidgetViewModelTest {
         every { calculationStorage.currentBase }
             .returns(lastBase)
 
-        coEvery { backendApiService.getConversion(lastBase) }
+        everySuspend { backendApiService.getConversion(lastBase) }
             .returns(conversion)
 
         repeat(activeCurrencyList.count() + 1) {
@@ -177,11 +172,9 @@ internal class WidgetViewModelTest {
 
         viewModel.event.onRefreshClick()
 
-        coVerify { backendApiService.getConversion(base) }
-            .wasInvoked()
+        verifySuspend { backendApiService.getConversion(base) }
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasInvoked()
+        verifySuspend { currencyDataSource.getActiveCurrencies() }
     }
 
     @Test
@@ -191,11 +184,9 @@ internal class WidgetViewModelTest {
 
         viewModel.event.onRefreshClick()
 
-        coVerify { backendApiService.getConversion(base) }
-            .wasNotInvoked()
+        verifySuspend(VerifyMode.not) { backendApiService.getConversion(base) }
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasNotInvoked()
+        verifySuspend(VerifyMode.not) { currencyDataSource.getActiveCurrencies() }
     }
 
     @Test
@@ -225,11 +216,9 @@ internal class WidgetViewModelTest {
 
         viewModel.event.onRefreshClick()
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasNotInvoked()
+        verifySuspend(VerifyMode.not) { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = any<String>() }
-            .wasNotInvoked()
+        verify(VerifyMode.not) { calculationStorage.currentBase = any<String>() }
     }
 
     // region Event
@@ -241,22 +230,18 @@ internal class WidgetViewModelTest {
 
         viewModel.event.onNextClick()
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasInvoked()
+        verifySuspend { currencyDataSource.getActiveCurrencies() }
 
         verify { calculationStorage.currentBase = lastBase }
-            .wasInvoked()
 
         every { calculationStorage.currentBase }
             .returns(lastBase)
 
         viewModel.event.onNextClick()
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasInvoked()
+        verifySuspend { currencyDataSource.getActiveCurrencies() }
 
         verify { calculationStorage.currentBase = firstBase }
-            .wasInvoked()
     }
 
     @Test
@@ -267,22 +252,18 @@ internal class WidgetViewModelTest {
 
         viewModel.event.onPreviousClick()
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasInvoked()
+        verifySuspend { currencyDataSource.getActiveCurrencies() }
 
         verify { calculationStorage.currentBase = firstBase }
-            .wasInvoked()
 
         every { calculationStorage.currentBase }
             .returns(firstBase)
 
         viewModel.event.onPreviousClick()
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasInvoked()
+        verifySuspend { currencyDataSource.getActiveCurrencies() }
 
         verify { calculationStorage.currentBase = lastBase }
-            .wasInvoked()
     }
 
     @Test
@@ -292,14 +273,11 @@ internal class WidgetViewModelTest {
 
         viewModel.event.onRefreshClick()
 
-        coVerify { backendApiService.getConversion(base) }
-            .wasInvoked()
+        verifySuspend { backendApiService.getConversion(base) }
 
-        coVerify { currencyDataSource.getActiveCurrencies() }
-            .wasInvoked()
+        verifySuspend { currencyDataSource.getActiveCurrencies() }
 
         verify { calculationStorage.currentBase }
-            .wasInvoked()
     }
 
     @Test

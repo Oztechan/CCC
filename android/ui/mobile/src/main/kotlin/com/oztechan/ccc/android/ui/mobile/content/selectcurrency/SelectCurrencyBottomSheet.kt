@@ -10,9 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
 import com.oztechan.ccc.android.ui.mobile.R
-import com.oztechan.ccc.android.ui.mobile.content.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.ui.mobile.databinding.BottomSheetSelectCurrencyBinding
-import com.oztechan.ccc.android.ui.mobile.util.setNavigationResult
 import com.oztechan.ccc.android.ui.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
@@ -85,14 +83,7 @@ class SelectCurrencyBottomSheet :
         .onEach { viewEffect ->
             Logger.i { "SelectCurrencyBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is SelectCurrencyEffect.CurrencyChange -> {
-                    setNavigationResult(
-                        R.id.calculatorFragment,
-                        viewEffect.newBase,
-                        CHANGE_BASE_EVENT
-                    )
-                    dismissDialog()
-                }
+                is SelectCurrencyEffect.CurrencyChange -> dismissDialog()
 
                 SelectCurrencyEffect.OpenCurrencies -> navigate(
                     R.id.selectCurrencyBottomSheet,

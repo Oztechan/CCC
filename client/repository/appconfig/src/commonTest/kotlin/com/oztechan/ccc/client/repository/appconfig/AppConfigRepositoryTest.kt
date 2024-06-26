@@ -6,11 +6,10 @@ import com.oztechan.ccc.client.configservice.update.UpdateConfigService
 import com.oztechan.ccc.client.configservice.update.model.UpdateConfig
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.storage.app.AppStorage
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -25,14 +24,11 @@ internal class AppConfigRepositoryTest {
         AppConfigRepositoryImpl(updateConfigService, reviewConfigService, appStorage, device)
     }
 
-    @Mock
-    private val updateConfigService = mock(classOf<UpdateConfigService>())
+    private val updateConfigService = mock<UpdateConfigService>()
 
-    @Mock
-    private val reviewConfigService = mock(classOf<ReviewConfigService>())
+    private val reviewConfigService = mock<ReviewConfigService>()
 
-    @Mock
-    private val appStorage = mock(classOf<AppStorage>())
+    private val appStorage = mock<AppStorage>()
 
     private val device = Device.IOS
 
@@ -57,7 +53,6 @@ internal class AppConfigRepositoryTest {
         }
 
         verify { updateConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -71,7 +66,6 @@ internal class AppConfigRepositoryTest {
         }
 
         verify { updateConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -82,7 +76,6 @@ internal class AppConfigRepositoryTest {
         assertNull(subject.checkAppUpdate(false))
 
         verify { updateConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -93,7 +86,6 @@ internal class AppConfigRepositoryTest {
         assertNull(subject.checkAppUpdate(false))
 
         verify { updateConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -104,7 +96,6 @@ internal class AppConfigRepositoryTest {
         assertNull(subject.checkAppUpdate(true))
 
         verify { updateConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -120,10 +111,8 @@ internal class AppConfigRepositoryTest {
         assertTrue { subject.shouldShowAppReview() }
 
         verify { appStorage.sessionCount }
-            .wasInvoked()
 
         verify { reviewConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -139,10 +128,8 @@ internal class AppConfigRepositoryTest {
         assertFalse { subject.shouldShowAppReview() }
 
         verify { appStorage.sessionCount }
-            .wasInvoked()
 
         verify { reviewConfigService.config }
-            .wasInvoked()
     }
 
     @Test
@@ -158,10 +145,8 @@ internal class AppConfigRepositoryTest {
         assertFalse { subject.shouldShowAppReview() }
 
         verify { appStorage.sessionCount }
-            .wasInvoked()
 
         verify { reviewConfigService.config }
-            .wasInvoked()
     }
 
     @Test

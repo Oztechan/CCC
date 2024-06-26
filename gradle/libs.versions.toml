@@ -1,11 +1,10 @@
 [versions]
 
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 androidGradlePlugin = "8.5.0"
-ksp = "1.9.24-1.0.20"
-composeCompiler = "1.5.14"
 jetbrainsCompose = "1.6.11"
 glance = "1.1.0"
+mokkery = "2.1.0"
 activityCompose = "1.9.0"
 navigationCompose = "2.7.0-alpha07"
 detekt = "1.23.6"
@@ -36,12 +35,11 @@ billing = "6.2.1"
 leakCanary = "2.14"
 sqlDelight = "1.5.5"
 lifecycle = "2.8.2"
-mokoResources = "0.24.0"
+mokoResources = "0.24.1"
 buildKonfig = "0.15.1"
 splashScreen = "1.0.1"
 kover = "0.8.1"
 rootBeer = "0.1.0"
-mockative = "2.2.2"
 anrWatchDog = "1.4.0"
 kermit = "2.0.4"
 konsist = "0.15.1"
@@ -50,7 +48,6 @@ konsist = "0.15.1"
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
-common-composeCompiler = { module = "androidx.compose.compiler:compiler", version.ref = "composeCompiler" } # Workaround for compose compiler update
 common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
@@ -63,7 +60,6 @@ common-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", 
 common-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
-common-mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
 common-konsist = { module = "com.lemonappdev:konsist", version.ref = "konsist" }
@@ -113,13 +109,11 @@ common-ktorServerContentNegotiation = { module = "io.ktor:ktor-server-content-ne
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
-# PROCESSORS
-processors-mockative = { module = "io.mockative:mockative-processor", version.ref = "mockative" }
-
 [plugins]
 
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
+kotlinPluginCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -133,5 +127,5 @@ sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelight" }
 mokoResources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "mokoResources" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+mokkery = { id = "dev.mokkery", version.ref = "mokkery" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

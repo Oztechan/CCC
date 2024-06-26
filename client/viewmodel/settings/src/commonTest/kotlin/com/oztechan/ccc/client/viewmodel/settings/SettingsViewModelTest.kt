@@ -23,14 +23,15 @@ import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.core.model.Watcher
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.throws
+import dev.mokkery.every
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verify.VerifyMode
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -64,36 +65,23 @@ internal class SettingsViewModelTest {
         )
     }
 
-    @Mock
-    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
+    private val appStorage = mock<AppStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val calculationStorage =
-        configure(mock(classOf<CalculationStorage>())) { stubsUnitByDefault = true }
+    private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val backendApiService = mock(classOf<BackendApiService>())
+    private val backendApiService = mock<BackendApiService>()
 
-    @Mock
-    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+    private val currencyDataSource = mock<CurrencyDataSource>()
 
-    @Mock
-    private val conversionDataSource = configure(mock(classOf<ConversionDataSource>())) {
-        stubsUnitByDefault = true
-    }
+    private val conversionDataSource = mock<ConversionDataSource>(MockMode.autoUnit)
 
-    @Mock
-    private val watcherDataSource = mock(classOf<WatcherDataSource>())
+    private val watcherDataSource = mock<WatcherDataSource>()
 
-    @Mock
-    private val appConfigRepository = mock(classOf<AppConfigRepository>())
+    private val appConfigRepository = mock<AppConfigRepository>()
 
-    @Mock
-    private val adControlRepository = mock(classOf<AdControlRepository>())
+    private val adControlRepository = mock<AdControlRepository>()
 
-    @Mock
-    private val analyticsManager =
-        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val currencyList = listOf(
         Currency("", "", ""),
@@ -156,7 +144,6 @@ internal class SettingsViewModelTest {
         }
 
         verify { adControlRepository.shouldShowBannerAd() }
-            .wasInvoked()
     }
 
     @Test
@@ -206,10 +193,10 @@ internal class SettingsViewModelTest {
         val conversion = Conversion(base)
         val currency = Currency(base, "", "")
 
-        coEvery { currencyDataSource.getActiveCurrencies() }
+        everySuspend { currencyDataSource.getActiveCurrencies() }
             .returns(listOf(currency))
 
-        coEvery { backendApiService.getConversion(base) }
+        everySuspend { backendApiService.getConversion(base) }
             .returns(conversion)
 
         viewModel.effect.onSubscription {
@@ -218,21 +205,19 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        coVerify { conversionDataSource.insertConversion(conversion) }
-            .wasInvoked()
+        verifySuspend { conversionDataSource.insertConversion(conversion) }
 
-        coVerify { backendApiService.getConversion(base) }
-            .wasInvoked()
+        verifySuspend { backendApiService.getConversion(base) }
     }
 
     @Test
     fun `failed synchroniseConversions should pass Synchronised effect`() = runTest {
         viewModel.data.synced = false
 
-        coEvery { currencyDataSource.getActiveCurrencies() }
+        everySuspend { currencyDataSource.getActiveCurrencies() }
             .returns(currencyList)
 
-        coEvery { backendApiService.getConversion("") }
+        everySuspend { backendApiService.getConversion("") }
             .throws(Exception("test"))
 
         viewModel.effect.onSubscription {
@@ -241,8 +226,7 @@ internal class SettingsViewModelTest {
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
-        coVerify { conversionDataSource.insertConversion(Conversion()) }
-            .wasNotInvoked()
+        verifySuspend(VerifyMode.not) { conversionDataSource.insertConversion(Conversion()) }
     }
 
     // Event
@@ -339,7 +323,6 @@ internal class SettingsViewModelTest {
         }
 
         verify { appStorage.premiumEndDate }
-            .wasInvoked()
 
         every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.days.inWholeMilliseconds)
@@ -351,7 +334,6 @@ internal class SettingsViewModelTest {
         }
 
         verify { appStorage.premiumEndDate }
-            .wasInvoked()
     }
 
     @Test
@@ -365,7 +347,7 @@ internal class SettingsViewModelTest {
 
     @Test
     fun onSyncClick() = runTest {
-        coEvery { currencyDataSource.getActiveCurrencies() }
+        everySuspend { currencyDataSource.getActiveCurrencies() }
             .returns(listOf())
 
         viewModel.effect.onSubscription {
@@ -382,7 +364,6 @@ internal class SettingsViewModelTest {
         }
 
         verify { analyticsManager.trackEvent(Event.OfflineSync) }
-            .wasInvoked()
     }
 
     @Test
@@ -407,7 +388,6 @@ internal class SettingsViewModelTest {
             println("-----")
 
             verify { calculationStorage.precision = value.indexToNumber() }
-                .wasInvoked()
         }
     }
 
@@ -424,6 +404,5 @@ internal class SettingsViewModelTest {
         }
 
         verify { appStorage.appTheme = mockTheme.themeValue }
-            .wasInvoked()
     }
 }
