@@ -63,17 +63,16 @@ jobs:
         uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
       - name: Adding secret files
-        run: |
-          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
-          mkdir android/app/src/release
-          echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
-          mkdir android/app/src/debug
-          echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
-          echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
+        uses: ./.github/actions/add-secret-files
+        with:
+          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          RELEASE_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}
+          DEBUG_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}
+          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
+          IOS_GPG_FIREBASE_CONFIG: ${{ secrets.IOS_GPG_FIREBASE_CONFIG }}
+          IOS_GPG_RELEASE_XCCONFIG: ${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Generate Artifacts
         run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
@@ -113,9 +112,16 @@ jobs:
           name: googleBundle
 
       - name: Adding secret files
-        run: |
-          echo "${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
+        uses: ./.github/actions/add-secret-files
+        with:
+          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          RELEASE_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}
+          DEBUG_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}
+          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
+          IOS_GPG_FIREBASE_CONFIG: ${{ secrets.IOS_GPG_FIREBASE_CONFIG }}
+          IOS_GPG_RELEASE_XCCONFIG: ${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Upload Artifact to Google Play Console
         uses: r0adkll/upload-google-play@v1.1.3
@@ -206,13 +212,16 @@ jobs:
         uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
       - name: Adding secret files
-        run: |
-          echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-          mkdir ios/CCC/Resources/Release
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
-          rm ios/CCC/Resources/Debug/GoogleService-Info.plist
-          echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
+        uses: ./.github/actions/add-secret-files
+        with:
+          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          RELEASE_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}
+          DEBUG_GOOGLE_SERVICES_JSON_ASC: ${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}
+          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
+          IOS_GPG_FIREBASE_CONFIG: ${{ secrets.IOS_GPG_FIREBASE_CONFIG }}
+          IOS_GPG_RELEASE_XCCONFIG: ${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: StoreBuild
         working-directory: ios
