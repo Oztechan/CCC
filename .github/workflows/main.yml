@@ -222,8 +222,9 @@ jobs:
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  Quality:
+  Check:
     runs-on: macos-14
+    if: github.ref != 'refs/heads/develop'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -231,14 +232,8 @@ jobs:
       - name: Setup Gradle Repo
         uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
-      - name: Run Quality Jobs
-        run: ./gradlew check koverXmlReport --parallel
-
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4.3.3
-        with:
-          name: coverageReport
-          path: build/reports/kover/report.xml
+      - name: Run Check
+        run: ./gradlew check
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -248,32 +243,29 @@ jobs:
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  UploadQualityReports:
+  Coverage:
     runs-on: ubuntu-22.04
-    needs: [ Quality ]
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.7
 
-      - name: Download Coverage Report
-        uses: actions/download-artifact@v4.1.7
-        with:
-          name: coverageReport
-          path: build
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+
+      - name: Generate Coverage
+        run: ./gradlew koverXmlReport
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4.5.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/report.xml
+          files: build/reports/kover/report.xml
 
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/report.xml
+          coverage-reports: build/reports/kover/report.xml
 
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@v2.3.0
@@ -284,12 +276,11 @@ jobs:
           args: >
             -Dsonar.organization=oztechan
             -Dsonar.projectKey=Oztechan_CCC
-            -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/kover/report.xml
 
-      - name: Delete Coverage Report
-        uses: geekyeggo/delete-artifact@v5.0.0
-        with:
-          name: coverageReport
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -324,16 +315,16 @@ jobs:
 
   Notify:
     runs-on: ubuntu-22.04
-    needs: [ GradleBuild, XCodeBuild, Quality, CodeAnalysis, DistributeAndroid, DistributeIOS, UploadQualityReports ]
+    needs: [ GradleBuild, XCodeBuild, Check, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
 
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          false == (needs.Quality.outputs.status == 'success') ||
+          false == (needs.Check.outputs.status == 'success') ||
+          false == (needs.Coverage.outputs.status == 'success') ||
           false == (needs.CodeAnalysis.outputs.status == 'success') ||
-          false == (needs.UploadQualityReports.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
         uses: voxmedia/github-action-slack-notify-build@v1.6.0
