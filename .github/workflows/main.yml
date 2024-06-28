@@ -89,8 +89,8 @@ jobs:
         with:
           name: androidArtifacts
           path: |
-            android/app/build/outputs/apk/google/release/app-google-release.apk
-            android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
+            android/app/build/outputs/apk/google/debug/app-google-debug.apk
+            android/app/build/outputs/apk/huawei/debug/app-huawei-debug.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
