@@ -1,7 +1,7 @@
 name: 'Add Secret Files'
 description: 'Add secret files to the project'
 inputs:
-  ANDROID_GPG_RELEASE_KEYSTORE:
+  ANDROID_RELEASE_KEYSTORE_ASC:
     description: 'Android Release Keystore'
     required: true
   SECRET_PASSWORD:
@@ -32,7 +32,7 @@ runs:
   using: 'composite'
   steps:
     - run: |
-        echo "${{ inputs.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
+        echo "${{ inputs.ANDROID_RELEASE_KEYSTORE_ASC }}" > release.keystore.asc
         gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
         mkdir android/app/src/release
         mkdir android/app/src/debug

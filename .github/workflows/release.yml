@@ -65,7 +65,7 @@ jobs:
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
         with:
-          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
           AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
@@ -115,7 +115,7 @@ jobs:
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
         with:
-          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
           AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
@@ -216,7 +216,7 @@ jobs:
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
         with:
-          ANDROID_GPG_RELEASE_KEYSTORE: ${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}
+          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
           SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
           GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
           AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}

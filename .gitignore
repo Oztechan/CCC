@@ -33,6 +33,7 @@ xcuserdata
 
 # Android secrets
 android/app/release.keystore
+android/app/release.keystore.asc
 android/app/src/debug/google-services.json
 android/app/src/debug/google-services.json.asc
 android/app/src/debug/agconnect-services.json
