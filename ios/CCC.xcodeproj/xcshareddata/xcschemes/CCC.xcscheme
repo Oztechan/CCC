@@ -10,7 +10,7 @@
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
                title = "Copy Environment Files"
-               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;cp &quot;$SRCROOT/CCC/Resources/$CONFIGURATION/GoogleService-Info.plist&quot; &quot;$SRCROOT/CCC/Resources/GoogleService-Info.plist&quot;&#10;cp &quot;$SRCROOT/CCC/Resources/$CONFIGURATION/Config.xcconfig&quot; &quot;$SRCROOT/CCC/Resources/Config.xcconfig&quot;&#10;">
+               scriptText = "# Type a script or drag a script file from your workspace to insert its path.&#10;&#10;# Check if the CI environment variable is set to true&#10;if [[ &quot;$CI&quot; == &quot;true&quot; ]]; then&#10;    echo &quot;Running in CI environment&quot;&#10;    cp &quot;$SRCROOT/CCC/Resources/$CONFIGURATION/GoogleService-Info.plist&quot; &quot;$SRCROOT/CCC/Resources/GoogleService-Info.plist&quot;&#10;    cp &quot;$SRCROOT/CCC/Resources/$CONFIGURATION/Config.xcconfig&quot; &quot;$SRCROOT/CCC/Resources/Config.xcconfig&quot;&#10;else&#10;    echo &quot;Not running in CI environment&quot;&#10;fi&#10;">
                <EnvironmentBuildable>
                   <BuildableReference
                      BuildableIdentifier = "primary"
