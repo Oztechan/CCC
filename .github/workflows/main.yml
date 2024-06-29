@@ -312,7 +312,7 @@ jobs:
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          false == (needs.Check.outputs.status == 'success') ||
+          (false == (needs.Check.outputs.status == 'success') && github.ref != 'refs/heads/develop')||
           false == (needs.Coverage.outputs.status == 'success') ||
           false == (needs.CodeAnalysis.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
