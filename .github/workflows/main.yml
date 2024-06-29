@@ -91,6 +91,8 @@ jobs:
           path: |
             android/app/build/outputs/apk/google/debug/app-google-debug.apk
             android/app/build/outputs/apk/huawei/debug/app-huawei-debug.apk
+            android/app/build/outputs/apk/google/release/app-google-release.apk
+            android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -116,21 +118,37 @@ jobs:
         with:
           name: androidArtifacts
 
-      - name: Firebase App Distribution Google
+      - name: Firebase App Distribution Google Debug
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+          appId: ${{secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
           file: google/debug/app-google-debug.apk
 
-      - name: Firebase App Distribution Huawei
+      - name: Firebase App Distribution Google Release
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          appId: ${{secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: google/release/app-google-release.apk
+
+      - name: Firebase App Distribution Huawei Debug
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
           file: huawei/debug/app-huawei-debug.apk
+
+      - name: Firebase App Distribution Huawei Release
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: huawei/release/app-huawei-release.apk
 
       - name: Delete Android Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
