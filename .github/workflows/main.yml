@@ -85,7 +85,7 @@ jobs:
 
       - name: Upload Android Artifacts
         uses: actions/upload-artifact@v4.3.3
-        #        if: github.event_name == 'push'
+        if: github.event_name == 'push'
         with:
           name: androidArtifacts
           path: |
@@ -103,7 +103,7 @@ jobs:
   DistributeAndroid:
     runs-on: ubuntu-22.04
     needs: [ GradleBuild ]
-    #    if: github.event_name == 'push'
+    if: github.event_name == 'push'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
