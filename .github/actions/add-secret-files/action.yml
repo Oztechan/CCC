@@ -38,7 +38,6 @@ runs:
         echo "${{ inputs.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
         mkdir ios/CCC/Resources/Release
         gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
-        rm ios/CCC/Resources/Debug/GoogleService-Info.plist
         echo "${{ inputs.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
         gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
         echo "${{ inputs.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
