@@ -7,11 +7,8 @@ inputs:
   SECRET_PASSWORD:
     description: 'Secret Password'
     required: true
-  RELEASE_GOOGLE_SERVICES_JSON_ASC:
-    description: 'Release Google Services JSON'
-    required: true
-  DEBUG_GOOGLE_SERVICES_JSON_ASC:
-    description: 'Debug Google Services JSON'
+  GOOGLE_SERVICES_JSON_ASC:
+    description: 'Google Services JSON'
     required: true
   AG_CONNECT_SERVICES_JSON_ASC:
     description: 'AG Connect Services JSON'
@@ -32,10 +29,9 @@ runs:
         echo "${{ inputs.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
         gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
         mkdir android/app/src/release
-        echo "${{ inputs.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
         mkdir android/app/src/debug
-        echo "${{ inputs.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
+        echo "${{ inputs.GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
+        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
         gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
         echo "${{ inputs.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
         gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
