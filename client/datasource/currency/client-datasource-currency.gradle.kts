@@ -2,6 +2,7 @@ plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
         alias(androidLibrary)
+        alias(mokkery)
     }
 }
 
