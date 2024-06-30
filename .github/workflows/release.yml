@@ -107,6 +107,9 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
+      - name: Clone Repo
+        uses: actions/checkout@v4.1.7
+
       - name: Download App Bundle
         uses: actions/download-artifact@v4.1.7
         with:
