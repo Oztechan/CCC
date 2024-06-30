@@ -93,7 +93,6 @@ internal class SelectCurrencyViewModelTest {
         subject.effect.onSubscription {
             subject.event.onItemClick(currencyDollar)
         }.firstOrNull().let {
-            assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
             assertEquals(currencyDollar.code, it.newBase)
         }
