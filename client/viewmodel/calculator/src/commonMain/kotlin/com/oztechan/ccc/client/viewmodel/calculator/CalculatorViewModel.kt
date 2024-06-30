@@ -300,10 +300,9 @@ class CalculatorViewModel(
         _effect.emit(CalculatorEffect.OpenSettings)
     }
 
-    override fun onBaseChange(base: String?) {
+    override fun onBaseChange(base: String) {
         Logger.d { "CalculatorViewModel onBaseChange $base" }
-        val newBase = base ?: calculationStorage.currentBase
-        currentBaseChanged(newBase)
+        currentBaseChanged(base)
         calculateOutput(_state.value.input)
     }
     // endregion
