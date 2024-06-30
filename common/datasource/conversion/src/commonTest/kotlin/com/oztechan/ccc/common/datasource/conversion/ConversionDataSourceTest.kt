@@ -8,12 +8,11 @@ import com.oztechan.ccc.common.datasource.conversion.mapper.toConversionDBModel
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.db.SqlCursor
 import com.squareup.sqldelight.db.SqlDriver
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
@@ -26,15 +25,9 @@ internal class ConversionDataSourceTest {
         ConversionDataSourceImpl(conversionQueries, UnconfinedTestDispatcher())
     }
 
-    @Mock
-    private val conversionQueries =
-        configure(mock(classOf<ConversionQueries>())) { stubsUnitByDefault = true }
-
-    @Mock
-    private val sqlDriver = mock(classOf<SqlDriver>())
-
-    @Mock
-    private val sqlCursor = configure(mock(classOf<SqlCursor>())) { stubsUnitByDefault = true }
+    private val conversionQueries = mock<ConversionQueries>(MockMode.autoUnit)
+    private val sqlDriver = mock<SqlDriver>()
+    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
 
     private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
         Fakes.conversionModel.toConversionDBModel()
@@ -58,7 +51,6 @@ internal class ConversionDataSourceTest {
         }
 
         verify { conversionQueries.insertConversion(Fakes.conversionModel.toConversionDBModel()) }
-            .wasInvoked()
     }
 
     @Test
@@ -71,6 +63,5 @@ internal class ConversionDataSourceTest {
         }
 
         verify { conversionQueries.getConversionByBase(Fakes.conversionModel.base) }
-            .wasInvoked()
     }
 }

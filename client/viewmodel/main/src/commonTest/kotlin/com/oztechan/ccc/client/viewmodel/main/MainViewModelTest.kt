@@ -19,12 +19,12 @@ import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
+import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
@@ -54,28 +54,22 @@ internal class MainViewModelTest {
         )
     }
 
-    @Mock
-    private val appStorage = configure(mock(classOf<AppStorage>())) { stubsUnitByDefault = true }
+    private val appStorage = mock<AppStorage>(MockMode.autoUnit)
 
-    @Mock
-    private val reviewConfigService = mock(classOf<ReviewConfigService>())
+    private val reviewConfigService = mock<ReviewConfigService>()
 
-    @Mock
-    private val adConfigService = mock(classOf<AdConfigService>())
+    private val adConfigService = mock<AdConfigService>()
 
-    @Mock
-    private val appConfigRepository = mock(classOf<AppConfigRepository>())
+    private val appConfigRepository = mock<AppConfigRepository>()
 
-    @Mock
-    private val adControlRepository = mock(classOf<AdControlRepository>())
+    private val adControlRepository = mock<AdControlRepository>()
 
-    @Mock
-    private val analyticsManager =
-        configure(mock(classOf<AnalyticsManager>())) { stubsUnitByDefault = true }
+    private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val appThemeValue = Random.nextInt()
     private val mockDevice = Device.IOS
     private val isFirstRun: Boolean = Random.nextBoolean()
+    private val sessionCount = 1L
 
     @BeforeTest
     fun setup() {
@@ -91,7 +85,7 @@ internal class MainViewModelTest {
             .returns(nowAsLong())
 
         every { appStorage.sessionCount }
-            .returns(1L)
+            .returns(sessionCount)
 
         every { appConfigRepository.getDeviceType() }
             .returns(mockDevice)
@@ -109,28 +103,24 @@ internal class MainViewModelTest {
         viewModel // init
 
         verify {
-            analyticsManager.setUserProperty(
-                UserProperty.IsPremium(
-                    appStorage.premiumEndDate.isNotPassed().toString()
+            appStorage.premiumEndDate.let {
+                analyticsManager.setUserProperty(
+                    UserProperty.IsPremium(it.isNotPassed().toString())
                 )
-            )
+            }
         }
-            .wasInvoked()
-        verify { analyticsManager.setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
-            .wasInvoked()
         verify {
-            analyticsManager.setUserProperty(
-                UserProperty.AppTheme(
-                    AppTheme.getAnalyticsThemeName(
-                        appStorage.appTheme,
-                        mockDevice
-                    )
-                )
-            )
+            appStorage.sessionCount
+            analyticsManager.setUserProperty(UserProperty.SessionCount(sessionCount.toString()))
         }
-            .wasInvoked()
+        verify {
+            appStorage.appTheme.let {
+                analyticsManager.setUserProperty(
+                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(it, mockDevice))
+                )
+            }
+        }
         verify { analyticsManager.setUserProperty(UserProperty.DevicePlatform(mockDevice.name)) }
-            .wasInvoked()
     }
 
     // init
@@ -143,10 +133,8 @@ internal class MainViewModelTest {
         }
 
         verify { appStorage.firstRun }
-            .wasInvoked()
 
         verify { appStorage.appTheme }
-            .wasInvoked()
     }
 
     @Test
@@ -197,13 +185,11 @@ internal class MainViewModelTest {
         event.onResume()
 
         verify { appStorage.sessionCount = mockSessionCount + 1 }
-            .wasInvoked()
         assertFalse { data.isNewSession }
 
         event.onResume()
 
-        verify { appStorage.sessionCount = mockSessionCount + 1 }
-            .wasNotInvoked()
+        verify(VerifyMode.not) { appStorage.sessionCount = mockSessionCount + 1 }
 
         assertFalse { data.isNewSession }
     }
@@ -247,13 +233,10 @@ internal class MainViewModelTest {
         }
 
         verify { reviewConfigService.config }
-            .wasInvoked()
 
         verify { adControlRepository.shouldShowInterstitialAd() }
-            .wasInvoked()
 
         verify { appStorage.premiumEndDate }
-            .wasInvoked()
     }
 
     @Test
@@ -281,7 +264,6 @@ internal class MainViewModelTest {
             assertFalse { data.isAppUpdateShown }
 
             verify { appConfigRepository.checkAppUpdate(false) }
-                .wasInvoked()
         }
 
     @Test
@@ -317,10 +299,8 @@ internal class MainViewModelTest {
             }
 
             verify { reviewConfigService.config }
-                .wasInvoked()
 
             verify { appConfigRepository.checkAppUpdate(false) }
-                .wasInvoked()
         }
 
     @Test
@@ -350,10 +330,8 @@ internal class MainViewModelTest {
             }
 
             verify { appConfigRepository.shouldShowAppReview() }
-                .wasInvoked()
 
             verify { reviewConfigService.config }
-                .wasInvoked()
         }
 
     @Test
@@ -379,7 +357,6 @@ internal class MainViewModelTest {
             onResume()
 
             verify { appConfigRepository.shouldShowAppReview() }
-                .wasInvoked()
         }
 
     @Test
@@ -422,9 +399,7 @@ internal class MainViewModelTest {
             }
 
         verify { appStorage.firstRun }
-            .wasInvoked()
 
         verify { appStorage.appTheme }
-            .wasInvoked()
     }
 }

@@ -8,12 +8,11 @@ import com.oztechan.ccc.common.core.database.sql.WatcherQueries
 import com.squareup.sqldelight.Query
 import com.squareup.sqldelight.db.SqlCursor
 import com.squareup.sqldelight.db.SqlDriver
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.configure
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.MockMode
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.random.Random
@@ -27,15 +26,9 @@ internal class WatcherDataSourceTest {
         WatcherDataSourceImpl(watcherQueries, UnconfinedTestDispatcher())
     }
 
-    @Mock
-    private val watcherQueries =
-        configure(mock(classOf<WatcherQueries>())) { stubsUnitByDefault = true }
-
-    @Mock
-    private val sqlDriver = mock(classOf<SqlDriver>())
-
-    @Mock
-    private val sqlCursor = configure(mock(classOf<SqlCursor>())) { stubsUnitByDefault = true }
+    private val watcherQueries = mock<WatcherQueries>(MockMode.autoUnit)
+    private val sqlDriver = mock<SqlDriver>()
+    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
 
     private val base = "EUR"
     private val target = "USD"
@@ -64,7 +57,6 @@ internal class WatcherDataSourceTest {
         subject.getWatchersFlow()
 
         verify { watcherQueries.getWatchers() }
-            .wasInvoked()
     }
 
     @Test
@@ -72,7 +64,6 @@ internal class WatcherDataSourceTest {
         subject.addWatcher(base, target)
 
         verify { watcherQueries.addWatcher(base, target) }
-            .wasInvoked()
     }
 
     @Test
@@ -83,7 +74,6 @@ internal class WatcherDataSourceTest {
         subject.getWatchers()
 
         verify { watcherQueries.getWatchers() }
-            .wasInvoked()
     }
 
     @Test
@@ -91,7 +81,6 @@ internal class WatcherDataSourceTest {
         subject.deleteWatcher(id)
 
         verify { watcherQueries.deleteWatcher(id) }
-            .wasInvoked()
     }
 
     @Test
@@ -99,7 +88,6 @@ internal class WatcherDataSourceTest {
         subject.updateWatcherBaseById(base, id)
 
         verify { watcherQueries.updateWatcherBaseById(base, id) }
-            .wasInvoked()
     }
 
     @Test
@@ -107,7 +95,6 @@ internal class WatcherDataSourceTest {
         subject.updateWatcherTargetById(target, id)
 
         verify { watcherQueries.updateWatcherTargetById(target, id) }
-            .wasInvoked()
     }
 
     @Test
@@ -116,7 +103,6 @@ internal class WatcherDataSourceTest {
         subject.updateWatcherRelationById(relation, id)
 
         verify { watcherQueries.updateWatcherRelationById(relation.toLong(), id) }
-            .wasInvoked()
     }
 
     @Test
@@ -126,6 +112,5 @@ internal class WatcherDataSourceTest {
         subject.updateWatcherRateById(rate, id)
 
         verify { watcherQueries.updateWatcherRateById(rate, id) }
-            .wasInvoked()
     }
 }

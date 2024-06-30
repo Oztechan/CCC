@@ -1,5 +1,4 @@
 source "https://rubygems.org"
 
-gem "fastlane", "2.220.0"
+gem "fastlane", "2.221.1"
 gem "fastlane-plugin-firebase_app_distribution", "0.9.1"
-gem "xcode-install", "2.8.1"

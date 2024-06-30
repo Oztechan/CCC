@@ -7,8 +7,8 @@ on:
   pull_request:
 
 concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: ${{ !contains(github.ref, 'develop')}}
+  group: ${{ github.ref == 'refs/heads/develop' && 'develop' || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/develop' }}
 
 env:
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
@@ -65,20 +65,20 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
       - name: Adding secret files
-        run: |
-          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
-          mkdir android/app/src/release
-          echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
-          mkdir android/app/src/debug
-          echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
-          echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
+        uses: ./.github/actions/add-secret-files
+        with:
+          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
+          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
+          GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE }}
+          GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG }}
+          IOS_XCCONFIG_ASC_RELEASE: ${{ secrets.IOS_XCCONFIG_ASC_RELEASE }}
+          IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Assemble
         run: ./gradlew assemble
@@ -89,12 +89,14 @@ jobs:
         with:
           name: androidArtifacts
           path: |
+            android/app/build/outputs/apk/google/debug/app-google-debug.apk
+            android/app/build/outputs/apk/huawei/debug/app-huawei-debug.apk
             android/app/build/outputs/apk/google/release/app-google-release.apk
             android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -109,25 +111,41 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download Android Artifacts
         uses: actions/download-artifact@v4.1.7
         with:
           name: androidArtifacts
 
-      - name: Firebase App Distribution Google
+      - name: Firebase App Distribution Google Debug
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_GOOGLE_FIREBASE_APP_ID}}
+          appId: ${{secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: google/debug/app-google-debug.apk
+
+      - name: Firebase App Distribution Google Release
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        with:
+          appId: ${{secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
           file: google/release/app-google-release.apk
 
-      - name: Firebase App Distribution Huawei
+      - name: Firebase App Distribution Huawei Debug
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_HUAWEI_FIREBASE_APP_ID}}
+          appId: ${{secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID}}
+          token: ${{secrets.FIREBASE_CLI_TOKEN}}
+          groups: QA
+          file: huawei/debug/app-huawei-debug.apk
+
+      - name: Firebase App Distribution Huawei Release
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        with:
+          appId: ${{secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID}}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
           file: huawei/release/app-huawei-release.apk
@@ -148,26 +166,20 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
       - name: Adding secret files
-        run: |
-          echo "${{ secrets.ANDROID_GPG_RELEASE_KEYSTORE }}" > release.keystore.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
-          mkdir android/app/src/release
-          echo "${{ secrets.RELEASE_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
-          mkdir android/app/src/debug
-          echo "${{ secrets.DEBUG_GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
-          echo "${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
-          echo "${{ secrets.IOS_GPG_FIREBASE_CONFIG }}" > GoogleService-Info.plist.asc
-          mkdir ios/CCC/Resources/Release
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
-          rm ios/CCC/Resources/Debug/GoogleService-Info.plist
-          echo "${{ secrets.IOS_GPG_RELEASE_XCCONFIG }}" > Release.xcconfig.asc
-          gpg -d --passphrase "${{ secrets.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
+        uses: ./.github/actions/add-secret-files
+        with:
+          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
+          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+          GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
+          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
+          GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE }}
+          GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG }}
+          IOS_XCCONFIG_ASC_RELEASE: ${{ secrets.IOS_XCCONFIG_ASC_RELEASE }}
+          IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Build
         working-directory: ios
@@ -184,7 +196,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -198,7 +210,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4.1.7
 
       - name: Download iOS IPA
         uses: actions/download-artifact@v4.1.7
@@ -222,61 +234,53 @@ jobs:
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  Quality:
+  Check:
     runs-on: macos-14
+    if: github.ref != 'refs/heads/develop'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
-      - name: Run Quality Jobs
-        run: ./gradlew check koverMergedXmlReport --parallel
-
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v4.3.3
-        with:
-          name: coverageReport
-          path: build/reports/kover/merged/xml/report.xml
+      - name: Run Check
+        run: ./gradlew check
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  UploadQualityReports:
+  Coverage:
     runs-on: ubuntu-22.04
-    needs: [ Quality ]
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
-      - name: Clone Repo # Codecov requires it
-        uses: actions/checkout@v4.1.6
 
-      - name: Download Coverage Report
-        uses: actions/download-artifact@v4.1.7
-        with:
-          name: coverageReport
-          path: build
+      - name: Setup Gradle Repo
+        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+
+      - name: Generate Coverage
+        run: ./gradlew koverXmlReport
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.4.1
+        uses: codecov/codecov-action@v4.5.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: build/report.xml
+          files: build/reports/kover/report.xml
 
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: build/report.xml
+          coverage-reports: build/reports/kover/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v2.2.0
+        uses: sonarsource/sonarcloud-github-action@v2.3.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -284,12 +288,11 @@ jobs:
           args: >
             -Dsonar.organization=oztechan
             -Dsonar.projectKey=Oztechan_CCC
-            -Dsonar.coverage.jacoco.xmlReportPaths=build/report.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/kover/report.xml
 
-      - name: Delete Coverage Report
-        uses: geekyeggo/delete-artifact@v5.0.0
-        with:
-          name: coverageReport
+      - name: Cancel other jobs if this fails
+        if: failure()
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -302,7 +305,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@v1.0.5
+        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
       - name: Detekt
         run: ./gradlew detektAll
@@ -316,7 +319,7 @@ jobs:
 
       - name: Cancel other jobs if this fails
         if: failure()
-        uses: andymckay/cancel-action@0.4
+        uses: andymckay/cancel-action@0.5
 
       - name: Set Job Status
         id: status
@@ -324,16 +327,16 @@ jobs:
 
   Notify:
     runs-on: ubuntu-22.04
-    needs: [ GradleBuild, XCodeBuild, Quality, CodeAnalysis, DistributeAndroid, DistributeIOS, UploadQualityReports ]
+    needs: [ GradleBuild, XCodeBuild, Check, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
 
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          false == (needs.Quality.outputs.status == 'success') ||
+          (false == (needs.Check.outputs.status == 'success') && github.ref != 'refs/heads/develop')||
+          false == (needs.Coverage.outputs.status == 'success') ||
           false == (needs.CodeAnalysis.outputs.status == 'success') ||
-          false == (needs.UploadQualityReports.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
           (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
         uses: voxmedia/github-action-slack-notify-build@v1.6.0

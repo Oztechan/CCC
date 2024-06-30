@@ -6,11 +6,12 @@ import com.oztechan.ccc.common.core.network.api.backend.BackendApi
 import com.oztechan.ccc.common.core.network.mapper.toConversionModel
 import com.oztechan.ccc.common.core.network.model.Conversion
 import com.oztechan.ccc.common.core.network.model.ExchangeRate
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.coEvery
-import io.mockative.coVerify
-import io.mockative.mock
+import dev.mokkery.answering.returns
+import dev.mokkery.answering.throws
+import dev.mokkery.everySuspend
+import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
@@ -27,8 +28,7 @@ internal class BackendApiServiceTest {
         BackendApiServiceImpl(backendApi, UnconfinedTestDispatcher())
     }
 
-    @Mock
-    private val backendApi = mock(classOf<BackendApi>())
+    private val backendApi = mock<BackendApi>()
 
     private val base = "EUR"
     private val exchangeRate = ExchangeRate(base, "12.21.2121", Conversion(base))
@@ -46,13 +46,12 @@ internal class BackendApiServiceTest {
             assertTrue { it.isFailure }
         }
 
-        coVerify { backendApi.getExchangeRate("") }
-            .wasNotInvoked()
+        verifySuspend(VerifyMode.not) { backendApi.getExchangeRate("") }
     }
 
     @Test
     fun `getConversion error`() = runTest {
-        coEvery { backendApi.getExchangeRate(base) }
+        everySuspend { backendApi.getExchangeRate(base) }
             .throws(throwable)
 
         runCatching { subject.getConversion(base) }.let {
@@ -64,13 +63,12 @@ internal class BackendApiServiceTest {
             assertEquals(throwable.message, it.exceptionOrNull()!!.cause!!.message)
         }
 
-        coVerify { backendApi.getExchangeRate(base) }
-            .wasInvoked()
+        verifySuspend { backendApi.getExchangeRate(base) }
     }
 
     @Test
     fun `getConversion success`() = runTest {
-        coEvery { backendApi.getExchangeRate(base) }
+        everySuspend { backendApi.getExchangeRate(base) }
             .returns(exchangeRate)
 
         runCatching { subject.getConversion(base) }.let {
@@ -80,7 +78,6 @@ internal class BackendApiServiceTest {
             assertEquals(exchangeRate.toConversionModel(), it.getOrNull())
         }
 
-        coVerify { backendApi.getExchangeRate(base) }
-            .wasInvoked()
+        verifySuspend { backendApi.getExchangeRate(base) }
     }
 }

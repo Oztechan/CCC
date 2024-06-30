@@ -6,11 +6,10 @@ package com.oztechan.ccc.client.viewmodel.selectcurrency
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
-import io.mockative.Mock
-import io.mockative.classOf
-import io.mockative.every
-import io.mockative.mock
-import io.mockative.verify
+import dev.mokkery.answering.returns
+import dev.mokkery.every
+import dev.mokkery.mock
+import dev.mokkery.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -34,8 +33,7 @@ internal class SelectCurrencyViewModelTest {
         SelectCurrencyViewModel(currencyDataSource)
     }
 
-    @Mock
-    private val currencyDataSource = mock(classOf<CurrencyDataSource>())
+    private val currencyDataSource = mock<CurrencyDataSource>()
 
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
@@ -74,7 +72,6 @@ internal class SelectCurrencyViewModelTest {
         }
 
         verify { currencyDataSource.getActiveCurrenciesFlow() }
-            .wasInvoked()
     }
 
     @Test
@@ -89,7 +86,6 @@ internal class SelectCurrencyViewModelTest {
         }
 
         verify { currencyDataSource.getActiveCurrenciesFlow() }
-            .wasInvoked()
     }
 
     @Test
@@ -97,6 +93,7 @@ internal class SelectCurrencyViewModelTest {
         subject.effect.onSubscription {
             subject.event.onItemClick(currencyDollar)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
             assertEquals(currencyDollar.code, it.newBase)
         }
