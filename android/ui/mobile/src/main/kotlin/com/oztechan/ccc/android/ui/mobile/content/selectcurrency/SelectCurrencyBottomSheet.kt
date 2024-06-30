@@ -50,6 +50,7 @@ class SelectCurrencyBottomSheet :
 
     override fun onResume() {
         super.onResume()
+        Logger.i { "SelectCurrencyBottomSheet onResume" }
         analyticsManager.trackScreen(ScreenName.SelectCurrency)
     }
 

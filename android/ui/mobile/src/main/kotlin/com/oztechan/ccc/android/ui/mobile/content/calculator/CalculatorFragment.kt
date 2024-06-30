@@ -58,6 +58,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     override fun onResume() {
         super.onResume()
+        Logger.i { "CalculatorFragment onResume" }
         analyticsManager.trackScreen(ScreenName.Calculator)
         calculatorViewModel.event.onBaseChange(null)
     }

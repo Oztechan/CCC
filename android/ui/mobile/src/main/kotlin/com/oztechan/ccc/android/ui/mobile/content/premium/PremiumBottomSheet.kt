@@ -67,6 +67,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
 
     override fun onResume() {
         super.onResume()
+        Logger.i { "PremiumBottomSheet onResume" }
         analyticsManager.trackScreen(ScreenName.Premium)
     }
 
