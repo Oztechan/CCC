@@ -19,6 +19,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.core.ad.BannerAdView
@@ -68,6 +71,32 @@ fun View.animateHeight(startHeight: Int, endHeight: Int) {
     }
     animation.duration = ANIMATION_DURATION
     startAnimation(animation)
+}
+
+fun <T> Fragment.getNavigationResult(
+    key: String,
+    destinationId: Int
+) = try {
+    findNavController()
+        .getBackStackEntry(destinationId)
+        .savedStateHandle
+        .getLiveData<T>(key)
+} catch (e: IllegalArgumentException) {
+    Logger.e(e) { "$destinationId is not found in the backstack when getting navigation result for key $key" }
+    null
+}
+
+fun <T> Fragment.setNavigationResult(
+    destinationId: Int,
+    result: T,
+    key: String
+) = try {
+    findNavController()
+        .getBackStackEntry(destinationId)
+        .savedStateHandle
+        .set(key, result)
+} catch (e: IllegalArgumentException) {
+    Logger.e(e) { "$destinationId is not found in the backstack when setting navigation result for key $key" }
 }
 
 fun View?.visibleIf(visible: Boolean, bringFront: Boolean = false) = this?.apply {
