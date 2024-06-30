@@ -61,14 +61,14 @@ object ProjectSettings {
 
     @Suppress("TooGenericExceptionCaught", "UnstableApiUsage")
     private fun Project.setIOSVersion(versionName: String) = try {
-        project.providers.exec {
-            workingDir = File("${project.rootDir}/ios")
-            commandLine("agvtool new-version -all ${getVersionCode(project)}".split(" "))
-        }
-        project.providers.exec {
-            workingDir = File("${project.rootDir}/ios")
+        providers.exec {
+            workingDir = File("${rootDir}/ios")
+            commandLine("agvtool new-version -all ${getVersionCode(this@setIOSVersion)}".split(" "))
+        }.standardOutput.asText.get() // needed for completing the execution
+        providers.exec {
+            workingDir = File("${rootDir}/ios")
             commandLine("agvtool new-marketing-version $versionName".split(" "))
-        }
+        }.standardOutput.asText.get() // needed for completing the execution
     } catch (e: Exception) {
         println("agvtool exist only mac environment")
         println(e.localizedMessage)
