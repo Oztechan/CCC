@@ -60,23 +60,26 @@ object ProjectSettings {
     private fun isCI() = System.getenv("CI") == "true"
 
     @Suppress("TooGenericExceptionCaught", "UnstableApiUsage")
-    private fun Project.setIOSVersion(versionName: String) = try {
-        providers.exec {
-            workingDir = File("$rootDir/ios")
-            commandLine("agvtool new-version -all ${getVersionCode(this@setIOSVersion)}".split(" "))
-        }.also {
-            // needed for completing the execution
-            println("agvtool new-version -all ${it.standardOutput.asText.get()}")
+    private fun Project.setIOSVersion(versionName: String) {
+        val osName = System.getProperty("os.name")
+        println("Operating System: $osName")
+        if (osName.contains("Mac")) {
+            providers.exec {
+                workingDir = File("$rootDir/ios")
+                commandLine("agvtool new-version -all ${getVersionCode(this@setIOSVersion)}".split(" "))
+            }.also {
+                // needed for completing the execution
+                println("agvtool new-version -all ${it.standardOutput.asText.get()}")
+            }
+            providers.exec {
+                workingDir = File("$rootDir/ios")
+                commandLine("agvtool new-marketing-version $versionName".split(" "))
+            }.also {
+                // needed for completing the execution
+                println("agvtool new-marketing-version ${it.standardOutput.asText.get()}")
+            }
+        } else {
+            println("agvtool exist only mac environment")
         }
-        providers.exec {
-            workingDir = File("$rootDir/ios")
-            commandLine("agvtool new-marketing-version $versionName".split(" "))
-        }.also {
-            // needed for completing the execution
-            println("agvtool new-marketing-version ${it.standardOutput.asText.get()}")
-        }
-    } catch (e: Exception) {
-        println("agvtool exist only mac environment")
-        println(e.localizedMessage)
     }
 }
