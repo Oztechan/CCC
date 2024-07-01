@@ -65,13 +65,13 @@ object ProjectSettings {
             workingDir = File("$rootDir/ios")
             commandLine("agvtool new-version -all ${getVersionCode(this@setIOSVersion)}".split(" "))
         }.also {
-            it.standardOutput.asText.get() // needed for completing the execution
+            println(it.standardOutput.asText.get()) // needed for completing the execution
         }
         providers.exec {
             workingDir = File("$rootDir/ios")
             commandLine("agvtool new-marketing-version $versionName".split(" "))
         }.also {
-            it.standardOutput.asText.get() // needed for completing the execution
+            println(it.standardOutput.asText.get()) // needed for completing the execution
         }
     } catch (e: Exception) {
         println("agvtool exist only mac environment")
