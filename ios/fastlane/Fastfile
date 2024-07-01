@@ -58,21 +58,16 @@ platform :ios do
         lane :buildAll do
             install_certificate_and_profile(match_type: "adhoc")
             add_test_devices
-
-              parallel(
-                lanes: [
-                     build_project(
-                         match_type: "adhoc",
-                         profile: "match AdHoc com.oztechan.ccc",
-                         configuration: "Release"
-                     ),
-                     build_project(
-                         match_type: "adhoc",
-                         profile: "match AdHoc com.oztechan.ccc",
-                         configuration: "Debug"
-                     )
-                ]
-              )
+            build_project(
+                match_type: "adhoc",
+                profile: "match AdHoc com.oztechan.ccc",
+                configuration: "Release"
+            )
+            build_project(
+                match_type: "adhoc",
+                profile: "match AdHoc com.oztechan.ccc",
+                configuration: "Debug"
+            )
         end
 
         lane :store_build do
