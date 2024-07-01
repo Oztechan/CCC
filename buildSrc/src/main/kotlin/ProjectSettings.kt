@@ -61,9 +61,7 @@ object ProjectSettings {
 
     @Suppress("TooGenericExceptionCaught", "UnstableApiUsage")
     private fun Project.setIOSVersion(versionName: String) {
-        val osName = System.getProperty("os.name")
-        println("Operating System: $osName")
-        if (osName.contains("Mac")) {
+        if (System.getProperty("os.name").contains("Mac")) {
             providers.exec {
                 workingDir = File("$rootDir/ios")
                 commandLine("agvtool new-version -all ${getVersionCode(this@setIOSVersion)}".split(" "))
