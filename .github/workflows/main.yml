@@ -183,7 +183,7 @@ jobs:
 
       - name: Build
         working-directory: ios
-        run: fastlane build
+        run: fastlane buildAll
 
       - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v4.3.3

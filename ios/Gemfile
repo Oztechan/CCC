@@ -2,3 +2,4 @@ source "https://rubygems.org"
 
 gem "fastlane", "2.221.1"
 gem "fastlane-plugin-firebase_app_distribution", "0.9.1"
+gem 'parallel', '1.20.1'

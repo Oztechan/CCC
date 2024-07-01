@@ -50,8 +50,29 @@ platform :ios do
             add_test_devices
             build_project(
                 match_type: "adhoc",
-                profile: "match AdHoc com.oztechan.ccc"
+                profile: "match AdHoc com.oztechan.ccc",
+                configuration: "Release"
             )
+        end
+
+        lane :buildAll do
+            install_certificate_and_profile(match_type: "adhoc")
+            add_test_devices
+
+              parallel(
+                lanes: [
+                     build_project(
+                         match_type: "adhoc",
+                         profile: "match AdHoc com.oztechan.ccc",
+                         configuration: "Release"
+                     ),
+                     build_project(
+                         match_type: "adhoc",
+                         profile: "match AdHoc com.oztechan.ccc",
+                         configuration: "Debug"
+                     )
+                ]
+              )
         end
 
         lane :store_build do
@@ -59,7 +80,8 @@ platform :ios do
             add_test_devices
             build_project(
                 match_type: "appstore",
-                profile: "match AppStore com.oztechan.ccc"
+                profile: "match AppStore com.oztechan.ccc",
+                configuration: "Release"
             )
             pilot(skip_waiting_for_build_processing: true)
             upload_crashlytics_symbols
@@ -119,7 +141,7 @@ platform :ios do
             gym(
                 workspace: "CCC.xcworkspace",
                 scheme: "CCC",
-                configuration: "Release",
+                configuration: options[:configuration],
                 xcargs: "-allowProvisioningUpdates CODE_SIGN_STYLE=Manual",
                 codesigning_identity: "Apple Distribution: Mustafa Ozhan (Q5WB95G58X)",
                 export_method: method,
