@@ -84,7 +84,7 @@ platform :ios do
             upload_crashlytics_symbols
         end
 
-        lane :distribute do
+        lane :distributeAll do
             firebase_app_distribution(
                 app: ENV["IOS_RELEASE_FIREBASE_APP_ID"],
                 groups: "QA",
