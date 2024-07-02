@@ -1,5 +1,3 @@
-import io.gitlab.arturbosch.detekt.Detekt
-
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
@@ -53,9 +51,4 @@ android {
 multiplatformResources {
     resourcesPackage.set(Modules.Client.Core.res.packageName)
     resourcesClassName.set(Modules.Client.Core.res.frameworkName)
-}
-
-// todo https://github.com/icerockdev/moko-resources/issues/421
-tasks.withType<Detekt> {
-    dependsOn("generateMRcommonMain")
 }
