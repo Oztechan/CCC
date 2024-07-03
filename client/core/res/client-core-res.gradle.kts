@@ -41,11 +41,6 @@ android {
             targetCompatibility = JAVA_VERSION
         }
     }
-
-    // Todo https://github.com/icerockdev/moko-resources/issues/510
-    sourceSets {
-        getByName("main").java.srcDirs("build/generated/moko/androidMain/src")
-    }
 }
 
 multiplatformResources {
