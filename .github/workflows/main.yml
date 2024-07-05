@@ -84,7 +84,7 @@ jobs:
         run: ./gradlew assemble
 
       - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.3.4
         if: github.event_name == 'push'
         with:
           name: androidArtifacts
@@ -186,7 +186,7 @@ jobs:
         run: fastlane buildAll
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.3.4
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
