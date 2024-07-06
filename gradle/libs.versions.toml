@@ -118,7 +118,7 @@ kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
-safeArgs = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
+safeArgsKotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 firebaseCrashlyticsPlugin = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
