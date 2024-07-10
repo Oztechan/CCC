@@ -68,7 +68,7 @@ dependencies {
         }
 
         android.google.apply {
-            DeviceFlavour.GOOGLE.implementation(playCore)
+            DeviceFlavour.GOOGLE.implementation(playCoreReview)
         }
     }
 
