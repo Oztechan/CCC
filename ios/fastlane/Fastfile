@@ -65,7 +65,7 @@ platform :ios do
             )
             build_project(
                 match_type: "adhoc",
-                profile: "match AdHoc com.oztechan.ccc",
+                profile: "match AdHoc com.oztechan.ccc.debug",
                 configuration: "Debug"
             )
         end
