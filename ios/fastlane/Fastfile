@@ -42,18 +42,6 @@ def get_method_from_match_type(match_type)
     return method
 end
 
-def get_identifier_from_configuration(configuration)
-    identifier = ""
-
-    if configuration == "Release"
-       identifier = "com.oztechan.ccc"
-    else
-       identifier = "com.oztechan.ccc.debug"
-    end
-
-    return identifier
-end
-
 platform :ios do
     desc "iOS Lanes"
 
@@ -139,7 +127,6 @@ platform :ios do
         lane :build_project do |options|
             match_type = options[:match_type]
             method = get_method_from_match_type(match_type)
-            identifier = get_identifier_from_configuration(options[:configuration])
 
             update_code_signing_settings(use_automatic_signing: false)
             xcodes(select_for_current_build_only: true)
