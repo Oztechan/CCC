@@ -119,6 +119,7 @@ platform :ios do
             ensure_temp_keychain(keychain_name, keychain_password)
 
             match(
+                app_identifier: ["com.oztechan.ccc", "com.oztechan.ccc.debug"],
                 type: options[:match_type],
                 readonly: is_ci,
                 git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
