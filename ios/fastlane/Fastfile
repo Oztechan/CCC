@@ -142,9 +142,6 @@ platform :ios do
             identifier = get_identifier_from_configuration(options[:configuration])
 
             update_code_signing_settings(use_automatic_signing: false)
-            update_project_provisioning(
-                profile: ENV["sigh_" + identifier + "_" + match_type + "_profile-path"]
-            )
             xcodes(select_for_current_build_only: true)
             gym(
                 workspace: "CCC.xcworkspace",
