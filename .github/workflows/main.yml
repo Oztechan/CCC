@@ -307,8 +307,8 @@ jobs:
       - name: Setup Gradle Repo
         uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
-      - name: Detekt
-        run: ./gradlew detektAll
+      - name: Detekt & Lint
+        run: ./gradlew detektAll lint
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
