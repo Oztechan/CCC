@@ -5,6 +5,8 @@ on:
     branches:
       - develop
   pull_request:
+  schedule:
+    - cron: '0 0 * * MON'  # At 00:00 on Monday
 
 concurrency:
   group: ${{ github.ref == 'refs/heads/develop' && 'develop' || github.ref }}
