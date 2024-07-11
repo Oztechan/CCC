@@ -327,7 +327,7 @@ jobs:
 
   Notify:
     runs-on: ubuntu-22.04
-    needs: [ GradleBuild, XCodeBuild, Check, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
+    needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
 
