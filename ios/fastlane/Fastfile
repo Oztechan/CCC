@@ -57,16 +57,6 @@ end
 platform :ios do
     desc "iOS Lanes"
 
-        lane :build do
-            install_certificate_and_profile(match_type: "adhoc")
-            add_test_devices
-            build_project(
-                match_type: "adhoc",
-                profile: "match AdHoc com.oztechan.ccc",
-                configuration: "Release"
-            )
-        end
-
         lane :buildAll do
             install_certificate_and_profile(match_type: "adhoc")
             add_test_devices
@@ -94,13 +84,20 @@ platform :ios do
             upload_crashlytics_symbols
         end
 
-        lane :distribute do
+        lane :distributeAll do
             firebase_app_distribution(
                 app: ENV["IOS_RELEASE_FIREBASE_APP_ID"],
                 groups: "QA",
                 release_notes: changelog_from_git_commits(commits_count: 1),
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC.ipa"
+            )
+            firebase_app_distribution(
+                app: ENV["IOS_DEBUG_FIREBASE_APP_ID"],
+                groups: "QA",
+                release_notes: changelog_from_git_commits(commits_count: 1),
+                firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
+                ipa_path: "../ios/CCC_I.ipa"
             )
             upload_crashlytics_symbols
         end

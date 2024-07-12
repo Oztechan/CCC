@@ -195,6 +195,7 @@ jobs:
           name: iOSArtifacts
           path: |
             ios/CCC.ipa
+            ios/CCC_I.ipa
             ios/CCC.app.dSYM.zip
 
       - name: Cancel other jobs if this fails
@@ -226,7 +227,7 @@ jobs:
         working-directory: ios
         run: |
           sudo chown -R $(whoami) /var/lib/gems/3.0.0
-          fastlane distribute
+          fastlane distributeAll
 
       - name: Delete iOS IPA
         uses: geekyeggo/delete-artifact@v5.0.0
