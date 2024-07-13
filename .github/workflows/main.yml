@@ -97,7 +97,8 @@ jobs:
       - name: Lowercase build-type
         id: lowercase
         run: |
-          echo "::set-output name=lowercase-build-type::${{ matrix.build-type.toLowerCase() }}"
+          LOWERCASE_NAME=$(echo "${{ matrix.build-type }}" | awk '{print tolower($0)}')
+          echo "::set-output name=lowercase-build-type::$LOWERCASE_NAME"
 
       - name: Upload Android ${{ matrix.build-type }} Artifacts
         uses: actions/upload-artifact@v4.3.4
