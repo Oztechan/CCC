@@ -86,8 +86,8 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Assemble$BUILD_TYPE
-        run: ./gradlew assemble$BUILD_TYPE
+      - name: Assemble${BUILD_TYPE}
+        run: ./gradlew assemble${BUILD_TYPE}
 
       - name: Upload Android ${{ matrix.build-type }} Artifacts
         uses: actions/upload-artifact@v4.3.4
@@ -95,8 +95,8 @@ jobs:
         with:
           name: androidArtifacts
           path: |
-            android/app/build/outputs/apk/google/$BUILD_TYPE_LOWERCASE/app-google-$BUILD_TYPE_LOWERCASE.apk
-            android/app/build/outputs/apk/huawei/$BUILD_TYPE_LOWERCASE/app-huawei-$BUILD_TYPE_LOWERCASE.apk
+            android/app/build/outputs/apk/google/${BUILD_TYPE_LOWERCASE}/app-google-${BUILD_TYPE_LOWERCASE}.apk
+            android/app/build/outputs/apk/huawei/${BUILD_TYPE_LOWERCASE}/app-huawei-${BUILD_TYPE_LOWERCASE}.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
