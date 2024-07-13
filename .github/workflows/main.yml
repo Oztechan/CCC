@@ -63,16 +63,11 @@ jobs:
 
   GradleBuild:
     runs-on: macos-14
-    strategy:
-      matrix:
-        build-type: [ Debug, Release ]
-        include:
-          - build-type: Debug
-            run-on: [ pull_request, push ]
-          - build-type: Release
-            run-on: [ schedule ]
     outputs:
       status: ${{ steps.status.outputs.status }}
+    env:
+      BUILD_TYPE: ${{ github.event_name == 'schedule' && 'Release' || 'Debug' }}
+      BUILD_TYPE_LOWERCASE: ${{ github.event_name == 'schedule' && 'release' || 'debug' }}
     steps:
 
       - name: Setup Gradle Repo
@@ -91,14 +86,8 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Assemble${{ matrix.build-type }}
-        run: ./gradlew assemble${{ matrix.build-type }}
-
-      - name: Lowercase build-type
-        id: lowercase
-        run: |
-          LOWERCASE_NAME=$(echo "${{ matrix.build-type }}" | awk '{print tolower($0)}')
-          echo "::set-output name=lowercase-build-type::$LOWERCASE_NAME"
+      - name: Assemble${{ BUILD_TYPE }}
+        run: ./gradlew assemble${{ BUILD_TYPE }}
 
       - name: Upload Android ${{ matrix.build-type }} Artifacts
         uses: actions/upload-artifact@v4.3.4
@@ -106,8 +95,8 @@ jobs:
         with:
           name: androidArtifacts
           path: |
-            android/app/build/outputs/apk/google/${{ steps.lowercase.outputs.lowercase-build-type }}/app-google-${{ steps.lowercase.outputs.lowercase-build-type }}.apk
-            android/app/build/outputs/apk/huawei/${{ steps.lowercase.outputs.lowercase-build-type }}/app-huawei-${{ steps.lowercase.outputs.lowercase-build-type }}.apk
+            android/app/build/outputs/apk/google/${{ BUILD_TYPE_LOWERCASE }}/app-google-${{ BUILD_TYPE_LOWERCASE }}.apk
+            android/app/build/outputs/apk/huawei/${{ BUILD_TYPE_LOWERCASE }}/app-huawei-${{ BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
