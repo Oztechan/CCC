@@ -238,7 +238,7 @@ jobs:
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  Check:
+  Test:
     runs-on: macos-14
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -247,8 +247,8 @@ jobs:
       - name: Setup Gradle Repo
         uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
 
-      - name: Run Check
-        run: ./gradlew check
+      - name: Test
+        run: ./gradlew test
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -330,7 +330,7 @@ jobs:
 
   Notify:
     runs-on: ubuntu-22.04
-    needs: [ GradleBuild, XCodeBuild, Check, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
+    needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
 
