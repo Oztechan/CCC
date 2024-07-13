@@ -65,11 +65,11 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        build-type: [ debug, release ]
+        build-type: [ Debug, Release ]
         include:
-          - build-type: debug
+          - build-type: Debug
             run-on: [ pull_request, push ]
-          - build-type: release
+          - build-type: Release
             run-on: [ schedule ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -91,17 +91,22 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Assemble${{ matrix.build-type | capitalize }}
-        run: ./gradlew assemble${{ matrix.build-type | capitalize }}
+      - name: Assemble${{ matrix.build-type }}
+        run: ./gradlew assemble${{ matrix.build-type }}
 
-      - name: Upload Android ${{ matrix.build-type | capitalize }} Artifacts
+      - name: Lowercase build-type
+        id: lowercase
+        run: |
+          echo "::set-output name=lowercase-build-type::${{ matrix.build-type.toLowerCase() }}"
+
+      - name: Upload Android ${{ matrix.build-type }} Artifacts
         uses: actions/upload-artifact@v4.3.4
         if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
           path: |
-            android/app/build/outputs/apk/google/${{ matrix.build-type }}/app-google-${{ matrix.build-type }}.apk
-            android/app/build/outputs/apk/huawei/${{ matrix.build-type }}/app-huawei-${{ matrix.build-type }}.apk
+            android/app/build/outputs/apk/google/${{ steps.lowercase.outputs.lowercase-build-type }}/app-google-${{ steps.lowercase.outputs.lowercase-build-type }}.apk
+            android/app/build/outputs/apk/huawei/${{ steps.lowercase.outputs.lowercase-build-type }}/app-huawei-${{ steps.lowercase.outputs.lowercase-build-type }}.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
