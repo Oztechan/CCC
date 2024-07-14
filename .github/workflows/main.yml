@@ -58,6 +58,8 @@ env:
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
   CI: true
+  BUILD_TYPE: ${{ github.event_name == 'schedule' && 'Release' || 'Debug' }}
+  BUILD_TYPE_LOWERCASE: ${{ github.event_name == 'schedule' && 'release' || 'debug' }}
 
 jobs:
 
@@ -83,19 +85,17 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Assemble
-        run: ./gradlew assemble
+      - name: Assemble${{ env.BUILD_TYPE }}
+        run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
-      - name: Upload Android Artifacts
+      - name: Upload Android ${{ matrix.build-type }} Artifacts
         uses: actions/upload-artifact@v4.3.4
         if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
           path: |
-            android/app/build/outputs/apk/google/debug/app-google-debug.apk
-            android/app/build/outputs/apk/huawei/debug/app-huawei-debug.apk
-            android/app/build/outputs/apk/google/release/app-google-release.apk
-            android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
+            android/app/build/outputs/apk/google/${{ env.BUILD_TYPE_LOWERCASE }}/app-google-${{ env.BUILD_TYPE_LOWERCASE }}.apk
+            android/app/build/outputs/apk/huawei/${{ env.BUILD_TYPE_LOWERCASE }}/app-huawei-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -121,37 +121,21 @@ jobs:
         with:
           name: androidArtifacts
 
-      - name: Firebase App Distribution Google Debug
+      - name: Firebase App Distribution Google ${{ env.BUILD_TYPE }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID}}
+          appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: google/debug/app-google-debug.apk
+          file: google/${{ env.BUILD_TYPE_LOWERCASE }}/app-google-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
-      - name: Firebase App Distribution Google Release
+      - name: Firebase App Distribution Huawei ${{ env.BUILD_TYPE }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID}}
+          appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: google/release/app-google-release.apk
-
-      - name: Firebase App Distribution Huawei Debug
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
-        with:
-          appId: ${{secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: huawei/debug/app-huawei-debug.apk
-
-      - name: Firebase App Distribution Huawei Release
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
-        with:
-          appId: ${{secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: huawei/release/app-huawei-release.apk
+          file: huawei/${{ env.BUILD_TYPE_LOWERCASE }}/app-huawei-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Delete Android Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
