@@ -85,7 +85,7 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Assemble${{ env.BUILD_TYPE }}
+      - name: Assemble ${{ env.BUILD_TYPE }}
         run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
       - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
@@ -116,7 +116,7 @@ jobs:
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
         uses: actions/checkout@v4.1.7
 
-      - name: Download Android Artifacts
+      - name: Download Android ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/download-artifact@v4.1.8
         with:
           name: androidArtifacts
@@ -137,7 +137,7 @@ jobs:
           groups: QA
           file: huawei/${{ env.BUILD_TYPE_LOWERCASE }}/app-huawei-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
-      - name: Delete Android Artifacts
+      - name: Delete Android ${{ env.BUILD_TYPE }} Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
           name: androidArtifacts
@@ -168,7 +168,7 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Build
+      - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: fastlane build${{ env.BUILD_TYPE }}
 
@@ -206,20 +206,20 @@ jobs:
       - name: Clone Repo
         uses: actions/checkout@v4.1.7
 
-      - name: Download iOS Artifacts
+      - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/download-artifact@v4.1.8
         with:
           name: iOSArtifacts
           path: ios
 
       # was necessary to use chown to fix permission issues in linux machines
-      - name: Distribute
+      - name: Distribute ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: |
           sudo chown -R $(whoami) /var/lib/gems/3.0.0
           fastlane distributeAll
 
-      - name: Delete iOS IPA
+      - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
           name: iOSArtifacts
