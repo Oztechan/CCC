@@ -10,17 +10,13 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.update
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -31,16 +27,14 @@ class MainViewModel(
     private val adConfigService: AdConfigService,
     private val adControlRepository: AdControlRepository,
     analyticsManager: AnalyticsManager,
-) : BaseSEEDViewModel<MainState, MainEffect, MainEvent, MainData>(), MainEvent {
-    // region SEED
-    private val _state = MutableStateFlow(
-        MainState(
-            shouldOnboardUser = appStorage.firstRun,
-            appTheme = appStorage.appTheme
-        )
+) : SEEDViewModel<MainState, MainEffect, MainEvent, MainData>(
+    MainState(
+        shouldOnboardUser = appStorage.firstRun,
+        appTheme = appStorage.appTheme
     )
-    override val state: StateFlow<MainState> = _state.asStateFlow()
-
+),
+    MainEvent {
+    // region SEED
     private val _effect = MutableSharedFlow<MainEffect>()
     override val effect = _effect.asSharedFlow()
 
@@ -124,7 +118,7 @@ class MainViewModel(
     override fun onResume() {
         Logger.d { "MainViewModel onResume" }
 
-        _state.update {
+        setState {
             copy(
                 shouldOnboardUser = appStorage.firstRun,
                 appTheme = appStorage.appTheme

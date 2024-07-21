@@ -13,18 +13,15 @@ import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.constants.MINIMUM_ACTIVE_CURRENCY
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -35,17 +32,14 @@ class CurrenciesViewModel(
     private val currencyDataSource: CurrencyDataSource,
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(),
+) : SEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(
+    CurrenciesState(
+        isBannerAdVisible = adControlRepository.shouldShowBannerAd(),
+        isOnboardingVisible = appStorage.firstRun
+    )
+),
     CurrenciesEvent {
     // region SEED
-    private val _state = MutableStateFlow(
-        CurrenciesState(
-            isBannerAdVisible = adControlRepository.shouldShowBannerAd(),
-            isOnboardingVisible = appStorage.firstRun
-        )
-    )
-    override val state = _state.asStateFlow()
-
     private val _effect = MutableSharedFlow<CurrenciesEffect>()
     override val effect = _effect.asSharedFlow()
 
@@ -108,7 +102,7 @@ class CurrenciesViewModel(
                 symbol.contains(txt, true)
         }.toMutableList()
         .let {
-            _state.update { copy(currencyList = it, loading = false) }
+            setState { copy(currencyList = it, loading = false) }
         }.run {
             data.query = txt
         }
@@ -132,21 +126,21 @@ class CurrenciesViewModel(
             ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
             ?: run {
                 appStorage.firstRun = false
-                _state.update { copy(isOnboardingVisible = false) }
+                setState { copy(isOnboardingVisible = false) }
                 filterList("")
                 _effect.emit(CurrenciesEffect.OpenCalculator)
             }
     }
 
-    override fun onItemLongClick() = _state.value.selectionVisibility.let {
+    override fun onItemLongClick() = state.value.selectionVisibility.let {
         Logger.d { "CurrenciesViewModel onItemLongClick" }
-        _state.update { copy(selectionVisibility = !it) }
+        setState { copy(selectionVisibility = !it) }
     }
 
     override fun onCloseClick() = viewModelScope.launchIgnored {
         Logger.d { "CurrenciesViewModel onCloseClick" }
-        if (_state.value.selectionVisibility) {
-            _state.update { copy(selectionVisibility = false) }
+        if (state.value.selectionVisibility) {
+            setState { copy(selectionVisibility = false) }
         } else {
             _effect.emit(CurrenciesEffect.Back)
         }.run {

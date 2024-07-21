@@ -9,9 +9,8 @@ import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.toDateString
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -25,9 +24,7 @@ import com.oztechan.ccc.client.viewmodel.settings.util.indexToNumber
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -39,15 +36,14 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
-    adControlRepository: AdControlRepository,
+    private val adControlRepository: AdControlRepository,
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
+) : SEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(
+    SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd())
+),
+    SettingsEvent {
     // region SEED
-    private val _state =
-        MutableStateFlow(SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
-    override val state = _state.asStateFlow()
-
     private val _effect = MutableSharedFlow<SettingsEffect>()
     override val effect = _effect.asSharedFlow()
 
@@ -57,7 +53,7 @@ class SettingsViewModel(
     // endregion
 
     init {
-        _state.update {
+        setState {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
                 premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
@@ -68,12 +64,12 @@ class SettingsViewModel(
 
         currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
-                _state.update { copy(activeCurrencyCount = it.size) }
+                setState { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
         watcherDataSource.getWatchersFlow()
             .onEach {
-                _state.update { copy(activeWatcherCount = it.size) }
+                setState { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
     }
 
@@ -175,12 +171,12 @@ class SettingsViewModel(
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
         calculationStorage.precision = index.indexToNumber()
-        _state.update { copy(precision = index.indexToNumber()) }
+        setState { copy(precision = index.indexToNumber()) }
     }
 
     override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onThemeChange $theme" }
-        _state.update { copy(appThemeType = theme) }
+        setState { copy(appThemeType = theme) }
         appStorage.appTheme = theme.themeValue
         _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
     }

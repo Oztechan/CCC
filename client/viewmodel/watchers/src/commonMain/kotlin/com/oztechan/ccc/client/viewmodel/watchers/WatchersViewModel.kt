@@ -5,9 +5,8 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -15,9 +14,7 @@ import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.core.model.Watcher
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -27,12 +24,11 @@ class WatchersViewModel(
     private val watcherDataSource: WatcherDataSource,
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
+) : SEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(
+    WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd())
+),
+    WatchersEvent {
     // region SEED
-    private val _state =
-        MutableStateFlow(WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
-    override val state = _state.asStateFlow()
-
     private val _effect = MutableSharedFlow<WatchersEffect>()
     override val effect = _effect.asSharedFlow()
 
@@ -44,7 +40,7 @@ class WatchersViewModel(
     init {
         watcherDataSource.getWatchersFlow()
             .onEach {
-                _state.update { copy(watcherList = it) }
+                setState { copy(watcherList = it) }
                 analyticsManager.setUserProperty(UserProperty.WatcherCount(it.count().toString()))
             }.launchIn(viewModelScope)
     }
@@ -70,10 +66,11 @@ class WatchersViewModel(
         watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
     }
 
-    override fun onTargetChanged(watcher: Watcher, newTarget: String) = viewModelScope.launchIgnored {
-        Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
-        watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
-    }
+    override fun onTargetChanged(watcher: Watcher, newTarget: String) =
+        viewModelScope.launchIgnored {
+            Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
+            watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
+        }
 
     override fun onAddClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onAddClick" }
@@ -95,10 +92,11 @@ class WatchersViewModel(
         watcherDataSource.deleteWatcher(watcher.id)
     }
 
-    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = viewModelScope.launchIgnored {
-        Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
-        watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
-    }
+    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) =
+        viewModelScope.launchIgnored {
+            Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
+            watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
+        }
 
     override fun onRateChange(watcher: Watcher, rate: String): String {
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
