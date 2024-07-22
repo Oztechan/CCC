@@ -25,7 +25,8 @@ class WatchersViewModel(
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : SEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(
-    WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd())
+    initialState = WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()),
+    initialData = WatchersData()
 ),
     WatchersEvent {
     // region SEED
@@ -33,8 +34,6 @@ class WatchersViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as WatchersEvent
-
-    override val data = WatchersData()
     // endregion
 
     init {

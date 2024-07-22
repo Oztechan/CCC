@@ -13,15 +13,24 @@ abstract class SEEDViewModel<
     Effect : BaseEffect,
     Event : BaseEvent,
     Data : BaseData
-    >(initialState: State) : BaseViewModel() {
+    >(
+    initialState: State,
+    initialData: Data? = null
+) : BaseViewModel() {
     // region SEED
     private val _state: MutableStateFlow<State> = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
 
     abstract val effect: SharedFlow<Effect>?
     abstract val event: Event?
-    abstract val data: Data?
+    lateinit var data: Data
     // endregion
+
+    init {
+        if (initialData != null) {
+            this.data = initialData
+        }
+    }
 
     protected fun setState(newState: State.() -> State) {
         _state.value = state.value.newState()
