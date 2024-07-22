@@ -46,12 +46,10 @@ final class ObservableSEEDViewModel<
             self.state = $0 as! State
         })
 
-        if viewModel.effect != nil {
-            effectClosable = CoroutineUtilKt.observeWithCloseable(viewModel.effect!, onChange: {
-                // swiftlint:disable:next force_cast
-                self.effect.send($0 as! Effect)
-            })
-        }
+        effectClosable = CoroutineUtilKt.observeWithCloseable(viewModel.effect, onChange: {
+            // swiftlint:disable:next force_cast
+            self.effect.send($0 as! Effect)
+        })
     }
 
     func stopObserving() {

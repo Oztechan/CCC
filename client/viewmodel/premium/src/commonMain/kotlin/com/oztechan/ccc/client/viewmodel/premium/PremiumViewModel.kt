@@ -15,8 +15,6 @@ import com.oztechan.ccc.client.viewmodel.premium.model.OldPurchase
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumData
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.util.calculatePremiumEnd
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 
 class PremiumViewModel(
     private val appStorage: AppStorage
@@ -25,9 +23,6 @@ class PremiumViewModel(
 ),
     PremiumEvent {
     // region SEED
-    private val _effect = MutableSharedFlow<PremiumEffect>()
-    override val effect = _effect.asSharedFlow()
-
     override val event = this as PremiumEvent
     // endregion
 
@@ -36,11 +31,11 @@ class PremiumViewModel(
         adType: PremiumType?,
         startDate: Long,
         isRestorePurchase: Boolean
-    ) = viewModelScope.launchIgnored {
+    ) {
         Logger.d { "PremiumViewModel onPremiumActivated ${adType?.data?.duration.orEmpty()}" }
         adType?.let {
             appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
-            _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
+            setEffect { PremiumEffect.PremiumActivated(it, isRestorePurchase) }
         }
     }
 
@@ -86,7 +81,7 @@ class PremiumViewModel(
         setState {
             copy(loading = type != PremiumType.VIDEO)
         }
-        _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
+        setEffect { PremiumEffect.LaunchActivatePremiumFlow(type) }
     }
 
     override fun onPremiumActivationFailed() {
