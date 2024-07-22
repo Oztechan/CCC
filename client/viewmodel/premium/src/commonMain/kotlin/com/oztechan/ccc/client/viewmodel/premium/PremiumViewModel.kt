@@ -8,26 +8,23 @@ import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseData
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.viewmodel.premium.model.OldPurchase
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumData
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.util.calculatePremiumEnd
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 class PremiumViewModel(
     private val appStorage: AppStorage
-) : BaseSEEDViewModel<PremiumState, PremiumEffect, PremiumEvent, BaseData>(), PremiumEvent {
+) : SEEDViewModel<PremiumState, PremiumEffect, PremiumEvent, BaseData>(
+    PremiumState()
+),
+    PremiumEvent {
     // region SEED
-    private val _state = MutableStateFlow(PremiumState())
-    override val state = _state.asStateFlow()
-
     private val _effect = MutableSharedFlow<PremiumEffect>()
     override val effect = _effect.asSharedFlow()
 
@@ -64,7 +61,7 @@ class PremiumViewModel(
                     startDate = this.date,
                     isRestorePurchase = true
                 )
-                _state.update { copy(loading = false) }
+                setState { copy(loading = false) }
             }
     }
 
@@ -80,15 +77,15 @@ class PremiumViewModel(
                     tempList.add(it)
                 }
             tempList.sortBy { it.ordinal }
-            _state.update { copy(premiumTypes = tempList) }
+            setState { copy(premiumTypes = tempList) }
         }.also {
-            _state.update { copy(loading = false) } // in case list is empty, loading will be false
+            setState { copy(loading = false) } // in case list is empty, loading will be false
         }
     }
 
     override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
-        _state.update {
+        setState {
             copy(loading = type != PremiumType.VIDEO)
         }
         _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
@@ -96,7 +93,7 @@ class PremiumViewModel(
 
     override fun onPremiumActivationFailed() {
         Logger.d { "PremiumViewModel onPremiumActivationFailed" }
-        _state.update { copy(loading = false) }
+        setState { copy(loading = false) }
     }
     // endregion
 }
