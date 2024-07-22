@@ -40,6 +40,7 @@ abstract class SEEDViewModel<
         _state.value = state.value.newState()
     }
 
+    @Suppress("UnusedReceiverParameter")
     protected fun Any.setEffect(newEffect: () -> Effect) {
         viewModelScope.launch { _effect.emit(newEffect()) }
     }
