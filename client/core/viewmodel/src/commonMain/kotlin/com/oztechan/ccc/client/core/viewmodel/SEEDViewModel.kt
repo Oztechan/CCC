@@ -40,7 +40,7 @@ abstract class SEEDViewModel<
         _state.value = state.value.newState()
     }
 
-    protected fun Any.setEffect(builder: () -> Effect) {
-        viewModelScope.launch { _effect.emit(builder()) }
+    protected fun Any.setEffect(newEffect: () -> Effect) {
+        viewModelScope.launch { _effect.emit(newEffect()) }
     }
 }
