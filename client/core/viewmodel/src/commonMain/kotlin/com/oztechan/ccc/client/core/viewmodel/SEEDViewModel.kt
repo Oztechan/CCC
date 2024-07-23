@@ -39,8 +39,7 @@ abstract class SEEDViewModel<
         _state.value = state.value.newState()
     }
 
-    @Suppress("UnusedReceiverParameter")
-    protected suspend fun Any.setEffect(newEffect: () -> Effect) {
+    protected suspend fun setEffect(newEffect: () -> Effect) {
         _effect.emit(newEffect())
     }
 }
