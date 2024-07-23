@@ -40,10 +40,10 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
-    private val calculatorViewModel: CalculatorViewModel by viewModel()
+    private val viewModel: CalculatorViewModel by viewModel()
 
     private val calculatorAdapter: CalculatorAdapter by lazy {
-        CalculatorAdapter(calculatorViewModel.event)
+        CalculatorAdapter(viewModel.event)
     }
 
     override fun getViewBinding() = FragmentCalculatorBinding.inflate(layoutInflater)
@@ -81,7 +81,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         R.id.calculatorFragment
     )?.observe(viewLifecycleOwner) {
         Logger.i { "CalculatorFragment observeNavigationResults $it" }
-        calculatorViewModel.event.onBaseChange(it)
+        viewModel.event.onBaseChange(it)
     }
 
     private fun FragmentCalculatorBinding.initViews() {
@@ -92,17 +92,17 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             } else {
                 getString(R.string.banner_ad_unit_id_calculator_release)
             },
-            shouldShowAd = calculatorViewModel.state.value.isBannerAdVisible
+            shouldShowAd = viewModel.state.value.isBannerAdVisible
         )
         recyclerViewMain.adapter = calculatorAdapter
     }
 
     @SuppressLint("SetTextI18n")
-    private fun FragmentCalculatorBinding.observeStates() = calculatorViewModel.state
+    private fun FragmentCalculatorBinding.observeStates() = viewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
-                calculatorAdapter.submitList(currencyList.toValidList(calculatorViewModel.state.value.base))
+                calculatorAdapter.submitList(currencyList.toValidList(viewModel.state.value.base))
 
                 txtInput.text = input
                 with(layoutBar) {
@@ -117,7 +117,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffects() = calculatorViewModel.effect
+    private fun observeEffects() = viewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "CalculatorFragment observeEffects ${viewEffect::class.simpleName}" }
@@ -150,7 +150,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
                         text = R.string.text_paste_request,
                         actionText = R.string.text_paste
                     ) {
-                        calculatorViewModel.onPasteToInput(it.context.getFromClipBoard())
+                        viewModel.onPasteToInput(it.context.getFromClipBoard())
                     }
                 }
 
@@ -162,7 +162,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun FragmentCalculatorBinding.setListeners() = with(calculatorViewModel.event) {
+    private fun FragmentCalculatorBinding.setListeners() = with(viewModel.event) {
         btnSettings.setOnClickListener { onSettingsClicked() }
         layoutBar.root.setOnClickListener { onBarClick() }
 
@@ -203,7 +203,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun Button.setKeyboardListener() = setOnClickListener {
-        calculatorViewModel.event.onKeyPress(text.toString())
+        viewModel.event.onKeyPress(text.toString())
     }
 
     companion object {
