@@ -38,9 +38,6 @@ class CurrenciesViewModel(
     initialData = CurrenciesData()
 ),
     CurrenciesEvent {
-    // region SEED
-    override val event = this as CurrenciesEvent
-    // endregion
 
     init {
         currencyDataSource.getCurrenciesFlow()

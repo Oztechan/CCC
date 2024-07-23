@@ -25,7 +25,9 @@ abstract class SEEDViewModel<
     private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
     val effect = _effect.asSharedFlow()
 
-    abstract val event: Event?
+    @Suppress("UNCHECKED_CAST")
+    val event: Event by lazy { this as Event }
+
     lateinit var data: Data
     // endregion
 

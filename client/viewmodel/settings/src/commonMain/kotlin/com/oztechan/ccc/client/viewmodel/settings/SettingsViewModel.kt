@@ -42,9 +42,6 @@ class SettingsViewModel(
     initialData = SettingsData()
 ),
     SettingsEvent {
-    // region SEED
-    override val event = this as SettingsEvent
-    // endregion
 
     init {
         setState {

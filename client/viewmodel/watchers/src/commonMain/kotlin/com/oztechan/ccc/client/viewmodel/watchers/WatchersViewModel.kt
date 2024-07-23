@@ -27,9 +27,6 @@ class WatchersViewModel(
     initialData = WatchersData()
 ),
     WatchersEvent {
-    // region SEED
-    override val event = this as WatchersEvent
-    // endregion
 
     init {
         watcherDataSource.getWatchersFlow()
