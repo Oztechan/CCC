@@ -15,8 +15,6 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -36,8 +34,6 @@ class MainViewModel(
 ),
     MainEvent {
     // region SEED
-    private val _effect = MutableSharedFlow<MainEffect>()
-    override val effect = _effect.asSharedFlow()
 
     override val event = this as MainEvent
     // endregion
@@ -70,7 +66,7 @@ class MainViewModel(
 
             while (isActive && adControlRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility) {
-                    _effect.emit(MainEffect.ShowInterstitialAd)
+                    setEffect { MainEffect.ShowInterstitialAd }
                 }
                 delay(adConfigService.config.interstitialAdPeriod)
             }
@@ -87,12 +83,12 @@ class MainViewModel(
     private fun checkAppUpdate() {
         appConfigRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
             viewModelScope.launch {
-                _effect.emit(
+                setEffect {
                     MainEffect.AppUpdateEffect(
                         isCancelable,
                         appConfigRepository.getMarketLink()
                     )
-                )
+                }
                 data.isAppUpdateShown = true
             }
         }
@@ -102,7 +98,7 @@ class MainViewModel(
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
                 delay(reviewConfigService.config.appReviewDialogDelay)
-                _effect.emit(MainEffect.RequestReview)
+                setEffect { MainEffect.RequestReview }
             }
         }
     }

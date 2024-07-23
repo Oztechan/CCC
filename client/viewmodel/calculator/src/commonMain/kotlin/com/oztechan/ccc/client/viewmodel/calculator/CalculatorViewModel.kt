@@ -33,8 +33,6 @@ import com.oztechan.ccc.client.viewmodel.calculator.util.getConversionStringFrom
 import com.oztechan.ccc.common.core.model.Conversion
 import com.oztechan.ccc.common.core.model.Currency
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
@@ -56,9 +54,6 @@ class CalculatorViewModel(
 ),
     CalculatorEvent {
     // region SEED
-    private val _effect = MutableSharedFlow<CalculatorEffect>()
-    override val effect = _effect.asSharedFlow()
-
     override val event = this as CalculatorEvent
     // endregion
 
@@ -136,7 +131,7 @@ class CalculatorViewModel(
         } ?: run {
             Logger.w { "No offline conversion found in the DB" }
 
-            _effect.emit(CalculatorEffect.Error)
+            setEffect { CalculatorEffect.Error }
 
             calculateConversions(null, ConversionState.Error)
         }
@@ -164,17 +159,17 @@ class CalculatorViewModel(
 
         when {
             input.length > MAXIMUM_INPUT -> {
-                _effect.emit(CalculatorEffect.TooBigInput)
+                setEffect { CalculatorEffect.TooBigInput }
                 setState { copy(input = input.dropLast(1)) }
             }
 
             output.length > MAXIMUM_OUTPUT -> {
-                _effect.emit(CalculatorEffect.TooBigOutput)
+                setEffect { CalculatorEffect.TooBigOutput }
                 setState { copy(input = input.dropLast(1)) }
             }
 
             state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> {
-                _effect.emit(CalculatorEffect.FewCurrency)
+                setEffect { CalculatorEffect.FewCurrency }
                 setState { copy(loading = false) }
             }
 
@@ -243,7 +238,7 @@ class CalculatorViewModel(
         analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.code)))
 
         viewModelScope.launch {
-            _effect.emit(
+            setEffect {
                 CalculatorEffect.ShowConversion(
                     currency.getConversionStringFromBase(
                         calculationStorage.currentBase,
@@ -251,7 +246,7 @@ class CalculatorViewModel(
                     ),
                     currency.code
                 )
-            )
+            }
         }
     }
 
@@ -261,7 +256,7 @@ class CalculatorViewModel(
         analyticsManager.trackEvent(Event.CopyClipboard)
 
         viewModelScope.launch {
-            _effect.emit(CalculatorEffect.CopyToClipboard(amount))
+            setEffect { CalculatorEffect.CopyToClipboard(amount) }
         }
     }
 
@@ -270,12 +265,12 @@ class CalculatorViewModel(
 
         analyticsManager.trackEvent(Event.CopyClipboard)
 
-        _effect.emit(CalculatorEffect.CopyToClipboard(state.value.output))
+        setEffect { CalculatorEffect.CopyToClipboard(state.value.output) }
     }
 
     override fun onInputLongClick() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onInputLongClick" }
-        _effect.emit(CalculatorEffect.ShowPasteRequest)
+        setEffect { CalculatorEffect.ShowPasteRequest }
     }
 
     override fun onPasteToInput(text: String) {
@@ -288,12 +283,12 @@ class CalculatorViewModel(
 
     override fun onBarClick() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onBarClick" }
-        _effect.emit(CalculatorEffect.OpenBar)
+        setEffect { CalculatorEffect.OpenBar }
     }
 
     override fun onSettingsClicked() = viewModelScope.launchIgnored {
         Logger.d { "CalculatorViewModel onSettingsClicked" }
-        _effect.emit(CalculatorEffect.OpenSettings)
+        setEffect { CalculatorEffect.OpenSettings }
     }
 
     override fun onBaseChange(base: String) {

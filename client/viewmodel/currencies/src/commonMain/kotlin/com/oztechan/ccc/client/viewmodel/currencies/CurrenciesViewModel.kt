@@ -20,8 +20,6 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -41,9 +39,6 @@ class CurrenciesViewModel(
 ),
     CurrenciesEvent {
     // region SEED
-    private val _effect = MutableSharedFlow<CurrenciesEffect>()
-    override val effect = _effect.asSharedFlow()
-
     override val event = this as CurrenciesEvent
     // endregion
 
@@ -74,7 +69,7 @@ class CurrenciesViewModel(
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { appStorage.firstRun }
-        ?.run { _effect.emit(CurrenciesEffect.FewCurrency) }
+        ?.run { setEffect { CurrenciesEffect.FewCurrency } }
 
     private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
         { it.isEmpty() },
@@ -91,7 +86,7 @@ class CurrenciesViewModel(
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
 
-        _effect.emit(CurrenciesEffect.ChangeBase(newBase))
+        setEffect { CurrenciesEffect.ChangeBase(newBase) }
     }
 
     private fun filterList(txt: String) = data.unFilteredList
@@ -122,12 +117,12 @@ class CurrenciesViewModel(
         data.unFilteredList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
-            ?.let { _effect.emit(CurrenciesEffect.FewCurrency) }
+            ?.let { setEffect { CurrenciesEffect.FewCurrency } }
             ?: run {
                 appStorage.firstRun = false
                 setState { copy(isOnboardingVisible = false) }
                 filterList("")
-                _effect.emit(CurrenciesEffect.OpenCalculator)
+                setEffect { CurrenciesEffect.OpenCalculator }
             }
     }
 
@@ -141,7 +136,7 @@ class CurrenciesViewModel(
         if (state.value.selectionVisibility) {
             setState { copy(selectionVisibility = false) }
         } else {
-            _effect.emit(CurrenciesEffect.Back)
+            setEffect { CurrenciesEffect.Back }
         }.run {
             filterList("")
         }

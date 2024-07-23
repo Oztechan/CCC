@@ -23,8 +23,6 @@ import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import com.oztechan.ccc.client.viewmodel.settings.util.indexToNumber
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -45,9 +43,6 @@ class SettingsViewModel(
 ),
     SettingsEvent {
     // region SEED
-    private val _effect = MutableSharedFlow<SettingsEffect>()
-    override val effect = _effect.asSharedFlow()
-
     override val event = this as SettingsEvent
     // endregion
 
@@ -79,7 +74,7 @@ class SettingsViewModel(
     }
 
     private suspend fun synchroniseConversions() {
-        _effect.emit(SettingsEffect.Synchronising)
+        setEffect { SettingsEffect.Synchronising }
 
         currencyDataSource.getActiveCurrencies()
             .forEach { (name) ->
@@ -90,7 +85,7 @@ class SettingsViewModel(
                 delay(SYNC_DELAY)
             }
 
-        _effect.emit(SettingsEffect.Synchronised)
+        setEffect { SettingsEffect.Synchronised }
 
         data.synced = true
     }
@@ -98,56 +93,58 @@ class SettingsViewModel(
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onBackClick" }
-        _effect.emit(SettingsEffect.Back)
+        setEffect { SettingsEffect.Back }
     }
 
     override fun onCurrenciesClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onCurrenciesClick" }
-        _effect.emit(SettingsEffect.OpenCurrencies)
+        setEffect { SettingsEffect.OpenCurrencies }
     }
 
     override fun onWatchersClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onWatchersClick" }
-        _effect.emit(SettingsEffect.OpenWatchers)
+        setEffect { SettingsEffect.OpenWatchers }
     }
 
     override fun onFeedBackClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onFeedBackClick" }
-        _effect.emit(SettingsEffect.FeedBack)
+        setEffect { SettingsEffect.FeedBack }
     }
 
     override fun onShareClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onShareClick" }
-        _effect.emit(SettingsEffect.Share(appConfigRepository.getMarketLink()))
+        setEffect { SettingsEffect.Share(appConfigRepository.getMarketLink()) }
     }
 
     override fun onSupportUsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onSupportUsClick" }
-        _effect.emit(SettingsEffect.SupportUs(appConfigRepository.getMarketLink()))
+        setEffect { SettingsEffect.SupportUs(appConfigRepository.getMarketLink()) }
     }
 
     override fun onPrivacySettingsClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPrivacySettingsClick" }
-        _effect.emit(SettingsEffect.PrivacySettings)
+        setEffect { SettingsEffect.PrivacySettings }
     }
 
     override fun onOnGitHubClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onOnGitHubClick" }
-        _effect.emit(SettingsEffect.OnGitHub)
+        setEffect { SettingsEffect.OnGitHub }
     }
 
     override fun onPremiumClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        if (appStorage.premiumEndDate.isPassed()) {
-            _effect.emit(SettingsEffect.Premium)
-        } else {
-            _effect.emit(SettingsEffect.AlreadyPremium)
+        setEffect {
+            if (appStorage.premiumEndDate.isPassed()) {
+                SettingsEffect.Premium
+            } else {
+                SettingsEffect.AlreadyPremium
+            }
         }
     }
 
     override fun onThemeClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onThemeClick" }
-        _effect.emit(SettingsEffect.ThemeDialog)
+        setEffect { SettingsEffect.ThemeDialog }
     }
 
     override fun onSyncClick() = viewModelScope.launchIgnored {
@@ -156,7 +153,7 @@ class SettingsViewModel(
         analyticsManager.trackEvent(Event.OfflineSync)
 
         if (data.synced) {
-            _effect.emit(SettingsEffect.OnlyOneTimeSync)
+            setEffect { SettingsEffect.OnlyOneTimeSync }
         } else {
             synchroniseConversions()
         }
@@ -164,7 +161,7 @@ class SettingsViewModel(
 
     override fun onPrecisionClick() = viewModelScope.launchIgnored {
         Logger.d { "SettingsViewModel onPrecisionClick" }
-        _effect.emit(SettingsEffect.SelectPrecision)
+        setEffect { SettingsEffect.SelectPrecision }
     }
 
     override fun onPrecisionSelect(index: Int) {
@@ -177,7 +174,7 @@ class SettingsViewModel(
         Logger.d { "SettingsViewModel onThemeChange $theme" }
         setState { copy(appThemeType = theme) }
         appStorage.appTheme = theme.themeValue
-        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
+        setEffect { SettingsEffect.ChangeTheme(theme.themeValue) }
     }
     // endregion
 }

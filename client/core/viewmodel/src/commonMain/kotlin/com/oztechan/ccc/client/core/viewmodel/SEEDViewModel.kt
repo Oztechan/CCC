@@ -4,8 +4,9 @@
 
 package com.oztechan.ccc.client.core.viewmodel
 
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 abstract class SEEDViewModel<
@@ -21,7 +22,9 @@ abstract class SEEDViewModel<
     private val _state: MutableStateFlow<State> = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
 
-    abstract val effect: SharedFlow<Effect>?
+    private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
+    val effect = _effect.asSharedFlow()
+
     abstract val event: Event?
     lateinit var data: Data
     // endregion
@@ -34,5 +37,9 @@ abstract class SEEDViewModel<
 
     protected fun setState(newState: State.() -> State) {
         _state.value = state.value.newState()
+    }
+
+    protected suspend fun setEffect(newEffect: () -> Effect) {
+        _effect.emit(newEffect())
     }
 }

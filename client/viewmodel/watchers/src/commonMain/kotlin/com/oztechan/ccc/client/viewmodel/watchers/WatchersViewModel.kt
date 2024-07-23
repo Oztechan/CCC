@@ -13,8 +13,6 @@ import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.core.model.Watcher
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -30,9 +28,6 @@ class WatchersViewModel(
 ),
     WatchersEvent {
     // region SEED
-    private val _effect = MutableSharedFlow<WatchersEffect>()
-    override val effect = _effect.asSharedFlow()
-
     override val event = this as WatchersEvent
     // endregion
 
@@ -47,17 +42,17 @@ class WatchersViewModel(
     // region Event
     override fun onBackClick() = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBackClick" }
-        _effect.emit(WatchersEffect.Back)
+        setEffect { WatchersEffect.Back }
     }
 
     override fun onBaseClick(watcher: Watcher) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onBaseClick $watcher" }
-        _effect.emit(WatchersEffect.SelectBase(watcher))
+        setEffect { WatchersEffect.SelectBase(watcher) }
     }
 
     override fun onTargetClick(watcher: Watcher) = viewModelScope.launchIgnored {
         Logger.d { "WatcherViewModel onTargetClick $watcher" }
-        _effect.emit(WatchersEffect.SelectTarget(watcher))
+        setEffect { WatchersEffect.SelectTarget(watcher) }
     }
 
     override fun onBaseChanged(watcher: Watcher, newBase: String) = viewModelScope.launchIgnored {
@@ -75,7 +70,7 @@ class WatchersViewModel(
         Logger.d { "WatcherViewModel onAddClick" }
 
         if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            _effect.emit(WatchersEffect.MaximumNumberOfWatchers)
+            setEffect { WatchersEffect.MaximumNumberOfWatchers }
         } else {
             currencyDataSource.getActiveCurrencies().let { list ->
                 watcherDataSource.addWatcher(
@@ -101,7 +96,7 @@ class WatchersViewModel(
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
 
         return if (rate.length > MAXIMUM_INPUT) {
-            viewModelScope.launch { _effect.emit(WatchersEffect.TooBigInput) }
+            viewModelScope.launch { setEffect { WatchersEffect.TooBigInput } }
             rate.dropLast(1)
         } else {
             rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull()?.let {
@@ -109,7 +104,7 @@ class WatchersViewModel(
                     watcherDataSource.updateWatcherRateById(it, watcher.id)
                 }
             } ?: viewModelScope.launch {
-                _effect.emit(WatchersEffect.InvalidInput)
+                setEffect { WatchersEffect.InvalidInput }
             }
             rate
         }

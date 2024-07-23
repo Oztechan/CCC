@@ -13,8 +13,6 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class WidgetViewModel(
@@ -32,9 +30,6 @@ class WidgetViewModel(
     WidgetEvent {
 
     // region SEED
-    private val _effect = MutableSharedFlow<WidgetEffect>()
-    override val effect = _effect.asSharedFlow()
-
     override val event = this as WidgetEvent
     // endregion
 
@@ -114,7 +109,7 @@ class WidgetViewModel(
 
     override fun onOpenAppClick() = viewModelScope.launchIgnored {
         Logger.d { "WidgetViewModel onOpenAppClick" }
-        _effect.emit(WidgetEffect.OpenApp)
+        setEffect { WidgetEffect.OpenApp }
     }
     // endregion
 }
