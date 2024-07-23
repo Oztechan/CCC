@@ -237,14 +237,16 @@ class CalculatorViewModel(
 
         analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.code)))
 
-        setEffect {
-            CalculatorEffect.ShowConversion(
-                currency.getConversionStringFromBase(
-                    calculationStorage.currentBase,
-                    data.conversion
-                ),
-                currency.code
-            )
+        viewModelScope.launch {
+            setEffect {
+                CalculatorEffect.ShowConversion(
+                    currency.getConversionStringFromBase(
+                        calculationStorage.currentBase,
+                        data.conversion
+                    ),
+                    currency.code
+                )
+            }
         }
     }
 
@@ -253,7 +255,9 @@ class CalculatorViewModel(
 
         analyticsManager.trackEvent(Event.CopyClipboard)
 
-        setEffect { CalculatorEffect.CopyToClipboard(amount) }
+        viewModelScope.launch {
+            setEffect { CalculatorEffect.CopyToClipboard(amount) }
+        }
     }
 
     override fun onOutputLongClick() = viewModelScope.launchIgnored {

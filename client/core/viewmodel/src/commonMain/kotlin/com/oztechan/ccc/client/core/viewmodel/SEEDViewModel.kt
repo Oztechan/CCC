@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 abstract class SEEDViewModel<
     State : BaseState,
@@ -41,7 +40,7 @@ abstract class SEEDViewModel<
     }
 
     @Suppress("UnusedReceiverParameter")
-    protected fun Any.setEffect(newEffect: () -> Effect) {
-        viewModelScope.launch { _effect.emit(newEffect()) }
+    protected suspend fun Any.setEffect(newEffect: () -> Effect) {
+        _effect.emit(newEffect())
     }
 }

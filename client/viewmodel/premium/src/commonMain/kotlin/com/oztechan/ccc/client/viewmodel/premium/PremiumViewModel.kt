@@ -31,7 +31,7 @@ class PremiumViewModel(
         adType: PremiumType?,
         startDate: Long,
         isRestorePurchase: Boolean
-    ) {
+    ) = viewModelScope.launchIgnored {
         Logger.d { "PremiumViewModel onPremiumActivated ${adType?.data?.duration.orEmpty()}" }
         adType?.let {
             appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)

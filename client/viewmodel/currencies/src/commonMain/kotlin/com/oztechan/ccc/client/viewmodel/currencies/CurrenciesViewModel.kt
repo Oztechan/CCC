@@ -65,13 +65,13 @@ class CurrenciesViewModel(
         filterList("")
     }
 
-    private fun verifyListSize() = data.unFilteredList
+    private suspend fun verifyListSize() = data.unFilteredList
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { appStorage.firstRun }
         ?.setEffect { CurrenciesEffect.FewCurrency }
 
-    private fun verifyCurrentBase() = calculationStorage.currentBase.either(
+    private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
         { it.isEmpty() },
         { base ->
             state.value.currencyList
