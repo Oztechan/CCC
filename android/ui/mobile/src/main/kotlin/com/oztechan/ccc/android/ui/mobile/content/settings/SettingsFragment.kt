@@ -45,7 +45,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
-    private val settingsViewModel: SettingsViewModel by viewModel()
+    private val viewModel: SettingsViewModel by viewModel()
 
     override fun getViewBinding() = FragmentSettingsBinding.inflate(layoutInflater)
 
@@ -73,7 +73,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             } else {
                 getString(R.string.banner_ad_unit_id_settings_release)
             },
-            shouldShowAd = settingsViewModel.state.value.isBannerAdVisible
+            shouldShowAd = viewModel.state.value.isBannerAdVisible
         )
 
         with(itemCurrencies) {
@@ -146,7 +146,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }
     }
 
-    private fun FragmentSettingsBinding.observeStates() = settingsViewModel.state
+    private fun FragmentSettingsBinding.observeStates() = viewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
@@ -182,7 +182,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     @Suppress("ComplexMethod")
-    private fun observeEffects() = settingsViewModel.effect
+    private fun observeEffects() = viewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "SettingsFragment observeEffects ${viewEffect::class.simpleName}" }
@@ -241,7 +241,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun FragmentSettingsBinding.setListeners() = with(settingsViewModel.event) {
+    private fun FragmentSettingsBinding.setListeners() = with(viewModel.event) {
         backButton.setOnClickListener { onBackClick() }
 
         itemCurrencies.root.setOnClickListener { onCurrenciesClick() }
@@ -267,9 +267,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
         activity?.showSingleChoiceDialog(
             getString(R.string.title_dialog_choose_theme),
             AppTheme.values().map { it.themeName }.toTypedArray(),
-            settingsViewModel.state.value.appThemeType.ordinal
+            viewModel.state.value.appThemeType.ordinal
         ) { index ->
-            AppTheme.getThemeByOrdinal(index)?.let { settingsViewModel.event.onThemeChange(it) }
+            AppTheme.getThemeByOrdinal(index)?.let { viewModel.event.onThemeChange(it) }
         }
     }
 
@@ -281,9 +281,9 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 it
             )
         }.toTypedArray(),
-        settingsViewModel.state.value.precision.numberToIndex()
+        viewModel.state.value.precision.numberToIndex()
     ) {
-        settingsViewModel.event.onPrecisionSelect(it)
+        viewModel.event.onPrecisionSelect(it)
     }
 
     private fun share(marketLink: String) = Intent(Intent.ACTION_SEND).apply {

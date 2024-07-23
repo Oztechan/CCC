@@ -29,7 +29,7 @@ import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
 internal class SelectCurrencyViewModelTest {
 
-    private val subject: SelectCurrencyViewModel by lazy {
+    private val viewModel: SelectCurrencyViewModel by lazy {
         SelectCurrencyViewModel(currencyDataSource)
     }
 
@@ -56,7 +56,7 @@ internal class SelectCurrencyViewModelTest {
     @Test
     fun `init updates data correctly`() {
         assertFailsWith<RuntimeException> {
-            subject.data
+            viewModel.data
         }.message.let {
             assertNotNull(it)
             assertEquals("lateinit property data has not been initialized", it)
@@ -69,7 +69,7 @@ internal class SelectCurrencyViewModelTest {
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyListNotEnough))
 
-        subject.state.firstOrNull().let {
+        viewModel.state.firstOrNull().let {
             assertNotNull(it)
             assertFalse { it.loading }
             assertFalse { it.enoughCurrency }
@@ -82,7 +82,7 @@ internal class SelectCurrencyViewModelTest {
     @Test
     fun `init updates the states with enough currency`() {
         runTest {
-            subject.state.firstOrNull().let {
+            viewModel.state.firstOrNull().let {
                 assertNotNull(it)
                 assertFalse { it.loading }
                 assertTrue { it.enoughCurrency }
@@ -95,8 +95,8 @@ internal class SelectCurrencyViewModelTest {
 
     @Test
     fun onItemClick() = runTest {
-        subject.effect.onSubscription {
-            subject.event.onItemClick(currencyDollar)
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemClick(currencyDollar)
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)
@@ -106,8 +106,8 @@ internal class SelectCurrencyViewModelTest {
 
     @Test
     fun onSelectClick() = runTest {
-        subject.effect.onSubscription {
-            subject.event.onSelectClick()
+        viewModel.effect.onSubscription {
+            viewModel.event.onSelectClick()
         }.firstOrNull().let {
             assertIs<SelectCurrencyEffect.OpenCurrencies>(it)
         }

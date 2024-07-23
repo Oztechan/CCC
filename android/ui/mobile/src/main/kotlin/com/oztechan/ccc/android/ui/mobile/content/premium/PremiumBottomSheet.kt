@@ -37,10 +37,10 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
     private val billingManager: BillingManager by inject()
-    private val premiumViewModel: PremiumViewModel by viewModel()
+    private val viewModel: PremiumViewModel by viewModel()
 
     private val premiumAdapter: PremiumAdapter by lazy {
-        PremiumAdapter(premiumViewModel.event)
+        PremiumAdapter(viewModel.event)
     }
 
     override fun getViewBinding() = BottomSheetPremiumBinding.inflate(layoutInflater)
@@ -75,7 +75,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         recyclerViewPremium.adapter = premiumAdapter
     }
 
-    private fun BottomSheetPremiumBinding.observeStates() = premiumViewModel.state
+    private fun BottomSheetPremiumBinding.observeStates() = viewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
@@ -84,7 +84,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffects() = premiumViewModel.effect
+    private fun observeEffects() = viewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "PremiumBottomSheet observeEffects ${viewEffect::class.simpleName}" }
@@ -121,19 +121,19 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
             Logger.i { "PremiumBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
                 BillingEffect.SuccessfulPurchase -> restartActivity()
-                is BillingEffect.RestorePurchase -> premiumViewModel.event.onRestorePurchase(
+                is BillingEffect.RestorePurchase -> viewModel.event.onRestorePurchase(
                     viewEffect.purchaseHistoryRecordRecordList.toOldPurchaseList()
                 )
 
-                is BillingEffect.AddPurchaseMethods -> premiumViewModel.event.onAddPurchaseMethods(
+                is BillingEffect.AddPurchaseMethods -> viewModel.event.onAddPurchaseMethods(
                     viewEffect.productDetailsList.toPremiumDataList()
                 )
 
-                is BillingEffect.UpdatePremiumEndDate -> premiumViewModel.onPremiumActivated(
+                is BillingEffect.UpdatePremiumEndDate -> viewModel.onPremiumActivated(
                     PremiumType.getById(viewEffect.id)
                 )
 
-                BillingEffect.BillingUnavailable -> premiumViewModel.event.onPremiumActivationFailed()
+                BillingEffect.BillingUnavailable -> viewModel.event.onPremiumActivationFailed()
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -147,10 +147,10 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
             },
             onAdFailedToLoad = {
                 view?.showSnack(R.string.error_text_unknown)
-                premiumViewModel.event.onPremiumActivationFailed()
+                viewModel.event.onPremiumActivationFailed()
             },
             onReward = {
-                premiumViewModel.event.onPremiumActivated(PremiumType.VIDEO)
+                viewModel.event.onPremiumActivated(PremiumType.VIDEO)
             }
         )
     }
