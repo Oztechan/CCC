@@ -27,10 +27,10 @@ import kotlinx.coroutines.test.setMain
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
@@ -64,7 +64,12 @@ internal class PremiumViewModelTest {
     // SEED
     @Test
     fun `init updates data correctly`() {
-        assertNull(viewModel.data)
+        assertFailsWith<RuntimeException> {
+            viewModel.data
+        }.message.let {
+            assertNotNull(it)
+            assertEquals("lateinit property data has not been initialized", it)
+        }
     }
 
     // Event

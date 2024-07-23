@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.onEach
 class SelectCurrencyViewModel(
     currencyDataSource: CurrencyDataSource
 ) : SEEDViewModel<SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>(
-    SelectCurrencyState()
+    initialState = SelectCurrencyState()
 ),
     SelectCurrencyEvent {
     // region SEED
@@ -26,8 +26,6 @@ class SelectCurrencyViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as SelectCurrencyEvent
-
-    override val data: BaseData? = null
     // endregion
 
     init {

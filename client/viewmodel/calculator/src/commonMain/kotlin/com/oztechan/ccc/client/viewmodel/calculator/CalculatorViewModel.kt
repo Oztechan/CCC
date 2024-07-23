@@ -51,7 +51,8 @@ class CalculatorViewModel(
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : SEEDViewModel<CalculatorState, CalculatorEffect, CalculatorEvent, CalculatorData>(
-    CalculatorState(isBannerAdVisible = adControlRepository.shouldShowBannerAd())
+    initialState = CalculatorState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()),
+    initialData = CalculatorData()
 ),
     CalculatorEvent {
     // region SEED
@@ -59,8 +60,6 @@ class CalculatorViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as CalculatorEvent
-
-    override val data = CalculatorData()
     // endregion
 
     init {

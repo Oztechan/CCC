@@ -28,10 +28,11 @@ class MainViewModel(
     private val adControlRepository: AdControlRepository,
     analyticsManager: AnalyticsManager,
 ) : SEEDViewModel<MainState, MainEffect, MainEvent, MainData>(
-    MainState(
+    initialState = MainState(
         shouldOnboardUser = appStorage.firstRun,
         appTheme = appStorage.appTheme
-    )
+    ),
+    initialData = MainData()
 ),
     MainEvent {
     // region SEED
@@ -39,8 +40,6 @@ class MainViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as MainEvent
-
-    override val data = MainData()
     // endregion
 
     init {

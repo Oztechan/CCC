@@ -33,10 +33,11 @@ class CurrenciesViewModel(
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
 ) : SEEDViewModel<CurrenciesState, CurrenciesEffect, CurrenciesEvent, CurrenciesData>(
-    CurrenciesState(
+    initialState = CurrenciesState(
         isBannerAdVisible = adControlRepository.shouldShowBannerAd(),
         isOnboardingVisible = appStorage.firstRun
-    )
+    ),
+    initialData = CurrenciesData()
 ),
     CurrenciesEvent {
     // region SEED
@@ -44,8 +45,6 @@ class CurrenciesViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as CurrenciesEvent
-
-    override val data = CurrenciesData()
     // endregion
 
     init {

@@ -40,7 +40,8 @@ class SettingsViewModel(
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
 ) : SEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(
-    SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd())
+    initialState = SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()),
+    initialData = SettingsData()
 ),
     SettingsEvent {
     // region SEED
@@ -48,8 +49,6 @@ class SettingsViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as SettingsEvent
-
-    override val data = SettingsData()
     // endregion
 
     init {

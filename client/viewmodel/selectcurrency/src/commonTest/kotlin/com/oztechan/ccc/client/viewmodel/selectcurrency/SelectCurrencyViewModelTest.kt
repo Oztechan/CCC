@@ -20,10 +20,10 @@ import kotlinx.coroutines.test.setMain
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 
@@ -55,7 +55,12 @@ internal class SelectCurrencyViewModelTest {
     // SEED
     @Test
     fun `init updates data correctly`() {
-        assertNull(subject.data)
+        assertFailsWith<RuntimeException> {
+            subject.data
+        }.message.let {
+            assertNotNull(it)
+            assertEquals("lateinit property data has not been initialized", it)
+        }
     }
 
     // init

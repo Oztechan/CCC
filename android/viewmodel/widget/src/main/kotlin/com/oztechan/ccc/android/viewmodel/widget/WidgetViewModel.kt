@@ -23,10 +23,11 @@ class WidgetViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val appStorage: AppStorage
 ) : SEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(
-    WidgetState(
+    initialState = WidgetState(
         currentBase = calculationStorage.currentBase,
         isPremium = appStorage.premiumEndDate.isNotPassed()
-    )
+    ),
+    initialData = WidgetData()
 ),
     WidgetEvent {
 
@@ -35,8 +36,6 @@ class WidgetViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as WidgetEvent
-
-    override val data = WidgetData()
     // endregion
 
     private fun refreshWidgetData() {

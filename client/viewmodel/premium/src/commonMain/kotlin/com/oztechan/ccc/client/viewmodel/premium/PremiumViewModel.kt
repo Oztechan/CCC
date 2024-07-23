@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 class PremiumViewModel(
     private val appStorage: AppStorage
 ) : SEEDViewModel<PremiumState, PremiumEffect, PremiumEvent, BaseData>(
-    PremiumState()
+    initialState = PremiumState()
 ),
     PremiumEvent {
     // region SEED
@@ -29,8 +29,6 @@ class PremiumViewModel(
     override val effect = _effect.asSharedFlow()
 
     override val event = this as PremiumEvent
-
-    override val data: BaseData? = null
     // endregion
 
     // region Event
