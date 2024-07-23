@@ -33,10 +33,6 @@ class MainViewModel(
     initialData = MainData()
 ),
     MainEvent {
-    // region SEED
-
-    override val event = this as MainEvent
-    // endregion
 
     init {
         with(analyticsManager) {

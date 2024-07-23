@@ -53,9 +53,6 @@ class CalculatorViewModel(
     initialData = CalculatorData()
 ),
     CalculatorEvent {
-    // region SEED
-    override val event = this as CalculatorEvent
-    // endregion
 
     init {
         currencyDataSource.getActiveCurrenciesFlow()

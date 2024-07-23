@@ -31,7 +31,7 @@ final class ObservableSEEDViewModel<
 
         // swiftlint:disable:next force_cast
         self.state = viewModel.state.value as! State
-        self.event = viewModel.event!
+        self.event = viewModel.event
     }
 
     deinit {

@@ -19,9 +19,6 @@ class SelectCurrencyViewModel(
     initialState = SelectCurrencyState()
 ),
     SelectCurrencyEvent {
-    // region SEED
-    override val event = this as SelectCurrencyEvent
-    // endregion
 
     init {
         currencyDataSource.getActiveCurrenciesFlow()

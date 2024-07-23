@@ -29,10 +29,6 @@ class WidgetViewModel(
 ),
     WidgetEvent {
 
-    // region SEED
-    override val event = this as WidgetEvent
-    // endregion
-
     private fun refreshWidgetData() {
         setState {
             copy(

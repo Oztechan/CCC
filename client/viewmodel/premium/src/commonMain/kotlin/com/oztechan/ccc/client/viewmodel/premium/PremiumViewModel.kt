@@ -22,9 +22,6 @@ class PremiumViewModel(
     initialState = PremiumState()
 ),
     PremiumEvent {
-    // region SEED
-    override val event = this as PremiumEvent
-    // endregion
 
     // region Event
     override fun onPremiumActivated(
