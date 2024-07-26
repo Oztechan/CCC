@@ -26,6 +26,7 @@ import dev.mokkery.mock
 import dev.mokkery.verify
 import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -39,6 +40,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 internal class MainViewModelTest {
@@ -295,6 +297,9 @@ internal class MainViewModelTest {
             }.firstOrNull().let {
                 assertIs<MainEffect.AppUpdateEffect>(it)
                 assertEquals(mockBoolean, it.isCancelable)
+                assertFalse { viewModel.data.isAppUpdateShown }
+            }.also {
+                delay(1.milliseconds)
                 assertTrue { viewModel.data.isAppUpdateShown }
             }
 
