@@ -28,7 +28,7 @@ import dev.mokkery.verify.VerifyMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onSubscription
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlin.random.Random
@@ -76,7 +76,7 @@ internal class MainViewModelTest {
         Logger.setLogWriters(CommonWriter())
 
         @Suppress("OPT_IN_USAGE")
-        Dispatchers.setMain(UnconfinedTestDispatcher())
+        Dispatchers.setMain(StandardTestDispatcher())
 
         every { appStorage.appTheme }
             .returns(appThemeValue)
