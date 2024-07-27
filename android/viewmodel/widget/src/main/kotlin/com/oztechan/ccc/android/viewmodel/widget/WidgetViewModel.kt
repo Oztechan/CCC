@@ -83,19 +83,19 @@ class WidgetViewModel(
             }
 
         calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
+
+        refreshWidgetData()
     }
 
     // region Event
     override fun onPreviousClick() = viewModelScope.launchIgnored {
         Logger.d { "WidgetViewModel onPreviousClick" }
         updateBase(false)
-        refreshWidgetData()
     }
 
     override fun onNextClick() = viewModelScope.launchIgnored {
         Logger.d { "WidgetViewModel onNextClick" }
         updateBase(true)
-        refreshWidgetData()
     }
 
     override fun onRefreshClick() = viewModelScope.launchIgnored {
