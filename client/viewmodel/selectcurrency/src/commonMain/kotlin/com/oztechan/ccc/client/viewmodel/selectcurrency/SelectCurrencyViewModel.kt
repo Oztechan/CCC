@@ -7,7 +7,6 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.shared.constants.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.launchIn
@@ -34,14 +33,14 @@ class SelectCurrencyViewModel(
     }
 
     // region Event
-    override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
+    override fun onItemClick(currency: Currency) {
         Logger.d { "SelectCurrencyViewModel onItemClick ${currency.code}" }
-        setEffect { SelectCurrencyEffect.CurrencyChange(currency.code) }
+        sendEffect { SelectCurrencyEffect.CurrencyChange(currency.code) }
     }
 
-    override fun onSelectClick() = viewModelScope.launchIgnored {
+    override fun onSelectClick() {
         Logger.d { "SelectCurrencyViewModel onSelectClick" }
-        setEffect { SelectCurrencyEffect.OpenCurrencies }
+        sendEffect { SelectCurrencyEffect.OpenCurrencies }
     }
     // endregion
 }

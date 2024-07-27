@@ -62,13 +62,13 @@ class CurrenciesViewModel(
         filterList("")
     }
 
-    private suspend fun verifyListSize() = data.unFilteredList
+    private fun verifyListSize() = data.unFilteredList
         .filter { it.isActive }
         .whether { it.size < MINIMUM_ACTIVE_CURRENCY }
         ?.whetherNot { appStorage.firstRun }
-        ?.run { setEffect { CurrenciesEffect.FewCurrency } }
+        ?.run { sendEffect { CurrenciesEffect.FewCurrency } }
 
-    private suspend fun verifyCurrentBase() = calculationStorage.currentBase.either(
+    private fun verifyCurrentBase() = calculationStorage.currentBase.either(
         { it.isEmpty() },
         { base ->
             state.value.currencyList
@@ -83,7 +83,7 @@ class CurrenciesViewModel(
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
 
-        setEffect { CurrenciesEffect.ChangeBase(newBase) }
+        sendEffect { CurrenciesEffect.ChangeBase(newBase) }
     }
 
     private fun filterList(txt: String) = data.unFilteredList
@@ -109,17 +109,17 @@ class CurrenciesViewModel(
         currencyDataSource.updateCurrencyStateByCode(currency.code, !currency.isActive)
     }
 
-    override fun onDoneClick() = viewModelScope.launchIgnored {
+    override fun onDoneClick() {
         Logger.d { "CurrenciesViewModel onDoneClick" }
         data.unFilteredList
             .filter { it.isActive }.size
             .whether { it < MINIMUM_ACTIVE_CURRENCY }
-            ?.let { setEffect { CurrenciesEffect.FewCurrency } }
+            ?.let { sendEffect { CurrenciesEffect.FewCurrency } }
             ?: run {
                 appStorage.firstRun = false
                 setState { copy(isOnboardingVisible = false) }
                 filterList("")
-                setEffect { CurrenciesEffect.OpenCalculator }
+                sendEffect { CurrenciesEffect.OpenCalculator }
             }
     }
 
@@ -133,7 +133,7 @@ class CurrenciesViewModel(
         if (state.value.selectionVisibility) {
             setState { copy(selectionVisibility = false) }
         } else {
-            setEffect { CurrenciesEffect.Back }
+            sendEffect { CurrenciesEffect.Back }
         }.run {
             filterList("")
         }

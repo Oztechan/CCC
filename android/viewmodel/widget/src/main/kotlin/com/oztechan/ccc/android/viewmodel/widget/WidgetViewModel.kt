@@ -103,9 +103,9 @@ class WidgetViewModel(
         refreshWidgetData()
     }
 
-    override fun onOpenAppClick() = viewModelScope.launchIgnored {
+    override fun onOpenAppClick() {
         Logger.d { "WidgetViewModel onOpenAppClick" }
-        setEffect { WidgetEffect.OpenApp }
+        sendEffect { WidgetEffect.OpenApp }
     }
     // endregion
 }

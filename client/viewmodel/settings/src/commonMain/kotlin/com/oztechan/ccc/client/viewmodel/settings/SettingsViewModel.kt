@@ -10,7 +10,6 @@ import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.toDateString
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -25,6 +24,7 @@ import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
@@ -70,67 +70,69 @@ class SettingsViewModel(
         else -> PremiumStatus.Active(toDateString())
     }
 
-    private suspend fun synchroniseConversions() {
-        setEffect { SettingsEffect.Synchronising }
+    private fun synchroniseConversions() {
+        viewModelScope.launch {
+            sendEffect { SettingsEffect.Synchronising }
 
-        currencyDataSource.getActiveCurrencies()
-            .forEach { (name) ->
-                runCatching { backendApiService.getConversion(name) }
-                    .onFailure { error -> Logger.w(error) { error.message.toString() } }
-                    .onSuccess { conversionDataSource.insertConversion(it) }
+            currencyDataSource.getActiveCurrencies()
+                .forEach { (name) ->
+                    runCatching { backendApiService.getConversion(name) }
+                        .onFailure { error -> Logger.w(error) { error.message.toString() } }
+                        .onSuccess { conversionDataSource.insertConversion(it) }
 
-                delay(SYNC_DELAY)
-            }
+                    delay(SYNC_DELAY)
+                }
 
-        setEffect { SettingsEffect.Synchronised }
+            sendEffect { SettingsEffect.Synchronised }
 
-        data.synced = true
+            data.synced = true
+        }
     }
 
     // region Event
-    override fun onBackClick() = viewModelScope.launchIgnored {
+    override fun onBackClick() {
         Logger.d { "SettingsViewModel onBackClick" }
-        setEffect { SettingsEffect.Back }
+        sendEffect { SettingsEffect.Back }
     }
 
-    override fun onCurrenciesClick() = viewModelScope.launchIgnored {
+    override fun onCurrenciesClick() {
         Logger.d { "SettingsViewModel onCurrenciesClick" }
-        setEffect { SettingsEffect.OpenCurrencies }
+        sendEffect { SettingsEffect.OpenCurrencies }
     }
 
-    override fun onWatchersClick() = viewModelScope.launchIgnored {
+    override fun onWatchersClick() {
         Logger.d { "SettingsViewModel onWatchersClick" }
-        setEffect { SettingsEffect.OpenWatchers }
+        sendEffect { SettingsEffect.OpenWatchers }
     }
 
-    override fun onFeedBackClick() = viewModelScope.launchIgnored {
+    override fun onFeedBackClick() {
         Logger.d { "SettingsViewModel onFeedBackClick" }
-        setEffect { SettingsEffect.FeedBack }
+        sendEffect { SettingsEffect.FeedBack }
     }
 
-    override fun onShareClick() = viewModelScope.launchIgnored {
+    override fun onShareClick() {
         Logger.d { "SettingsViewModel onShareClick" }
-        setEffect { SettingsEffect.Share(appConfigRepository.getMarketLink()) }
+        sendEffect { SettingsEffect.Share(appConfigRepository.getMarketLink()) }
     }
 
-    override fun onSupportUsClick() = viewModelScope.launchIgnored {
+    override fun onSupportUsClick() {
         Logger.d { "SettingsViewModel onSupportUsClick" }
-        setEffect { SettingsEffect.SupportUs(appConfigRepository.getMarketLink()) }
+        sendEffect { SettingsEffect.SupportUs(appConfigRepository.getMarketLink()) }
     }
 
-    override fun onPrivacySettingsClick() = viewModelScope.launchIgnored {
+    override fun onPrivacySettingsClick() {
         Logger.d { "SettingsViewModel onPrivacySettingsClick" }
-        setEffect { SettingsEffect.PrivacySettings }
+        sendEffect { SettingsEffect.PrivacySettings }
     }
 
-    override fun onOnGitHubClick() = viewModelScope.launchIgnored {
+    override fun onOnGitHubClick() {
         Logger.d { "SettingsViewModel onOnGitHubClick" }
-        setEffect { SettingsEffect.OnGitHub }
+        sendEffect { SettingsEffect.OnGitHub }
     }
 
-    override fun onPremiumClick() = viewModelScope.launchIgnored {
+    override fun onPremiumClick() {
         Logger.d { "SettingsViewModel onPremiumClick" }
-        setEffect {
+        sendEffect {
             if (appStorage.premiumEndDate.isPassed()) {
                 SettingsEffect.Premium
             } else {
@@ -139,26 +141,26 @@ class SettingsViewModel(
         }
     }
 
-    override fun onThemeClick() = viewModelScope.launchIgnored {
+    override fun onThemeClick() {
         Logger.d { "SettingsViewModel onThemeClick" }
-        setEffect { SettingsEffect.ThemeDialog }
+        sendEffect { SettingsEffect.ThemeDialog }
     }
 
-    override fun onSyncClick() = viewModelScope.launchIgnored {
+    override fun onSyncClick() {
         Logger.d { "SettingsViewModel onSyncClick" }
 
         analyticsManager.trackEvent(Event.OfflineSync)
 
         if (data.synced) {
-            setEffect { SettingsEffect.OnlyOneTimeSync }
+            sendEffect { SettingsEffect.OnlyOneTimeSync }
         } else {
             synchroniseConversions()
         }
     }
 
-    override fun onPrecisionClick() = viewModelScope.launchIgnored {
+    override fun onPrecisionClick() {
         Logger.d { "SettingsViewModel onPrecisionClick" }
-        setEffect { SettingsEffect.SelectPrecision }
+        sendEffect { SettingsEffect.SelectPrecision }
     }
 
     override fun onPrecisionSelect(index: Int) {
@@ -167,11 +169,11 @@ class SettingsViewModel(
         setState { copy(precision = index.indexToNumber()) }
     }
 
-    override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
+    override fun onThemeChange(theme: AppTheme) {
         Logger.d { "SettingsViewModel onThemeChange $theme" }
         setState { copy(appThemeType = theme) }
         appStorage.appTheme = theme.themeValue
-        setEffect { SettingsEffect.ChangeTheme(theme.themeValue) }
+        sendEffect { SettingsEffect.ChangeTheme(theme.themeValue) }
     }
     // endregion
 }

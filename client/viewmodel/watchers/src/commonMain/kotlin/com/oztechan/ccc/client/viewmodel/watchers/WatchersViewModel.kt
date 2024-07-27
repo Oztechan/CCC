@@ -37,19 +37,19 @@ class WatchersViewModel(
     }
 
     // region Event
-    override fun onBackClick() = viewModelScope.launchIgnored {
+    override fun onBackClick() {
         Logger.d { "WatcherViewModel onBackClick" }
-        setEffect { WatchersEffect.Back }
+        sendEffect { WatchersEffect.Back }
     }
 
-    override fun onBaseClick(watcher: Watcher) = viewModelScope.launchIgnored {
+    override fun onBaseClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onBaseClick $watcher" }
-        setEffect { WatchersEffect.SelectBase(watcher) }
+        sendEffect { WatchersEffect.SelectBase(watcher) }
     }
 
-    override fun onTargetClick(watcher: Watcher) = viewModelScope.launchIgnored {
+    override fun onTargetClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onTargetClick $watcher" }
-        setEffect { WatchersEffect.SelectTarget(watcher) }
+        sendEffect { WatchersEffect.SelectTarget(watcher) }
     }
 
     override fun onBaseChanged(watcher: Watcher, newBase: String) = viewModelScope.launchIgnored {
@@ -67,7 +67,7 @@ class WatchersViewModel(
         Logger.d { "WatcherViewModel onAddClick" }
 
         if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            setEffect { WatchersEffect.MaximumNumberOfWatchers }
+            sendEffect { WatchersEffect.MaximumNumberOfWatchers }
         } else {
             currencyDataSource.getActiveCurrencies().let { list ->
                 watcherDataSource.addWatcher(
@@ -93,15 +93,15 @@ class WatchersViewModel(
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
 
         return if (rate.length > MAXIMUM_INPUT) {
-            viewModelScope.launch { setEffect { WatchersEffect.TooBigInput } }
+            sendEffect { WatchersEffect.TooBigInput }
             rate.dropLast(1)
         } else {
             rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull()?.let {
                 viewModelScope.launch {
                     watcherDataSource.updateWatcherRateById(it, watcher.id)
                 }
-            } ?: viewModelScope.launch {
-                setEffect { WatchersEffect.InvalidInput }
+            } ?: sendEffect {
+                WatchersEffect.InvalidInput
             }
             rate
         }
