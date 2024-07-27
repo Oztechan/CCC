@@ -17,7 +17,6 @@ import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.service.backend.BackendApiService
@@ -116,7 +115,7 @@ class CalculatorViewModel(
         }
     }
 
-    private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
+    private fun updateConversionFailed(t: Throwable) = viewModelScope.launch {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
             calculationStorage.currentBase
@@ -172,7 +171,7 @@ class CalculatorViewModel(
     }
 
     private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
-        viewModelScope.launchIgnored {
+        viewModelScope.launch {
             data.conversion = null
             calculationStorage.currentBase = newBase
             val symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()

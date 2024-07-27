@@ -14,7 +14,6 @@ import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.constants.MINIMUM_ACTIVE_CURRENCY
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -22,6 +21,7 @@ import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions")
 class CurrenciesViewModel(
@@ -99,14 +99,18 @@ class CurrenciesViewModel(
         }
 
     // region Event
-    override fun updateAllCurrenciesState(state: Boolean) = viewModelScope.launchIgnored {
+    override fun updateAllCurrenciesState(state: Boolean) {
         Logger.d { "CurrenciesViewModel updateAllCurrenciesState $state" }
-        currencyDataSource.updateCurrencyStates(state)
+        viewModelScope.launch {
+            currencyDataSource.updateCurrencyStates(state)
+        }
     }
 
-    override fun onItemClick(currency: Currency) = viewModelScope.launchIgnored {
+    override fun onItemClick(currency: Currency) {
         Logger.d { "CurrenciesViewModel onItemClick ${currency.code}" }
-        currencyDataSource.updateCurrencyStateByCode(currency.code, !currency.isActive)
+        viewModelScope.launch {
+            currencyDataSource.updateCurrencyStateByCode(currency.code, !currency.isActive)
+        }
     }
 
     override fun onDoneClick() {
@@ -128,7 +132,7 @@ class CurrenciesViewModel(
         setState { copy(selectionVisibility = !it) }
     }
 
-    override fun onCloseClick() = viewModelScope.launchIgnored {
+    override fun onCloseClick() {
         Logger.d { "CurrenciesViewModel onCloseClick" }
         if (state.value.selectionVisibility) {
             setState { copy(selectionVisibility = false) }

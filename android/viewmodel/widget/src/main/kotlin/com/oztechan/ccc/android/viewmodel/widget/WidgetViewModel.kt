@@ -8,7 +8,6 @@ import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -90,17 +89,17 @@ class WidgetViewModel(
     }
 
     // region Event
-    override fun onPreviousClick() = viewModelScope.launchIgnored {
+    override fun onPreviousClick() {
         Logger.d { "WidgetViewModel onPreviousClick" }
         updateBase(false)
     }
 
-    override fun onNextClick() = viewModelScope.launchIgnored {
+    override fun onNextClick() {
         Logger.d { "WidgetViewModel onNextClick" }
         updateBase(true)
     }
 
-    override fun onRefreshClick() = viewModelScope.launchIgnored {
+    override fun onRefreshClick() {
         Logger.d { "WidgetViewModel onRefreshClick" }
         refreshWidgetData()
     }

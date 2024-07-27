@@ -6,7 +6,6 @@ import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -52,42 +51,50 @@ class WatchersViewModel(
         sendEffect { WatchersEffect.SelectTarget(watcher) }
     }
 
-    override fun onBaseChanged(watcher: Watcher, newBase: String) = viewModelScope.launchIgnored {
+    override fun onBaseChanged(watcher: Watcher, newBase: String) {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
-        watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
+        viewModelScope.launch {
+            watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
+        }
     }
 
-    override fun onTargetChanged(watcher: Watcher, newTarget: String) =
-        viewModelScope.launchIgnored {
-            Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
+    override fun onTargetChanged(watcher: Watcher, newTarget: String) {
+        Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
+        viewModelScope.launch {
             watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
         }
+    }
 
-    override fun onAddClick() = viewModelScope.launchIgnored {
+    override fun onAddClick() {
         Logger.d { "WatcherViewModel onAddClick" }
 
-        if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            sendEffect { WatchersEffect.MaximumNumberOfWatchers }
-        } else {
-            currencyDataSource.getActiveCurrencies().let { list ->
-                watcherDataSource.addWatcher(
-                    base = list.firstOrNull()?.code.orEmpty(),
-                    target = list.lastOrNull()?.code.orEmpty()
-                )
+        viewModelScope.launch {
+            if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
+                sendEffect { WatchersEffect.MaximumNumberOfWatchers }
+            } else {
+                currencyDataSource.getActiveCurrencies().let { list ->
+                    watcherDataSource.addWatcher(
+                        base = list.firstOrNull()?.code.orEmpty(),
+                        target = list.lastOrNull()?.code.orEmpty()
+                    )
+                }
             }
         }
     }
 
-    override fun onDeleteClick(watcher: Watcher) = viewModelScope.launchIgnored {
+    override fun onDeleteClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onDeleteClick $watcher" }
-        watcherDataSource.deleteWatcher(watcher.id)
+        viewModelScope.launch {
+            watcherDataSource.deleteWatcher(watcher.id)
+        }
     }
 
-    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) =
-        viewModelScope.launchIgnored {
-            Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
+    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) {
+        Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
+        viewModelScope.launch {
             watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
         }
+    }
 
     override fun onRateChange(watcher: Watcher, rate: String): String {
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
