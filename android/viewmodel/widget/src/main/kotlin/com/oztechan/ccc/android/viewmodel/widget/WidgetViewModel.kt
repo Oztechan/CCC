@@ -66,25 +66,27 @@ class WidgetViewModel(
             }
     }
 
-    private suspend fun updateBase(isToNext: Boolean) {
-        val activeCurrencies = currencyDataSource.getActiveCurrencies()
+    private fun updateBase(isToNext: Boolean) {
+        viewModelScope.launch {
+            val activeCurrencies = currencyDataSource.getActiveCurrencies()
 
-        val newBaseIndex = activeCurrencies
-            .map { it.code }
-            .indexOf(calculationStorage.currentBase)
-            .let {
-                if (isToNext) {
-                    it + 1
-                } else {
-                    it - 1
+            val newBaseIndex = activeCurrencies
+                .map { it.code }
+                .indexOf(calculationStorage.currentBase)
+                .let {
+                    if (isToNext) {
+                        it + 1
+                    } else {
+                        it - 1
+                    }
+                }.let {
+                    (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
                 }
-            }.let {
-                (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
-            }
 
-        calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
+            calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
 
-        refreshWidgetData()
+            refreshWidgetData()
+        }
     }
 
     // region Event
