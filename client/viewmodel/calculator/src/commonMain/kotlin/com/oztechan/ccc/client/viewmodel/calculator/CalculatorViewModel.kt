@@ -108,16 +108,13 @@ class CalculatorViewModel(
         }
     }
 
-    private fun updateConversionSuccess(conversion: Conversion) =
-        conversion.copy(date = nowAsDateString())
-            .let {
-                data.conversion = it
-                calculateConversions(it, ConversionState.Online(it.date))
-
-                viewModelScope.launch {
-                    conversionDataSource.insertConversion(it)
-                }
-            }
+    private fun updateConversionSuccess(conversion: Conversion) = viewModelScope.launch {
+        conversion.copy(date = nowAsDateString()).let {
+            data.conversion = it
+            calculateConversions(it, ConversionState.Online(it.date))
+            conversionDataSource.insertConversion(it)
+        }
+    }
 
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
