@@ -9,7 +9,6 @@ import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.viewmodel.premium.model.OldPurchase
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumData
@@ -28,11 +27,11 @@ class PremiumViewModel(
         adType: PremiumType?,
         startDate: Long,
         isRestorePurchase: Boolean
-    ) = viewModelScope.launchIgnored {
+    ) {
         Logger.d { "PremiumViewModel onPremiumActivated ${adType?.data?.duration.orEmpty()}" }
         adType?.let {
             appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
-            setEffect { PremiumEffect.PremiumActivated(it, isRestorePurchase) }
+            sendEffect { PremiumEffect.PremiumActivated(it, isRestorePurchase) }
         }
     }
 
@@ -73,12 +72,12 @@ class PremiumViewModel(
         }
     }
 
-    override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
+    override fun onPremiumItemClick(type: PremiumType) {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
         setState {
             copy(loading = type != PremiumType.VIDEO)
         }
-        setEffect { PremiumEffect.LaunchActivatePremiumFlow(type) }
+        sendEffect { PremiumEffect.LaunchActivatePremiumFlow(type) }
     }
 
     override fun onPremiumActivationFailed() {

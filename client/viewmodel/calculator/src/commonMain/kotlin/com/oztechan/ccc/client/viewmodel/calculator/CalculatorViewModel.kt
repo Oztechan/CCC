@@ -108,16 +108,13 @@ class CalculatorViewModel(
         }
     }
 
-    private fun updateConversionSuccess(conversion: Conversion) =
-        conversion.copy(date = nowAsDateString())
-            .let {
-                data.conversion = it
-                calculateConversions(it, ConversionState.Online(it.date))
-
-                viewModelScope.launch {
-                    conversionDataSource.insertConversion(it)
-                }
-            }
+    private fun updateConversionSuccess(conversion: Conversion) = viewModelScope.launch {
+        conversion.copy(date = nowAsDateString()).let {
+            data.conversion = it
+            calculateConversions(it, ConversionState.Online(it.date))
+            conversionDataSource.insertConversion(it)
+        }
+    }
 
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launchIgnored {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
@@ -128,7 +125,7 @@ class CalculatorViewModel(
         } ?: run {
             Logger.w { "No offline conversion found in the DB" }
 
-            setEffect { CalculatorEffect.Error }
+            sendEffect { CalculatorEffect.Error }
 
             calculateConversions(null, ConversionState.Error)
         }
@@ -147,7 +144,7 @@ class CalculatorViewModel(
             )
         }
 
-    private fun calculateOutput(input: String) = viewModelScope.launch {
+    private fun calculateOutput(input: String) {
         val output = data.parser
             .calculate(input.toSupportedCharacters(), MAXIMUM_FLOATING_POINT)
             .mapTo { if (it.isFinite()) it.getFormatted(calculationStorage.precision) else "" }
@@ -156,17 +153,17 @@ class CalculatorViewModel(
 
         when {
             input.length > MAXIMUM_INPUT -> {
-                setEffect { CalculatorEffect.TooBigInput }
+                sendEffect { CalculatorEffect.TooBigInput }
                 setState { copy(input = input.dropLast(1)) }
             }
 
             output.length > MAXIMUM_OUTPUT -> {
-                setEffect { CalculatorEffect.TooBigOutput }
+                sendEffect { CalculatorEffect.TooBigOutput }
                 setState { copy(input = input.dropLast(1)) }
             }
 
             state.value.currencyList.size < MINIMUM_ACTIVE_CURRENCY -> {
-                setEffect { CalculatorEffect.FewCurrency }
+                sendEffect { CalculatorEffect.FewCurrency }
                 setState { copy(loading = false) }
             }
 
@@ -234,40 +231,32 @@ class CalculatorViewModel(
 
         analyticsManager.trackEvent(Event.ShowConversion(Param.Base(currency.code)))
 
-        viewModelScope.launch {
-            setEffect {
-                CalculatorEffect.ShowConversion(
-                    currency.getConversionStringFromBase(
-                        calculationStorage.currentBase,
-                        data.conversion
-                    ),
-                    currency.code
-                )
-            }
+        sendEffect {
+            CalculatorEffect.ShowConversion(
+                currency.getConversionStringFromBase(
+                    calculationStorage.currentBase,
+                    data.conversion
+                ),
+                currency.code
+            )
         }
     }
 
     override fun onItemAmountLongClick(amount: String) {
         Logger.d { "CalculatorViewModel onItemAmountLongClick $amount" }
-
         analyticsManager.trackEvent(Event.CopyClipboard)
-
-        viewModelScope.launch {
-            setEffect { CalculatorEffect.CopyToClipboard(amount) }
-        }
+        sendEffect { CalculatorEffect.CopyToClipboard(amount) }
     }
 
-    override fun onOutputLongClick() = viewModelScope.launchIgnored {
+    override fun onOutputLongClick() {
         Logger.d { "CalculatorViewModel onOutputLongClick" }
-
         analyticsManager.trackEvent(Event.CopyClipboard)
-
-        setEffect { CalculatorEffect.CopyToClipboard(state.value.output) }
+        sendEffect { CalculatorEffect.CopyToClipboard(state.value.output) }
     }
 
-    override fun onInputLongClick() = viewModelScope.launchIgnored {
+    override fun onInputLongClick() {
         Logger.d { "CalculatorViewModel onInputLongClick" }
-        setEffect { CalculatorEffect.ShowPasteRequest }
+        sendEffect { CalculatorEffect.ShowPasteRequest }
     }
 
     override fun onPasteToInput(text: String) {
@@ -278,14 +267,14 @@ class CalculatorViewModel(
         setState { copy(input = text.toSupportedCharacters()) }
     }
 
-    override fun onBarClick() = viewModelScope.launchIgnored {
+    override fun onBarClick() {
         Logger.d { "CalculatorViewModel onBarClick" }
-        setEffect { CalculatorEffect.OpenBar }
+        sendEffect { CalculatorEffect.OpenBar }
     }
 
-    override fun onSettingsClicked() = viewModelScope.launchIgnored {
+    override fun onSettingsClicked() {
         Logger.d { "CalculatorViewModel onSettingsClicked" }
-        setEffect { CalculatorEffect.OpenSettings }
+        sendEffect { CalculatorEffect.OpenSettings }
     }
 
     override fun onBaseChange(base: String) {

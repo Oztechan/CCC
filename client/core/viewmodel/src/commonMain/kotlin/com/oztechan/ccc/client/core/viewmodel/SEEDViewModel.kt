@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 abstract class SEEDViewModel<
     State : BaseState,
@@ -43,5 +44,11 @@ abstract class SEEDViewModel<
 
     protected suspend fun setEffect(newEffect: () -> Effect) {
         _effect.emit(newEffect())
+    }
+
+    protected fun sendEffect(newEffect: () -> Effect) {
+        viewModelScope.launch {
+            _effect.emit(newEffect())
+        }
     }
 }

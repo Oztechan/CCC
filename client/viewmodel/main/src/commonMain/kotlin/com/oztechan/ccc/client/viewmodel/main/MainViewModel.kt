@@ -78,15 +78,13 @@ class MainViewModel(
 
     private fun checkAppUpdate() {
         appConfigRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
-            viewModelScope.launch {
-                setEffect {
-                    MainEffect.AppUpdateEffect(
-                        isCancelable,
-                        appConfigRepository.getMarketLink()
-                    )
-                }
-                data.isAppUpdateShown = true
+            sendEffect {
+                MainEffect.AppUpdateEffect(
+                    isCancelable,
+                    appConfigRepository.getMarketLink()
+                )
             }
+            data.isAppUpdateShown = true
         }
     }
 
