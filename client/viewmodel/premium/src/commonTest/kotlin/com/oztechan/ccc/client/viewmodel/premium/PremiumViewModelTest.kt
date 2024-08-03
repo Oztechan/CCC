@@ -83,6 +83,7 @@ internal class PremiumViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.event.onPremiumActivated(premiumType, now)
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<PremiumEffect.PremiumActivated>(it)
                 assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
@@ -107,6 +108,7 @@ internal class PremiumViewModelTest {
                 )
             )
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.PremiumActivated>(it)
             assertTrue { it.isRestorePurchase }
             assertFalse { viewModel.state.value.loading }
@@ -178,6 +180,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.VIDEO)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.VIDEO, it.premiumType)
             assertFalse { viewModel.state.value.loading }
@@ -186,6 +189,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.MONTH)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.MONTH, it.premiumType)
             assertTrue { viewModel.state.value.loading }
@@ -194,6 +198,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.QUARTER)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.QUARTER, it.premiumType)
             assertTrue { viewModel.state.value.loading }
@@ -202,6 +207,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.HALF_YEAR)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.HALF_YEAR, it.premiumType)
             assertTrue { viewModel.state.value.loading }
@@ -210,6 +216,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.YEAR)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.YEAR, it.premiumType)
             assertTrue { viewModel.state.value.loading }

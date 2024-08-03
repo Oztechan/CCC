@@ -160,6 +160,7 @@ internal class CurrenciesViewModelTest {
                 )
 
             viewModel.effect.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CurrenciesEffect.FewCurrency>(it)
             }
         }
@@ -179,6 +180,7 @@ internal class CurrenciesViewModelTest {
                 )
 
             viewModel.effect.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CurrenciesEffect.ChangeBase>(it)
             }
         }
@@ -201,6 +203,7 @@ internal class CurrenciesViewModelTest {
                 )
 
             viewModel.effect.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CurrenciesEffect.ChangeBase>(it)
             }
         }
@@ -232,6 +235,7 @@ internal class CurrenciesViewModelTest {
                 .returns("")
 
             viewModel.effect.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CurrenciesEffect.ChangeBase>(it)
                 assertEquals(firstActiveBase, it.newBase)
             }
@@ -256,6 +260,7 @@ internal class CurrenciesViewModelTest {
                 .returns(currency1.code) // not active one
 
             viewModel.effect.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CurrenciesEffect.ChangeBase>(it)
                 assertEquals(currency2.code, it.newBase)
             }
@@ -372,6 +377,7 @@ internal class CurrenciesViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.onCloseClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<CurrenciesEffect.Back>(it)
             assertEquals("", viewModel.data.query)
         }
@@ -401,6 +407,7 @@ internal class CurrenciesViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.onDoneClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<CurrenciesEffect.FewCurrency>(it)
             assertTrue { viewModel.data.query.isEmpty() }
             assertTrue { viewModel.state.value.isOnboardingVisible }

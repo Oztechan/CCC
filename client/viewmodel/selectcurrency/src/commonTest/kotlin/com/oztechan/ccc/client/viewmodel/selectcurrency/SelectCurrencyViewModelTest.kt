@@ -109,6 +109,7 @@ internal class SelectCurrencyViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onSelectClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SelectCurrencyEffect.OpenCurrencies>(it)
         }
     }
