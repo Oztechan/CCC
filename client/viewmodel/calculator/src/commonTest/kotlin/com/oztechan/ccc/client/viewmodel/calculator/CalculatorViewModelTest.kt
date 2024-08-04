@@ -202,6 +202,7 @@ internal class CalculatorViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onKeyPress("1") // trigger api call
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<CalculatorEffect.Error>(it)
 
             viewModel.state.value.let { state ->
@@ -229,6 +230,7 @@ internal class CalculatorViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.event.onKeyPress("1") // trigger api call
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CalculatorEffect.FewCurrency>(it)
 
                 viewModel.state.value.let { state ->
@@ -248,6 +250,7 @@ internal class CalculatorViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.event.onKeyPress(fortyFiveDigitNumber)
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CalculatorEffect.TooBigInput>(it)
                 assertFalse { viewModel.state.value.loading }
                 assertEquals(fortyFiveDigitNumber.dropLast(1), viewModel.state.value.input)
@@ -261,6 +264,7 @@ internal class CalculatorViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.event.onKeyPress(nineteenDigitNumber)
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<CalculatorEffect.TooBigOutput>(it)
                 assertFalse { viewModel.state.value.loading }
                 assertEquals(nineteenDigitNumber.dropLast(1), viewModel.state.value.input)
@@ -309,6 +313,7 @@ internal class CalculatorViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onBarClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<CalculatorEffect.OpenBar>(it)
         }
     }
@@ -318,6 +323,7 @@ internal class CalculatorViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onSettingsClicked()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<CalculatorEffect.OpenSettings>(it)
         }
     }
@@ -360,6 +366,7 @@ internal class CalculatorViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onItemImageLongClick(currency1)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<CalculatorEffect.ShowConversion>(it)
             assertEquals(
                 currency1.getConversionStringFromBase(
@@ -379,6 +386,7 @@ internal class CalculatorViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onItemAmountLongClick(currency1.rate)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertEquals(
                 CalculatorEffect.CopyToClipboard(currency1.rate),
                 it
@@ -395,6 +403,7 @@ internal class CalculatorViewModelTest {
             viewModel.event.onKeyPress(output)
             viewModel.event.onOutputLongClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertEquals(CalculatorEffect.CopyToClipboard(output), it)
 
             verify { analyticsManager.trackEvent(Event.CopyClipboard) }
@@ -406,6 +415,7 @@ internal class CalculatorViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onInputLongClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertEquals(CalculatorEffect.ShowPasteRequest, it)
         }
     }
