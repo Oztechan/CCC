@@ -81,7 +81,6 @@ internal class BillingManagerImpl(private val context: Context) :
         productDetailList
             .firstOrNull { it.productId == skuId }
             ?.let {
-
                 val productDetailsParamsList = listOf(
                     BillingFlowParams.ProductDetailsParams.newBuilder()
                         .setProductDetails(it)
