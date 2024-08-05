@@ -13,6 +13,6 @@ internal fun List<ProductDetails>.toPremiumDataList(): List<PremiumData> = map {
 internal fun List<Purchase>.toOldPurchaseList(): List<OldPurchase> =
     mapNotNull { purchase ->
         PremiumType.getById(purchase.products.firstOrNull())?.let {
-            OldPurchase(purchase.purchaseTime, it)
+            OldPurchase(purchase.purchaseTime, it, purchase.purchaseToken)
         }
     }

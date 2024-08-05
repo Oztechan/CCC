@@ -103,8 +103,8 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onRestorePurchase(
                 listOf(
-                    OldPurchase(now, PremiumType.MONTH),
-                    OldPurchase(now, PremiumType.YEAR)
+                    OldPurchase(now, PremiumType.MONTH, ""),
+                    OldPurchase(now, PremiumType.YEAR, "")
                 )
             )
         }.firstOrNull().let {
@@ -117,7 +117,7 @@ internal class PremiumViewModelTest {
         }
 
         // onRestorePurchase shouldn't do anything if all the old purchases out of dated
-        var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
+        var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH, "")
 
         every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
@@ -129,7 +129,8 @@ internal class PremiumViewModelTest {
         }
 
         // onRestorePurchase shouldn't do anything if the old purchase is already expired
-        oldPurchase = OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
+        oldPurchase =
+            OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH, "")
 
         every { appStorage.premiumEndDate }
             .returns(0)
