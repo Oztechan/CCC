@@ -25,8 +25,8 @@ internal class PurchaseUtilTest {
     @Test
     fun `toOldPurchaseList maps correctly`() {
         val purchaseLists = listOf(
-            Purchase(listOf("1", "2"), 123L),
-            Purchase(listOf("9", "8"), 987L)
+            Purchase(listOf("1", "2"), 123L, "token1"),
+            Purchase(listOf("9", "8"), 987L, "token2")
         )
 
         val oldPurchaseList = purchaseLists.toOldPurchaseList()
@@ -35,6 +35,7 @@ internal class PurchaseUtilTest {
             assertEquals(first.purchaseTime, second.date)
             val type = PremiumType.getById(first.products.firstOrNull())
             assertEquals(type, second.type)
+            assertEquals(first.purchaseToken, second.purchaseToken)
         }
     }
 }

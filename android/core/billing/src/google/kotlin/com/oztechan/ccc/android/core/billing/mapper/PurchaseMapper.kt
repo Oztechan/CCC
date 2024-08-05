@@ -5,5 +5,6 @@ import com.oztechan.ccc.android.core.billing.model.Purchase as PurchaseModel
 
 internal fun Purchase.toPurchaseModel() = PurchaseModel(
     products,
-    purchaseTime
+    purchaseTime,
+    purchaseToken
 )
