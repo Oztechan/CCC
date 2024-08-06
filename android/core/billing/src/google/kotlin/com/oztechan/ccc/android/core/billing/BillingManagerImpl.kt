@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 
 // Billing will not work on debug builds
 // .debug suffix needs to be removed in app-level build.gradle and google-services.json
+@Suppress("TooManyFunctions")
 internal class BillingManagerImpl(private val context: Context) :
     BillingManager,
     AcknowledgePurchaseResponseListener,
