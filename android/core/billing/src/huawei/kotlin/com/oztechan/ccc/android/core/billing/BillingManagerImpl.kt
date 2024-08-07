@@ -31,4 +31,8 @@ internal class BillingManagerImpl(private val context: Context) : BillingManager
     override fun acknowledgePurchase() {
         Logger.v { "BillingManagerImpl acknowledgePurchase" }
     }
+
+    override fun consumePurchase(token: String) {
+        Logger.v { "BillingManagerImpl consumePurchase" }
+    }
 }

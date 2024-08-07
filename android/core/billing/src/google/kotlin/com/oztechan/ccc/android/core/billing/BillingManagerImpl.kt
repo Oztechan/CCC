@@ -10,6 +10,8 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.ConsumeResponseListener
 import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.ProductDetailsResponseListener
@@ -27,13 +29,15 @@ import kotlinx.coroutines.flow.asSharedFlow
 
 // Billing will not work on debug builds
 // .debug suffix needs to be removed in app-level build.gradle and google-services.json
+@Suppress("TooManyFunctions")
 internal class BillingManagerImpl(private val context: Context) :
     BillingManager,
     AcknowledgePurchaseResponseListener,
     PurchasesUpdatedListener,
     BillingClientStateListener,
     PurchasesResponseListener,
-    ProductDetailsResponseListener {
+    ProductDetailsResponseListener,
+    ConsumeResponseListener {
 
     private lateinit var billingClient: BillingClient
     private lateinit var lifecycleOwner: LifecycleOwner
@@ -100,6 +104,11 @@ internal class BillingManagerImpl(private val context: Context) :
         acknowledgePurchaseParams?.let {
             billingClient.acknowledgePurchase(it, this)
         }
+    }
+
+    override fun consumePurchase(token: String) {
+        Logger.v { "BillingManagerImpl consumePurchase" }
+        billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(token).build(), this)
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
@@ -201,5 +210,9 @@ internal class BillingManagerImpl(private val context: Context) :
                     _effect.emit(BillingEffect.RestorePurchase(it))
                 }
         }
+    }
+
+    override fun onConsumeResponse(billingResult: BillingResult, token: String) {
+        Logger.v { "BillingManagerImpl onConsumeResponse ${billingResult.responseCode}, token:$token" }
     }
 }
