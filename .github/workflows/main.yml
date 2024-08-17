@@ -70,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@54ed8a1c9b3ce3addaeca9f69ce06393c7949bba
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -89,7 +89,7 @@ jobs:
         run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
       - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/upload-artifact@v4.3.5
+        uses: actions/upload-artifact@v4.3.6
         if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
@@ -153,7 +153,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@54ed8a1c9b3ce3addaeca9f69ce06393c7949bba
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -173,14 +173,14 @@ jobs:
         run: fastlane build${{ env.BUILD_TYPE }}
 
       - name: Upload iOS Debug Artifacts
-        uses: actions/upload-artifact@v4.3.5
+        uses: actions/upload-artifact@v4.3.6
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
           path: ios/CCC_I.ipa
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.3.5
+        uses: actions/upload-artifact@v4.3.6
         if: github.event_name == 'schedule'
         with:
           name: iOSArtifacts
@@ -235,7 +235,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@54ed8a1c9b3ce3addaeca9f69ce06393c7949bba
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Test
         run: ./gradlew test
@@ -255,7 +255,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@54ed8a1c9b3ce3addaeca9f69ce06393c7949bba
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
@@ -298,7 +298,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@54ed8a1c9b3ce3addaeca9f69ce06393c7949bba
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Detekt & Lint
         run: ./gradlew detektAll lint
