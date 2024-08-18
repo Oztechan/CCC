@@ -207,7 +207,7 @@ internal class BillingManagerImpl(private val context: Context) :
             purchasesResponse
                 .map { it.toPurchaseModel() }
                 .let {
-                    _effect.emit(BillingEffect.RestorePurchase(it))
+                    _effect.emit(BillingEffect.RestoreOrConsumePurchase(it))
                 }
         }
     }

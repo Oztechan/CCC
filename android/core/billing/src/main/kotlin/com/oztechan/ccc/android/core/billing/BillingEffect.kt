@@ -7,7 +7,7 @@ sealed class BillingEffect {
     data object SuccessfulPurchase : BillingEffect()
     data object BillingUnavailable : BillingEffect()
 
-    data class RestorePurchase(
+    data class RestoreOrConsumePurchase(
         val purchaseList: List<Purchase>
     ) : BillingEffect()
 
