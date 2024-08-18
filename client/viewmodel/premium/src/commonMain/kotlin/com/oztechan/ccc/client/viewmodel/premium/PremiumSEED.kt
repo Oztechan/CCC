@@ -38,4 +38,6 @@ sealed class PremiumEffect : BaseEffect {
         val premiumType: PremiumType,
         val isRestorePurchase: Boolean
     ) : PremiumEffect()
+
+    data class ConsumePurchase(val token: String) : PremiumEffect()
 }
