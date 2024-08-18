@@ -35,7 +35,7 @@ class PremiumViewModel(
         }
     }
 
-    override fun onRestorePurchase(oldPurchaseList: List<OldPurchase>) {
+    override fun onRestoreOrConsumePurchase(oldPurchaseList: List<OldPurchase>) {
         Logger.d { "PremiumViewModel onRestorePurchase" }
         oldPurchaseList
             .maxByOrNull {

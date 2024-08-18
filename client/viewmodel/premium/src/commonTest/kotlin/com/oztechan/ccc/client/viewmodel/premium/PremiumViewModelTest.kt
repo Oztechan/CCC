@@ -94,14 +94,14 @@ internal class PremiumViewModelTest {
     }
 
     @Test
-    fun onRestorePurchase() = runTest {
+    fun onRestoreOrConsumePurchase() = runTest {
         every { appStorage.premiumEndDate }
             .returns(0)
 
         val now = nowAsLong()
 
         viewModel.effect.onSubscription {
-            viewModel.event.onRestorePurchase(
+            viewModel.event.onRestoreOrConsumePurchase(
                 listOf(
                     OldPurchase(now, PremiumType.MONTH, ""),
                     OldPurchase(now, PremiumType.YEAR, "")
@@ -122,7 +122,7 @@ internal class PremiumViewModelTest {
         every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
-        viewModel.event.onRestorePurchase(listOf(oldPurchase))
+        viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
 
         verify(VerifyMode.not) {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
@@ -135,7 +135,7 @@ internal class PremiumViewModelTest {
         every { appStorage.premiumEndDate }
             .returns(0)
 
-        viewModel.event.onRestorePurchase(listOf(oldPurchase))
+        viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
 
         verify(VerifyMode.not) {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
