@@ -100,6 +100,7 @@ internal class PremiumViewModelTest {
 
         val now = nowAsLong()
 
+        // onRestoreOrConsumePurchase should activate the premium if there is a valid old purchase
         viewModel.effect.onSubscription {
             viewModel.event.onRestoreOrConsumePurchase(
                 listOf(
@@ -116,7 +117,7 @@ internal class PremiumViewModelTest {
             verify { appStorage.premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
         }
 
-        // onRestorePurchase shouldn't do anything if all the old purchases out of dated
+        // onRestoreOrConsumePurchase shouldn't do anything if all the old purchases out of dated
         var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH, "")
 
         every { appStorage.premiumEndDate }
@@ -128,14 +129,19 @@ internal class PremiumViewModelTest {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
         }
 
-        // onRestorePurchase shouldn't do anything if the old purchase is already expired
+        // onRestoreOrConsumePurchase should consume product if the old purchase is already expired
         oldPurchase =
             OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH, "")
 
         every { appStorage.premiumEndDate }
             .returns(0)
 
-        viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
+        viewModel.effect.onSubscription {
+            viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumEffect.ConsumePurchase>(it)
+        }
 
         verify(VerifyMode.not) {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
