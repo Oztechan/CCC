@@ -112,6 +112,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 } else {
                     billingManager.acknowledgePurchase()
                 }
+                is PremiumEffect.ConsumePurchase -> billingManager.consumePurchase(viewEffect.token)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
