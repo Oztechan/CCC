@@ -100,6 +100,8 @@ internal class PremiumViewModelTest {
 
         val now = nowAsLong()
 
+        // onRestoreOrConsumePurchase should activate the premium with the product which has farthest end date
+        // if there is a valid old purchase
         viewModel.effect.onSubscription {
             viewModel.event.onRestoreOrConsumePurchase(
                 listOf(
@@ -113,10 +115,14 @@ internal class PremiumViewModelTest {
             assertTrue { it.isRestorePurchase }
             assertFalse { viewModel.state.value.loading }
 
-            verify { appStorage.premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
+            verify { appStorage.premiumEndDate = PremiumType.YEAR.calculatePremiumEnd(now) }
+            verify(VerifyMode.not) {
+                appStorage.premiumEndDate = PremiumType.MONTH.calculatePremiumEnd(now)
+            }
         }
 
-        // onRestorePurchase shouldn't do anything if all the old purchases out of dated
+        // onRestoreOrConsumePurchase shouldn't do anything
+        // if all the old purchases doesn't have later end date than the current premium end date even if they are valid
         var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH, "")
 
         every { appStorage.premiumEndDate }
@@ -128,14 +134,21 @@ internal class PremiumViewModelTest {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
         }
 
-        // onRestorePurchase shouldn't do anything if the old purchase is already expired
+        // onRestoreOrConsumePurchase should consume product if the old purchase is already expired
+        val token = "token"
         oldPurchase =
-            OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH, "")
+            OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH, token)
 
         every { appStorage.premiumEndDate }
             .returns(0)
 
-        viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
+        viewModel.effect.onSubscription {
+            viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumEffect.ConsumePurchase>(it)
+            assertTrue { it.token == token }
+        }
 
         verify(VerifyMode.not) {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
