@@ -7,6 +7,7 @@ package com.oztechan.ccc.client.viewmodel.premium
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
+import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.storage.app.AppStorage
@@ -37,21 +38,31 @@ class PremiumViewModel(
 
     override fun onRestoreOrConsumePurchase(oldPurchaseList: List<OldPurchase>) {
         Logger.d { "PremiumViewModel onRestorePurchase" }
-        oldPurchaseList
-            .maxByOrNull {
-                it.type.calculatePremiumEnd(it.date)
-            }?.whether(
-                { it.type.calculatePremiumEnd(it.date).isNotPassed() },
-                { it.date > appStorage.premiumEndDate },
-                { PremiumType.getPurchaseIds().any { id -> id == it.type.data.id } }
-            )?.run {
-                onPremiumActivated(
-                    adType = PremiumType.getById(type.data.id),
-                    startDate = this.date,
-                    isRestorePurchase = true
-                )
-                setState { copy(loading = false) }
-            }
+
+        // Consume old purchases
+        oldPurchaseList.filter {
+            it.type.calculatePremiumEnd(it.date).isPassed()
+        }.forEach {
+            sendEffect { PremiumEffect.ConsumePurchase(it.purchaseToken) }
+        }
+
+        // Restore purchase if not already activated
+        oldPurchaseList.filter {
+            it.type.calculatePremiumEnd(it.date).isNotPassed()
+        }.maxByOrNull {
+            it.type.calculatePremiumEnd(it.date)
+        }?.whether(
+            { it.date > appStorage.premiumEndDate },
+            { PremiumType.getPurchaseIds().any { id -> id == it.type.data.id } }
+        )?.let {
+            onPremiumActivated(
+                adType = PremiumType.getById(it.type.data.id),
+                startDate = it.date,
+                isRestorePurchase = true
+            )
+        }
+
+        setState { copy(loading = false) }
     }
 
     override fun onAddPurchaseMethods(premiumDataList: List<PremiumData>) {
