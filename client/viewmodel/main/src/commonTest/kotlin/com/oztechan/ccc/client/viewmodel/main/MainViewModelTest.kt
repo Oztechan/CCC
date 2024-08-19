@@ -293,6 +293,7 @@ internal class MainViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.onResume()
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<MainEffect.AppUpdateEffect>(it)
                 assertEquals(mockBoolean, it.isCancelable)
                 assertTrue { viewModel.data.isAppUpdateShown }
@@ -326,6 +327,7 @@ internal class MainViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.onResume()
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<MainEffect.RequestReview>(it)
             }
 

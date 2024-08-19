@@ -9,9 +9,7 @@ import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.shared.util.toDateString
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -24,12 +22,9 @@ import com.oztechan.ccc.client.viewmodel.settings.model.PremiumStatus
 import com.oztechan.ccc.client.viewmodel.settings.util.indexToNumber
 import com.oztechan.ccc.common.datasource.conversion.ConversionDataSource
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 @Suppress("TooManyFunctions", "LongParameterList")
 class SettingsViewModel(
@@ -39,25 +34,17 @@ class SettingsViewModel(
     private val currencyDataSource: CurrencyDataSource,
     private val conversionDataSource: ConversionDataSource,
     watcherDataSource: WatcherDataSource,
-    adControlRepository: AdControlRepository,
+    private val adControlRepository: AdControlRepository,
     private val appConfigRepository: AppConfigRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(), SettingsEvent {
-    // region SEED
-    private val _state =
-        MutableStateFlow(SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
-    override val state = _state.asStateFlow()
-
-    private val _effect = MutableSharedFlow<SettingsEffect>()
-    override val effect = _effect.asSharedFlow()
-
-    override val event = this as SettingsEvent
-
-    override val data = SettingsData()
-    // endregion
+) : SEEDViewModel<SettingsState, SettingsEffect, SettingsEvent, SettingsData>(
+    initialState = SettingsState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()),
+    initialData = SettingsData()
+),
+    SettingsEvent {
 
     init {
-        _state.update {
+        setState {
             copy(
                 appThemeType = AppTheme.getThemeByValueOrDefault(appStorage.appTheme),
                 premiumStatus = appStorage.premiumEndDate.toPremiumStatus(),
@@ -68,12 +55,12 @@ class SettingsViewModel(
 
         currencyDataSource.getActiveCurrenciesFlow()
             .onEach {
-                _state.update { copy(activeCurrencyCount = it.size) }
+                setState { copy(activeCurrencyCount = it.size) }
             }.launchIn(viewModelScope)
 
         watcherDataSource.getWatchersFlow()
             .onEach {
-                _state.update { copy(activeWatcherCount = it.size) }
+                setState { copy(activeWatcherCount = it.size) }
             }.launchIn(viewModelScope)
     }
 
@@ -83,106 +70,110 @@ class SettingsViewModel(
         else -> PremiumStatus.Active(toDateString())
     }
 
-    private suspend fun synchroniseConversions() {
-        _effect.emit(SettingsEffect.Synchronising)
+    private fun synchroniseConversions() {
+        viewModelScope.launch {
+            sendEffect { SettingsEffect.Synchronising }
 
-        currencyDataSource.getActiveCurrencies()
-            .forEach { (name) ->
-                runCatching { backendApiService.getConversion(name) }
-                    .onFailure { error -> Logger.w(error) { error.message.toString() } }
-                    .onSuccess { conversionDataSource.insertConversion(it) }
+            currencyDataSource.getActiveCurrencies()
+                .forEach { (name) ->
+                    runCatching { backendApiService.getConversion(name) }
+                        .onFailure { error -> Logger.w(error) { error.message.toString() } }
+                        .onSuccess { conversionDataSource.insertConversion(it) }
 
-                delay(SYNC_DELAY)
-            }
+                    delay(SYNC_DELAY)
+                }
 
-        _effect.emit(SettingsEffect.Synchronised)
+            sendEffect { SettingsEffect.Synchronised }
 
-        data.synced = true
-    }
-
-    // region Event
-    override fun onBackClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onBackClick" }
-        _effect.emit(SettingsEffect.Back)
-    }
-
-    override fun onCurrenciesClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onCurrenciesClick" }
-        _effect.emit(SettingsEffect.OpenCurrencies)
-    }
-
-    override fun onWatchersClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onWatchersClick" }
-        _effect.emit(SettingsEffect.OpenWatchers)
-    }
-
-    override fun onFeedBackClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onFeedBackClick" }
-        _effect.emit(SettingsEffect.FeedBack)
-    }
-
-    override fun onShareClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onShareClick" }
-        _effect.emit(SettingsEffect.Share(appConfigRepository.getMarketLink()))
-    }
-
-    override fun onSupportUsClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onSupportUsClick" }
-        _effect.emit(SettingsEffect.SupportUs(appConfigRepository.getMarketLink()))
-    }
-
-    override fun onPrivacySettingsClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onPrivacySettingsClick" }
-        _effect.emit(SettingsEffect.PrivacySettings)
-    }
-
-    override fun onOnGitHubClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onOnGitHubClick" }
-        _effect.emit(SettingsEffect.OnGitHub)
-    }
-
-    override fun onPremiumClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onPremiumClick" }
-        if (appStorage.premiumEndDate.isPassed()) {
-            _effect.emit(SettingsEffect.Premium)
-        } else {
-            _effect.emit(SettingsEffect.AlreadyPremium)
+            data.synced = true
         }
     }
 
-    override fun onThemeClick() = viewModelScope.launchIgnored {
-        Logger.d { "SettingsViewModel onThemeClick" }
-        _effect.emit(SettingsEffect.ThemeDialog)
+    // region Event
+    override fun onBackClick() {
+        Logger.d { "SettingsViewModel onBackClick" }
+        sendEffect { SettingsEffect.Back }
     }
 
-    override fun onSyncClick() = viewModelScope.launchIgnored {
+    override fun onCurrenciesClick() {
+        Logger.d { "SettingsViewModel onCurrenciesClick" }
+        sendEffect { SettingsEffect.OpenCurrencies }
+    }
+
+    override fun onWatchersClick() {
+        Logger.d { "SettingsViewModel onWatchersClick" }
+        sendEffect { SettingsEffect.OpenWatchers }
+    }
+
+    override fun onFeedBackClick() {
+        Logger.d { "SettingsViewModel onFeedBackClick" }
+        sendEffect { SettingsEffect.FeedBack }
+    }
+
+    override fun onShareClick() {
+        Logger.d { "SettingsViewModel onShareClick" }
+        sendEffect { SettingsEffect.Share(appConfigRepository.getMarketLink()) }
+    }
+
+    override fun onSupportUsClick() {
+        Logger.d { "SettingsViewModel onSupportUsClick" }
+        sendEffect { SettingsEffect.SupportUs(appConfigRepository.getMarketLink()) }
+    }
+
+    override fun onPrivacySettingsClick() {
+        Logger.d { "SettingsViewModel onPrivacySettingsClick" }
+        sendEffect { SettingsEffect.PrivacySettings }
+    }
+
+    override fun onOnGitHubClick() {
+        Logger.d { "SettingsViewModel onOnGitHubClick" }
+        sendEffect { SettingsEffect.OnGitHub }
+    }
+
+    override fun onPremiumClick() {
+        Logger.d { "SettingsViewModel onPremiumClick" }
+        sendEffect {
+            if (appStorage.premiumEndDate.isPassed()) {
+                SettingsEffect.Premium
+            } else {
+                SettingsEffect.AlreadyPremium
+            }
+        }
+    }
+
+    override fun onThemeClick() {
+        Logger.d { "SettingsViewModel onThemeClick" }
+        sendEffect { SettingsEffect.ThemeDialog }
+    }
+
+    override fun onSyncClick() {
         Logger.d { "SettingsViewModel onSyncClick" }
 
         analyticsManager.trackEvent(Event.OfflineSync)
 
         if (data.synced) {
-            _effect.emit(SettingsEffect.OnlyOneTimeSync)
+            sendEffect { SettingsEffect.OnlyOneTimeSync }
         } else {
             synchroniseConversions()
         }
     }
 
-    override fun onPrecisionClick() = viewModelScope.launchIgnored {
+    override fun onPrecisionClick() {
         Logger.d { "SettingsViewModel onPrecisionClick" }
-        _effect.emit(SettingsEffect.SelectPrecision)
+        sendEffect { SettingsEffect.SelectPrecision }
     }
 
     override fun onPrecisionSelect(index: Int) {
         Logger.d { "SettingsViewModel onPrecisionSelect $index" }
         calculationStorage.precision = index.indexToNumber()
-        _state.update { copy(precision = index.indexToNumber()) }
+        setState { copy(precision = index.indexToNumber()) }
     }
 
-    override fun onThemeChange(theme: AppTheme) = viewModelScope.launchIgnored {
+    override fun onThemeChange(theme: AppTheme) {
         Logger.d { "SettingsViewModel onThemeChange $theme" }
-        _state.update { copy(appThemeType = theme) }
+        setState { copy(appThemeType = theme) }
         appStorage.appTheme = theme.themeValue
-        _effect.emit(SettingsEffect.ChangeTheme(theme.themeValue))
+        sendEffect { SettingsEffect.ChangeTheme(theme.themeValue) }
     }
     // endregion
 }

@@ -41,7 +41,8 @@ env:
   APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
   APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
   APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-  IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+  IOS_RELEASE_FIREBASE_APP_ID: ${{ secrets.IOS_RELEASE_FIREBASE_APP_ID }}
+  IOS_DEBUG_FIREBASE_APP_ID: ${{ secrets.IOS_DEBUG_FIREBASE_APP_ID }}
   FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
   GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
   SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
@@ -60,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -79,19 +80,19 @@ jobs:
         run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: googleBundle
           path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: huaweiBundle
           path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v4.3.3
+        uses: actions/upload-artifact@v4.3.6
         with:
           name: backendJar
           path: backend/app/build/libs/app-*.jar
@@ -111,7 +112,7 @@ jobs:
         uses: actions/checkout@v4.1.7
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           name: googleBundle
 
@@ -154,7 +155,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           name: huaweiBundle
 
@@ -185,13 +186,13 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4.1.8
         with:
           name: backendJar
           path: artifact
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v5.0.3
+        uses: easingthemes/ssh-deploy@v5.1.1
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
@@ -214,7 +215,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files

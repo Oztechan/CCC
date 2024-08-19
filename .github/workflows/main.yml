@@ -5,10 +5,12 @@ on:
     branches:
       - develop
   pull_request:
+  schedule:
+    - cron: '0 0 * * *'  # At 00:00 every day
 
 concurrency:
-  group: ${{ github.ref == 'refs/heads/develop' && 'develop' || github.ref }}
-  cancel-in-progress: ${{ github.ref != 'refs/heads/develop' }}
+  group: ${{ github.ref == 'refs/heads/develop' && 'develop' || github.ref }} # Only run one job at a time for the same branch
+  cancel-in-progress: ${{ github.ref != 'refs/heads/develop' }} # Only cancel the same branch but not develop
 
 env:
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
@@ -46,7 +48,8 @@ env:
   APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
   APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
   APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-  IOS_GOOGLE_FIREBASE_APP_ID: ${{ secrets.IOS_GOOGLE_FIREBASE_APP_ID }}
+  IOS_RELEASE_FIREBASE_APP_ID: ${{ secrets.IOS_RELEASE_FIREBASE_APP_ID }}
+  IOS_DEBUG_FIREBASE_APP_ID: ${{ secrets.IOS_DEBUG_FIREBASE_APP_ID }}
   FIREBASE_CLI_TOKEN: ${{ secrets.FIREBASE_CLI_TOKEN }}
   GIT_AUTHORIZATION: ${{ secrets.GIT_AUTHORIZATION }}
   SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
@@ -55,6 +58,8 @@ env:
   FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 5
   FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
   CI: true
+  BUILD_TYPE: ${{ github.event_name == 'schedule' && 'Release' || 'Debug' }}
+  BUILD_TYPE_LOWERCASE: ${{ github.event_name == 'schedule' && 'release' || 'debug' }}
 
 jobs:
 
@@ -65,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -80,19 +85,17 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Assemble
-        run: ./gradlew assemble
+      - name: Assemble ${{ env.BUILD_TYPE }}
+        run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
-      - name: Upload Android Artifacts
-        uses: actions/upload-artifact@v4.3.3
-        if: github.event_name == 'push'
+      - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
+        uses: actions/upload-artifact@v4.3.6
+        if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
           path: |
-            android/app/build/outputs/apk/google/debug/app-google-debug.apk
-            android/app/build/outputs/apk/huawei/debug/app-huawei-debug.apk
-            android/app/build/outputs/apk/google/release/app-google-release.apk
-            android/app/build/outputs/apk/huawei/release/app-huawei-release.apk
+            android/app/build/outputs/apk/google/${{ env.BUILD_TYPE_LOWERCASE }}/app-google-${{ env.BUILD_TYPE_LOWERCASE }}.apk
+            android/app/build/outputs/apk/huawei/${{ env.BUILD_TYPE_LOWERCASE }}/app-huawei-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -105,7 +108,7 @@ jobs:
   DistributeAndroid:
     runs-on: ubuntu-22.04
     needs: [ GradleBuild ]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -113,44 +116,28 @@ jobs:
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
         uses: actions/checkout@v4.1.7
 
-      - name: Download Android Artifacts
-        uses: actions/download-artifact@v4.1.7
+      - name: Download Android ${{ env.BUILD_TYPE }} Artifacts
+        uses: actions/download-artifact@v4.1.8
         with:
           name: androidArtifacts
 
-      - name: Firebase App Distribution Google Debug
+      - name: Firebase App Distribution Google ${{ env.BUILD_TYPE }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID}}
+          appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: google/debug/app-google-debug.apk
+          file: google/${{ env.BUILD_TYPE_LOWERCASE }}/app-google-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
-      - name: Firebase App Distribution Google Release
+      - name: Firebase App Distribution Huawei ${{ env.BUILD_TYPE }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
         with:
-          appId: ${{secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID}}
+          appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
           groups: QA
-          file: google/release/app-google-release.apk
+          file: huawei/${{ env.BUILD_TYPE_LOWERCASE }}/app-huawei-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
-      - name: Firebase App Distribution Huawei Debug
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
-        with:
-          appId: ${{secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: huawei/debug/app-huawei-debug.apk
-
-      - name: Firebase App Distribution Huawei Release
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
-        with:
-          appId: ${{secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID}}
-          token: ${{secrets.FIREBASE_CLI_TOKEN}}
-          groups: QA
-          file: huawei/release/app-huawei-release.apk
-
-      - name: Delete Android Artifacts
+      - name: Delete Android ${{ env.BUILD_TYPE }} Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
           name: androidArtifacts
@@ -166,7 +153,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -181,13 +168,20 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
-      - name: Build
+      - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
-        run: fastlane build
+        run: fastlane build${{ env.BUILD_TYPE }}
+
+      - name: Upload iOS Debug Artifacts
+        uses: actions/upload-artifact@v4.3.6
+        if: github.event_name == 'push'
+        with:
+          name: iOSArtifacts
+          path: ios/CCC_I.ipa
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.3.3
-        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v4.3.6
+        if: github.event_name == 'schedule'
         with:
           name: iOSArtifacts
           path: |
@@ -205,27 +199,27 @@ jobs:
   DistributeIOS:
     runs-on: ubuntu-22.04
     needs: [ XCodeBuild ]
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
         uses: actions/checkout@v4.1.7
 
-      - name: Download iOS IPA
-        uses: actions/download-artifact@v4.1.7
+      - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
+        uses: actions/download-artifact@v4.1.8
         with:
           name: iOSArtifacts
           path: ios
 
       # was necessary to use chown to fix permission issues in linux machines
-      - name: Distribute
+      - name: Distribute ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: |
           sudo chown -R $(whoami) /var/lib/gems/3.0.0
-          fastlane distribute
+          fastlane distribute${{ env.BUILD_TYPE }}
 
-      - name: Delete iOS IPA
+      - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: geekyeggo/delete-artifact@v5.0.0
         with:
           name: iOSArtifacts
@@ -234,18 +228,17 @@ jobs:
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  Check:
+  Test:
     runs-on: macos-14
-    if: github.ref != 'refs/heads/develop'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
-      - name: Run Check
-        run: ./gradlew check
+      - name: Test
+        run: ./gradlew test
 
       - name: Cancel other jobs if this fails
         if: failure()
@@ -262,7 +255,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
@@ -305,10 +298,10 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d5c2d633506a792e53d7a273d90dde429df3bba7
+        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
 
-      - name: Detekt
-        run: ./gradlew detektAll
+      - name: Detekt & Lint
+        run: ./gradlew detektAll lint
 
       - name: SwiftLint
         uses: norio-nomura/action-swiftlint@3.2.1
@@ -327,18 +320,18 @@ jobs:
 
   Notify:
     runs-on: ubuntu-22.04
-    needs: [ GradleBuild, XCodeBuild, Check, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
+    needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
 
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
           false == (needs.XCodeBuild.outputs.status == 'success') ||
-          (false == (needs.Check.outputs.status == 'success') && github.ref != 'refs/heads/develop')||
+          false == (needs.Test.outputs.status == 'success') ||
           false == (needs.Coverage.outputs.status == 'success') ||
           false == (needs.CodeAnalysis.outputs.status == 'success') ||
-          (false == (needs.DistributeAndroid.outputs.status == 'success') && github.event_name == 'push') ||
-          (false == (needs.DistributeIOS.outputs.status == 'success') && github.event_name == 'push')
+          (false == (needs.DistributeAndroid.outputs.status == 'success') && (github.event_name == 'push' || github.event_name == 'schedule')) ||
+          (false == (needs.DistributeIOS.outputs.status == 'success') && (github.event_name == 'push' || github.event_name == 'schedule'))
         uses: voxmedia/github-action-slack-notify-build@v1.6.0
         with:
           channel: ccc-github

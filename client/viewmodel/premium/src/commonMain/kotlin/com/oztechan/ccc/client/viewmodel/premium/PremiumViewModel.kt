@@ -7,65 +7,62 @@ package com.oztechan.ccc.client.viewmodel.premium
 import co.touchlab.kermit.Logger
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
+import com.oztechan.ccc.client.core.shared.util.isPassed
 import com.oztechan.ccc.client.core.viewmodel.BaseData
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.viewmodel.premium.model.OldPurchase
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumData
 import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import com.oztechan.ccc.client.viewmodel.premium.util.calculatePremiumEnd
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 class PremiumViewModel(
     private val appStorage: AppStorage
-) : BaseSEEDViewModel<PremiumState, PremiumEffect, PremiumEvent, BaseData>(), PremiumEvent {
-    // region SEED
-    private val _state = MutableStateFlow(PremiumState())
-    override val state = _state.asStateFlow()
-
-    private val _effect = MutableSharedFlow<PremiumEffect>()
-    override val effect = _effect.asSharedFlow()
-
-    override val event = this as PremiumEvent
-
-    override val data: BaseData? = null
-    // endregion
+) : SEEDViewModel<PremiumState, PremiumEffect, PremiumEvent, BaseData>(
+    initialState = PremiumState()
+),
+    PremiumEvent {
 
     // region Event
     override fun onPremiumActivated(
         adType: PremiumType?,
         startDate: Long,
         isRestorePurchase: Boolean
-    ) = viewModelScope.launchIgnored {
+    ) {
         Logger.d { "PremiumViewModel onPremiumActivated ${adType?.data?.duration.orEmpty()}" }
         adType?.let {
             appStorage.premiumEndDate = it.calculatePremiumEnd(startDate)
-            _effect.emit(PremiumEffect.PremiumActivated(it, isRestorePurchase))
+            sendEffect { PremiumEffect.PremiumActivated(it, isRestorePurchase) }
         }
     }
 
-    override fun onRestorePurchase(oldPurchaseList: List<OldPurchase>) {
+    override fun onRestoreOrConsumePurchase(oldPurchaseList: List<OldPurchase>) {
         Logger.d { "PremiumViewModel onRestorePurchase" }
-        oldPurchaseList
-            .maxByOrNull {
-                it.type.calculatePremiumEnd(it.date)
-            }?.whether(
-                { it.type.calculatePremiumEnd(it.date).isNotPassed() },
-                { it.date > appStorage.premiumEndDate },
-                { PremiumType.getPurchaseIds().any { id -> id == it.type.data.id } }
-            )?.run {
-                onPremiumActivated(
-                    adType = PremiumType.getById(type.data.id),
-                    startDate = this.date,
-                    isRestorePurchase = true
-                )
-                _state.update { copy(loading = false) }
-            }
+
+        // Consume old purchases
+        oldPurchaseList.filter {
+            it.type.calculatePremiumEnd(it.date).isPassed()
+        }.forEach {
+            sendEffect { PremiumEffect.ConsumePurchase(it.purchaseToken) }
+        }
+
+        // Restore purchase if not already activated
+        oldPurchaseList.filter {
+            it.type.calculatePremiumEnd(it.date).isNotPassed()
+        }.maxByOrNull {
+            it.type.calculatePremiumEnd(it.date)
+        }?.whether(
+            { it.date > appStorage.premiumEndDate },
+            { PremiumType.getPurchaseIds().any { id -> id == it.type.data.id } }
+        )?.let {
+            onPremiumActivated(
+                adType = PremiumType.getById(it.type.data.id),
+                startDate = it.date,
+                isRestorePurchase = true
+            )
+        }
+
+        setState { copy(loading = false) }
     }
 
     override fun onAddPurchaseMethods(premiumDataList: List<PremiumData>) {
@@ -80,23 +77,23 @@ class PremiumViewModel(
                     tempList.add(it)
                 }
             tempList.sortBy { it.ordinal }
-            _state.update { copy(premiumTypes = tempList) }
+            setState { copy(premiumTypes = tempList) }
         }.also {
-            _state.update { copy(loading = false) } // in case list is empty, loading will be false
+            setState { copy(loading = false) } // in case list is empty, loading will be false
         }
     }
 
-    override fun onPremiumItemClick(type: PremiumType) = viewModelScope.launchIgnored {
+    override fun onPremiumItemClick(type: PremiumType) {
         Logger.d { "PremiumViewModel onPremiumItemClick ${type.data.duration}" }
-        _state.update {
+        setState {
             copy(loading = type != PremiumType.VIDEO)
         }
-        _effect.emit(PremiumEffect.LaunchActivatePremiumFlow(type))
+        sendEffect { PremiumEffect.LaunchActivatePremiumFlow(type) }
     }
 
     override fun onPremiumActivationFailed() {
         Logger.d { "PremiumViewModel onPremiumActivationFailed" }
-        _state.update { copy(loading = false) }
+        setState { copy(loading = false) }
     }
     // endregion
 }

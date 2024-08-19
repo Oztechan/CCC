@@ -14,7 +14,7 @@ final class ObservableSEEDViewModel<
     Effect: BaseEffect,
     Event: BaseEvent,
     Data: BaseData,
-    ViewModel: BaseSEEDViewModel<State, Effect, Event, Data>
+    ViewModel: SEEDViewModel<State, Effect, Event, Data>
 >: ObservableObject {
     let viewModel: ViewModel = koin.get()
 
@@ -30,8 +30,8 @@ final class ObservableSEEDViewModel<
         logger.d(message: { "ObservableSEED \(ViewModel.description()) init" })
 
         // swiftlint:disable:next force_cast
-        self.state = viewModel.state!.value as! State
-        self.event = viewModel.event!
+        self.state = viewModel.state.value as! State
+        self.event = viewModel.event
     }
 
     deinit {
@@ -41,18 +41,15 @@ final class ObservableSEEDViewModel<
     func startObserving() {
         logger.d(message: { "ObservableSEED \(ViewModel.description()) startObserving" })
 
-        if viewModel.state != nil {
-            stateClosable = CoroutineUtilKt.observeWithCloseable(viewModel.state!, onChange: {
-                // swiftlint:disable:next force_cast
-                self.state = $0 as! State
-            })
-        }
-        if viewModel.effect != nil {
-            effectClosable = CoroutineUtilKt.observeWithCloseable(viewModel.effect!, onChange: {
-                // swiftlint:disable:next force_cast
-                self.effect.send($0 as! Effect)
-            })
-        }
+        stateClosable = CoroutineUtilKt.observeWithCloseable(viewModel.state, onChange: {
+            // swiftlint:disable:next force_cast
+            self.state = $0 as! State
+        })
+
+        effectClosable = CoroutineUtilKt.observeWithCloseable(viewModel.effect, onChange: {
+            // swiftlint:disable:next force_cast
+            self.effect.send($0 as! Effect)
+        })
     }
 
     func stopObserving() {
