@@ -59,11 +59,15 @@ struct MainScene: Scene {
                 )
             }
         }.onChange(of: scenePhase) { phase in
-            logger.i(message: { "MainScene onChange scenePhase \(phase)" })
+            onScenePhaseChange(phase: phase)
+        }
+    }
 
-            if phase == .background {
-                scheduleAppRefresh()
-            }
+    private func onScenePhaseChange(phase: ScenePhase) {
+        logger.i(message: { "MainScene onChange scenePhase \(phase)" })
+        
+        if phase == .background {
+            scheduleAppRefresh()
         }
     }
 
