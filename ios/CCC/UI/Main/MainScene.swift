@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  MainScene.swift
 //  CCC
 //
 //  Created by Mustafa Ozhan on 28/01/2021.
@@ -59,7 +59,7 @@ struct MainScene: Scene {
                 )
             }
         }.onChange(of: scenePhase) { phase in
-            logger.i(message: { "Application onChange scenePhase \(phase)" })
+            logger.i(message: { "MainScene onChange scenePhase \(phase)" })
 
             if phase == .background {
                 scheduleAppRefresh()
@@ -68,17 +68,17 @@ struct MainScene: Scene {
     }
 
 	private func onEffect(effect: MainEffect) {
-		logger.i(message: { "MainRootView onEffect \(effect.description)" })
+		logger.i(message: { "MainScene onEffect \(effect.description)" })
 		switch effect {
 		case is MainEffect.ShowInterstitialAd:
 			InterstitialAd().show()
 		default:
-			logger.i(message: { "MainRootView unknown effect" })
+			logger.i(message: { "MainScene unknown effect" })
 		}
 	}
 
 	private func scheduleAppRefresh() {
-		logger.i(message: { "Application scheduleAppRefresh" })
+		logger.i(message: { "MainScene scheduleAppRefresh" })
 
 		let request = BGAppRefreshTaskRequest(identifier: taskID)
 		request.earliestBeginDate = Date(timeIntervalSinceNow: earliestTaskPeriod)
@@ -86,12 +86,12 @@ struct MainScene: Scene {
 		do {
 			try BGTaskScheduler.shared.submit(request)
 		} catch {
-			logger.i(message: { "Application scheduleAppRefresh Could not schedule app refresh: \(error)" })
+			logger.i(message: { "MainScene scheduleAppRefresh Could not schedule app refresh: \(error)" })
 		}
 	}
 
 	private func registerAppRefresh() {
-		logger.i(message: { "Application registerAppRefresh" })
+		logger.i(message: { "MainScene registerAppRefresh" })
 
 		BGTaskScheduler.shared.cancelAllTaskRequests()
 
@@ -100,7 +100,7 @@ struct MainScene: Scene {
 			handleAppRefresh(task: task as! BGAppRefreshTask)
 
 			task.expirationHandler = {
-				logger.i(message: { "Application registerAppRefresh BackgroundTask Expired" })
+				logger.i(message: { "MainScene registerAppRefresh BackgroundTask Expired" })
 
 				task.setTaskCompleted(success: false)
 			}
@@ -108,7 +108,7 @@ struct MainScene: Scene {
 	}
 
 	private func handleAppRefresh(task: BGAppRefreshTask) {
-		logger.i(message: { "Application handleAppRefresh" })
+		logger.i(message: { "MainScene handleAppRefresh" })
 
 		scheduleAppRefresh()
 
