@@ -27,9 +27,18 @@ struct Application: App {
         GADMobileAds.sharedInstance().start(completionHandler: nil)
         GADMobileAds.sharedInstance().applicationMuted = true
         GADMobileAds.sharedInstance().applicationVolume = 0
+
+        UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: 0,
+            height: Double.leastNonzeroMagnitude
+        ))
+        UICollectionView.appearance().backgroundColor = .clear
+        UITableView.appearance().backgroundColor = .clear
     }
 
     var body: some Scene {
-        MainRootView()
+        MainScene()
     }
 }

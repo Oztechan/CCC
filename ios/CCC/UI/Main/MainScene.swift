@@ -12,7 +12,7 @@ import Provider
 import SwiftUI
 import BackgroundTasks
 
-struct MainRootView: Scene {
+struct MainScene: Scene {
 	@Environment(\.scenePhase) private var scenePhase
 	@State private var isWatcherAlertShown = false
 	@StateObject var observable = ObservableSEEDViewModel<
@@ -23,56 +23,49 @@ struct MainRootView: Scene {
 		MainViewModel
 	>()
 	private let notificationManager = NotificationManager()
-	private let backgroundRepository: BackgroundRepository
+	private let backgroundRepository: BackgroundRepository = koin.get()
 
 	private let taskID = "com.oztechan.ccc.CCC.fetch"
 	private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
 
 	init() {
-		UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
-			x: 0,
-			y: 0,
-			width: 0,
-			height: Double.leastNonzeroMagnitude
-		))
-		UICollectionView.appearance().backgroundColor = .clear
-		UITableView.appearance().backgroundColor = .clear
-
-		self.backgroundRepository = koin.get()
-
 		registerAppRefresh()
 	}
 
-	var body: some Scene {
-		WindowGroup {
-			MainView(state: observable.state)
-				.onAppear {
-					observable.startObserving()
-					observable.event.onResume()
-				}
-				.onDisappear {
-					observable.stopObserving()
-					observable.event.onPause()
-				}
-                .onReceive(observable.effect) {
-                    onEffect(effect: $0)
+    var body: some Scene {
+        WindowGroup {
+            NavigationStackView(
+                transitionType: .default,
+                easing: Animation.easeInOut
+            ) {
+                if observable.state.shouldOnboardUser {
+                    IntroSlideRootView()
+                } else {
+                    CalculatorRootView()
                 }
-				.alert(isPresented: $isWatcherAlertShown) {
-					AlertView(
-						title: String(\.txt_watcher_alert_title),
-						message: String(\.txt_watcher_alert_sub_title),
-						buttonText: String(\.txt_ok)
-					)
-				}
-		}
-        .onChange(of: scenePhase) { phase in
-			logger.i(message: { "Application onChange scenePhase \(phase)" })
+            }.onAppear {
+                observable.startObserving()
+                observable.event.onResume()
+            }.onDisappear {
+                observable.stopObserving()
+                observable.event.onPause()
+            }.onReceive(observable.effect) {
+                onEffect(effect: $0)
+            }.alert(isPresented: $isWatcherAlertShown) {
+                AlertView(
+                    title: String(\.txt_watcher_alert_title),
+                    message: String(\.txt_watcher_alert_sub_title),
+                    buttonText: String(\.txt_ok)
+                )
+            }
+        }.onChange(of: scenePhase) { phase in
+            logger.i(message: { "Application onChange scenePhase \(phase)" })
 
-			if phase == .background {
-				scheduleAppRefresh()
-			}
+            if phase == .background {
+                scheduleAppRefresh()
+            }
         }
-	}
+    }
 
 	private func onEffect(effect: MainEffect) {
 		logger.i(message: { "MainRootView onEffect \(effect.description)" })
