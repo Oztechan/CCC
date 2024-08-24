@@ -12,7 +12,6 @@
 		5C0ABFE02A9390D6002904AC /* CurrenciesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */; };
 		5C0ABFE22A93A88C002904AC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE12A93A88C002904AC /* SettingsView.swift */; };
 		5C0ABFE42A93B1E4002904AC /* PremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE32A93B1E4002904AC /* PremiumView.swift */; };
-		5C0ABFE82A96A2EF002904AC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE72A96A2EF002904AC /* MainView.swift */; };
 		5C0ABFEA2A974C76002904AC /* SelectCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFE92A974C76002904AC /* SelectCurrencyView.swift */; };
 		5C0ABFEC2A975532002904AC /* WatchersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C0ABFEB2A975532002904AC /* WatchersView.swift */; };
 		5C17581A25BC74BD00D16BD9 /* SettingsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */; };
@@ -53,7 +52,7 @@
 		5C8FDBDD25BF3FBE00F280FF /* ObservableSEEDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C8FDBDC25BF3FBE00F280FF /* ObservableSEEDViewModel.swift */; };
 		5C94AC32282FA4B2004C9B3D /* CurrencyImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C94AC31282FA4B2004C9B3D /* CurrencyImageView.swift */; };
 		5C9645D628A137FE001DC24E /* EnvironmentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */; };
-		5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainRootView.swift */; };
+		5C9A59BB25C350DE006745B0 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9A59BA25C350DE006745B0 /* MainScene.swift */; };
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */; };
 		5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */; };
@@ -95,7 +94,6 @@
 		5C0ABFDF2A9390D6002904AC /* CurrenciesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesView.swift; sourceTree = "<group>"; };
 		5C0ABFE12A93A88C002904AC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5C0ABFE32A93B1E4002904AC /* PremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumView.swift; sourceTree = "<group>"; };
-		5C0ABFE72A96A2EF002904AC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5C0ABFE92A974C76002904AC /* SelectCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCurrencyView.swift; sourceTree = "<group>"; };
 		5C0ABFEB2A975532002904AC /* WatchersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchersView.swift; sourceTree = "<group>"; };
 		5C17581925BC74BD00D16BD9 /* SettingsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRootView.swift; sourceTree = "<group>"; };
@@ -133,7 +131,7 @@
 		5C8FDBDC25BF3FBE00F280FF /* ObservableSEEDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableSEEDViewModel.swift; sourceTree = "<group>"; };
 		5C94AC31282FA4B2004C9B3D /* CurrencyImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyImageView.swift; sourceTree = "<group>"; };
 		5C9645D528A137FE001DC24E /* EnvironmentUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentUtil.swift; sourceTree = "<group>"; };
-		5C9A59BA25C350DE006745B0 /* MainRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRootView.swift; sourceTree = "<group>"; };
+		5C9A59BA25C350DE006745B0 /* MainScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScene.swift; sourceTree = "<group>"; };
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveBannerAdView.swift; sourceTree = "<group>"; };
@@ -208,8 +206,7 @@
 		5C31E42728141EDF008C42B9 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				5C9A59BA25C350DE006745B0 /* MainRootView.swift */,
-				5C0ABFE72A96A2EF002904AC /* MainView.swift */,
+				5C9A59BA25C350DE006745B0 /* MainScene.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -536,7 +533,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C314CBE25BA0AC0007B22D8 /* CurrenciesRootView.swift in Sources */,
-				5C0ABFE82A96A2EF002904AC /* MainView.swift in Sources */,
 				5C94AC32282FA4B2004C9B3D /* CurrencyImageView.swift in Sources */,
 				5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */,
 				5CF898D42823C1F900712580 /* WatcherItem.swift in Sources */,
@@ -562,7 +558,7 @@
 				5C31E43128142110008C42B9 /* CurrenciesItemView.swift in Sources */,
 				5C31E42028141CA4008C42B9 /* OutputView.swift in Sources */,
 				5CEAF774295F2ECC0018C7FA /* DeviceUtil.swift in Sources */,
-				5C9A59BB25C350DE006745B0 /* MainRootView.swift in Sources */,
+				5C9A59BB25C350DE006745B0 /* MainScene.swift in Sources */,
 				5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */,
 				5C34B8CC29590500009C84AB /* SnackView.swift in Sources */,
 				5C5D09362562EBDE00DA9C4A /* Koin.swift in Sources */,
