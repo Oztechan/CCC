@@ -89,7 +89,7 @@ struct WatchersRootView: View {
         .onChange(of: notificationManager.authorizationStatus) {
             onAuthorisationChange(authorizationStatus: $0)
         }
-        .animation(.default)
+        .animation(.default, value: observable.state)
     }
 
     private func onEffect(effect: WatchersEffect) {

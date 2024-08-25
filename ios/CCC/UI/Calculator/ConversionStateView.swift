@@ -22,6 +22,6 @@ struct ConversionStateView: View {
                 .font(relative: .caption2)
         }
         .padding(.bottom, 3.cp())
-        .animation(.default)
+        .animation(.default, value: text)
     }
 }
