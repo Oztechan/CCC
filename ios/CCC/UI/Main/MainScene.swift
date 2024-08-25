@@ -68,7 +68,10 @@ struct MainScene: Scene {
         case .active:
             observable.event.onAppForeground()
         case .inactive:
-            observable.event.onAppBackground()
+            // only when come from active, since it visits inactive while coming from background
+            if scenePhase == .active {
+                observable.event.onAppBackground()
+            }
         case .background:
             scheduleAppRefresh()
         @unknown default:
