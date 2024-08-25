@@ -63,7 +63,7 @@ struct CurrenciesView: View {
                     AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_CURRENCIES").adapt()
                 }
             }
-            .animation(.default)
+            .animation(.default, value: state)
             .navigationBarHidden(true)
         }
     }
