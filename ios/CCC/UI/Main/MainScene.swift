@@ -66,9 +66,9 @@ struct MainScene: Scene {
 
         switch phase {
         case .active:
-            observable.event.onResume()
+            observable.event.onAppForeground()
         case .inactive:
-            observable.event.onPause()
+            observable.event.onAppBackground()
         case .background:
             scheduleAppRefresh()
         @unknown default:
