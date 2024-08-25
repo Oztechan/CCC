@@ -45,10 +45,8 @@ struct MainScene: Scene {
                 }
             }.onAppear {
                 observable.startObserving()
-                observable.event.onResume()
             }.onDisappear {
                 observable.stopObserving()
-                observable.event.onPause()
             }.onReceive(observable.effect) {
                 onEffect(effect: $0)
             }.alert(isPresented: $isWatcherAlertShown) {
@@ -66,8 +64,15 @@ struct MainScene: Scene {
     private func onScenePhaseChange(phase: ScenePhase) {
         logger.i(message: { "MainScene onChange scenePhase \(phase)" })
 
-        if phase == .background {
+        switch phase {
+        case .active:
+            observable.event.onResume()
+        case .inactive:
+            observable.event.onPause()
+        case .background:
             scheduleAppRefresh()
+        @unknown default:
+            logger.w(message: { "MainScene unknown scenePhase \(phase)" })
         }
     }
 
