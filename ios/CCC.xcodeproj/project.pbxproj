@@ -39,6 +39,7 @@
 		5C3EB6D828775AFF001E822A /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 5C3EB6D728775AFF001E822A /* GoogleMobileAds */; };
 		5C4B53692818057F00D10185 /* WatchersRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B53682818057F00D10185 /* WatchersRootView.swift */; };
 		5C4B536B2818066000D10185 /* WatchersToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4B536A2818066000D10185 /* WatchersToolbarView.swift */; };
+		5C50C1C12C7CF19300D90F4A /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5C50C1C02C7CF19300D90F4A /* FirebaseAnalytics */; };
 		5C5B0E7C28A4084200FACFDE /* AnalyticsManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5B0E7B28A4084200FACFDE /* AnalyticsManagerImpl.swift */; };
 		5C5C0BA42874B8450061AEF9 /* NavigationStack in Frameworks */ = {isa = PBXBuildFile; productRef = 5C5C0BA32874B8450061AEF9 /* NavigationStack */; };
 		5C5C71E92922BBD200733C49 /* ViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C5C71E82922BBD200733C49 /* ViewExt.swift */; };
@@ -56,7 +57,6 @@
 		5C9C75C82603A36A00D66FDD /* ToolbarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */; };
 		5CB954BF26932408007632DC /* AdaptiveBannerAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */; };
 		5CBFC9472AC2E43800E2CE61 /* KermitExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */; };
-		5CC009602BD912AD004AEDE5 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC0095F2BD912AD004AEDE5 /* FirebaseAnalyticsSwift */; };
 		5CC009622BD912AD004AEDE5 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC009612BD912AD004AEDE5 /* FirebaseCrashlytics */; };
 		5CC009642BD912AD004AEDE5 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 5CC009632BD912AD004AEDE5 /* FirebasePerformance */; };
 		5CCFB5882A9B9F13002DF46B /* BugReportSlideRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */; };
@@ -160,7 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5CC009602BD912AD004AEDE5 /* FirebaseAnalyticsSwift in Frameworks */,
+				5C50C1C12C7CF19300D90F4A /* FirebaseAnalytics in Frameworks */,
 				5C34B8CA295903AD009C84AB /* PopupView in Frameworks */,
 				5CC009642BD912AD004AEDE5 /* FirebasePerformance in Frameworks */,
 				5CC009622BD912AD004AEDE5 /* FirebaseCrashlytics in Frameworks */,
@@ -425,9 +425,9 @@
 				5C5C0BA32874B8450061AEF9 /* NavigationStack */,
 				5C3EB6D728775AFF001E822A /* GoogleMobileAds */,
 				5C34B8C9295903AD009C84AB /* PopupView */,
-				5CC0095F2BD912AD004AEDE5 /* FirebaseAnalyticsSwift */,
 				5CC009612BD912AD004AEDE5 /* FirebaseCrashlytics */,
 				5CC009632BD912AD004AEDE5 /* FirebasePerformance */,
+				5C50C1C02C7CF19300D90F4A /* FirebaseAnalytics */,
 			);
 			productName = CCC;
 			productReference = 7555FF7B242A565900829871 /* CCC_I.app */;
@@ -840,15 +840,15 @@
 			package = 5C3EB6D628775AFF001E822A /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
 		};
+		5C50C1C02C7CF19300D90F4A /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5CC0095E2BD912AD004AEDE5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
 		5C5C0BA32874B8450061AEF9 /* NavigationStack */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */;
 			productName = NavigationStack;
-		};
-		5CC0095F2BD912AD004AEDE5 /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5CC0095E2BD912AD004AEDE5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
 		};
 		5CC009612BD912AD004AEDE5 /* FirebaseCrashlytics */ = {
 			isa = XCSwiftPackageProductDependency;
