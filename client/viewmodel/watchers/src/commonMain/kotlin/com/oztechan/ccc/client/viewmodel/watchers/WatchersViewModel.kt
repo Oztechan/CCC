@@ -5,19 +5,13 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.toStandardDigits
 import com.oztechan.ccc.client.core.shared.util.toSupportedCharacters
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
-import com.oztechan.ccc.client.core.viewmodel.util.update
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_INPUT
 import com.oztechan.ccc.client.viewmodel.watchers.WatchersData.Companion.MAXIMUM_NUMBER_OF_WATCHER
 import com.oztechan.ccc.common.core.model.Watcher
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -27,92 +21,94 @@ class WatchersViewModel(
     private val watcherDataSource: WatcherDataSource,
     adControlRepository: AdControlRepository,
     private val analyticsManager: AnalyticsManager
-) : BaseSEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(), WatchersEvent {
-    // region SEED
-    private val _state =
-        MutableStateFlow(WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()))
-    override val state = _state.asStateFlow()
-
-    private val _effect = MutableSharedFlow<WatchersEffect>()
-    override val effect = _effect.asSharedFlow()
-
-    override val event = this as WatchersEvent
-
-    override val data = WatchersData()
-    // endregion
+) : SEEDViewModel<WatchersState, WatchersEffect, WatchersEvent, WatchersData>(
+    initialState = WatchersState(isBannerAdVisible = adControlRepository.shouldShowBannerAd()),
+    initialData = WatchersData()
+),
+    WatchersEvent {
 
     init {
         watcherDataSource.getWatchersFlow()
             .onEach {
-                _state.update { copy(watcherList = it) }
+                setState { copy(watcherList = it) }
                 analyticsManager.setUserProperty(UserProperty.WatcherCount(it.count().toString()))
             }.launchIn(viewModelScope)
     }
 
     // region Event
-    override fun onBackClick() = viewModelScope.launchIgnored {
+    override fun onBackClick() {
         Logger.d { "WatcherViewModel onBackClick" }
-        _effect.emit(WatchersEffect.Back)
+        sendEffect { WatchersEffect.Back }
     }
 
-    override fun onBaseClick(watcher: Watcher) = viewModelScope.launchIgnored {
+    override fun onBaseClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onBaseClick $watcher" }
-        _effect.emit(WatchersEffect.SelectBase(watcher))
+        sendEffect { WatchersEffect.SelectBase(watcher) }
     }
 
-    override fun onTargetClick(watcher: Watcher) = viewModelScope.launchIgnored {
+    override fun onTargetClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onTargetClick $watcher" }
-        _effect.emit(WatchersEffect.SelectTarget(watcher))
+        sendEffect { WatchersEffect.SelectTarget(watcher) }
     }
 
-    override fun onBaseChanged(watcher: Watcher, newBase: String) = viewModelScope.launchIgnored {
+    override fun onBaseChanged(watcher: Watcher, newBase: String) {
         Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
-        watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
+        viewModelScope.launch {
+            watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
+        }
     }
 
-    override fun onTargetChanged(watcher: Watcher, newTarget: String) = viewModelScope.launchIgnored {
+    override fun onTargetChanged(watcher: Watcher, newTarget: String) {
         Logger.d { "WatcherViewModel onTargetChanged $watcher $newTarget" }
-        watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
+        viewModelScope.launch {
+            watcherDataSource.updateWatcherTargetById(newTarget, watcher.id)
+        }
     }
 
-    override fun onAddClick() = viewModelScope.launchIgnored {
+    override fun onAddClick() {
         Logger.d { "WatcherViewModel onAddClick" }
 
-        if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
-            _effect.emit(WatchersEffect.MaximumNumberOfWatchers)
-        } else {
-            currencyDataSource.getActiveCurrencies().let { list ->
-                watcherDataSource.addWatcher(
-                    base = list.firstOrNull()?.code.orEmpty(),
-                    target = list.lastOrNull()?.code.orEmpty()
-                )
+        viewModelScope.launch {
+            if (watcherDataSource.getWatchers().size >= MAXIMUM_NUMBER_OF_WATCHER) {
+                sendEffect { WatchersEffect.MaximumNumberOfWatchers }
+            } else {
+                currencyDataSource.getActiveCurrencies().let { list ->
+                    watcherDataSource.addWatcher(
+                        base = list.firstOrNull()?.code.orEmpty(),
+                        target = list.lastOrNull()?.code.orEmpty()
+                    )
+                }
             }
         }
     }
 
-    override fun onDeleteClick(watcher: Watcher) = viewModelScope.launchIgnored {
+    override fun onDeleteClick(watcher: Watcher) {
         Logger.d { "WatcherViewModel onDeleteClick $watcher" }
-        watcherDataSource.deleteWatcher(watcher.id)
+        viewModelScope.launch {
+            watcherDataSource.deleteWatcher(watcher.id)
+        }
     }
 
-    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) = viewModelScope.launchIgnored {
+    override fun onRelationChange(watcher: Watcher, isGreater: Boolean) {
         Logger.d { "WatcherViewModel onRelationChange $watcher $isGreater" }
-        watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
+        viewModelScope.launch {
+            watcherDataSource.updateWatcherRelationById(isGreater, watcher.id)
+        }
     }
 
     override fun onRateChange(watcher: Watcher, rate: String): String {
         Logger.d { "WatcherViewModel onRateChange $watcher $rate" }
 
         return if (rate.length > MAXIMUM_INPUT) {
-            viewModelScope.launch { _effect.emit(WatchersEffect.TooBigInput) }
+            sendEffect { WatchersEffect.TooBigInput }
             rate.dropLast(1)
         } else {
             rate.toSupportedCharacters().toStandardDigits().toDoubleOrNull()?.let {
                 viewModelScope.launch {
                     watcherDataSource.updateWatcherRateById(it, watcher.id)
                 }
-            } ?: viewModelScope.launch {
-                _effect.emit(WatchersEffect.InvalidInput)
+            } ?: sendEffect {
+                WatchersEffect.InvalidInput
             }
             rate
         }

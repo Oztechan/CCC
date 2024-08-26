@@ -39,10 +39,10 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
     private val adManager: AdManager by inject()
-    private val currenciesViewModel: CurrenciesViewModel by viewModel()
+    private val viewModel: CurrenciesViewModel by viewModel()
 
     private val currenciesAdapter: CurrenciesAdapter by lazy {
-        CurrenciesAdapter(currenciesViewModel.event)
+        CurrenciesAdapter(viewModel.event)
     }
 
     override fun getViewBinding() = FragmentCurrenciesBinding.inflate(layoutInflater)
@@ -71,7 +71,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             } else {
                 getString(R.string.banner_ad_unit_id_currencies_release)
             },
-            shouldShowAd = currenciesViewModel.state.value.isBannerAdVisible
+            shouldShowAd = viewModel.state.value.isBannerAdVisible
         )
 
         setSpanByOrientation(resources.configuration.orientation)
@@ -82,7 +82,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
         }
     }
 
-    private fun FragmentCurrenciesBinding.observeStates() = currenciesViewModel.state
+    private fun FragmentCurrenciesBinding.observeStates() = viewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
@@ -113,7 +113,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffects() = currenciesViewModel.effect
+    private fun observeEffects() = viewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "CurrenciesFragment observeEffects ${viewEffect::class.simpleName}" }
@@ -140,7 +140,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun FragmentCurrenciesBinding.setListeners() = with(currenciesViewModel.event) {
+    private fun FragmentCurrenciesBinding.setListeners() = with(viewModel.event) {
         btnDone.setOnClickListener { onDoneClick() }
 
         with(layoutCurrenciesToolbar) {
@@ -152,7 +152,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                 override fun onQueryTextSubmit(query: String) = false
                 override fun onQueryTextChange(newText: String): Boolean {
                     Logger.i { "CurrenciesFragment onQueryTextChange $newText" }
-                    currenciesViewModel.event.onQueryChange(newText)
+                    viewModel.event.onQueryChange(newText)
                     return true
                 }
             })

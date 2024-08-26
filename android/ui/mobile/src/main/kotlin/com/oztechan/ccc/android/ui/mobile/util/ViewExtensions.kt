@@ -78,9 +78,9 @@ fun <T> Fragment.getNavigationResult(
     destinationId: Int
 ) = try {
     findNavController()
-        .getBackStackEntry(destinationId)
-        .savedStateHandle
-        .getLiveData<T>(key)
+        .currentBackStackEntry
+        ?.savedStateHandle
+        ?.getLiveData<T>(key)
 } catch (e: IllegalArgumentException) {
     Logger.e(e) { "$destinationId is not found in the backstack when getting navigation result for key $key" }
     null
@@ -92,9 +92,9 @@ fun <T> Fragment.setNavigationResult(
     key: String
 ) = try {
     findNavController()
-        .getBackStackEntry(destinationId)
-        .savedStateHandle
-        .set(key, result)
+        .previousBackStackEntry
+        ?.savedStateHandle
+        ?.set(key, result)
 } catch (e: IllegalArgumentException) {
     Logger.e(e) { "$destinationId is not found in the backstack when setting navigation result for key $key" }
 }

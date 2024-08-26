@@ -222,8 +222,7 @@ internal class AdControlRepositoryTest {
 
         verify { appStorage.premiumEndDate }
 
-        // todo need to fix this
-        // verify(VerifyMode.not) { adConfigService.config.interstitialAdSessionCount }
+        verify(VerifyMode.not) { adConfigService.config }
 
         verify(VerifyMode.not) { appStorage.sessionCount }
     }

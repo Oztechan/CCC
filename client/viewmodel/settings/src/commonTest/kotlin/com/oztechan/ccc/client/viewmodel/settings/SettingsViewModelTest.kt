@@ -202,6 +202,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
@@ -223,6 +224,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
@@ -235,6 +237,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onBackClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.Back>(it)
         }
     }
@@ -244,6 +247,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onCurrenciesClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.OpenCurrencies>(it)
         }
     }
@@ -253,6 +257,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onWatchersClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertEquals(SettingsEffect.OpenWatchers, it)
         }
     }
@@ -262,6 +267,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onFeedBackClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.FeedBack>(it)
         }
     }
@@ -276,6 +282,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onShareClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.Share>(it)
             assertEquals(link, it.marketLink)
         }
@@ -291,6 +298,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onSupportUsClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.SupportUs>(it)
             assertEquals(link, it.marketLink)
         }
@@ -301,6 +309,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onOnGitHubClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.OnGitHub>(it)
         }
     }
@@ -310,6 +319,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPrivacySettingsClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.PrivacySettings>(it)
         }
     }
@@ -319,6 +329,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.Premium>(it)
         }
 
@@ -330,6 +341,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.AlreadyPremium>(it)
         }
 
@@ -341,6 +353,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onThemeClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.ThemeDialog>(it)
         }
     }
@@ -353,12 +366,14 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.Synchronising>(it)
         }
 
         viewModel.effect.onSubscription {
             viewModel.event.onSyncClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertTrue { viewModel.data.synced }
             assertIs<SettingsEffect.OnlyOneTimeSync>(it)
         }
@@ -371,6 +386,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPrecisionClick()
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<SettingsEffect.SelectPrecision>(it)
         }
     }
@@ -398,6 +414,7 @@ internal class SettingsViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.onThemeChange(mockTheme)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertEquals(mockTheme, viewModel.state.value.appThemeType)
             assertIs<SettingsEffect.ChangeTheme>(it)
             assertEquals(mockTheme.themeValue, it.themeValue)

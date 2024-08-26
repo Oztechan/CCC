@@ -10,17 +10,11 @@ import com.oztechan.ccc.client.core.analytics.AnalyticsManager
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.model.AppTheme
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.update
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
 import com.oztechan.ccc.client.storage.app.AppStorage
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -31,23 +25,14 @@ class MainViewModel(
     private val adConfigService: AdConfigService,
     private val adControlRepository: AdControlRepository,
     analyticsManager: AnalyticsManager,
-) : BaseSEEDViewModel<MainState, MainEffect, MainEvent, MainData>(), MainEvent {
-    // region SEED
-    private val _state = MutableStateFlow(
-        MainState(
-            shouldOnboardUser = appStorage.firstRun,
-            appTheme = appStorage.appTheme
-        )
-    )
-    override val state: StateFlow<MainState> = _state.asStateFlow()
-
-    private val _effect = MutableSharedFlow<MainEffect>()
-    override val effect = _effect.asSharedFlow()
-
-    override val event = this as MainEvent
-
-    override val data = MainData()
-    // endregion
+) : SEEDViewModel<MainState, MainEffect, MainEvent, MainData>(
+    initialState = MainState(
+        shouldOnboardUser = appStorage.firstRun,
+        appTheme = appStorage.appTheme
+    ),
+    initialData = MainData()
+),
+    MainEvent {
 
     init {
         with(analyticsManager) {
@@ -77,7 +62,7 @@ class MainViewModel(
 
             while (isActive && adControlRepository.shouldShowInterstitialAd()) {
                 if (data.adVisibility) {
-                    _effect.emit(MainEffect.ShowInterstitialAd)
+                    setEffect { MainEffect.ShowInterstitialAd }
                 }
                 delay(adConfigService.config.interstitialAdPeriod)
             }
@@ -93,15 +78,13 @@ class MainViewModel(
 
     private fun checkAppUpdate() {
         appConfigRepository.checkAppUpdate(data.isAppUpdateShown)?.let { isCancelable ->
-            viewModelScope.launch {
-                _effect.emit(
-                    MainEffect.AppUpdateEffect(
-                        isCancelable,
-                        appConfigRepository.getMarketLink()
-                    )
+            sendEffect {
+                MainEffect.AppUpdateEffect(
+                    isCancelable,
+                    appConfigRepository.getMarketLink()
                 )
-                data.isAppUpdateShown = true
             }
+            data.isAppUpdateShown = true
         }
     }
 
@@ -109,22 +92,22 @@ class MainViewModel(
         if (appConfigRepository.shouldShowAppReview()) {
             viewModelScope.launch {
                 delay(reviewConfigService.config.appReviewDialogDelay)
-                _effect.emit(MainEffect.RequestReview)
+                setEffect { MainEffect.RequestReview }
             }
         }
     }
 
     // region Event
-    override fun onPause() {
-        Logger.d { "MainViewModel onPause" }
+    override fun onAppBackground() {
+        Logger.d { "MainViewModel onAppBackground" }
         data.adJob.cancel()
         data.adVisibility = false
     }
 
-    override fun onResume() {
-        Logger.d { "MainViewModel onResume" }
+    override fun onAppForeground() {
+        Logger.d { "MainViewModel onAppForeground" }
 
-        _state.update {
+        setState {
             copy(
                 shouldOnboardUser = appStorage.firstRun,
                 appTheme = appStorage.appTheme

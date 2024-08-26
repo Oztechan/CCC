@@ -7,17 +7,11 @@ import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsDateString
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
-import com.oztechan.ccc.client.core.viewmodel.BaseSEEDViewModel
-import com.oztechan.ccc.client.core.viewmodel.util.launchIgnored
+import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.service.backend.BackendApiService
 import com.oztechan.ccc.client.storage.app.AppStorage
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class WidgetViewModel(
@@ -25,28 +19,18 @@ class WidgetViewModel(
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
     private val appStorage: AppStorage
-) : BaseSEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(), WidgetEvent {
-
-    // region SEED
-    private val _state = MutableStateFlow(
-        WidgetState(
-            currentBase = calculationStorage.currentBase,
-            isPremium = appStorage.premiumEndDate.isNotPassed()
-        )
-    )
-    override val state = _state.asStateFlow()
-
-    private val _effect = MutableSharedFlow<WidgetEffect>()
-    override val effect = _effect.asSharedFlow()
-
-    override val event = this as WidgetEvent
-
-    override val data = WidgetData()
-    // endregion
+) : SEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(
+    initialState = WidgetState(
+        currentBase = calculationStorage.currentBase,
+        isPremium = appStorage.premiumEndDate.isNotPassed()
+    ),
+    initialData = WidgetData()
+),
+    WidgetEvent {
 
     private fun refreshWidgetData() {
-        _state.update {
-            it.copy(
+        setState {
+            copy(
                 currencyList = listOf(),
                 lastUpdate = "",
                 currentBase = calculationStorage.currentBase,
@@ -54,7 +38,7 @@ class WidgetViewModel(
             )
         }
 
-        if (_state.value.isPremium) {
+        if (state.value.isPremium) {
             getFreshWidgetData()
         }
     }
@@ -72,8 +56,8 @@ class WidgetViewModel(
             }
             .take(MAXIMUM_NUMBER_OF_CURRENCY)
             .let { currencyList ->
-                _state.update {
-                    it.copy(
+                setState {
+                    copy(
                         currencyList = currencyList,
                         lastUpdate = nowAsDateString()
                     )
@@ -81,46 +65,48 @@ class WidgetViewModel(
             }
     }
 
-    private suspend fun updateBase(isToNext: Boolean) {
-        val activeCurrencies = currencyDataSource.getActiveCurrencies()
+    private fun updateBase(isToNext: Boolean) {
+        viewModelScope.launch {
+            val activeCurrencies = currencyDataSource.getActiveCurrencies()
 
-        val newBaseIndex = activeCurrencies
-            .map { it.code }
-            .indexOf(calculationStorage.currentBase)
-            .let {
-                if (isToNext) {
-                    it + 1
-                } else {
-                    it - 1
+            val newBaseIndex = activeCurrencies
+                .map { it.code }
+                .indexOf(calculationStorage.currentBase)
+                .let {
+                    if (isToNext) {
+                        it + 1
+                    } else {
+                        it - 1
+                    }
+                }.let {
+                    (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
                 }
-            }.let {
-                (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
-            }
 
-        calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
+            calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
+
+            refreshWidgetData()
+        }
     }
 
     // region Event
-    override fun onPreviousClick() = viewModelScope.launchIgnored {
+    override fun onPreviousClick() {
         Logger.d { "WidgetViewModel onPreviousClick" }
         updateBase(false)
-        refreshWidgetData()
     }
 
-    override fun onNextClick() = viewModelScope.launchIgnored {
+    override fun onNextClick() {
         Logger.d { "WidgetViewModel onNextClick" }
         updateBase(true)
-        refreshWidgetData()
     }
 
-    override fun onRefreshClick() = viewModelScope.launchIgnored {
+    override fun onRefreshClick() {
         Logger.d { "WidgetViewModel onRefreshClick" }
         refreshWidgetData()
     }
 
-    override fun onOpenAppClick() = viewModelScope.launchIgnored {
+    override fun onOpenAppClick() {
         Logger.d { "WidgetViewModel onOpenAppClick" }
-        _effect.emit(WidgetEffect.OpenApp)
+        sendEffect { WidgetEffect.OpenApp }
     }
     // endregion
 }

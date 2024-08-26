@@ -21,8 +21,8 @@ sealed class MainEffect : BaseEffect {
 
 // Event
 interface MainEvent : BaseEvent {
-    fun onPause()
-    fun onResume()
+    fun onAppBackground()
+    fun onAppForeground()
 }
 
 // Data

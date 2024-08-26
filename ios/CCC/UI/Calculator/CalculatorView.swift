@@ -55,7 +55,7 @@ struct CalculatorView: View {
                         }
                         .listRowInsets(.init())
                         .listRowBackground(\.background)
-                        .animation(.default)
+                        .animation(.default, value: state)
                     }
                     .withClearBackground(color: Color(\.background))
                     .padding(bottom: 4.cp())

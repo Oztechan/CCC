@@ -27,10 +27,10 @@ import kotlinx.coroutines.test.setMain
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
@@ -64,7 +64,12 @@ internal class PremiumViewModelTest {
     // SEED
     @Test
     fun `init updates data correctly`() {
-        assertNull(viewModel.data)
+        assertFailsWith<RuntimeException> {
+            viewModel.data
+        }.message.let {
+            assertNotNull(it)
+            assertEquals("lateinit property data has not been initialized", it)
+        }
     }
 
     // Event
@@ -78,6 +83,7 @@ internal class PremiumViewModelTest {
             viewModel.effect.onSubscription {
                 viewModel.event.onPremiumActivated(premiumType, now)
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<PremiumEffect.PremiumActivated>(it)
                 assertEquals(premiumType, it.premiumType)
                 assertFalse { it.isRestorePurchase }
@@ -88,46 +94,61 @@ internal class PremiumViewModelTest {
     }
 
     @Test
-    fun onRestorePurchase() = runTest {
+    fun onRestoreOrConsumePurchase() = runTest {
         every { appStorage.premiumEndDate }
             .returns(0)
 
         val now = nowAsLong()
 
+        // onRestoreOrConsumePurchase should activate the premium with the product which has farthest end date
+        // if there is a valid old purchase
         viewModel.effect.onSubscription {
-            viewModel.event.onRestorePurchase(
+            viewModel.event.onRestoreOrConsumePurchase(
                 listOf(
-                    OldPurchase(now, PremiumType.MONTH),
-                    OldPurchase(now, PremiumType.YEAR)
+                    OldPurchase(now, PremiumType.MONTH, ""),
+                    OldPurchase(now, PremiumType.YEAR, "")
                 )
             )
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.PremiumActivated>(it)
             assertTrue { it.isRestorePurchase }
             assertFalse { viewModel.state.value.loading }
 
-            verify { appStorage.premiumEndDate = it.premiumType.calculatePremiumEnd(now) }
+            verify { appStorage.premiumEndDate = PremiumType.YEAR.calculatePremiumEnd(now) }
+            verify(VerifyMode.not) {
+                appStorage.premiumEndDate = PremiumType.MONTH.calculatePremiumEnd(now)
+            }
         }
 
-        // onRestorePurchase shouldn't do anything if all the old purchases out of dated
-        var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH)
+        // onRestoreOrConsumePurchase shouldn't do anything
+        // if all the old purchases doesn't have later end date than the current premium end date even if they are valid
+        var oldPurchase = OldPurchase(nowAsLong(), PremiumType.MONTH, "")
 
         every { appStorage.premiumEndDate }
             .returns(nowAsLong() + 1.seconds.inWholeMilliseconds)
 
-        viewModel.event.onRestorePurchase(listOf(oldPurchase))
+        viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
 
         verify(VerifyMode.not) {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
         }
 
-        // onRestorePurchase shouldn't do anything if the old purchase is already expired
-        oldPurchase = OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH)
+        // onRestoreOrConsumePurchase should consume product if the old purchase is already expired
+        val token = "token"
+        oldPurchase =
+            OldPurchase(nowAsLong() - (32.days.inWholeMilliseconds), PremiumType.MONTH, token)
 
         every { appStorage.premiumEndDate }
             .returns(0)
 
-        viewModel.event.onRestorePurchase(listOf(oldPurchase))
+        viewModel.effect.onSubscription {
+            viewModel.event.onRestoreOrConsumePurchase(listOf(oldPurchase))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<PremiumEffect.ConsumePurchase>(it)
+            assertTrue { it.token == token }
+        }
 
         verify(VerifyMode.not) {
             appStorage.premiumEndDate = oldPurchase.type.calculatePremiumEnd(oldPurchase.date)
@@ -173,6 +194,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.VIDEO)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.VIDEO, it.premiumType)
             assertFalse { viewModel.state.value.loading }
@@ -181,6 +203,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.MONTH)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.MONTH, it.premiumType)
             assertTrue { viewModel.state.value.loading }
@@ -189,6 +212,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.QUARTER)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.QUARTER, it.premiumType)
             assertTrue { viewModel.state.value.loading }
@@ -197,6 +221,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.HALF_YEAR)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.HALF_YEAR, it.premiumType)
             assertTrue { viewModel.state.value.loading }
@@ -205,6 +230,7 @@ internal class PremiumViewModelTest {
         viewModel.effect.onSubscription {
             viewModel.event.onPremiumItemClick(PremiumType.YEAR)
         }.firstOrNull().let {
+            assertNotNull(it)
             assertIs<PremiumEffect.LaunchActivatePremiumFlow>(it)
             assertEquals(PremiumType.YEAR, it.premiumType)
             assertTrue { viewModel.state.value.loading }

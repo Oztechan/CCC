@@ -42,7 +42,7 @@ struct OutputView: View {
             }
             .frame(minWidth: 0, maxWidth: .infinity, alignment: .bottomLeading)
             .padding(.horizontal, 20.cp())
-            .animation(.default)
+            .animation(.default, value: output)
         }
         .contentShape(Rectangle())
         .lineLimit(1)

@@ -11,7 +11,10 @@ import com.oztechan.ccc.client.configservice.ad.model.AdConfig
 import com.oztechan.ccc.client.configservice.review.ReviewConfigService
 import com.oztechan.ccc.client.configservice.review.model.ReviewConfig
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.Device
+import com.oztechan.ccc.client.core.shared.model.AppTheme
+import com.oztechan.ccc.client.core.shared.util.isNotPassed
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.repository.appconfig.AppConfigRepository
@@ -66,6 +69,7 @@ internal class MainViewModelTest {
     private val appThemeValue = Random.nextInt()
     private val mockDevice = Device.IOS
     private val isFirstRun: Boolean = Random.nextBoolean()
+    private val sessionCount = 1L
 
     @BeforeTest
     fun setup() {
@@ -81,7 +85,7 @@ internal class MainViewModelTest {
             .returns(nowAsLong())
 
         every { appStorage.sessionCount }
-            .returns(1L)
+            .returns(sessionCount)
 
         every { appConfigRepository.getDeviceType() }
             .returns(mockDevice)
@@ -93,31 +97,31 @@ internal class MainViewModelTest {
             .returns(isFirstRun)
     }
 
-    // Analytics todo
-//    @Test
-//    fun ifUserPropertiesSetCorrect() {
-//        viewModel // init
-//
-//        verify {
-//            analyticsManager.setUserProperty(
-//                UserProperty.IsPremium(
-//                    appStorage.premiumEndDate.isNotPassed().toString()
-//                )
-//            )
-//        }
-//        verify { analyticsManager.setUserProperty(UserProperty.SessionCount(appStorage.sessionCount.toString())) }
-//        verify {
-//            analyticsManager.setUserProperty(
-//                UserProperty.AppTheme(
-//                    AppTheme.getAnalyticsThemeName(
-//                        appStorage.appTheme,
-//                        mockDevice
-//                    )
-//                )
-//            )
-//        }
-//        verify { analyticsManager.setUserProperty(UserProperty.DevicePlatform(mockDevice.name)) }
-//    }
+    // Analytics
+    @Test
+    fun ifUserPropertiesSetCorrect() {
+        viewModel // init
+
+        verify {
+            appStorage.premiumEndDate.let {
+                analyticsManager.setUserProperty(
+                    UserProperty.IsPremium(it.isNotPassed().toString())
+                )
+            }
+        }
+        verify {
+            appStorage.sessionCount
+            analyticsManager.setUserProperty(UserProperty.SessionCount(sessionCount.toString()))
+        }
+        verify {
+            appStorage.appTheme.let {
+                analyticsManager.setUserProperty(
+                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(it, mockDevice))
+                )
+            }
+        }
+        verify { analyticsManager.setUserProperty(UserProperty.DevicePlatform(mockDevice.name)) }
+    }
 
     // init
     @Test
@@ -145,14 +149,14 @@ internal class MainViewModelTest {
 
     // event
     @Test
-    fun onPause() = with(viewModel) {
-        event.onPause()
+    fun onAppBackground() = with(viewModel) {
+        event.onAppBackground()
         assertFalse { data.adVisibility }
         assertTrue { data.adJob.isCancelled }
     }
 
     @Test
-    fun `onResume adjustSessionCount`() = with(viewModel) {
+    fun `onAppForeground adjustSessionCount`() = with(viewModel) {
         val mockSessionCount = Random.nextLong()
 
         every { reviewConfigService.config }
@@ -178,12 +182,12 @@ internal class MainViewModelTest {
 
         assertTrue { data.isNewSession }
 
-        event.onResume()
+        event.onAppForeground()
 
         verify { appStorage.sessionCount = mockSessionCount + 1 }
         assertFalse { data.isNewSession }
 
-        event.onResume()
+        event.onAppForeground()
 
         verify(VerifyMode.not) { appStorage.sessionCount = mockSessionCount + 1 }
 
@@ -191,7 +195,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `onResume setupInterstitialAdTimer`() = runTest {
+    fun `onAppForeground setupInterstitialAdTimer`() = runTest {
         val mockSessionCount = Random.nextLong()
 
         every { reviewConfigService.config }
@@ -216,7 +220,7 @@ internal class MainViewModelTest {
             .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
-            viewModel.onResume()
+            viewModel.onAppForeground()
         }.firstOrNull { // has to use firstOrNull with true returning lambda for loop
             assertTrue { viewModel.data.adVisibility }
             assertTrue { viewModel.data.adJob.isActive }
@@ -236,7 +240,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `onResume checkAppUpdate nothing happens when check update returns null`() =
+    fun `onAppForeground checkAppUpdate nothing happens when check update returns null`() =
         with(viewModel) {
             val mockSessionCount = Random.nextLong()
 
@@ -255,7 +259,7 @@ internal class MainViewModelTest {
             every { appConfigRepository.shouldShowAppReview() }
                 .returns(true)
 
-            event.onResume()
+            event.onAppForeground()
 
             assertFalse { data.isAppUpdateShown }
 
@@ -263,7 +267,7 @@ internal class MainViewModelTest {
         }
 
     @Test
-    fun `onResume checkAppUpdate app review should ask when check update returns not null`() =
+    fun `onAppForeground checkAppUpdate app review should ask when check update returns not null`() =
         runTest {
             val mockSessionCount = Random.nextLong()
             val mockBoolean = Random.nextBoolean()
@@ -287,8 +291,9 @@ internal class MainViewModelTest {
                 .returns("")
 
             viewModel.effect.onSubscription {
-                viewModel.onResume()
+                viewModel.onAppForeground()
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<MainEffect.AppUpdateEffect>(it)
                 assertEquals(mockBoolean, it.isCancelable)
                 assertTrue { viewModel.data.isAppUpdateShown }
@@ -300,7 +305,7 @@ internal class MainViewModelTest {
         }
 
     @Test
-    fun `onResume checkReview should request review when shouldShowAppReview returns true`() =
+    fun `onAppForeground checkReview should request review when shouldShowAppReview returns true`() =
         runTest {
             val mockSessionCount = Random.nextLong()
 
@@ -320,8 +325,9 @@ internal class MainViewModelTest {
                 .returns(true)
 
             viewModel.effect.onSubscription {
-                viewModel.onResume()
+                viewModel.onAppForeground()
             }.firstOrNull().let {
+                assertNotNull(it)
                 assertIs<MainEffect.RequestReview>(it)
             }
 
@@ -331,7 +337,7 @@ internal class MainViewModelTest {
         }
 
     @Test
-    fun `onResume checkReview should do nothing when shouldShowAppReview returns false`() =
+    fun `onAppForeground checkReview should do nothing when shouldShowAppReview returns false`() =
         with(viewModel) {
             val mockSessionCount = Random.nextLong()
 
@@ -350,13 +356,13 @@ internal class MainViewModelTest {
             every { appConfigRepository.shouldShowAppReview() }
                 .returns(false)
 
-            onResume()
+            onAppForeground()
 
             verify { appConfigRepository.shouldShowAppReview() }
         }
 
     @Test
-    fun `onResume updates the latest states`() = runTest {
+    fun `onAppForeground updates the latest states`() = runTest {
         every { appConfigRepository.checkAppUpdate(false) }
             .returns(false)
 
@@ -387,7 +393,7 @@ internal class MainViewModelTest {
 
         viewModel.state
             .onSubscription {
-                viewModel.event.onResume()
+                viewModel.event.onAppForeground()
             }.firstOrNull().let {
                 assertNotNull(it)
                 assertEquals(newIsFirstRun, it.shouldOnboardUser)

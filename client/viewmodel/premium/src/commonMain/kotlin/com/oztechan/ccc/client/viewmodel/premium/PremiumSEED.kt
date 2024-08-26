@@ -22,7 +22,7 @@ interface PremiumEvent : BaseEvent {
         isRestorePurchase: Boolean = false
     )
 
-    fun onRestorePurchase(oldPurchaseList: List<OldPurchase>)
+    fun onRestoreOrConsumePurchase(oldPurchaseList: List<OldPurchase>)
     fun onAddPurchaseMethods(premiumDataList: List<PremiumData>)
     fun onPremiumItemClick(type: PremiumType)
     fun onPremiumActivationFailed()
@@ -38,4 +38,6 @@ sealed class PremiumEffect : BaseEffect {
         val premiumType: PremiumType,
         val isRestorePurchase: Boolean
     ) : PremiumEffect()
+
+    data class ConsumePurchase(val token: String) : PremiumEffect()
 }

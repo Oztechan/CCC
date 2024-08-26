@@ -17,4 +17,6 @@ interface BillingManager {
     fun launchBillingFlow(activity: Activity, skuId: String)
 
     fun acknowledgePurchase()
+
+    fun consumePurchase(token: String)
 }

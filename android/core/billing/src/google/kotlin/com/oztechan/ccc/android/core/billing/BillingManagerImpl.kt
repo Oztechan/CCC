@@ -10,30 +10,34 @@ import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
 import com.android.billingclient.api.BillingFlowParams
 import com.android.billingclient.api.BillingResult
+import com.android.billingclient.api.ConsumeParams
+import com.android.billingclient.api.ConsumeResponseListener
+import com.android.billingclient.api.PendingPurchasesParams
 import com.android.billingclient.api.ProductDetails
 import com.android.billingclient.api.ProductDetailsResponseListener
 import com.android.billingclient.api.Purchase
-import com.android.billingclient.api.PurchaseHistoryRecord
-import com.android.billingclient.api.PurchaseHistoryResponseListener
+import com.android.billingclient.api.PurchasesResponseListener
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
-import com.android.billingclient.api.QueryPurchaseHistoryParams
+import com.android.billingclient.api.QueryPurchasesParams
 import com.github.submob.scopemob.whether
 import com.oztechan.ccc.android.core.billing.mapper.toProductDetailsModel
-import com.oztechan.ccc.android.core.billing.mapper.toPurchaseHistoryRecordModel
+import com.oztechan.ccc.android.core.billing.mapper.toPurchaseModel
 import com.oztechan.ccc.android.core.billing.util.launchWithLifeCycle
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
 // Billing will not work on debug builds
 // .debug suffix needs to be removed in app-level build.gradle and google-services.json
+@Suppress("TooManyFunctions")
 internal class BillingManagerImpl(private val context: Context) :
     BillingManager,
     AcknowledgePurchaseResponseListener,
     PurchasesUpdatedListener,
     BillingClientStateListener,
-    PurchaseHistoryResponseListener,
-    ProductDetailsResponseListener {
+    PurchasesResponseListener,
+    ProductDetailsResponseListener,
+    ConsumeResponseListener {
 
     private lateinit var billingClient: BillingClient
     private lateinit var lifecycleOwner: LifecycleOwner
@@ -62,7 +66,10 @@ internal class BillingManagerImpl(private val context: Context) :
         billingClient = BillingClient
             .newBuilder(context.applicationContext)
             .setListener(this)
-            .enablePendingPurchases()
+            .enablePendingPurchases(
+                PendingPurchasesParams.newBuilder().enableOneTimeProducts().enablePrepaidPlans()
+                    .build()
+            )
             .build()
 
         billingClient.startConnection(this)
@@ -78,13 +85,9 @@ internal class BillingManagerImpl(private val context: Context) :
         productDetailList
             .firstOrNull { it.productId == skuId }
             ?.let {
-                val offerToken =
-                    it.subscriptionOfferDetails?.get(productDetailList.indexOf(it))?.offerToken.orEmpty()
-
                 val productDetailsParamsList = listOf(
                     BillingFlowParams.ProductDetailsParams.newBuilder()
                         .setProductDetails(it)
-                        .setOfferToken(offerToken)
                         .build()
                 )
                 val billingFlowParams =
@@ -101,6 +104,11 @@ internal class BillingManagerImpl(private val context: Context) :
         acknowledgePurchaseParams?.let {
             billingClient.acknowledgePurchase(it, this)
         }
+    }
+
+    override fun consumePurchase(token: String) {
+        Logger.v { "BillingManagerImpl consumePurchase" }
+        billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(token).build(), this)
     }
 
     override fun onAcknowledgePurchaseResponse(billingResult: BillingResult) {
@@ -142,11 +150,11 @@ internal class BillingManagerImpl(private val context: Context) :
     override fun onBillingSetupFinished(billingResult: BillingResult) {
         Logger.v { "BillingManagerImpl onBillingSetupFinished ${billingResult.responseCode}" }
 
-        val queryPurchaseHistoryParams = QueryPurchaseHistoryParams.newBuilder()
+        val queryPurchasesParams = QueryPurchasesParams.newBuilder()
             .setProductType(BillingClient.ProductType.INAPP)
             .build()
 
-        billingClient.queryPurchaseHistoryAsync(queryPurchaseHistoryParams, this)
+        billingClient.queryPurchasesAsync(queryPurchasesParams, this)
 
         billingClient.whether(
             { it.isReady },
@@ -190,18 +198,21 @@ internal class BillingManagerImpl(private val context: Context) :
         }
     }
 
-    override fun onPurchaseHistoryResponse(
+    override fun onQueryPurchasesResponse(
         billingResult: BillingResult,
-        purchaseHistoryList: MutableList<PurchaseHistoryRecord>?
+        purchasesResponse: MutableList<Purchase>
     ) {
-        Logger.v { "BillingManagerImpl onPurchaseHistoryResponse ${billingResult.responseCode}" }
-
-        purchaseHistoryList
-            ?.map { it.toPurchaseHistoryRecordModel() }
-            ?.let {
-                lifecycleOwner.launchWithLifeCycle {
-                    _effect.emit(BillingEffect.RestorePurchase(it))
+        Logger.v { "BillingManagerImpl onQueryPurchasesResponse ${billingResult.responseCode}" }
+        lifecycleOwner.launchWithLifeCycle {
+            purchasesResponse
+                .map { it.toPurchaseModel() }
+                .let {
+                    _effect.emit(BillingEffect.RestoreOrConsumePurchase(it))
                 }
-            }
+        }
+    }
+
+    override fun onConsumeResponse(billingResult: BillingResult, token: String) {
+        Logger.v { "BillingManagerImpl onConsumeResponse ${billingResult.responseCode}, token:$token" }
     }
 }

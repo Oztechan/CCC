@@ -33,7 +33,7 @@ class MainActivity : BaseActivity() {
     override var containerId: Int = R.id.content
 
     private val adManager: AdManager by inject()
-    private val mainViewModel: MainViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
 
     init {
         // use dark mode default for old devices
@@ -52,7 +52,7 @@ class MainActivity : BaseActivity() {
         observeEffects()
     }
 
-    private fun observeStates() = mainViewModel.state
+    private fun observeStates() = viewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity() {
             }
         }.launchIn(lifecycleScope)
 
-    private fun observeEffects() = mainViewModel.effect
+    private fun observeEffects() = viewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "MainActivity observeEffects ${viewEffect::class.simpleName}" }
@@ -105,12 +105,12 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Logger.i { "MainActivity onResume" }
-        mainViewModel.event.onResume()
+        viewModel.event.onAppForeground()
     }
 
     override fun onPause() {
         Logger.i { "MainActivity onPause" }
-        mainViewModel.event.onPause()
+        viewModel.event.onAppBackground()
         super.onPause()
     }
 

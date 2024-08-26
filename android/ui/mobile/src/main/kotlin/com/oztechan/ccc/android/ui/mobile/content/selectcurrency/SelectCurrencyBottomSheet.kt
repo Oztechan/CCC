@@ -27,10 +27,10 @@ class SelectCurrencyBottomSheet :
     BaseVBBottomSheetDialogFragment<BottomSheetSelectCurrencyBinding>() {
 
     private val analyticsManager: AnalyticsManager by inject()
-    private val selectCurrencyViewModel: SelectCurrencyViewModel by viewModel()
+    private val viewModel: SelectCurrencyViewModel by viewModel()
 
     private val selectCurrencyAdapter: SelectCurrencyAdapter by lazy {
-        SelectCurrencyAdapter(selectCurrencyViewModel.event)
+        SelectCurrencyAdapter(viewModel.event)
     }
 
     override fun getViewBinding() = BottomSheetSelectCurrencyBinding.inflate(layoutInflater)
@@ -52,6 +52,7 @@ class SelectCurrencyBottomSheet :
 
     override fun onResume() {
         super.onResume()
+        Logger.i { "SelectCurrencyBottomSheet onResume" }
         analyticsManager.trackScreen(ScreenName.SelectCurrency)
     }
 
@@ -59,7 +60,7 @@ class SelectCurrencyBottomSheet :
         recyclerViewSelectCurrency.adapter = selectCurrencyAdapter
     }
 
-    private fun BottomSheetSelectCurrencyBinding.observeStates() = selectCurrencyViewModel.state
+    private fun BottomSheetSelectCurrencyBinding.observeStates() = viewModel.state
         .flowWithLifecycle(lifecycle)
         .onEach {
             with(it) {
@@ -80,7 +81,7 @@ class SelectCurrencyBottomSheet :
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-    private fun observeEffects() = selectCurrencyViewModel.effect
+    private fun observeEffects() = viewModel.effect
         .flowWithLifecycle(lifecycle)
         .onEach { viewEffect ->
             Logger.i { "SelectCurrencyBottomSheet observeEffects ${viewEffect::class.simpleName}" }
@@ -102,6 +103,6 @@ class SelectCurrencyBottomSheet :
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
     private fun BottomSheetSelectCurrencyBinding.setListeners() = btnSelect.setOnClickListener {
-        selectCurrencyViewModel.event.onSelectClick()
+        viewModel.event.onSelectClick()
     }
 }
