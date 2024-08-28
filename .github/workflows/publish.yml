@@ -8,7 +8,7 @@ on:
 jobs:
 
   PublishRelease:
-    uses: Oztechan/Global/.github/workflows/reusable-publish.yml@007659c3464bb29eeaaed0abfd2822af806dfe1e
+    uses: Oztechan/Global/.github/workflows/reusable-publish.yml@f2926167f4c8103dca1abd9cf2908c83733e1898
     with:
       slack_channel: "ccc-github"
     secrets: inherit
