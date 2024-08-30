@@ -1,15 +1,15 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:name="vector"
-    android:width="100dp"
-    android:height="100dp"
-    android:viewportWidth="100"
-    android:viewportHeight="100"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108"
     tools:ignore="VectorPath">
     <group
         android:name="foreground"
-        android:scaleX="0.16"
-        android:scaleY="0.16"
+        android:scaleX="0.17"
+        android:scaleY="0.17"
         android:translateX="10"
         android:translateY="10">
         <group android:name="currencies">
