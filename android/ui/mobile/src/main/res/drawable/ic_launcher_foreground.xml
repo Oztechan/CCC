@@ -8,10 +8,10 @@
     tools:ignore="VectorPath">
     <group
         android:name="foreground"
-        android:scaleX="0.17"
-        android:scaleY="0.17"
-        android:translateX="10"
-        android:translateY="10">
+        android:scaleX="0.18"
+        android:scaleY="0.18"
+        android:translateX="8"
+        android:translateY="8">
         <group android:name="currencies">
             <path
                 android:name="dollar"
