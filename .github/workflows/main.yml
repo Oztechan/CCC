@@ -138,7 +138,7 @@ jobs:
           file: huawei/${{ env.BUILD_TYPE_LOWERCASE }}/app-huawei-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Delete Android ${{ env.BUILD_TYPE }} Artifacts
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: androidArtifacts
 
@@ -220,7 +220,7 @@ jobs:
           fastlane distribute${{ env.BUILD_TYPE }}
 
       - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: iOSArtifacts
 
