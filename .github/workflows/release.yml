@@ -139,7 +139,7 @@ jobs:
           status: completed
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: googleBundle
 
@@ -170,7 +170,7 @@ jobs:
           file-name: "app-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: huaweiBundle
 
@@ -201,7 +201,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: backendJar
 
