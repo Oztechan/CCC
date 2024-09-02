@@ -70,5 +70,5 @@ fun Activity.showSingleChoiceDialog(
 private fun Activity.buildDialog(title: String) = AlertDialog
     .Builder(this, R.style.AlertDialogCustom)
     .whetherNot { isFinishing }
-    ?.setIcon(R.drawable.ic_dialog_and_snackbar)
+    ?.setIcon(R.drawable.ic_app_logo)
     ?.setTitle(title)
