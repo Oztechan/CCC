@@ -333,6 +333,8 @@
 
     <style name="SearchViewStyle" parent="WrapStyle">
         <item name="android:maxWidth">@dimen/max_width_search_view</item>
+        <item name="queryBackground">@null</item>
+        <item name="submitBackground">@null</item>
         <item name="queryHint">@string/search</item>
         <item name="closeIcon">@drawable/ic_close</item>
         <item name="searchHintIcon">@drawable/ic_search_hint</item>
