@@ -18,12 +18,10 @@ import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
-import com.oztechan.ccc.android.ui.mobile.content.calculator.CalculatorFragment.Companion.CHANGE_BASE_EVENT
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCurrenciesBinding
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
 import com.oztechan.ccc.android.ui.mobile.util.hideKeyboard
 import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
-import com.oztechan.ccc.android.ui.mobile.util.setNavigationResult
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
 import com.oztechan.ccc.android.ui.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
@@ -132,11 +130,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     view?.hideKeyboard()
                 }
 
-                is CurrenciesEffect.ChangeBase -> setNavigationResult(
-                    R.id.calculatorFragment,
-                    viewEffect.newBase,
-                    CHANGE_BASE_EVENT
-                )
+                is CurrenciesEffect.ChangeBase -> Unit // iOS only
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
