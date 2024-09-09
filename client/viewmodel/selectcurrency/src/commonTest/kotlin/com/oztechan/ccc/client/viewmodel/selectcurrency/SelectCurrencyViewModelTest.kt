@@ -7,6 +7,7 @@ import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.mock
@@ -35,7 +36,7 @@ internal class SelectCurrencyViewModelTest {
     }
 
     private val currencyDataSource = mock<CurrencyDataSource>()
-    private val calculationStorage = mock<CalculationStorage>()
+    private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
 
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
