@@ -77,6 +77,7 @@ internal class CalculatorViewModelTest {
     private val currency2 = Currency("EUR", "Dollar", "$", "12345.678", true)
     private val currencyList = listOf(currency1, currency2)
     private val conversion = Conversion(currency1.code, "12.12.2121")
+    private val conversion2 = Conversion(currency2.code, "12.12.2121")
     private val shouldShowAds = Random.nextBoolean()
 
     @BeforeTest
@@ -509,6 +510,54 @@ internal class CalculatorViewModelTest {
 
             verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
             verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+        }
+    }
+
+    @Test
+    fun onSheetDismissed() = runTest {
+        // when base in state is equal to base in storage
+        every { calculationStorage.currentBase }
+            .returns(currency1.code)
+
+        everySuspend { backendApiService.getConversion(currency1.code) }
+            .returns(conversion)
+
+        viewModel.state.onSubscription {
+            viewModel.event.onSheetDismissed()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertNotNull(viewModel.data.conversion)
+            assertEquals(currency1.code, viewModel.data.conversion!!.base)
+            assertEquals(currency1.code, it.base)
+
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+
+            // from initial state
+            verify { calculationStorage.currentBase = currency1.code }
+        }
+
+        // when base in state is not equal to base in storage
+        everySuspend { backendApiService.getConversion(currency2.code) }
+            .returns(conversion2)
+
+        everySuspend { currencyDataSource.getCurrencyByCode(currency2.code) }
+            .returns(currency2)
+
+        every { calculationStorage.currentBase }
+            .returns(currency2.code)
+
+        viewModel.state.onSubscription {
+            viewModel.event.onSheetDismissed()
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertNotNull(viewModel.data.conversion)
+            assertEquals(currency2.code, viewModel.data.conversion!!.base)
+            assertEquals(currency2.code, it.base)
+
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency2.code))) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency2.code)) }
+            verify { calculationStorage.currentBase = currency2.code }
         }
     }
 }
