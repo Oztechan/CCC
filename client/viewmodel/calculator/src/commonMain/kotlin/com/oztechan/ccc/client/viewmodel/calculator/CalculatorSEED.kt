@@ -22,6 +22,7 @@ data class CalculatorState(
 ) : BaseState
 
 // Event
+@Suppress("TooManyFunctions")
 interface CalculatorEvent : BaseEvent {
     fun onKeyPress(key: String)
     fun onItemClick(currency: Currency)
@@ -33,6 +34,7 @@ interface CalculatorEvent : BaseEvent {
     fun onBarClick()
     fun onSettingsClicked()
     fun onBaseChange(base: String)
+    fun onSheetDismissed()
 }
 
 // Effect
