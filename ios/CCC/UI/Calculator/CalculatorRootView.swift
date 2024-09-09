@@ -79,6 +79,7 @@ struct CalculatorRootView: View {
         }
         .sheet(
             isPresented: $isBarShown,
+            onDismiss: { observable.event.onSheetDismissed() },
             content: {
                 SelectCurrencyRootView(
                     isBarShown: $isBarShown,
