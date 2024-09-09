@@ -493,27 +493,6 @@ internal class CalculatorViewModelTest {
     }
 
     @Test
-    fun onBaseChanged() = runTest {
-        every { calculationStorage.currentBase }
-            .returns(currency1.code)
-
-        everySuspend { backendApiService.getConversion(currency1.code) }
-            .returns(conversion)
-
-        viewModel.state.onSubscription {
-            viewModel.event.onBaseChange(currency1.code)
-        }.firstOrNull().let {
-            assertNotNull(it)
-            assertNotNull(viewModel.data.conversion)
-            assertEquals(currency1.code, viewModel.data.conversion!!.base)
-            assertEquals(currency1.code, it.base)
-
-            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
-            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
-        }
-    }
-
-    @Test
     fun onSheetDismissed() = runTest {
         // when base in state is equal to base in storage
         every { calculationStorage.currentBase }

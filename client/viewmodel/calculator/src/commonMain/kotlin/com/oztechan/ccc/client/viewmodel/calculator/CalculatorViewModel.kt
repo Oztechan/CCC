@@ -276,12 +276,6 @@ class CalculatorViewModel(
         sendEffect { CalculatorEffect.OpenSettings }
     }
 
-    override fun onBaseChange(base: String) {
-        Logger.d { "CalculatorViewModel onBaseChange $base" }
-        currentBaseChanged(base)
-        calculateOutput(state.value.input)
-    }
-
     override fun onSheetDismissed() {
         Logger.d { "CalculatorViewModel onSheetDismissed" }
         calculationStorage.currentBase
