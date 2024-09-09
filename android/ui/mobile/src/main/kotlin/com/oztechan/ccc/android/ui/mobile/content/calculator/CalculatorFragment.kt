@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.fragment.BaseVBFragment
 import com.oztechan.ccc.android.core.ad.AdManager
@@ -189,6 +190,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
             closeParentheses.setKeyboardListener()
             ac.setKeyboardListener()
             del.setKeyboardListener()
+        }
+
+        findNavController().addOnDestinationChangedListener { _, navDestination, _ ->
+            if (navDestination.id == R.id.calculatorFragment) {
+                onSheetDismissed()
+            }
         }
     }
 
