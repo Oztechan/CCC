@@ -31,8 +31,6 @@ struct SettingsRootView: View {
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
-    var onBaseChange: ((String) -> Void)
-
     var body: some View {
         SettingsView(
             event: observable.event,
@@ -74,7 +72,7 @@ struct SettingsRootView: View {
         case is SettingsEffect.Back:
             navigationStack.pop()
         case is SettingsEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesRootView(onBaseChange: onBaseChange))
+            navigationStack.push(CurrenciesRootView())
         case is SettingsEffect.OpenWatchers:
             navigationStack.push(WatchersRootView())
         case is SettingsEffect.FeedBack:

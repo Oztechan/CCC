@@ -62,7 +62,7 @@ struct CalculatorRootView: View {
                 text: String(\.choose_at_least_two_currency),
                 buttonText: String(\.select),
                 buttonAction: {
-                    navigationStack.push(CurrenciesRootView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+                    navigationStack.push(CurrenciesRootView())
                 }
             )
         }
@@ -80,12 +80,7 @@ struct CalculatorRootView: View {
         .sheet(
             isPresented: $isBarShown,
             onDismiss: { observable.event.onSheetDismissed() },
-            content: {
-                SelectCurrencyRootView(
-                    isBarShown: $isBarShown,
-                    onCurrencySelected: { observable.event.onBaseChange(base: $0) }
-                ).environmentObject(navigationStack)
-            }
+            content: { SelectCurrencyRootView(isBarShown: $isBarShown).environmentObject(navigationStack) }
         )
         .onAppear {
             observable.startObserving()
@@ -109,7 +104,7 @@ struct CalculatorRootView: View {
         case is CalculatorEffect.OpenBar:
             isBarShown = true
         case is CalculatorEffect.OpenSettings:
-            navigationStack.push(SettingsRootView(onBaseChange: { observable.event.onBaseChange(base: $0) }))
+            navigationStack.push(SettingsRootView())
         case is CalculatorEffect.ShowPasteRequest:
             isPasteRequestSnackShown.toggle()
         case let copyToClipboardEffect as CalculatorEffect.CopyToClipboard:
