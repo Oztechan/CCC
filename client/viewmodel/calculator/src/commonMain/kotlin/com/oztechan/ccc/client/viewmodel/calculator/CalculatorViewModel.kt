@@ -281,5 +281,15 @@ class CalculatorViewModel(
         currentBaseChanged(base)
         calculateOutput(state.value.input)
     }
+
+    override fun onSheetDismissed() {
+        Logger.d { "CalculatorViewModel onSheetDismissed" }
+        calculationStorage.currentBase
+            .takeIf { it != state.value.base }
+            ?.let {
+                currentBaseChanged(it)
+                calculateOutput(state.value.input)
+            }
+    }
     // endregion
 }
