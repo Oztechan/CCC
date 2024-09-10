@@ -42,7 +42,7 @@ kover = "0.8.3"
 rootBeer = "0.1.1"
 anrWatchDog = "1.4.0"
 kermit = "2.0.4"
-konsist = "0.15.1"
+konsist = "0.16.1"
 
 [libraries]
 # COMMON
