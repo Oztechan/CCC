@@ -129,8 +129,6 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
                     findNavController().popBackStack()
                     view?.hideKeyboard()
                 }
-
-                is CurrenciesEffect.ChangeBase -> Unit // iOS only
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
