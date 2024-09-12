@@ -14,6 +14,7 @@ struct SelectCurrencyView: View {
 
     var event: SelectCurrencyEvent
     var state: SelectCurrencyState
+    var purpose: SelectCurrencyPurpose
 
     var body: some View {
         ZStack {
@@ -31,7 +32,7 @@ struct SelectCurrencyView: View {
                     Form {
                         List(state.currencyList, id: \.code) { currency in
                             SelectCurrencyItemView(item: currency)
-                                .onTapGesture { event.onItemClick(currency: currency) }
+                                .onTapGesture { event.onItemClick(currency: currency, purpose: purpose) }
                                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
                         }
                         .listRowInsets(.init())

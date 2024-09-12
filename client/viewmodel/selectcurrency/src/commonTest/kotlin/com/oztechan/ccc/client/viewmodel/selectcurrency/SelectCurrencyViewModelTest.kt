@@ -7,6 +7,7 @@ import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
@@ -98,8 +99,9 @@ internal class SelectCurrencyViewModelTest {
 
     @Test
     fun onItemClick() = runTest {
+        // base
         viewModel.effect.onSubscription {
-            viewModel.event.onItemClick(currencyDollar)
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.BASE)
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)

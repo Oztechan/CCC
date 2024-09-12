@@ -80,7 +80,12 @@ struct CalculatorRootView: View {
         .sheet(
             isPresented: $isBarShown,
             onDismiss: { observable.event.onSheetDismissed() },
-            content: { SelectCurrencyRootView(isBarShown: $isBarShown).environmentObject(navigationStack) }
+            content: {
+                SelectCurrencyRootView(
+                    isBarShown: $isBarShown,
+                    purpose: .base
+                ).environmentObject(navigationStack)
+            }
         )
         .onAppear {
             observable.startObserving()

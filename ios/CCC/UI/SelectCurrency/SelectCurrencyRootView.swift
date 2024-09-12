@@ -24,10 +24,13 @@ struct SelectCurrencyRootView: View {
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
+    var purpose: SelectCurrencyPurpose
+
     var body: some View {
         SelectCurrencyView(
             event: observable.event,
-            state: observable.state
+            state: observable.state,
+            purpose: purpose
         )
         .onAppear {
             observable.startObserving()

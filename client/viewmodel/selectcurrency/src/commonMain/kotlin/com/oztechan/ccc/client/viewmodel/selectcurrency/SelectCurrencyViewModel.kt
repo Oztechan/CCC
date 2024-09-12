@@ -9,6 +9,7 @@ import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import com.oztechan.ccc.common.core.model.Currency
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,10 +36,17 @@ class SelectCurrencyViewModel(
     }
 
     // region Event
-    override fun onItemClick(currency: Currency) {
-        Logger.d { "SelectCurrencyViewModel onItemClick ${currency.code}" }
-        calculationStorage.currentBase = currency.code
-        sendEffect { SelectCurrencyEffect.CurrencyChange(currency.code) }
+    override fun onItemClick(currency: Currency, purpose: SelectCurrencyPurpose) {
+        Logger.d { "SelectCurrencyViewModel onItemClick ${currency.code} $purpose" }
+        when (purpose) {
+            SelectCurrencyPurpose.BASE -> {
+                calculationStorage.currentBase = currency.code
+                sendEffect { SelectCurrencyEffect.CurrencyChange(currency.code) }
+            }
+
+            SelectCurrencyPurpose.SOURCE -> TODO()
+            SelectCurrencyPurpose.TARGET -> TODO()
+        }
     }
 
     override fun onSelectClick() {
