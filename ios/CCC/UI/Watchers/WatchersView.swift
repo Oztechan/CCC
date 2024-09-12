@@ -16,7 +16,7 @@ struct WatchersView: View {
     var state: WatchersState
     var authorizationStatus: UNAuthorizationStatus?
 
-    @Binding var baseBarInfo: WatchersRootView.BarInfo
+    @Binding var sourceBarInfo: WatchersRootView.BarInfo
     @Binding var targetBarInfo: WatchersRootView.BarInfo
 
     var body: some View {
@@ -33,7 +33,7 @@ struct WatchersView: View {
                     Form {
                         List(state.watcherList, id: \.id) { watcher in
                             WatcherItem(
-                                isBaseBarShown: $baseBarInfo.isShown,
+                                isBaseBarShown: $sourceBarInfo.isShown,
                                 isTargetBarShown: $targetBarInfo.isShown,
                                 watcher: watcher,
                                 event: event

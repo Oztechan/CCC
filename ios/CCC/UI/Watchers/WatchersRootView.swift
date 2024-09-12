@@ -21,7 +21,7 @@ struct WatchersRootView: View {
         WatchersViewModel
     >()
     @StateObject var notificationManager = NotificationManager()
-    @State var baseBarInfo = BarInfo(isShown: false, watcher: nil)
+    @State var sourceBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var targetBarInfo = BarInfo(isShown: false, watcher: nil)
     @State var isInvalidInputSnackShown = false
     @State var isMaxWatchersSnackShown = false
@@ -34,7 +34,7 @@ struct WatchersRootView: View {
             event: observable.event,
             state: observable.state,
             authorizationStatus: notificationManager.authorizationStatus,
-            baseBarInfo: $baseBarInfo,
+            sourceBarInfo: $sourceBarInfo,
             targetBarInfo: $targetBarInfo
         )
         .snack(isPresented: $isInvalidInputSnackShown) {
@@ -47,8 +47,8 @@ struct WatchersRootView: View {
             SnackView(text: String(\.text_too_big_input))
         }
         .sheet(
-            isPresented: $baseBarInfo.isShown,
-            content: { SelectCurrencyRootView(isBarShown: $baseBarInfo.isShown).environmentObject(navigationStack) }
+            isPresented: $sourceBarInfo.isShown,
+            content: { SelectCurrencyRootView(isBarShown: $sourceBarInfo.isShown).environmentObject(navigationStack) }
         )
         .sheet(
             isPresented: $targetBarInfo.isShown,
@@ -78,8 +78,8 @@ struct WatchersRootView: View {
         case is WatchersEffect.Back:
             navigationStack.pop()
         case let selectBaseEffect as WatchersEffect.SelectBase:
-            baseBarInfo.watcher = selectBaseEffect.watcher
-            baseBarInfo.isShown.toggle()
+            sourceBarInfo.watcher = selectBaseEffect.watcher
+            sourceBarInfo.isShown.toggle()
         case let selectTargetEffect as WatchersEffect.SelectTarget:
             targetBarInfo.watcher = selectTargetEffect.watcher
             targetBarInfo.isShown.toggle()
