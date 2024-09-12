@@ -7,6 +7,7 @@ import com.github.submob.basemob.adapter.BaseVBRecyclerViewAdapter
 import com.oztechan.ccc.android.ui.mobile.databinding.ItemSelectCurrencyBinding
 import com.oztechan.ccc.android.ui.mobile.util.setBackgroundByName
 import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyEvent
+import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import com.oztechan.ccc.common.core.model.Currency
 
 class SelectCurrencyAdapter(
@@ -30,7 +31,12 @@ class SelectCurrencyAdapter(
         override fun onItemBind(item: Currency) = with(itemBinding) {
             imgIcon.setBackgroundByName(item.code)
             txtSettingItem.text = item.getVariablesOneLine()
-            root.setOnClickListener { selectCurrencyEvent.onItemClick(item) }
+            root.setOnClickListener {
+                selectCurrencyEvent.onItemClick(
+                    item,
+                    SelectCurrencyPurpose.BASE
+                )
+            }
         }
     }
 

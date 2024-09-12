@@ -48,11 +48,21 @@ struct WatchersRootView: View {
         }
         .sheet(
             isPresented: $sourceBarInfo.isShown,
-            content: { SelectCurrencyRootView(isBarShown: $sourceBarInfo.isShown).environmentObject(navigationStack) }
+            content: {
+                SelectCurrencyRootView(
+                    isBarShown: $sourceBarInfo.isShown,
+                    purpose: .source
+                ).environmentObject(navigationStack)
+            }
         )
         .sheet(
             isPresented: $targetBarInfo.isShown,
-            content: { SelectCurrencyRootView(isBarShown: $targetBarInfo.isShown).environmentObject(navigationStack) }
+            content: {
+                SelectCurrencyRootView(
+                    isBarShown: $targetBarInfo.isShown,
+                    purpose: .target
+                ).environmentObject(navigationStack)
+            }
         )
         .onAppear {
             observable.startObserving()
