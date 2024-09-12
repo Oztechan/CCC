@@ -78,8 +78,6 @@ struct WatchersRootView: View {
         case is WatchersEffect.Back:
             navigationStack.pop()
         case let selectBaseEffect as WatchersEffect.SelectBase:
-            baseBarInfo.watcher = selectBaseEffect.watcher
-            baseBarInfo.isShown.toggle()
             sourceBarInfo.watcher = selectBaseEffect.watcher
             sourceBarInfo.isShown.toggle()
         case let selectTargetEffect as WatchersEffect.SelectTarget:
