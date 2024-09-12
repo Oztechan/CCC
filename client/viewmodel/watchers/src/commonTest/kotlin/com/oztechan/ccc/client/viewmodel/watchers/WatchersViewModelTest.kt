@@ -135,9 +135,9 @@ internal class WatchersViewModelTest {
     }
 
     @Test
-    fun onBaseChanged() {
+    fun onSourceChanged() {
         val mockBase = "mock"
-        viewModel.event.onBaseChanged(watcher, mockBase)
+        viewModel.event.onSourceChanged(watcher, mockBase)
 
         runTest {
             verifySuspend { watcherDataSource.updateWatcherBaseById(mockBase, watcher.id) }

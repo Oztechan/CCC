@@ -51,8 +51,8 @@ class WatchersViewModel(
         sendEffect { WatchersEffect.SelectTarget(watcher) }
     }
 
-    override fun onBaseChanged(watcher: Watcher, newBase: String) {
-        Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
+    override fun onSourceChanged(watcher: Watcher, newBase: String) {
+        Logger.d { "WatcherViewModel onSourceChanged $watcher $newBase" }
         viewModelScope.launch {
             watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
         }
