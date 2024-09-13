@@ -76,13 +76,19 @@ struct WatcherItem: View {
         }.sheet(
             isPresented: $isSourceBarShown,
             content: {
-                SelectCurrencyRootView(isBarShown: $isSourceBarShown, purpose: SelectCurrencyPurpose.Source(watcher: watcher))
+                SelectCurrencyRootView(
+                    isBarShown: $isSourceBarShown,
+                    purpose: SelectCurrencyPurpose.Source(watcher: watcher)
+                )
             }
         )
         .sheet(
             isPresented: $isTargetBarShown,
             content: {
-                SelectCurrencyRootView(isBarShown: $isTargetBarShown, purpose: SelectCurrencyPurpose.Target(watcher: watcher))
+                SelectCurrencyRootView(
+                    isBarShown: $isTargetBarShown,
+                    purpose: SelectCurrencyPurpose.Target(watcher: watcher)
+                )
             }
         )
     }
