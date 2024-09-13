@@ -5,5 +5,5 @@ import com.oztechan.ccc.client.viewmodel.selectcurrency.SelectCurrencyViewModel
 import org.koin.dsl.module
 
 val clientViewModelSelectCurrencyModule = module {
-    viewModelDefinition { SelectCurrencyViewModel(get(), get()) }
+    viewModelDefinition { SelectCurrencyViewModel(get(), get(), get()) }
 }

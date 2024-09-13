@@ -27,6 +27,7 @@ kotlin {
 
             Modules.Client.DataSource.apply {
                 implementation(project(currency))
+                implementation(project(watcher))
             }
             Modules.Client.Storage.apply {
                 implementation(project(calculation))

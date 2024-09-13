@@ -6,6 +6,7 @@ package com.oztechan.ccc.client.viewmodel.selectcurrency
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import dev.mokkery.MockMode
@@ -33,11 +34,12 @@ import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 internal class SelectCurrencyViewModelTest {
 
     private val viewModel: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(calculationStorage, currencyDataSource)
+        SelectCurrencyViewModel(calculationStorage, currencyDataSource, watcherDataSource)
     }
 
     private val currencyDataSource = mock<CurrencyDataSource>()
     private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
+    private val watcherDataSource = mock<WatcherDataSource>(MockMode.autoUnit)
 
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
@@ -101,7 +103,7 @@ internal class SelectCurrencyViewModelTest {
     fun onItemClick() = runTest {
         // base
         viewModel.effect.onSubscription {
-            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.BASE)
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Base)
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencyChange>(it)

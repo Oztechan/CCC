@@ -83,7 +83,7 @@ struct CalculatorRootView: View {
             content: {
                 SelectCurrencyRootView(
                     isBarShown: $isBarShown,
-                    purpose: .base
+                    purpose: SelectCurrencyPurpose.Base()
                 ).environmentObject(navigationStack)
             }
         )
