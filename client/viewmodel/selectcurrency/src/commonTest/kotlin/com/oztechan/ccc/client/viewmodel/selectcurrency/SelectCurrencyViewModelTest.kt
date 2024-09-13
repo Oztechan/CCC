@@ -106,8 +106,7 @@ internal class SelectCurrencyViewModelTest {
             viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Base)
         }.firstOrNull().let {
             assertNotNull(it)
-            assertIs<SelectCurrencyEffect.CurrencyChange>(it)
-            assertEquals(currencyDollar.code, it.newBase)
+            assertIs<SelectCurrencyEffect.CurrencySelected>(it)
             verify { calculationStorage.currentBase = currencyDollar.code }
         }
     }

@@ -54,7 +54,7 @@ class SelectCurrencyViewModel(
                     purpose.watcher.id
                 )
             }
-            sendEffect { SelectCurrencyEffect.CurrencyChange(currency.code) }
+            sendEffect { SelectCurrencyEffect.CurrencySelected }
         }
     }
 
