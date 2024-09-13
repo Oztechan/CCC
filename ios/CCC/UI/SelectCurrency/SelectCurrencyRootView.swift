@@ -43,7 +43,7 @@ struct SelectCurrencyRootView: View {
     private func onEffect(effect: SelectCurrencyEffect) {
         logger.i(message: { "SelectCurrencyRootView onEffect \(effect.description)" })
         switch effect {
-        case is SelectCurrencyEffect.CurrencyChange:
+        case is SelectCurrencyEffect.CurrencySelected:
             isBarShown = false
         case is SelectCurrencyEffect.OpenCurrencies:
             navigationStack.push(CurrenciesRootView())

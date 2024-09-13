@@ -84,7 +84,7 @@ class SelectCurrencyBottomSheet :
         .onEach { viewEffect ->
             Logger.i { "SelectCurrencyBottomSheet observeEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                is SelectCurrencyEffect.CurrencyChange -> dismissDialog()
+                is SelectCurrencyEffect.CurrencySelected -> dismissDialog()
 
                 SelectCurrencyEffect.OpenCurrencies -> navigate(
                     R.id.selectCurrencyBottomSheet,
