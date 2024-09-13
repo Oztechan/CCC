@@ -9,11 +9,13 @@ import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
+import com.oztechan.ccc.common.core.model.Watcher
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.mock
 import dev.mokkery.verify
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -101,13 +103,42 @@ internal class SelectCurrencyViewModelTest {
 
     @Test
     fun onItemClick() = runTest {
-        // base
+        val watcher = Watcher(1, "USD", "EUR", true, 1.0)
+        // Base
         viewModel.effect.onSubscription {
             viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Base)
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<SelectCurrencyEffect.CurrencySelected>(it)
             verify { calculationStorage.currentBase = currencyDollar.code }
+        }
+
+        // Source
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Source(watcher))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<SelectCurrencyEffect.CurrencySelected>(it)
+            verifySuspend {
+                watcherDataSource.updateWatcherBaseById(
+                    currencyDollar.code,
+                    watcher.id
+                )
+            }
+        }
+
+        // Target
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Target(watcher))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<SelectCurrencyEffect.CurrencySelected>(it)
+            verifySuspend {
+                watcherDataSource.updateWatcherTargetById(
+                    currencyDollar.code,
+                    watcher.id
+                )
+            }
         }
     }
 
