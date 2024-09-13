@@ -34,7 +34,7 @@ class SelectCurrencyAdapter(
             root.setOnClickListener {
                 selectCurrencyEvent.onItemClick(
                     item,
-                    SelectCurrencyPurpose.BASE
+                    SelectCurrencyPurpose.Base
                 )
             }
         }
