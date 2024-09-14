@@ -155,7 +155,7 @@ internal class WidgetViewModelTest {
             assertNotNull(it)
             assertTrue { it.currencyList.isEmpty() }
             assertEquals("", it.lastUpdate)
-            assertEquals(base, it.currentBase)
+            assertEquals(base, it.base)
             assertEquals(appStorage.premiumEndDate.isNotPassed(), it.isPremium)
         }
     }
