@@ -82,6 +82,7 @@ class CalculatorViewModel(
         .distinctUntilChanged()
         .onEach {
             Logger.d { "CalculatorViewModel observeBase $it" }
+            calculationStorage.currentBase = it
             currentBaseChanged(it)
         }
         .launchIn(viewModelScope)
@@ -173,7 +174,6 @@ class CalculatorViewModel(
     private fun currentBaseChanged(newBase: String) =
         viewModelScope.launch {
             data.conversion = null
-            calculationStorage.currentBase = newBase
             val symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
             setState {
                 copy(
