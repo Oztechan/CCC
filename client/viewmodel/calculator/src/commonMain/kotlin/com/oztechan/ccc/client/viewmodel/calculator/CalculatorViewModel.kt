@@ -102,7 +102,7 @@ class CalculatorViewModel(
         data.conversion?.let {
             calculateConversions(it, ConversionState.Cached(it.date))
         } ?: viewModelScope.launch {
-            runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
+            runCatching { backendApiService.getConversion(state.value.base) }
                 .onFailure(::updateConversionFailed)
                 .onSuccess(::updateConversionSuccess)
         }
@@ -119,7 +119,7 @@ class CalculatorViewModel(
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launch {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
-            calculationStorage.currentBase
+            state.value.base
         )?.let {
             calculateConversions(it, ConversionState.Offline(it.date))
         } ?: run {
@@ -231,7 +231,7 @@ class CalculatorViewModel(
         sendEffect {
             CalculatorEffect.ShowConversion(
                 currency.getConversionStringFromBase(
-                    calculationStorage.currentBase,
+                    state.value.base,
                     data.conversion
                 ),
                 currency.code
