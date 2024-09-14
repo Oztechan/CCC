@@ -10,7 +10,8 @@ val androidViewModelWidgetModule = module {
             calculationStorage = get(),
             backendApiService = get(),
             currencyDataSource = get(),
-            appStorage = get()
+            appStorage = get(),
+            analyticsManager = get()
         )
     }
 }

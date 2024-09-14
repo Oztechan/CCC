@@ -41,6 +41,7 @@ dependencies {
     Modules.Client.Core.apply {
         implementation(project(viewModel))
         implementation(project(shared))
+        implementation(project(analytics))
     }
 
     Modules.Client.Storage.apply {
