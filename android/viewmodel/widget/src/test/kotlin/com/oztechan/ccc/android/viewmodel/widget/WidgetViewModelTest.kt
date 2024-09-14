@@ -226,7 +226,6 @@ internal class WidgetViewModelTest {
         verifySuspend(VerifyMode.not) { currencyDataSource.getActiveCurrencies() }
 
         verify(VerifyMode.not) { calculationStorage.currentBase = any<String>() }
-
         verify(VerifyMode.not) { analyticsManager.trackEvent(Event.BaseChange(Param.Base(any<String>()))) }
         verify(VerifyMode.not) { analyticsManager.setUserProperty(UserProperty.BaseCurrency(any<String>())) }
     }
@@ -242,10 +241,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = lastBase }
-
-        verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(lastBase))) }
-        verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(lastBase)) }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = lastBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        lastBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    lastBase
+                )
+            )
+        }
 
         every { calculationStorage.currentBase }
             .returns(lastBase)
@@ -254,10 +266,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = firstBase }
-
-        verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(firstBase))) }
-        verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(firstBase)) }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = firstBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        firstBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    firstBase
+                )
+            )
+        }
     }
 
     @Test
@@ -270,9 +295,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = firstBase }
-        verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(firstBase))) }
-        verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(firstBase)) }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = firstBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        firstBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    firstBase
+                )
+            )
+        }
 
         every { calculationStorage.currentBase }
             .returns(firstBase)
@@ -281,9 +320,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = lastBase }
-        verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(lastBase))) }
-        verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(lastBase)) }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = lastBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        lastBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    lastBase
+                )
+            )
+        }
     }
 
     @Test

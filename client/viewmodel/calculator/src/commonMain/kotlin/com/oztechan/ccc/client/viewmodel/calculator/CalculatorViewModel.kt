@@ -279,7 +279,7 @@ class CalculatorViewModel(
         calculationStorage.currentBase
             .takeIf { it != state.value.base }
             ?.let {
-                currentBaseChanged(it)
+                setState { copy(base = it) }
                 calculateOutput(state.value.input)
             }
     }

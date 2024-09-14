@@ -32,6 +32,7 @@ import dev.mokkery.every
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify
+import dev.mokkery.verify.VerifyMode
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
@@ -492,6 +493,7 @@ internal class CalculatorViewModelTest {
         }
     }
 
+    @Suppress("LongMethod")
     @Test
     fun onSheetDismissed() = runTest {
         // when base in state is equal to base in storage
@@ -509,11 +511,25 @@ internal class CalculatorViewModelTest {
             assertEquals(currency1.code, viewModel.data.conversion!!.base)
             assertEquals(currency1.code, it.base)
 
-            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
-            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+            verify(VerifyMode.exactly(1)) {
+                analyticsManager.trackEvent(
+                    Event.BaseChange(
+                        Param.Base(
+                            currency1.code
+                        )
+                    )
+                )
+            }
+            verify(VerifyMode.exactly(1)) {
+                analyticsManager.setUserProperty(
+                    UserProperty.BaseCurrency(
+                        currency1.code
+                    )
+                )
+            }
 
             // from initial state
-            verify { calculationStorage.currentBase = currency1.code }
+            verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = currency1.code }
         }
 
         // when base in state is not equal to base in storage
@@ -534,9 +550,23 @@ internal class CalculatorViewModelTest {
             assertEquals(currency2.code, viewModel.data.conversion!!.base)
             assertEquals(currency2.code, it.base)
 
-            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency2.code))) }
-            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency2.code)) }
-            verify { calculationStorage.currentBase = currency2.code }
+            verify(VerifyMode.exactly(1)) {
+                analyticsManager.trackEvent(
+                    Event.BaseChange(
+                        Param.Base(
+                            currency2.code
+                        )
+                    )
+                )
+            }
+            verify(VerifyMode.exactly(1)) {
+                analyticsManager.setUserProperty(
+                    UserProperty.BaseCurrency(
+                        currency2.code
+                    )
+                )
+            }
+            verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = currency2.code }
         }
     }
 }
