@@ -185,6 +185,8 @@ class CalculatorViewModel(
 
             analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
             analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+
+            updateConversion()
         }
 
     // region Event
@@ -280,7 +282,6 @@ class CalculatorViewModel(
             .takeIf { it != state.value.base }
             ?.let {
                 setState { copy(base = it) }
-                calculateOutput(state.value.input)
             }
     }
     // endregion
