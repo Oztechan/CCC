@@ -21,7 +21,7 @@ class WidgetViewModel(
     private val appStorage: AppStorage
 ) : SEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(
     initialState = WidgetState(
-        currentBase = calculationStorage.currentBase,
+        base = calculationStorage.currentBase,
         isPremium = appStorage.premiumEndDate.isNotPassed()
     ),
     initialData = WidgetData()
@@ -33,7 +33,7 @@ class WidgetViewModel(
             copy(
                 currencyList = listOf(),
                 lastUpdate = "",
-                currentBase = calculationStorage.currentBase,
+                base = calculationStorage.currentBase,
                 isPremium = appStorage.premiumEndDate.isNotPassed()
             )
         }

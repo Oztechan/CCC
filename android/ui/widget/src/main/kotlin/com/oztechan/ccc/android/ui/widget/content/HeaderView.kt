@@ -22,7 +22,7 @@ import com.oztechan.ccc.client.core.res.getImageIdByName
 @Suppress("RestrictedApi")
 @Composable
 fun HeaderView(
-    currentBase: String,
+    base: String,
     onBackClick: () -> Unit,
     onNextClick: () -> Unit
 ) {
@@ -43,14 +43,14 @@ fun HeaderView(
         Spacer(modifier = GlanceModifier.defaultWeight())
 
         ImageView(
-            provider = ImageProvider(currentBase.getImageIdByName()),
+            provider = ImageProvider(base.getImageIdByName()),
             modifier = GlanceModifier
                 .size(32.dp)
                 .padding(horizontal = 2.dp)
         )
 
         Text(
-            text = currentBase,
+            text = base,
             style = TextStyle(color = ColorProvider(R.color.text), fontSize = 15.sp),
             modifier = GlanceModifier.padding(horizontal = 2.dp)
         )
