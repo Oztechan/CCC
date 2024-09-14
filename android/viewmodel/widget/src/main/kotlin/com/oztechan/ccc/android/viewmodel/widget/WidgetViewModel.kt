@@ -2,6 +2,10 @@ package com.oztechan.ccc.android.viewmodel.widget
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.android.viewmodel.widget.WidgetData.Companion.MAXIMUM_NUMBER_OF_CURRENCY
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.Event
+import com.oztechan.ccc.client.core.analytics.model.Param
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
@@ -18,7 +22,8 @@ class WidgetViewModel(
     private val calculationStorage: CalculationStorage,
     private val backendApiService: BackendApiService,
     private val currencyDataSource: CurrencyDataSource,
-    private val appStorage: AppStorage
+    private val appStorage: AppStorage,
+    private val analyticsManager: AnalyticsManager
 ) : SEEDViewModel<WidgetState, BaseEffect, WidgetEvent, WidgetData>(
     initialState = WidgetState(
         base = calculationStorage.currentBase,
@@ -82,7 +87,12 @@ class WidgetViewModel(
                     (it + activeCurrencies.size) % activeCurrencies.size // it handles index -1 and index size +1
                 }
 
+            val newBase = activeCurrencies[newBaseIndex].code
+
             calculationStorage.currentBase = activeCurrencies[newBaseIndex].code
+
+            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
 
             refreshWidgetData()
         }
