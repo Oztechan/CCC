@@ -303,11 +303,12 @@ internal class CalculatorViewModelTest {
     @Test
     fun `when base changed the values in the list should be recalculated according to the new base and prettied`() =
         runTest {
+            val input = "1000"
             viewModel.state.onSubscription {
-                viewModel.event.onKeyPress("1000")
+                viewModel.event.onKeyPress(input)
             }.firstOrNull().let {
                 assertNotNull(it)
-                assertEquals("1000", it.input)
+                assertEquals(input, it.input)
                 assertEquals("1 000", it.output)
                 assertEquals(currency1.symbol, it.symbol)
                 assertEquals(currency1.code, it.base)
@@ -328,7 +329,7 @@ internal class CalculatorViewModelTest {
                     currencyDataSource.getCurrencyByCode(currency1.code)
                     analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code)))
                     analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code))
-                    calculationStorage.lastInput = "1000"
+                    calculationStorage.lastInput = input
                 }
             }
 
@@ -342,7 +343,7 @@ internal class CalculatorViewModelTest {
                 viewModel.onSheetDismissed()
             }.firstOrNull().let {
                 assertNotNull(it)
-                assertEquals("1000", it.input)
+                assertEquals(input, it.input)
                 assertEquals("1 000", it.output)
                 assertEquals(currency2.symbol, it.symbol)
                 assertEquals(currency2.code, it.base)
