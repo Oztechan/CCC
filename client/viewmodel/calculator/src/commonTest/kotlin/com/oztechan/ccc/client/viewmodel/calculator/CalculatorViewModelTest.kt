@@ -75,10 +75,13 @@ internal class CalculatorViewModelTest {
     private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val currency1 = Currency("USD", "Dollar", "$", "12345.678", true)
-    private val currency2 = Currency("EUR", "Dollar", "$", "12345.678", true)
-    private val currencyList = listOf(currency1, currency2)
-    private val conversion = Conversion(currency1.code, "12.12.2121")
-    private val conversion2 = Conversion(currency2.code, "12.12.2121")
+    private val currency2 = Currency("EUR", "Euro", "€", "23456.789", true)
+    private val currency3 = Currency("TRY", "Turkish Lira", "₺", "34567.890", true)
+    private val currencyList = listOf(currency1, currency2, currency3)
+    private val conversion1 =
+        Conversion(currency1.code, "12.12.2121", usd = 1.0, eur = 2.0, `try` = 3.0)
+    private val conversion2 =
+        Conversion(currency2.code, "12.12.2121", usd = 1.5, eur = 1.0, `try` = 2.5)
     private val shouldShowAds = Random.nextBoolean()
 
     @BeforeTest
@@ -108,10 +111,10 @@ internal class CalculatorViewModelTest {
                 .returns(currencyList)
 
             everySuspend { conversionDataSource.getConversionByBase(currency1.code) }
-                .returns(conversion)
+                .returns(conversion1)
 
             everySuspend { backendApiService.getConversion(currency1.code) }
-                .returns(conversion)
+                .returns(conversion1)
 
             everySuspend { currencyDataSource.getCurrencyByCode(currency1.code) }
                 .returns(currency1)
@@ -179,10 +182,10 @@ internal class CalculatorViewModelTest {
             }.firstOrNull().let {
                 assertNotNull(it)
                 assertFalse { it.loading }
-                assertEquals(ConversionState.Offline(conversion.date), it.conversionState)
+                assertEquals(ConversionState.Offline(conversion1.date), it.conversionState)
 
                 val result = currencyList.onEach { currency ->
-                    currency.rate = conversion.calculateRate(currency.code, it.output)
+                    currency.rate = conversion1.calculateRate(currency.code, it.output)
                         .getFormatted(calculationStorage.precision)
                         .toStandardDigits()
                 }
@@ -296,6 +299,67 @@ internal class CalculatorViewModelTest {
             assertEquals("1 111", it.output)
         }
     }
+
+    @Suppress("StringLiteralDuplication")
+    @Test
+    fun `when base changed the values in the list should be recalculated according to the new base and prettied`() =
+        runTest {
+            val input = "1000"
+            viewModel.state.onSubscription {
+                viewModel.event.onKeyPress(input)
+            }.firstOrNull().let {
+                assertNotNull(it)
+                assertEquals(input, it.input)
+                assertEquals("1 000", it.output)
+                assertEquals(currency1.symbol, it.symbol)
+                assertEquals(currency1.code, it.base)
+                assertEquals("1 000", it.currencyList[0].rate)
+                assertEquals("2 000", it.currencyList[1].rate)
+                assertEquals("3 000", it.currencyList[2].rate)
+
+                verifySuspend(VerifyMode.order) {
+                    currencyDataSource.getActiveCurrenciesFlow()
+                    currencyDataSource.getActiveCurrencies()
+                    analyticsManager.setUserProperty(
+                        UserProperty.CurrencyCount(
+                            currencyList.count().toString()
+                        )
+                    )
+                    calculationStorage.currentBase = currency1.code
+                    calculationStorage.lastInput = ""
+                    currencyDataSource.getCurrencyByCode(currency1.code)
+                    analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code)))
+                    analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code))
+                    calculationStorage.lastInput = input
+                }
+            }
+
+            viewModel.state.onSubscription {
+                everySuspend { backendApiService.getConversion(currency2.code) }
+                    .returns(conversion2)
+                everySuspend { currencyDataSource.getCurrencyByCode(currency2.code) }
+                    .returns(currency2)
+                every { calculationStorage.currentBase }
+                    .returns(currency2.code)
+                viewModel.onSheetDismissed()
+            }.firstOrNull().let {
+                assertNotNull(it)
+                assertEquals(input, it.input)
+                assertEquals("1 000", it.output)
+                assertEquals(currency2.symbol, it.symbol)
+                assertEquals(currency2.code, it.base)
+                assertEquals("1 500", it.currencyList[0].rate)
+                assertEquals("1 000", it.currencyList[1].rate)
+                assertEquals("2 500", it.currencyList[2].rate)
+
+                verifySuspend(VerifyMode.order) {
+                    calculationStorage.currentBase = currency2.code
+                    currencyDataSource.getCurrencyByCode(currency2.code)
+                    analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency2.code)))
+                    analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency2.code))
+                }
+            }
+        }
 
     // Analytics
     @Test
@@ -501,7 +565,7 @@ internal class CalculatorViewModelTest {
             .returns(currency1.code)
 
         everySuspend { backendApiService.getConversion(currency1.code) }
-            .returns(conversion)
+            .returns(conversion1)
 
         viewModel.state.onSubscription {
             viewModel.event.onSheetDismissed()
