@@ -300,6 +300,7 @@ internal class CalculatorViewModelTest {
         }
     }
 
+    @Suppress("StringLiteralDuplication")
     @Test
     fun `when base changed the values in the list should be recalculated according to the new base and prettied`() =
         runTest {
