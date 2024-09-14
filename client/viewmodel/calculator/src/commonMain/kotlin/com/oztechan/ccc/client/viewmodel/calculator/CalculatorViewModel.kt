@@ -82,7 +82,7 @@ class CalculatorViewModel(
         .distinctUntilChanged()
         .onEach {
             Logger.d { "CalculatorViewModel observeBase $it" }
-            currentBaseChanged(it, true)
+            currentBaseChanged(it)
         }
         .launchIn(viewModelScope)
 
@@ -170,7 +170,7 @@ class CalculatorViewModel(
         }
     }
 
-    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
+    private fun currentBaseChanged(newBase: String) =
         viewModelScope.launch {
             data.conversion = null
             calculationStorage.currentBase = newBase
@@ -183,10 +183,8 @@ class CalculatorViewModel(
                 )
             }
 
-            if (shouldTrack) {
-                analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-                analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
-            }
+            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
         }
 
     // region Event
