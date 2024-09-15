@@ -81,23 +81,37 @@ class CalculatorViewModel(
     private fun observeBase() = state.map { it.base }
         .distinctUntilChanged()
         .onEach {
-            setState { copy(loading = true) }
             Logger.d { "CalculatorViewModel observeBase $it" }
+
+            setState { copy(loading = true) }
+
             calculationStorage.currentBase = it
-            currentBaseChanged(it)
+            data.conversion = null
+
             updateSymbol()
+
+            analyticsManager.trackEvent(Event.BaseChange(Param.Base(it)))
+            analyticsManager.setUserProperty(UserProperty.BaseCurrency(it))
+
+            updateConversion()
         }
         .launchIn(viewModelScope)
 
     private fun observeInput() = state.map { it.input }
         .distinctUntilChanged()
         .onEach {
-            setState { copy(loading = true) }
             Logger.d { "CalculatorViewModel observeInput $it" }
+
+            setState { copy(loading = true) }
             calculationStorage.lastInput = it
             calculateOutput(it)
         }
         .launchIn(viewModelScope)
+
+    private suspend fun updateSymbol() {
+        val symbol = currencyDataSource.getCurrencyByCode(state.value.base)?.symbol.orEmpty()
+        setState { copy(symbol = symbol) }
+    }
 
     private fun updateConversion() {
         data.conversion?.let {
@@ -172,21 +186,6 @@ class CalculatorViewModel(
 
             else -> updateConversion()
         }
-    }
-
-    private fun currentBaseChanged(newBase: String) {
-        data.conversion = null
-        setState { copy(base = newBase) }
-
-        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
-
-        updateConversion()
-    }
-
-    private suspend fun updateSymbol() {
-        val symbol = currencyDataSource.getCurrencyByCode(state.value.base)?.symbol.orEmpty()
-        setState { copy(symbol = symbol) }
     }
 
     // region Event
