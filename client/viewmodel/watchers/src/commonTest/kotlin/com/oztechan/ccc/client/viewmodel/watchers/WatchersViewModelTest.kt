@@ -113,9 +113,9 @@ internal class WatchersViewModelTest {
     }
 
     @Test
-    fun onBaseClick() = runTest {
+    fun onSourceClick() = runTest {
         viewModel.effect.onSubscription {
-            viewModel.event.onBaseClick(watcher)
+            viewModel.event.onSourceClick(watcher)
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<WatchersEffect.SelectBase>(it)

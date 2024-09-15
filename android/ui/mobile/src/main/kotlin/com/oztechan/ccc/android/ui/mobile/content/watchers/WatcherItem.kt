@@ -35,7 +35,7 @@ import com.oztechan.ccc.common.core.model.Watcher
 fun WatcherItem(
     watcher: Watcher,
     onRateChange: (String) -> Unit,
-    onBaseClick: () -> Unit,
+    onSourceClick: () -> Unit,
     onTargetClick: () -> Unit
 ) {
     val itemPadding: Dp = 2.dp
@@ -54,16 +54,16 @@ fun WatcherItem(
         )
 
         Text(
-            text = watcher.base,
+            text = watcher.source,
             modifier = Modifier.padding(itemPadding),
         )
 
         ImageView(
-            painter = watcher.base.getImageIdByName().toPainter(),
+            painter = watcher.source.getImageIdByName().toPainter(),
             modifier = Modifier
                 .size(itemHeight)
                 .padding(itemPadding)
-                .clickable { onBaseClick() }
+                .clickable { onSourceClick() }
         )
 
         Text(
@@ -109,13 +109,13 @@ fun WatcherItemPreview() = Preview {
     WatcherItem(
         watcher = Watcher(
             id = 0,
-            base = "EUR",
+            source = "EUR",
             target = "USD",
             isGreater = false,
             rate = 123456789.0
         ),
         onRateChange = {},
-        onBaseClick = {},
+        onSourceClick = {},
         onTargetClick = {}
     )
 }

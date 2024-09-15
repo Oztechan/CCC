@@ -22,7 +22,7 @@ sealed class WatchersEffect : BaseEffect {
 
 interface WatchersEvent : BaseEvent {
     fun onBackClick()
-    fun onBaseClick(watcher: Watcher)
+    fun onSourceClick(watcher: Watcher)
     fun onTargetClick(watcher: Watcher)
     fun onSourceChanged(watcher: Watcher, newBase: String)
     fun onTargetChanged(watcher: Watcher, newTarget: String)

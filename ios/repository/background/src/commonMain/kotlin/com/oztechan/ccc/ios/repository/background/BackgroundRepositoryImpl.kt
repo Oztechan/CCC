@@ -22,7 +22,7 @@ internal class BackgroundRepositoryImpl(
         runBlocking {
             watchersDataSource.getWatchers().forEach { watcher ->
 
-                runCatching { backendApiService.getConversion(watcher.base) }
+                runCatching { backendApiService.getConversion(watcher.source) }
                     .onSuccess {
                         it.getRateFromCode(watcher.target)?.let { rate ->
                             when {

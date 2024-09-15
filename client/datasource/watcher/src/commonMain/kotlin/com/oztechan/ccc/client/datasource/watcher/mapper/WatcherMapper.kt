@@ -6,7 +6,7 @@ import com.oztechan.ccc.common.core.model.Watcher as WatcherModel
 
 internal fun WatcherDBModel.toWatcherModel() = WatcherModel(
     id = id,
-    base = base,
+    source = base,
     target = target,
     isGreater = isGreater.toBoolean(),
     rate = rate,
