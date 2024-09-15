@@ -320,6 +320,8 @@ internal class CalculatorViewModelTest {
                 verifySuspend(VerifyMode.order) {
                     currencyDataSource.getActiveCurrenciesFlow()
                     currencyDataSource.getActiveCurrencies()
+                    calculationStorage.currentBase
+                    calculationStorage.lastInput
                     analyticsManager.setUserProperty(
                         UserProperty.CurrencyCount(
                             currencyList.count().toString()
@@ -353,6 +355,7 @@ internal class CalculatorViewModelTest {
                 assertEquals("2 500", it.currencyList[2].rate)
 
                 verifySuspend(VerifyMode.order) {
+                    calculationStorage.currentBase
                     calculationStorage.currentBase = currency2.code
                     analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency2.code)))
                     analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency2.code))
