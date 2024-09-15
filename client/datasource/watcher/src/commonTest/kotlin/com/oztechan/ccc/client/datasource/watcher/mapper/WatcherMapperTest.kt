@@ -11,7 +11,7 @@ internal class WatcherMapperTest {
         val model = Fakes.watcherDBModel.toWatcherModel()
 
         assertEquals(Fakes.watcherDBModel.id, model.id)
-        assertEquals(Fakes.watcherDBModel.base, model.base)
+        assertEquals(Fakes.watcherDBModel.base, model.source)
         assertEquals(Fakes.watcherDBModel.target, model.target)
         assertEquals(Fakes.watcherDBModel.isGreater.toBoolean(), model.isGreater)
         assertEquals(Fakes.watcherDBModel.rate, model.rate)

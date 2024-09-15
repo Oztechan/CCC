@@ -26,8 +26,8 @@ struct WatcherItem: View {
         HStack {
             Text(String(\.one)).font(relative: .body)
 
-            CurrencyImageView(imageName: watcher.base)
-                .onTapGesture { event.onBaseClick(watcher: watcher) }
+            CurrencyImageView(imageName: watcher.source)
+                .onTapGesture { event.onSourceClick(watcher: watcher) }
 
             Picker("", selection: $relationSelection) {
                 Text(String(\.txt_smaller))
