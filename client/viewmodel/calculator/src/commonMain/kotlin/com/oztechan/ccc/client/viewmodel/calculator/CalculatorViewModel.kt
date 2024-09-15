@@ -176,12 +176,7 @@ class CalculatorViewModel(
 
     private fun currentBaseChanged(newBase: String) {
         data.conversion = null
-        setState {
-            copy(
-                base = newBase,
-                input = input
-            )
-        }
+        setState { copy(base = newBase) }
 
         analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
         analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
