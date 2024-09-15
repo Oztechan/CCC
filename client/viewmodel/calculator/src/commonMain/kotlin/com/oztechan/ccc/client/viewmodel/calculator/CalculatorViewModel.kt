@@ -131,18 +131,20 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) =
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) {
+        val precision = calculationStorage.precision
         setState {
             copy(
                 currencyList = state.value.currencyList.onEach {
                     it.rate = conversion.calculateRate(it.code, state.value.output)
-                        .getFormatted(calculationStorage.precision)
+                        .getFormatted(precision)
                         .toStandardDigits()
                 },
                 conversionState = conversionState,
                 loading = false
             )
         }
+    }
 
     private fun calculateOutput(input: String) {
         val output = data.parser
