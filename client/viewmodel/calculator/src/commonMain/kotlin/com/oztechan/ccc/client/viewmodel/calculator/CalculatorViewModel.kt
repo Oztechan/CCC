@@ -81,6 +81,7 @@ class CalculatorViewModel(
     private fun observeBase() = state.map { it.base }
         .distinctUntilChanged()
         .onEach {
+            setState { copy(loading = true) }
             Logger.d { "CalculatorViewModel observeBase $it" }
             calculationStorage.currentBase = it
             currentBaseChanged(it)
@@ -91,6 +92,7 @@ class CalculatorViewModel(
     private fun observeInput() = state.map { it.input }
         .distinctUntilChanged()
         .onEach {
+            setState { copy(loading = true) }
             Logger.d { "CalculatorViewModel observeInput $it" }
             calculationStorage.lastInput = it
             calculateOutput(it)
@@ -98,8 +100,6 @@ class CalculatorViewModel(
         .launchIn(viewModelScope)
 
     private fun updateConversion() {
-        setState { copy(loading = true) }
-
         data.conversion?.let {
             calculateConversions(it, ConversionState.Cached(it.date))
         } ?: viewModelScope.launch {
