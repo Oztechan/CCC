@@ -86,7 +86,10 @@ platform :ios do
                 configuration: "Release"
             )
             pilot(skip_waiting_for_build_processing: true)
-            upload_crashlytics_symbols
+            upload_symbols_to_crashlytics(
+                dsym_path: "../ios/CCC.app.dSYM.zip",
+                binary_path: "../ios/scripts/upload-symbols",
+            )
         end
 
         lane :distributeRelease do
@@ -97,7 +100,10 @@ platform :ios do
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC.ipa"
             )
-            upload_crashlytics_symbols
+            upload_symbols_to_crashlytics(
+                dsym_path: "../ios/CCC.app.dSYM.zip",
+                binary_path: "../ios/scripts/upload-symbols",
+            )
         end
 
         lane :distributeDebug do
@@ -107,6 +113,10 @@ platform :ios do
                 release_notes: changelog_from_git_commits(commits_count: 1),
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC_I.ipa"
+            )
+            upload_symbols_to_crashlytics(
+                dsym_path: "../ios/CCC_I.app.dSYM.zip",
+                binary_path: "../ios/scripts/upload-symbols",
             )
         end
 
@@ -162,13 +172,6 @@ platform :ios do
                 export_options: {
                     signingStyle: "manual"
                 },
-            )
-        end
-
-        lane :upload_crashlytics_symbols do
-            upload_symbols_to_crashlytics(
-                dsym_path: "../ios/CCC.app.dSYM.zip",
-                binary_path: "../ios/scripts/upload-symbols",
             )
         end
 end
