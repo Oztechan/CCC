@@ -18,9 +18,7 @@ var logger: KermitLogger = {
 @main
 struct Application: App {
     init() {
-        if EnvironmentUtil.isRelease {
-            FirebaseApp.configure()
-        }
+        FirebaseApp.configure()
 
         logger.i(message: { "Application init" })
 
