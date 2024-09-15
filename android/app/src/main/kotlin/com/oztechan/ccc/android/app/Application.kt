@@ -22,9 +22,7 @@ class Application : Application() {
 
         enableCrashlyticsCollection()
 
-        if (!BuildConfig.DEBUG) {
-            initAnalytics(this)
-        }
+        initAnalytics(this)
 
         initLogger()
 
