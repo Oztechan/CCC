@@ -5,12 +5,9 @@ import com.github.submob.logmob.initCrashlytics
 import com.github.submob.logmob.initLogger
 
 @Suppress("unused")
-fun initLogger(isCrashlyticsEnabled: Boolean): Logger {
+fun initLogger(): Logger {
     // should be before initCrashlytics
     initLogger()
-
-    if (isCrashlyticsEnabled) {
-        initCrashlytics()
-    }
+    initCrashlytics()
     return Logger
 }
