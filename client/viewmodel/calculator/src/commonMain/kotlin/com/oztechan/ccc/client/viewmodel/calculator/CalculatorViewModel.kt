@@ -84,6 +84,7 @@ class CalculatorViewModel(
             Logger.d { "CalculatorViewModel observeBase $it" }
             calculationStorage.currentBase = it
             currentBaseChanged(it)
+            updateSymbol()
         }
         .launchIn(viewModelScope)
 
@@ -173,23 +174,25 @@ class CalculatorViewModel(
         }
     }
 
-    private fun currentBaseChanged(newBase: String) =
-        viewModelScope.launch {
-            data.conversion = null
-            val symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
-            setState {
-                copy(
-                    base = newBase,
-                    input = input,
-                    symbol = symbol
-                )
-            }
-
-            analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-            analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
-
-            updateConversion()
+    private fun currentBaseChanged(newBase: String) {
+        data.conversion = null
+        setState {
+            copy(
+                base = newBase,
+                input = input
+            )
         }
+
+        analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
+        analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
+
+        updateConversion()
+    }
+
+    private suspend fun updateSymbol() {
+        val symbol = currencyDataSource.getCurrencyByCode(state.value.base)?.symbol.orEmpty()
+        setState { copy(symbol = symbol) }
+    }
 
     // region Event
     override fun onKeyPress(key: String) {

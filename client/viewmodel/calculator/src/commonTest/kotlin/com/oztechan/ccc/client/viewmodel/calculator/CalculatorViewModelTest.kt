@@ -326,10 +326,10 @@ internal class CalculatorViewModelTest {
                         )
                     )
                     calculationStorage.currentBase = currency1.code
-                    calculationStorage.lastInput = ""
-                    currencyDataSource.getCurrencyByCode(currency1.code)
                     analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code)))
                     analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code))
+                    currencyDataSource.getCurrencyByCode(currency1.code)
+                    calculationStorage.lastInput = ""
                     calculationStorage.lastInput = input
                 }
             }
@@ -354,9 +354,9 @@ internal class CalculatorViewModelTest {
 
                 verifySuspend(VerifyMode.order) {
                     calculationStorage.currentBase = currency2.code
-                    currencyDataSource.getCurrencyByCode(currency2.code)
                     analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency2.code)))
                     analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency2.code))
+                    currencyDataSource.getCurrencyByCode(currency2.code)
                 }
             }
         }
