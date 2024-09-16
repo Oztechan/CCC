@@ -16,7 +16,6 @@ import com.oztechan.ccc.android.core.billing.BillingManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.BottomSheetPremiumBinding
-import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
 import com.oztechan.ccc.android.ui.mobile.util.toOldPurchaseList
@@ -108,10 +107,11 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                     viewEffect.premiumType == PremiumType.VIDEO ||
                     viewEffect.isRestorePurchase
                 ) {
-                    restartActivity()
+                    requireActivity().recreate()
                 } else {
                     billingManager.acknowledgePurchase()
                 }
+
                 is PremiumEffect.ConsumePurchase -> billingManager.consumePurchase(viewEffect.token)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -121,7 +121,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         .onEach { viewEffect ->
             Logger.i { "PremiumBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                BillingEffect.SuccessfulPurchase -> restartActivity()
+                BillingEffect.SuccessfulPurchase -> requireActivity().recreate()
                 is BillingEffect.RestoreOrConsumePurchase -> viewModel.event.onRestoreOrConsumePurchase(
                     viewEffect.purchaseList.toOldPurchaseList()
                 )
@@ -154,10 +154,5 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 viewModel.event.onPremiumActivated(PremiumType.VIDEO)
             }
         )
-    }
-
-    private fun restartActivity() = activity?.run {
-        finish()
-        resolveAndStartIntent(intent)
     }
 }
