@@ -4,6 +4,7 @@
 
 package com.oztechan.ccc.android.ui.mobile.content.premium
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
@@ -15,6 +16,7 @@ import com.oztechan.ccc.android.core.billing.BillingEffect
 import com.oztechan.ccc.android.core.billing.BillingManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
+import com.oztechan.ccc.android.ui.mobile.content.main.MainActivity
 import com.oztechan.ccc.android.ui.mobile.databinding.BottomSheetPremiumBinding
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
@@ -107,7 +109,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                     viewEffect.premiumType == PremiumType.VIDEO ||
                     viewEffect.isRestorePurchase
                 ) {
-                    requireActivity().recreate()
+                    restartActivity()
                 } else {
                     billingManager.acknowledgePurchase()
                 }
@@ -121,7 +123,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         .onEach { viewEffect ->
             Logger.i { "PremiumBottomSheet observeBillingEffects ${viewEffect::class.simpleName}" }
             when (viewEffect) {
-                BillingEffect.SuccessfulPurchase -> requireActivity().recreate()
+                BillingEffect.SuccessfulPurchase -> restartActivity()
                 is BillingEffect.RestoreOrConsumePurchase -> viewModel.event.onRestoreOrConsumePurchase(
                     viewEffect.purchaseList.toOldPurchaseList()
                 )
@@ -154,5 +156,12 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 viewModel.event.onPremiumActivated(PremiumType.VIDEO)
             }
         )
+    }
+
+    private fun restartActivity() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }
