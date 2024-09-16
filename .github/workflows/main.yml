@@ -177,7 +177,9 @@ jobs:
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
-          path: ios/CCC_I.ipa
+          path: |
+            ios/CCC_I.ipa
+            ios/CCC_I.app.dSYM.zip
 
       - name: Upload iOS Artifacts
         uses: actions/upload-artifact@v4.4.0
