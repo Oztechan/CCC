@@ -55,8 +55,8 @@ fun WatchersView(
                     onRateChange = { rate ->
                         event.onRateChange(it, rate)
                     },
-                    onBaseClick = {
-                        event.onBaseClick(it)
+                    onSourceClick = {
+                        event.onSourceClick(it)
                     },
                     onTargetClick = {
                         event.onTargetClick(it)
@@ -98,16 +98,22 @@ fun WatchersViewPreview() = Preview {
             WatchersState(
                 isBannerAdVisible = false,
                 watcherList = listOf(
-                    Watcher(id = 0, base = "EUR", target = "USD", isGreater = false, rate = 123.0),
-                    Watcher(id = 0, base = "USD", target = "EUR", isGreater = false, rate = 123.0)
+                    Watcher(
+                        id = 0,
+                        source = "EUR",
+                        target = "USD",
+                        isGreater = false,
+                        rate = 123.0
+                    ),
+                    Watcher(id = 0, source = "USD", target = "EUR", isGreater = false, rate = 123.0)
                 )
             )
         ),
         event = object : WatchersEvent {
             override fun onBackClick() = Unit
-            override fun onBaseClick(watcher: Watcher) = Unit
+            override fun onSourceClick(watcher: Watcher) = Unit
             override fun onTargetClick(watcher: Watcher) = Unit
-            override fun onBaseChanged(watcher: Watcher, newBase: String) = Unit
+            override fun onSourceChanged(watcher: Watcher, newBase: String) = Unit
             override fun onTargetChanged(watcher: Watcher, newTarget: String) = Unit
             override fun onAddClick() = Unit
             override fun onDeleteClick(watcher: Watcher) = Unit

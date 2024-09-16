@@ -49,14 +49,14 @@ internal class BackgroundRepositoryTest {
         everySuspend { watcherDataSource.getWatchers() }
             .returns(listOf(watcher))
 
-        everySuspend { backendApiService.getConversion(watcher.base) }
+        everySuspend { backendApiService.getConversion(watcher.source) }
             .throws(Exception())
 
         assertFalse { subject.shouldSendNotification() }
 
         verifySuspend { watcherDataSource.getWatchers() }
 
-        verifySuspend { backendApiService.getConversion(watcher.base) }
+        verifySuspend { backendApiService.getConversion(watcher.source) }
     }
 
     @Test
@@ -66,14 +66,14 @@ internal class BackgroundRepositoryTest {
         everySuspend { watcherDataSource.getWatchers() }
             .returns(listOf(watcher))
 
-        everySuspend { backendApiService.getConversion(watcher.base) }
-            .returns(Conversion(base = watcher.base, usd = watcher.rate + 1))
+        everySuspend { backendApiService.getConversion(watcher.source) }
+            .returns(Conversion(base = watcher.source, usd = watcher.rate + 1))
 
         assertTrue { subject.shouldSendNotification() }
 
         verifySuspend { watcherDataSource.getWatchers() }
 
-        verifySuspend { backendApiService.getConversion(watcher.base) }
+        verifySuspend { backendApiService.getConversion(watcher.source) }
     }
 
     @Test
@@ -84,13 +84,13 @@ internal class BackgroundRepositoryTest {
             everySuspend { watcherDataSource.getWatchers() }
                 .returns(listOf(watcher))
 
-            everySuspend { backendApiService.getConversion(watcher.base) }
-                .returns(Conversion(base = watcher.base, usd = watcher.rate - 1))
+            everySuspend { backendApiService.getConversion(watcher.source) }
+                .returns(Conversion(base = watcher.source, usd = watcher.rate - 1))
 
             assertTrue { subject.shouldSendNotification() }
 
             verifySuspend { watcherDataSource.getWatchers() }
 
-            verifySuspend { backendApiService.getConversion(watcher.base) }
+            verifySuspend { backendApiService.getConversion(watcher.source) }
         }
 }

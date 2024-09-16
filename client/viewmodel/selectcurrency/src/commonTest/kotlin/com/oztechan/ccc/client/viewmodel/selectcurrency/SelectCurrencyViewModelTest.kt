@@ -6,10 +6,16 @@ package com.oztechan.ccc.client.viewmodel.selectcurrency
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
+import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.client.storage.calculation.CalculationStorage
+import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
+import com.oztechan.ccc.common.core.model.Watcher
+import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.mock
 import dev.mokkery.verify
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -30,10 +36,12 @@ import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 internal class SelectCurrencyViewModelTest {
 
     private val viewModel: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(currencyDataSource)
+        SelectCurrencyViewModel(calculationStorage, currencyDataSource, watcherDataSource)
     }
 
     private val currencyDataSource = mock<CurrencyDataSource>()
+    private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
+    private val watcherDataSource = mock<WatcherDataSource>(MockMode.autoUnit)
 
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
@@ -95,12 +103,42 @@ internal class SelectCurrencyViewModelTest {
 
     @Test
     fun onItemClick() = runTest {
+        val watcher = Watcher(1, "USD", "EUR", true, 1.0)
+        // Base
         viewModel.effect.onSubscription {
-            viewModel.event.onItemClick(currencyDollar)
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Base)
         }.firstOrNull().let {
             assertNotNull(it)
-            assertIs<SelectCurrencyEffect.CurrencyChange>(it)
-            assertEquals(currencyDollar.code, it.newBase)
+            assertIs<SelectCurrencyEffect.CurrencySelected>(it)
+            verify { calculationStorage.currentBase = currencyDollar.code }
+        }
+
+        // Source
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Source(watcher))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<SelectCurrencyEffect.CurrencySelected>(it)
+            verifySuspend {
+                watcherDataSource.updateWatcherBaseById(
+                    currencyDollar.code,
+                    watcher.id
+                )
+            }
+        }
+
+        // Target
+        viewModel.effect.onSubscription {
+            viewModel.event.onItemClick(currencyDollar, SelectCurrencyPurpose.Target(watcher))
+        }.firstOrNull().let {
+            assertNotNull(it)
+            assertIs<SelectCurrencyEffect.CurrencySelected>(it)
+            verifySuspend {
+                watcherDataSource.updateWatcherTargetById(
+                    currencyDollar.code,
+                    watcher.id
+                )
+            }
         }
     }
 

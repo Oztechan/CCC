@@ -98,14 +98,14 @@ class MainViewModel(
     }
 
     // region Event
-    override fun onPause() {
-        Logger.d { "MainViewModel onPause" }
+    override fun onAppBackground() {
+        Logger.d { "MainViewModel onAppBackground" }
         data.adJob.cancel()
         data.adVisibility = false
     }
 
-    override fun onResume() {
-        Logger.d { "MainViewModel onResume" }
+    override fun onAppForeground() {
+        Logger.d { "MainViewModel onAppForeground" }
 
         setState {
             copy(

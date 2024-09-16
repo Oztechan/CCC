@@ -24,12 +24,13 @@ struct SelectCurrencyRootView: View {
 
     private let analyticsManager: AnalyticsManager = koin.get()
 
-    var onCurrencySelected: (String) -> Void
+    var purpose: SelectCurrencyPurpose
 
     var body: some View {
         SelectCurrencyView(
             event: observable.event,
-            state: observable.state
+            state: observable.state,
+            purpose: purpose
         )
         .onAppear {
             observable.startObserving()
@@ -42,11 +43,10 @@ struct SelectCurrencyRootView: View {
     private func onEffect(effect: SelectCurrencyEffect) {
         logger.i(message: { "SelectCurrencyRootView onEffect \(effect.description)" })
         switch effect {
-        case let currencyChangeEffect as SelectCurrencyEffect.CurrencyChange:
-            onCurrencySelected(currencyChangeEffect.newBase)
+        case is SelectCurrencyEffect.CurrencySelected:
             isBarShown = false
         case is SelectCurrencyEffect.OpenCurrencies:
-            navigationStack.push(CurrenciesRootView(onBaseChange: onCurrencySelected))
+            navigationStack.push(CurrenciesRootView())
         default:
             logger.i(message: { "SelectCurrencyRootView unknown effect" })
         }

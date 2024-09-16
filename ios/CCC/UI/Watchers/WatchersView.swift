@@ -8,6 +8,7 @@
 
 import Provider
 import SwiftUI
+import NavigationStack
 
 struct WatchersView: View {
     @Environment(\.colorScheme) private var colorScheme
@@ -16,8 +17,8 @@ struct WatchersView: View {
     var state: WatchersState
     var authorizationStatus: UNAuthorizationStatus?
 
-    @Binding var baseBarInfo: WatchersRootView.BarInfo
-    @Binding var targetBarInfo: WatchersRootView.BarInfo
+    @Binding var isSourceBarShown: Bool
+    @Binding var isTargetBarShown: Bool
 
     var body: some View {
         ZStack {
@@ -33,8 +34,8 @@ struct WatchersView: View {
                     Form {
                         List(state.watcherList, id: \.id) { watcher in
                             WatcherItem(
-                                isBaseBarShown: $baseBarInfo.isShown,
-                                isTargetBarShown: $targetBarInfo.isShown,
+                                isSourceBarShown: $isSourceBarShown,
+                                isTargetBarShown: $isTargetBarShown,
                                 watcher: watcher,
                                 event: event
                             )

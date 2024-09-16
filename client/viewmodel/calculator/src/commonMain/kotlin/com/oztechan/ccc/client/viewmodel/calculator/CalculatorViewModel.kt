@@ -82,7 +82,18 @@ class CalculatorViewModel(
         .distinctUntilChanged()
         .onEach {
             Logger.d { "CalculatorViewModel observeBase $it" }
-            currentBaseChanged(it, true)
+
+            setState { copy(loading = true) }
+
+            calculationStorage.currentBase = it
+            data.conversion = null
+
+            updateSymbol()
+
+            analyticsManager.trackEvent(Event.BaseChange(Param.Base(it)))
+            analyticsManager.setUserProperty(UserProperty.BaseCurrency(it))
+
+            updateConversion()
         }
         .launchIn(viewModelScope)
 
@@ -90,18 +101,23 @@ class CalculatorViewModel(
         .distinctUntilChanged()
         .onEach {
             Logger.d { "CalculatorViewModel observeInput $it" }
+
+            setState { copy(loading = true) }
             calculationStorage.lastInput = it
             calculateOutput(it)
         }
         .launchIn(viewModelScope)
 
-    private fun updateConversion() {
-        setState { copy(loading = true) }
+    private suspend fun updateSymbol() {
+        val symbol = currencyDataSource.getCurrencyByCode(state.value.base)?.symbol.orEmpty()
+        setState { copy(symbol = symbol) }
+    }
 
+    private fun updateConversion() {
         data.conversion?.let {
             calculateConversions(it, ConversionState.Cached(it.date))
         } ?: viewModelScope.launch {
-            runCatching { backendApiService.getConversion(calculationStorage.currentBase) }
+            runCatching { backendApiService.getConversion(state.value.base) }
                 .onFailure(::updateConversionFailed)
                 .onSuccess(::updateConversionSuccess)
         }
@@ -118,7 +134,7 @@ class CalculatorViewModel(
     private fun updateConversionFailed(t: Throwable) = viewModelScope.launch {
         Logger.w(t) { "CalculatorViewModel updateConversionFailed" }
         conversionDataSource.getConversionByBase(
-            calculationStorage.currentBase
+            state.value.base
         )?.let {
             calculateConversions(it, ConversionState.Offline(it.date))
         } ?: run {
@@ -130,18 +146,20 @@ class CalculatorViewModel(
         }
     }
 
-    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) =
+    private fun calculateConversions(conversion: Conversion?, conversionState: ConversionState) {
+        val precision = calculationStorage.precision
         setState {
             copy(
                 currencyList = state.value.currencyList.onEach {
                     it.rate = conversion.calculateRate(it.code, state.value.output)
-                        .getFormatted(calculationStorage.precision)
+                        .getFormatted(precision)
                         .toStandardDigits()
                 },
                 conversionState = conversionState,
                 loading = false
             )
         }
+    }
 
     private fun calculateOutput(input: String) {
         val output = data.parser
@@ -169,25 +187,6 @@ class CalculatorViewModel(
             else -> updateConversion()
         }
     }
-
-    private fun currentBaseChanged(newBase: String, shouldTrack: Boolean = false) =
-        viewModelScope.launch {
-            data.conversion = null
-            calculationStorage.currentBase = newBase
-            val symbol = currencyDataSource.getCurrencyByCode(newBase)?.symbol.orEmpty()
-            setState {
-                copy(
-                    base = newBase,
-                    input = input,
-                    symbol = symbol
-                )
-            }
-
-            if (shouldTrack) {
-                analyticsManager.trackEvent(Event.BaseChange(Param.Base(newBase)))
-                analyticsManager.setUserProperty(UserProperty.BaseCurrency(newBase))
-            }
-        }
 
     // region Event
     override fun onKeyPress(key: String) {
@@ -233,7 +232,7 @@ class CalculatorViewModel(
         sendEffect {
             CalculatorEffect.ShowConversion(
                 currency.getConversionStringFromBase(
-                    calculationStorage.currentBase,
+                    state.value.base,
                     data.conversion
                 ),
                 currency.code
@@ -276,10 +275,13 @@ class CalculatorViewModel(
         sendEffect { CalculatorEffect.OpenSettings }
     }
 
-    override fun onBaseChange(base: String) {
-        Logger.d { "CalculatorViewModel onBaseChange $base" }
-        currentBaseChanged(base)
-        calculateOutput(state.value.input)
+    override fun onSheetDismissed() {
+        Logger.d { "CalculatorViewModel onSheetDismissed" }
+        calculationStorage.currentBase
+            .takeIf { it != state.value.base }
+            ?.let {
+                setState { copy(base = it) }
+            }
     }
     // endregion
 }

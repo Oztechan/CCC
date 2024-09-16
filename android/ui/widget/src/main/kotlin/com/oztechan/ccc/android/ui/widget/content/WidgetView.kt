@@ -33,7 +33,7 @@ fun WidgetView(
     ) {
         if (state.isPremium) {
             HeaderView(
-                currentBase = state.currentBase,
+                base = state.base,
                 onBackClick = event::onPreviousClick,
                 onNextClick = event::onNextClick
             )

@@ -6,6 +6,8 @@ package com.oztechan.ccc.client.viewmodel.currencies
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.Event
+import com.oztechan.ccc.client.core.analytics.model.Param
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
@@ -169,20 +171,21 @@ internal class CurrenciesViewModelTest {
     fun `don't show FewCurrency effect if there is MINIMUM_ACTIVE_CURRENCY and not firstRun`() =
         runTest {
             every { calculationStorage.currentBase }
-                .returns("") // in order to get ChangeBase effect, have to have an effect to finish test
+                .returns("")
 
             every { currencyDataSource.getCurrenciesFlow() }
                 .returns(
                     flow {
-                        delay(1.seconds.inWholeMilliseconds)
                         emit(listOf(currency1, currency1, currency1))
                     }
                 )
 
-            viewModel.effect.firstOrNull().let {
-                assertNotNull(it)
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-            }
+            // init
+            viewModel
+
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+            verify { calculationStorage.currentBase = currency1.code }
         }
 
     @Test
@@ -192,20 +195,20 @@ internal class CurrenciesViewModelTest {
                 .returns(true)
 
             every { calculationStorage.currentBase }
-                .returns("") // in order to get ChangeBase effect, have to have an effect to finish test
+                .returns("")
 
             every { currencyDataSource.getCurrenciesFlow() }
                 .returns(
                     flow {
-                        delay(1.seconds.inWholeMilliseconds)
                         emit(listOf(currency1))
                     }
                 )
+            // init
+            viewModel
 
-            viewModel.effect.firstOrNull().let {
-                assertNotNull(it)
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-            }
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency1.code))) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency1.code)) }
+            verify { calculationStorage.currentBase = currency1.code }
         }
 
     @Test
@@ -226,20 +229,17 @@ internal class CurrenciesViewModelTest {
             every { currencyDataSource.getCurrenciesFlow() }
                 .returns(
                     flow {
-                        delay(1.seconds.inWholeMilliseconds)
                         emit(currencyList)
                     }
                 )
 
             every { calculationStorage.currentBase }
                 .returns("")
+            // init
+            viewModel
 
-            viewModel.effect.firstOrNull().let {
-                assertNotNull(it)
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(firstActiveBase, it.newBase)
-            }
-
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(firstActiveBase))) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(firstActiveBase)) }
             verify { calculationStorage.currentBase = firstActiveBase }
         }
 
@@ -251,20 +251,17 @@ internal class CurrenciesViewModelTest {
             every { currencyDataSource.getCurrenciesFlow() }
                 .returns(
                     flow {
-                        delay(1.seconds.inWholeMilliseconds)
                         emit(listOf(currency1, currency2, currency3))
                     }
                 )
 
             every { calculationStorage.currentBase }
                 .returns(currency1.code) // not active one
+            // init
+            viewModel
 
-            viewModel.effect.firstOrNull().let {
-                assertNotNull(it)
-                assertIs<CurrenciesEffect.ChangeBase>(it)
-                assertEquals(currency2.code, it.newBase)
-            }
-
+            verify { analyticsManager.trackEvent(Event.BaseChange(Param.Base(currency2.code))) }
+            verify { analyticsManager.setUserProperty(UserProperty.BaseCurrency(currency2.code)) }
             verify { calculationStorage.currentBase = currency2.code }
         }
 

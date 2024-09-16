@@ -31,7 +31,7 @@ fun View?.showSnack(
             findViewById<TextView>(R.id.snackbar_text)?.apply {
                 gravity = Gravity.CENTER
 
-                ContextCompat.getDrawable(context, icon ?: R.drawable.ic_dialog_and_snackbar)?.apply {
+                ContextCompat.getDrawable(context, icon ?: R.drawable.ic_app_logo)?.apply {
                     setBounds(
                         0,
                         0,

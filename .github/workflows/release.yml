@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
+        uses: Oztechan/Global/actions/setup-gradle-repo@f2926167f4c8103dca1abd9cf2908c83733e1898
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -80,19 +80,19 @@ jobs:
         run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v4.3.6
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: googleBundle
           path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v4.3.6
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: huaweiBundle
           path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v4.3.6
+        uses: actions/upload-artifact@v4.4.0
         with:
           name: backendJar
           path: backend/app/build/libs/app-*.jar
@@ -139,7 +139,7 @@ jobs:
           status: completed
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: googleBundle
 
@@ -170,7 +170,7 @@ jobs:
           file-name: "app-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: huaweiBundle
 
@@ -201,7 +201,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v5.0.0
+        uses: geekyeggo/delete-artifact@v5.1.0
         with:
           name: backendJar
 
@@ -215,7 +215,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@007659c3464bb29eeaaed0abfd2822af806dfe1e
+        uses: Oztechan/Global/actions/setup-gradle-repo@f2926167f4c8103dca1abd9cf2908c83733e1898
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files

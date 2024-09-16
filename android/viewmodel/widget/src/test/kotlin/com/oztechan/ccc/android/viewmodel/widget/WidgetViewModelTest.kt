@@ -2,6 +2,10 @@ package com.oztechan.ccc.android.viewmodel.widget
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
+import com.oztechan.ccc.client.core.analytics.AnalyticsManager
+import com.oztechan.ccc.client.core.analytics.model.Event
+import com.oztechan.ccc.client.core.analytics.model.Param
+import com.oztechan.ccc.client.core.analytics.model.UserProperty
 import com.oztechan.ccc.client.core.shared.util.getFormatted
 import com.oztechan.ccc.client.core.shared.util.getRateFromCode
 import com.oztechan.ccc.client.core.shared.util.isNotPassed
@@ -43,7 +47,8 @@ internal class WidgetViewModelTest {
             calculationStorage = calculationStorage,
             backendApiService = backendApiService,
             currencyDataSource = currencyDataSource,
-            appStorage = appStorage
+            appStorage = appStorage,
+            analyticsManager = analyticsManager
         )
     }
 
@@ -54,6 +59,8 @@ internal class WidgetViewModelTest {
     private val currencyDataSource = mock<CurrencyDataSource>()
 
     private val appStorage = mock<AppStorage>()
+
+    private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val base = "EUR"
     private val firstBase = "USD"
@@ -155,7 +162,7 @@ internal class WidgetViewModelTest {
             assertNotNull(it)
             assertTrue { it.currencyList.isEmpty() }
             assertEquals("", it.lastUpdate)
-            assertEquals(base, it.currentBase)
+            assertEquals(base, it.base)
             assertEquals(appStorage.premiumEndDate.isNotPassed(), it.isPremium)
         }
     }
@@ -219,6 +226,8 @@ internal class WidgetViewModelTest {
         verifySuspend(VerifyMode.not) { currencyDataSource.getActiveCurrencies() }
 
         verify(VerifyMode.not) { calculationStorage.currentBase = any<String>() }
+        verify(VerifyMode.not) { analyticsManager.trackEvent(Event.BaseChange(Param.Base(any<String>()))) }
+        verify(VerifyMode.not) { analyticsManager.setUserProperty(UserProperty.BaseCurrency(any<String>())) }
     }
 
     // region Event
@@ -232,7 +241,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = lastBase }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = lastBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        lastBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    lastBase
+                )
+            )
+        }
 
         every { calculationStorage.currentBase }
             .returns(lastBase)
@@ -241,7 +266,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = firstBase }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = firstBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        firstBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    firstBase
+                )
+            )
+        }
     }
 
     @Test
@@ -254,7 +295,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = firstBase }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = firstBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        firstBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    firstBase
+                )
+            )
+        }
 
         every { calculationStorage.currentBase }
             .returns(firstBase)
@@ -263,7 +320,23 @@ internal class WidgetViewModelTest {
 
         verifySuspend { currencyDataSource.getActiveCurrencies() }
 
-        verify { calculationStorage.currentBase = lastBase }
+        verify(VerifyMode.exactly(1)) { calculationStorage.currentBase = lastBase }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.trackEvent(
+                Event.BaseChange(
+                    Param.Base(
+                        lastBase
+                    )
+                )
+            )
+        }
+        verify(VerifyMode.exactly(1)) {
+            analyticsManager.setUserProperty(
+                UserProperty.BaseCurrency(
+                    lastBase
+                )
+            )
+        }
     }
 
     @Test

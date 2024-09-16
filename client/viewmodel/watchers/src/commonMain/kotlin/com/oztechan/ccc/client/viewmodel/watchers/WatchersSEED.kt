@@ -22,9 +22,9 @@ sealed class WatchersEffect : BaseEffect {
 
 interface WatchersEvent : BaseEvent {
     fun onBackClick()
-    fun onBaseClick(watcher: Watcher)
+    fun onSourceClick(watcher: Watcher)
     fun onTargetClick(watcher: Watcher)
-    fun onBaseChanged(watcher: Watcher, newBase: String)
+    fun onSourceChanged(watcher: Watcher, newBase: String)
     fun onTargetChanged(watcher: Watcher, newTarget: String)
     fun onAddClick()
     fun onDeleteClick(watcher: Watcher)

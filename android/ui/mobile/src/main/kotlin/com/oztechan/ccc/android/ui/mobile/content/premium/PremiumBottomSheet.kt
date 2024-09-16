@@ -4,6 +4,7 @@
 
 package com.oztechan.ccc.android.ui.mobile.content.premium
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.flowWithLifecycle
@@ -15,8 +16,8 @@ import com.oztechan.ccc.android.core.billing.BillingEffect
 import com.oztechan.ccc.android.core.billing.BillingManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
+import com.oztechan.ccc.android.ui.mobile.content.main.MainActivity
 import com.oztechan.ccc.android.ui.mobile.databinding.BottomSheetPremiumBinding
-import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
 import com.oztechan.ccc.android.ui.mobile.util.toOldPurchaseList
@@ -112,6 +113,7 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
                 } else {
                     billingManager.acknowledgePurchase()
                 }
+
                 is PremiumEffect.ConsumePurchase -> billingManager.consumePurchase(viewEffect.token)
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -156,8 +158,10 @@ class PremiumBottomSheet : BaseVBBottomSheetDialogFragment<BottomSheetPremiumBin
         )
     }
 
-    private fun restartActivity() = activity?.run {
-        finish()
-        resolveAndStartIntent(intent)
+    private fun restartActivity() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }

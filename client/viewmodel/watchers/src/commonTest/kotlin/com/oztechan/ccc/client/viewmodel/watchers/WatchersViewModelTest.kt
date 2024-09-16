@@ -113,9 +113,9 @@ internal class WatchersViewModelTest {
     }
 
     @Test
-    fun onBaseClick() = runTest {
+    fun onSourceClick() = runTest {
         viewModel.effect.onSubscription {
-            viewModel.event.onBaseClick(watcher)
+            viewModel.event.onSourceClick(watcher)
         }.firstOrNull().let {
             assertNotNull(it)
             assertIs<WatchersEffect.SelectBase>(it)
@@ -135,9 +135,9 @@ internal class WatchersViewModelTest {
     }
 
     @Test
-    fun onBaseChanged() {
+    fun onSourceChanged() {
         val mockBase = "mock"
-        viewModel.event.onBaseChanged(watcher, mockBase)
+        viewModel.event.onSourceChanged(watcher, mockBase)
 
         runTest {
             verifySuspend { watcherDataSource.updateWatcherBaseById(mockBase, watcher.id) }

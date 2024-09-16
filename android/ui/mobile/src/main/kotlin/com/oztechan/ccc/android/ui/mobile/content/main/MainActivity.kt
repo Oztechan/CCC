@@ -105,12 +105,12 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         Logger.i { "MainActivity onResume" }
-        viewModel.event.onResume()
+        viewModel.event.onAppForeground()
     }
 
     override fun onPause() {
         Logger.i { "MainActivity onPause" }
-        viewModel.event.onPause()
+        viewModel.event.onAppBackground()
         super.onPause()
     }
 

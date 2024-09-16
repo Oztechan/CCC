@@ -25,7 +25,7 @@ struct InputView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundColor(\.text)
                 .font(relative: .title2)
-                .animation(.none)
+                .animation(.none, value: input)
                 .onLongPressGesture {
                     onInputLongClick()
                 }

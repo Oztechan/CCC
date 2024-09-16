@@ -149,14 +149,14 @@ internal class MainViewModelTest {
 
     // event
     @Test
-    fun onPause() = with(viewModel) {
-        event.onPause()
+    fun onAppBackground() = with(viewModel) {
+        event.onAppBackground()
         assertFalse { data.adVisibility }
         assertTrue { data.adJob.isCancelled }
     }
 
     @Test
-    fun `onResume adjustSessionCount`() = with(viewModel) {
+    fun `onAppForeground adjustSessionCount`() = with(viewModel) {
         val mockSessionCount = Random.nextLong()
 
         every { reviewConfigService.config }
@@ -182,12 +182,12 @@ internal class MainViewModelTest {
 
         assertTrue { data.isNewSession }
 
-        event.onResume()
+        event.onAppForeground()
 
         verify { appStorage.sessionCount = mockSessionCount + 1 }
         assertFalse { data.isNewSession }
 
-        event.onResume()
+        event.onAppForeground()
 
         verify(VerifyMode.not) { appStorage.sessionCount = mockSessionCount + 1 }
 
@@ -195,7 +195,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `onResume setupInterstitialAdTimer`() = runTest {
+    fun `onAppForeground setupInterstitialAdTimer`() = runTest {
         val mockSessionCount = Random.nextLong()
 
         every { reviewConfigService.config }
@@ -220,7 +220,7 @@ internal class MainViewModelTest {
             .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
 
         viewModel.effect.onSubscription {
-            viewModel.onResume()
+            viewModel.onAppForeground()
         }.firstOrNull { // has to use firstOrNull with true returning lambda for loop
             assertTrue { viewModel.data.adVisibility }
             assertTrue { viewModel.data.adJob.isActive }
@@ -240,7 +240,7 @@ internal class MainViewModelTest {
     }
 
     @Test
-    fun `onResume checkAppUpdate nothing happens when check update returns null`() =
+    fun `onAppForeground checkAppUpdate nothing happens when check update returns null`() =
         with(viewModel) {
             val mockSessionCount = Random.nextLong()
 
@@ -259,7 +259,7 @@ internal class MainViewModelTest {
             every { appConfigRepository.shouldShowAppReview() }
                 .returns(true)
 
-            event.onResume()
+            event.onAppForeground()
 
             assertFalse { data.isAppUpdateShown }
 
@@ -267,7 +267,7 @@ internal class MainViewModelTest {
         }
 
     @Test
-    fun `onResume checkAppUpdate app review should ask when check update returns not null`() =
+    fun `onAppForeground checkAppUpdate app review should ask when check update returns not null`() =
         runTest {
             val mockSessionCount = Random.nextLong()
             val mockBoolean = Random.nextBoolean()
@@ -291,7 +291,7 @@ internal class MainViewModelTest {
                 .returns("")
 
             viewModel.effect.onSubscription {
-                viewModel.onResume()
+                viewModel.onAppForeground()
             }.firstOrNull().let {
                 assertNotNull(it)
                 assertIs<MainEffect.AppUpdateEffect>(it)
@@ -305,7 +305,7 @@ internal class MainViewModelTest {
         }
 
     @Test
-    fun `onResume checkReview should request review when shouldShowAppReview returns true`() =
+    fun `onAppForeground checkReview should request review when shouldShowAppReview returns true`() =
         runTest {
             val mockSessionCount = Random.nextLong()
 
@@ -325,7 +325,7 @@ internal class MainViewModelTest {
                 .returns(true)
 
             viewModel.effect.onSubscription {
-                viewModel.onResume()
+                viewModel.onAppForeground()
             }.firstOrNull().let {
                 assertNotNull(it)
                 assertIs<MainEffect.RequestReview>(it)
@@ -337,7 +337,7 @@ internal class MainViewModelTest {
         }
 
     @Test
-    fun `onResume checkReview should do nothing when shouldShowAppReview returns false`() =
+    fun `onAppForeground checkReview should do nothing when shouldShowAppReview returns false`() =
         with(viewModel) {
             val mockSessionCount = Random.nextLong()
 
@@ -356,13 +356,13 @@ internal class MainViewModelTest {
             every { appConfigRepository.shouldShowAppReview() }
                 .returns(false)
 
-            onResume()
+            onAppForeground()
 
             verify { appConfigRepository.shouldShowAppReview() }
         }
 
     @Test
-    fun `onResume updates the latest states`() = runTest {
+    fun `onAppForeground updates the latest states`() = runTest {
         every { appConfigRepository.checkAppUpdate(false) }
             .returns(false)
 
@@ -393,7 +393,7 @@ internal class MainViewModelTest {
 
         viewModel.state
             .onSubscription {
-                viewModel.event.onResume()
+                viewModel.event.onAppForeground()
             }.firstOrNull().let {
                 assertNotNull(it)
                 assertEquals(newIsFirstRun, it.shouldOnboardUser)

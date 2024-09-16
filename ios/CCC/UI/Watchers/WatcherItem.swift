@@ -16,7 +16,7 @@ struct WatcherItem: View {
     @State private var relationSelection = 0
     @State private var amount = ""
 
-    @Binding var isBaseBarShown: Bool
+    @Binding var isSourceBarShown: Bool
     @Binding var isTargetBarShown: Bool
 
     let watcher: Provider.Watcher
@@ -26,8 +26,8 @@ struct WatcherItem: View {
         HStack {
             Text(String(\.one)).font(relative: .body)
 
-            CurrencyImageView(imageName: watcher.base)
-                .onTapGesture { event.onBaseClick(watcher: watcher) }
+            CurrencyImageView(imageName: watcher.source)
+                .onTapGesture { event.onSourceClick(watcher: watcher) }
 
             Picker("", selection: $relationSelection) {
                 Text(String(\.txt_smaller))
@@ -73,6 +73,23 @@ struct WatcherItem: View {
         .onAppear {
             relationSelection = watcher.isGreater ? 1 : 0
             amount = "\(watcher.rate)"
-        }
+        }.sheet(
+            isPresented: $isSourceBarShown,
+            content: {
+                SelectCurrencyRootView(
+                    isBarShown: $isSourceBarShown,
+                    purpose: SelectCurrencyPurpose.Source(watcher: watcher)
+                )
+            }
+        )
+        .sheet(
+            isPresented: $isTargetBarShown,
+            content: {
+                SelectCurrencyRootView(
+                    isBarShown: $isTargetBarShown,
+                    purpose: SelectCurrencyPurpose.Target(watcher: watcher)
+                )
+            }
+        )
     }
 }

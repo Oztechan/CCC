@@ -3,6 +3,7 @@ package com.oztechan.ccc.client.viewmodel.selectcurrency
 import com.oztechan.ccc.client.core.viewmodel.BaseEffect
 import com.oztechan.ccc.client.core.viewmodel.BaseEvent
 import com.oztechan.ccc.client.core.viewmodel.BaseState
+import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import com.oztechan.ccc.common.core.model.Currency
 
 // State
@@ -14,12 +15,12 @@ data class SelectCurrencyState(
 
 // Event
 interface SelectCurrencyEvent : BaseEvent {
-    fun onItemClick(currency: Currency)
+    fun onItemClick(currency: Currency, purpose: SelectCurrencyPurpose)
     fun onSelectClick()
 }
 
 // Effect
 sealed class SelectCurrencyEffect : BaseEffect {
-    data class CurrencyChange(val newBase: String) : SelectCurrencyEffect()
+    data object CurrencySelected : SelectCurrencyEffect()
     data object OpenCurrencies : SelectCurrencyEffect()
 }

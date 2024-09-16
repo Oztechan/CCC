@@ -41,8 +41,8 @@ class WatchersViewModel(
         sendEffect { WatchersEffect.Back }
     }
 
-    override fun onBaseClick(watcher: Watcher) {
-        Logger.d { "WatcherViewModel onBaseClick $watcher" }
+    override fun onSourceClick(watcher: Watcher) {
+        Logger.d { "WatcherViewModel onSourceClick $watcher" }
         sendEffect { WatchersEffect.SelectBase(watcher) }
     }
 
@@ -51,8 +51,8 @@ class WatchersViewModel(
         sendEffect { WatchersEffect.SelectTarget(watcher) }
     }
 
-    override fun onBaseChanged(watcher: Watcher, newBase: String) {
-        Logger.d { "WatcherViewModel onBaseChanged $watcher $newBase" }
+    override fun onSourceChanged(watcher: Watcher, newBase: String) {
+        Logger.d { "WatcherViewModel onSourceChanged $watcher $newBase" }
         viewModelScope.launch {
             watcherDataSource.updateWatcherBaseById(newBase, watcher.id)
         }
