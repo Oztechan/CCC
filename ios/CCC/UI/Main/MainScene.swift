@@ -38,10 +38,14 @@ struct MainScene: Scene {
                 transitionType: .default,
                 easing: Animation.easeInOut
             ) {
-                if observable.state.shouldOnboardUser {
-                    IntroSlideRootView()
+                if scenePhase == .inactive {
+                    EmptyView()
                 } else {
-                    CalculatorRootView()
+                    if observable.state.shouldOnboardUser {
+                        IntroSlideRootView()
+                    } else {
+                        CalculatorRootView()
+                    }
                 }
             }.onAppear {
                 observable.startObserving()
