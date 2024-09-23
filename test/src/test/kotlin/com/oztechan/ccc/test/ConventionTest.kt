@@ -96,13 +96,12 @@ internal class ConventionTest {
             .files
             .assertTrue {
                 it.moduleName.replace("/", ".").let { modulePackaging ->
-                    println(
-                        it.moduleName + "==" + it.name + "==" + it.packagee?.fullyQualifiedName + "==" + modulePackaging
-                    )
+                    println("${it.moduleName}==${it.name}==${it.packagee?.name}==$modulePackaging")
+
                     if (modulePackaging.contains("submodule")) {
                         true
                     } else {
-                        it.packagee?.fullyQualifiedName?.startsWith("com.oztechan.ccc.$modulePackaging")
+                        it.packagee?.name?.startsWith("com.oztechan.ccc.$modulePackaging")
                     }
                 }
             }
