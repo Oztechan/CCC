@@ -55,7 +55,7 @@ env:
 jobs:
 
   GenerateGradleArtifacts:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -102,7 +102,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToGooglePlay:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GenerateGradleArtifacts ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -148,7 +148,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToHuaweiAppGallery:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GenerateGradleArtifacts ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -179,7 +179,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DeployToServer:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GenerateGradleArtifacts ]
     outputs:
       status: ${{ steps.status.outputs.status }}
@@ -239,7 +239,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GenerateGradleArtifacts, UploadToGooglePlay, UploadToHuaweiAppGallery, DeployToServer, UploadToAppStore ]
     if: always()
     steps:
