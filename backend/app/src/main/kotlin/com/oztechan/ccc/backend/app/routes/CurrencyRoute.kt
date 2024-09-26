@@ -17,14 +17,16 @@ private const val PARAMETER_BASE = "base"
 
 internal fun Route.getCurrencyByName(
     apiController: APIController
-) = get(PATH_BY_BASE) {
-    Logger.v { "GET Request $PATH_BY_BASE" }
+) {
+    get(PATH_BY_BASE) {
+        Logger.v { "GET Request $PATH_BY_BASE" }
 
-    call.parameters[PARAMETER_BASE]?.let { base ->
-        Logger.v { "Parameter: $PARAMETER_BASE $base" }
+        call.parameters[PARAMETER_BASE]?.let { base ->
+            Logger.v { "Parameter: $PARAMETER_BASE $base" }
 
-        apiController.getExchangeRateByBase(base)
-            ?.let { call.respond(HttpStatusCode.OK, it) }
-            ?: call.respond(HttpStatusCode.NotFound)
-    } ?: call.respond(HttpStatusCode.BadRequest)
+            apiController.getExchangeRateByBase(base)
+                ?.let { call.respond(HttpStatusCode.OK, it) }
+                ?: call.respond(HttpStatusCode.NotFound)
+        } ?: call.respond(HttpStatusCode.BadRequest)
+    }
 }

@@ -16,14 +16,16 @@ import io.ktor.server.routing.get
 private const val PATH_ERROR = "/error"
 private const val ERROR_HTML = "error.html"
 
-internal fun Route.getError() = get(PATH_ERROR) {
-    Logger.v { "GET Request $PATH_ERROR" }
+internal fun Route.getError() {
+    get(PATH_ERROR) {
+        Logger.v { "GET Request $PATH_ERROR" }
 
-    javaClass.classLoader?.getResource(ERROR_HTML)?.readText()?.let { resource ->
-        call.respondText(
-            text = resource,
-            contentType = ContentType.Text.Html,
-            status = HttpStatusCode.OK
-        )
-    } ?: call.respond(HttpStatusCode.NotFound)
+        javaClass.classLoader?.getResource(ERROR_HTML)?.readText()?.let { resource ->
+            call.respondText(
+                text = resource,
+                contentType = ContentType.Text.Html,
+                status = HttpStatusCode.OK
+            )
+        } ?: call.respond(HttpStatusCode.NotFound)
+    }
 }
