@@ -14,7 +14,7 @@ internal suspend fun Route.getVersion() = get(PATH_VERSION) {
     Logger.v { "GET Request $PATH_VERSION" }
 
     call.respondText(
-        text = "Version: ${javaClass.`package`.implementationVersion}",
+        text = "Version: ${javaClass.`package`?.implementationVersion}",
         contentType = ContentType.Text.Plain,
         status = HttpStatusCode.OK
     )
