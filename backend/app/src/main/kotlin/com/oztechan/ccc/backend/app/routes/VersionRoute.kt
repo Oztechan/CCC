@@ -10,12 +10,14 @@ import io.ktor.server.routing.get
 
 private const val PATH_VERSION = "/version"
 
-internal fun Route.getVersion() = get(PATH_VERSION) {
-    Logger.v { "GET Request $PATH_VERSION" }
+internal fun Route.getVersion() {
+    get(PATH_VERSION) {
+        Logger.v { "GET Request $PATH_VERSION" }
 
-    call.respondText(
-        text = "Version: ${javaClass.`package`?.implementationVersion}",
-        contentType = ContentType.Text.Plain,
-        status = HttpStatusCode.OK
-    )
+        call.respondText(
+            text = "Version: ${javaClass.`package`?.implementationVersion}",
+            contentType = ContentType.Text.Plain,
+            status = HttpStatusCode.OK
+        )
+    }
 }

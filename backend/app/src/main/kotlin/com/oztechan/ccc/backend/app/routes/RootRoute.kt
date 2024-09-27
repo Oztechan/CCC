@@ -16,14 +16,16 @@ import io.ktor.server.routing.get
 private const val PATH_ROOT = "/"
 private const val INDEX_HTML = "index.html"
 
-internal fun Route.getRoot() = get(PATH_ROOT) {
-    Logger.v { "GET Request $PATH_ROOT" }
+internal fun Route.getRoot() {
+    get(PATH_ROOT) {
+        Logger.v { "GET Request $PATH_ROOT" }
 
-    javaClass.classLoader?.getResource(INDEX_HTML)?.readText()?.let { resource ->
-        call.respondText(
-            text = resource,
-            contentType = ContentType.Text.Html,
-            status = HttpStatusCode.OK
-        )
-    } ?: call.respond(HttpStatusCode.NotFound)
+        javaClass.classLoader?.getResource(INDEX_HTML)?.readText()?.let { resource ->
+            call.respondText(
+                text = resource,
+                contentType = ContentType.Text.Html,
+                status = HttpStatusCode.OK
+            )
+        } ?: call.respond(HttpStatusCode.NotFound)
+    }
 }
