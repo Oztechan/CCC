@@ -106,7 +106,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeAndroid:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GradleBuild ]
     if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
@@ -199,7 +199,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ XCodeBuild ]
     if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
@@ -251,7 +251,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Coverage:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -294,7 +294,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   CodeAnalysis:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -321,7 +321,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:
