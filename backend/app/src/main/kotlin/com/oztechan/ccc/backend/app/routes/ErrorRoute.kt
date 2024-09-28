@@ -24,9 +24,9 @@ internal fun Route.error(ioDispatcher: CoroutineDispatcher) {
 
         withContext(ioDispatcher) {
             javaClass.classLoader?.getResource(ERROR_HTML)?.readText()
-        }?.let {
+        }?.let { errorPage ->
             call.respondText(
-                text = it,
+                text = errorPage,
                 contentType = ContentType.Text.Html,
                 status = HttpStatusCode.OK
             )

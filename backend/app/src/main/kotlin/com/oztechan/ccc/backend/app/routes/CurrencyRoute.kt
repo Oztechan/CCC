@@ -29,10 +29,10 @@ internal fun Route.currency(
 
             withContext(ioDispatcher) {
                 apiController.getExchangeRateByBase(base)
-            }?.let {
+            }?.let { exchangeRate ->
                 call.respond(
                     status = HttpStatusCode.OK,
-                    message = it
+                    message = exchangeRate
                 )
             } ?: call.respond(HttpStatusCode.NotFound)
         } ?: call.respond(HttpStatusCode.BadRequest)

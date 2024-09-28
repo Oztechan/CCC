@@ -19,9 +19,9 @@ internal fun Route.version(ioDispatcher: CoroutineDispatcher) {
 
         withContext(ioDispatcher) {
             javaClass.`package`?.implementationVersion
-        }?.let {
+        }?.let { version ->
             call.respondText(
-                text = "Version: $it",
+                text = "Version: $version",
                 contentType = ContentType.Text.Plain,
                 status = HttpStatusCode.OK
             )

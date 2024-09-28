@@ -24,9 +24,9 @@ internal fun Route.root(ioDispatcher: CoroutineDispatcher) {
 
         withContext(ioDispatcher) {
             javaClass.classLoader?.getResource(INDEX_HTML)?.readText()
-        }?.let {
+        }?.let { rootPage ->
             call.respondText(
-                text = it,
+                text = rootPage,
                 contentType = ContentType.Text.Html,
                 status = HttpStatusCode.OK
             )
