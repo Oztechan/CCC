@@ -12,17 +12,21 @@ import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 private const val PATH_ERROR = "/error"
 private const val ERROR_HTML = "error.html"
 
-internal fun Route.error() {
+internal fun Route.error(ioDispatcher: CoroutineDispatcher) {
     get(PATH_ERROR) {
         Logger.v { "GET Request $PATH_ERROR" }
 
-        javaClass.classLoader?.getResource(ERROR_HTML)?.readText()?.let { resource ->
+        withContext(ioDispatcher) {
+            javaClass.classLoader?.getResource(ERROR_HTML)?.readText()
+        }?.let {
             call.respondText(
-                text = resource,
+                text = it,
                 contentType = ContentType.Text.Html,
                 status = HttpStatusCode.OK
             )

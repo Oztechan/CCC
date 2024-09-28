@@ -11,12 +11,15 @@ import io.ktor.server.application.call
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
 internal fun Route.currency(
-    apiController: APIController
+    apiController: APIController,
+    ioDispatcher: CoroutineDispatcher
 ) {
     get(PATH_BY_BASE) {
         Logger.v { "GET Request $PATH_BY_BASE" }
@@ -24,9 +27,14 @@ internal fun Route.currency(
         call.parameters[PARAMETER_BASE]?.let { base ->
             Logger.v { "Parameter: $PARAMETER_BASE $base" }
 
-            apiController.getExchangeRateByBase(base)
-                ?.let { call.respond(HttpStatusCode.OK, it) }
-                ?: call.respond(HttpStatusCode.NotFound)
+            withContext(ioDispatcher) {
+                apiController.getExchangeRateByBase(base)
+            }?.let {
+                call.respond(
+                    status = HttpStatusCode.OK,
+                    message = it
+                )
+            } ?: call.respond(HttpStatusCode.NotFound)
         } ?: call.respond(HttpStatusCode.BadRequest)
     }
 }

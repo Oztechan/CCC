@@ -32,10 +32,10 @@ internal fun Application.apiModule() {
 
     routing {
         globalScope.launch(ioDispatcher) {
-            root()
-            currency(apiController)
-            version()
-            error()
+            root(ioDispatcher)
+            currency(apiController, ioDispatcher)
+            version(ioDispatcher)
+            error(ioDispatcher)
         }
     }
 }
