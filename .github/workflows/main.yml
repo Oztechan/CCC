@@ -201,7 +201,6 @@ jobs:
   DistributeIOS:
     runs-on: ubuntu-24.04
     needs: [ XCodeBuild ]
-    if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -214,12 +213,9 @@ jobs:
           name: iOSArtifacts
           path: ios
 
-      # was necessary to use chown to fix permission issues in linux machines
       - name: Distribute ${{ env.BUILD_TYPE }}
         working-directory: ios
-        run: |
-          sudo chown -R $(whoami) /var/lib/gems/3.0.0
-          fastlane distribute${{ env.BUILD_TYPE }}
+        run: fastlane distribute${{ env.BUILD_TYPE }}
 
       - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: geekyeggo/delete-artifact@v5.1.0
