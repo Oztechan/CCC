@@ -218,7 +218,7 @@ jobs:
       - name: Distribute ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: |
-          sudo chown -R $(whoami) /var/lib/gems/3.0.0
+          sudo chown -R $(whoami) /var/lib/gems/
           fastlane distribute${{ env.BUILD_TYPE }}
 
       - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
