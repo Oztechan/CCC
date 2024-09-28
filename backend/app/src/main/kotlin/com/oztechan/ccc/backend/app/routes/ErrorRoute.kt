@@ -16,7 +16,7 @@ import io.ktor.server.routing.get
 private const val PATH_ERROR = "/error"
 private const val ERROR_HTML = "error.html"
 
-internal fun Route.getError() {
+internal fun Route.error() {
     get(PATH_ERROR) {
         Logger.v { "GET Request $PATH_ERROR" }
 

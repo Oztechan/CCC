@@ -16,7 +16,7 @@ import io.ktor.server.routing.get
 private const val PATH_ROOT = "/"
 private const val INDEX_HTML = "index.html"
 
-internal fun Route.getRoot() {
+internal fun Route.root() {
     get(PATH_ROOT) {
         Logger.v { "GET Request $PATH_ROOT" }
 
