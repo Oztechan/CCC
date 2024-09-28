@@ -10,7 +10,7 @@ import io.ktor.server.routing.get
 
 private const val PATH_VERSION = "/version"
 
-internal fun Route.getVersion() {
+internal fun Route.version() {
     get(PATH_VERSION) {
         Logger.v { "GET Request $PATH_VERSION" }
 

@@ -1,10 +1,10 @@
 package com.oztechan.ccc.backend.app.module
 
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.backend.app.routes.getCurrencyByName
-import com.oztechan.ccc.backend.app.routes.getError
-import com.oztechan.ccc.backend.app.routes.getRoot
-import com.oztechan.ccc.backend.app.routes.getVersion
+import com.oztechan.ccc.backend.app.routes.currency
+import com.oztechan.ccc.backend.app.routes.error
+import com.oztechan.ccc.backend.app.routes.root
+import com.oztechan.ccc.backend.app.routes.version
 import com.oztechan.ccc.backend.controller.api.APIController
 import com.oztechan.ccc.common.core.infrastructure.di.DISPATCHER_IO
 import io.ktor.serialization.kotlinx.json.json
@@ -32,10 +32,10 @@ internal fun Application.apiModule() {
 
     routing {
         globalScope.launch(ioDispatcher) {
-            getError()
-            getRoot()
-            getCurrencyByName(apiController)
-            getVersion()
+            root()
+            currency(apiController)
+            version()
+            error()
         }
     }
 }

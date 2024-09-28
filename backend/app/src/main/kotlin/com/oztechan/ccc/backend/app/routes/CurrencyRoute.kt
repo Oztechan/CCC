@@ -15,7 +15,7 @@ import io.ktor.server.routing.get
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
-internal fun Route.getCurrencyByName(
+internal fun Route.currency(
     apiController: APIController
 ) {
     get(PATH_BY_BASE) {
