@@ -8,10 +8,10 @@ import com.oztechan.ccc.common.core.network.error.TerminationException
 import com.oztechan.ccc.common.core.network.error.TimeoutException
 import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import io.ktor.client.network.sockets.ConnectTimeoutException
-import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 
 open class BaseNetworkService(private val ioDispatcher: CoroutineDispatcher) {
