@@ -18,7 +18,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
-            from: "11.10.0"
+            from: "11.12.0"
         ),
         .package(
             url: "https://github.com/exyte/PopupView.git",
