@@ -13,9 +13,8 @@ interface AdManager {
 
     fun getBannerAd(
         context: Context,
-        width: Int,
         adId: String,
-        onAdLoaded: (Int?) -> Unit
+        maxHeight: Int
     ): BannerAdView
 
     fun showInterstitialAd(
