@@ -9,8 +9,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.view.View
-import android.view.animation.Animation
-import android.view.animation.Transformation
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -26,48 +24,30 @@ import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.client.core.res.getImageIdByName
 import com.oztechan.ccc.client.viewmodel.calculator.model.ConversionState
 
-private const val ANIMATION_DURATION = 500L
-
 fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE)
     ?.castTo<InputMethodManager>()
     ?.hideSoftInputFromWindow(windowToken, 0)
 
-fun FrameLayout.setBannerAd(
+fun FrameLayout.buildBanner(
     adManager: AdManager,
     adId: String,
     shouldShowAd: Boolean
 ) = if (shouldShowAd) {
     removeAllViews()
-
     addView(
-        adManager.getBannerAd(context, width, adId) { height ->
-            if (height != null) animateHeight(0, height)
-            isVisible = true
-        }
+        adManager.getBannerAd(
+            context,
+            adId,
+            context.resources.getDimension(R.dimen.ads_banner_height)
+        )
     )
 } else {
-    isGone = true
+    visibility = View.GONE
 }
 
 fun FrameLayout.destroyBanner() {
     children.firstOrNull()?.castTo<BannerAdView>()?.onDestroy?.invoke()
     removeAllViews()
-}
-
-fun View.animateHeight(startHeight: Int, endHeight: Int) {
-    layoutParams.height = 0
-
-    val delta = endHeight - startHeight
-    var newHeight: Int
-    val animation = object : Animation() {
-        override fun applyTransformation(interpolatedTime: Float, t: Transformation) {
-            newHeight = (startHeight + delta * interpolatedTime).toInt()
-            layoutParams.height = newHeight
-            requestLayout()
-        }
-    }
-    animation.duration = ANIMATION_DURATION
-    startAnimation(animation)
 }
 
 fun View?.visibleIf(visible: Boolean, bringFront: Boolean = false) = this?.apply {

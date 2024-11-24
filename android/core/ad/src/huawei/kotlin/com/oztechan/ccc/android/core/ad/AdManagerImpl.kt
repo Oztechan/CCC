@@ -13,7 +13,6 @@ import com.huawei.hms.ads.reward.Reward
 import com.huawei.hms.ads.reward.RewardAd
 import com.huawei.hms.ads.reward.RewardAdLoadListener
 import com.huawei.hms.ads.reward.RewardAdStatusListener
-import java.lang.Exception
 
 internal class AdManagerImpl : AdManager {
 
@@ -38,21 +37,14 @@ internal class AdManagerImpl : AdManager {
 
     override fun getBannerAd(
         context: Context,
-        width: Int,
         adId: String,
-        onAdLoaded: (Int?) -> Unit
+        maxHeightInDp: Float
     ): BannerAdView {
         Logger.v { "AdManagerImpl getBannerAd" }
 
         val adView = BannerView(context).apply {
             this.adId = adId
             bannerAdSize = BannerAdSize.BANNER_SIZE_SMART
-            adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    super.onAdImpression()
-                    onAdLoaded(bannerAdSize.getHeightPx(context))
-                }
-            }
             loadAd(adParam)
         }
 

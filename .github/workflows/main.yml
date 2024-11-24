@@ -70,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@873e06320ffabbaa07f705b7ea059c248a070f88
+        uses: Oztechan/Global/actions/setup-gradle-repo@f3f5fec1f5562978457d820f6d6c83b81cac28a9
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -89,7 +89,7 @@ jobs:
         run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
       - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
@@ -106,7 +106,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeAndroid:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GradleBuild ]
     if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
@@ -114,7 +114,7 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.2
 
       - name: Download Android ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/download-artifact@v4.1.8
@@ -153,7 +153,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@873e06320ffabbaa07f705b7ea059c248a070f88
+        uses: Oztechan/Global/actions/setup-gradle-repo@f3f5fec1f5562978457d820f6d6c83b81cac28a9
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -173,7 +173,7 @@ jobs:
         run: fastlane build${{ env.BUILD_TYPE }}
 
       - name: Upload iOS Debug Artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -182,7 +182,7 @@ jobs:
             ios/CCC_I.app.dSYM.zip
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.4.0
+        uses: actions/upload-artifact@v4.4.3
         if: github.event_name == 'schedule'
         with:
           name: iOSArtifacts
@@ -199,14 +199,14 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   DistributeIOS:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ XCodeBuild ]
     if: github.event_name == 'push' || github.event_name == 'schedule'
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.1.7
+        uses: actions/checkout@v4.2.2
 
       - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/download-artifact@v4.1.8
@@ -218,7 +218,7 @@ jobs:
       - name: Distribute ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: |
-          sudo chown -R $(whoami) /var/lib/gems/3.0.0
+          sudo chown -R $(whoami) /var/lib/gems/
           fastlane distribute${{ env.BUILD_TYPE }}
 
       - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
@@ -237,7 +237,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@873e06320ffabbaa07f705b7ea059c248a070f88
+        uses: Oztechan/Global/actions/setup-gradle-repo@f3f5fec1f5562978457d820f6d6c83b81cac28a9
 
       - name: Test
         run: ./gradlew test
@@ -251,19 +251,19 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Coverage:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@873e06320ffabbaa07f705b7ea059c248a070f88
+        uses: Oztechan/Global/actions/setup-gradle-repo@f3f5fec1f5562978457d820f6d6c83b81cac28a9
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4.5.0
+        uses: codecov/codecov-action@v5.0.6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/reports/kover/report.xml
@@ -275,7 +275,7 @@ jobs:
           coverage-reports: build/reports/kover/report.xml
 
       - name: SonarCloud Scan
-        uses: sonarsource/sonarcloud-github-action@v3.0.0
+        uses: sonarsource/sonarcloud-github-action@v3.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -294,13 +294,13 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   CodeAnalysis:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@873e06320ffabbaa07f705b7ea059c248a070f88
+        uses: Oztechan/Global/actions/setup-gradle-repo@f3f5fec1f5562978457d820f6d6c83b81cac28a9
 
       - name: Detekt & Lint
         run: ./gradlew detektAll lint
@@ -321,7 +321,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
     if: always()
     steps:

@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk",
       "state" : {
-        "revision" : "1fc52ab0e172e7c5a961f975a76c2611f4f22852",
-        "version" : "11.2.0"
+        "revision" : "8328630971a8fdd8072b36bb22bef732eb15e1f0",
+        "version" : "11.4.0"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "07a2f57d147d2bf368a0d2dcb5579ff082d9e44f",
-        "version" : "11.1.0"
+        "revision" : "4f234bcbdae841d7015258fbbf8e7743a39b8200",
+        "version" : "11.4.0"
       }
     },
     {
@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-mobile-ads.git",
       "state" : {
-        "revision" : "1e60477cbc4c4868ec8414524f8cd163132753ff",
-        "version" : "11.10.0"
+        "revision" : "82c49f703da08f6c20715fd8bb8dfe5d94a2f187",
+        "version" : "11.12.0"
       }
     },
     {

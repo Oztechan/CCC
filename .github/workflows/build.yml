@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@873e06320ffabbaa07f705b7ea059c248a070f88
+        uses: Oztechan/Global/actions/setup-gradle-repo@f3f5fec1f5562978457d820f6d6c83b81cac28a9
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -84,7 +84,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Notify:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     needs: [ Build ]
     if: always()
     steps:
