@@ -19,10 +19,10 @@ import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.content.main.ComposeMainActivity
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentSettingsBinding
+import com.oztechan.ccc.android.ui.mobile.util.buildBanner
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
 import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
 import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
-import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSingleChoiceDialog
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
@@ -66,7 +66,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
 
     @Suppress("LongMethod")
     private fun FragmentSettingsBinding.initViews() {
-        adViewContainer.setBannerAd(
+        adViewContainer.buildBanner(
             adManager = adManager,
             adId = if (BuildConfig.DEBUG) {
                 getString(R.string.banner_ad_unit_id_settings_debug)
