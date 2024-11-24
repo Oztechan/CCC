@@ -85,7 +85,7 @@ internal class AdManagerImpl(context: Context) : AdManager {
     override fun getBannerAd(
         context: Context,
         adId: String,
-        maxHeight: Int
+        maxHeightInDp: Float
     ): BannerAdView {
         Logger.v { "AdManagerImpl getBannerAd" }
 
@@ -96,13 +96,15 @@ internal class AdManagerImpl(context: Context) : AdManager {
             context.resources.displayMetrics.widthPixels
         }
 
+        val adHeight = maxHeightInDp.toInt().toDp(context)
+
         val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
             context,
-            (adWidthPixels / context.resources.displayMetrics.density).toInt()
+            adWidthPixels.toDp(context)
         )
 
-        val finalAdSize = if (adSize.height > maxHeight) {
-            AdSize(adSize.width, maxHeight)
+        val finalAdSize = if (adSize.height > adHeight) {
+            AdSize(adSize.width, adHeight)
         } else {
             adSize
         }
@@ -176,6 +178,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
             }
         )
     }
+
+    private fun Int.toDp(context: Context) =
+        (this / context.resources.displayMetrics.density).toInt()
 
     private fun Activity.initializeMobileAdsSdk() {
         Logger.v { "AdManagerImpl initializeMobileAdsSdk" }
