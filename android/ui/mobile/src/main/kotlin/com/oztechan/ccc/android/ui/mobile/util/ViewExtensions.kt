@@ -33,10 +33,14 @@ fun FrameLayout.buildBanner(
     adId: String,
     shouldShowAd: Boolean
 ) = if (shouldShowAd) {
-    val maxAdHeight =
-        (context.resources.getDimension(R.dimen.ads_banner_height) / resources.displayMetrics.density).toInt()
     removeAllViews()
-    addView(adManager.getBannerAd(context, adId, maxAdHeight))
+    addView(
+        adManager.getBannerAd(
+            context,
+            adId,
+            context.resources.getDimension(R.dimen.ads_banner_height)
+        )
+    )
 } else {
     visibility = View.GONE
 }
