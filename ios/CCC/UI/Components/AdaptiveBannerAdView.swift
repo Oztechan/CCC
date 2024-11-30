@@ -9,6 +9,7 @@
 import GoogleMobileAds
 import SwiftUI
 import UIKit
+import Provider
 
 struct AdaptiveBannerAdView: UIViewControllerRepresentable {
     private var unitID: String
@@ -28,6 +29,9 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
 
         bannerView.adUnitID = unitID
         bannerView.rootViewController = viewController
+
+        // Set the delegate to the context coordinator
+        bannerView.delegate = context.coordinator
 
         viewController.view.addSubview(bannerView)
         viewController.view.frame = CGRect(origin: .zero, size: adSize.size)
@@ -49,5 +53,19 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
         context: Context
     ) {
         // no impl
+    }
+
+    // SDK uses
+    func makeCoordinator() -> AdaptiveBannerAdCoordinator {
+        return AdaptiveBannerAdCoordinator()
+    }
+
+    class AdaptiveBannerAdCoordinator: NSObject, GADBannerViewDelegate {
+        func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+            let throwable = KotlinThrowable(
+                message: "InterstitialAd show \(error.localizedDescription)"
+            )
+            logger.e(throwable: throwable, tag: logger.tag, message: { String(describing: throwable.message) })
+        }
     }
 }
