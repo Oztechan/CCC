@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.view.WindowManager
 import co.touchlab.kermit.Logger
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -112,6 +113,14 @@ internal class AdManagerImpl(context: Context) : AdManager {
         val adView = AdView(context).apply {
             setAdSize(finalAdSize)
             adUnitId = adId
+            adListener = object : AdListener() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    super.onAdFailedToLoad(adError)
+                    Exception("AdManagerImpl getBannerAd onAdFailedToLoad ${adError.message}").let {
+                        Logger.e(it) { it.message.orEmpty() }
+                    }
+                }
+            }
             loadAd(adRequest)
         }
 
