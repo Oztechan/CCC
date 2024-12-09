@@ -19,9 +19,9 @@ import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCurrenciesBinding
+import com.oztechan.ccc.android.ui.mobile.util.buildBanner
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
 import com.oztechan.ccc.android.ui.mobile.util.hideKeyboard
-import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
 import com.oztechan.ccc.android.ui.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
@@ -62,7 +62,7 @@ class CurrenciesFragment : BaseVBFragment<FragmentCurrenciesBinding>() {
     }
 
     private fun FragmentCurrenciesBinding.initViews() {
-        adViewContainer.setBannerAd(
+        adViewContainer.buildBanner(
             adManager = adManager,
             adId = if (BuildConfig.DEBUG) {
                 getString(R.string.banner_ad_unit_id_currencies_debug)

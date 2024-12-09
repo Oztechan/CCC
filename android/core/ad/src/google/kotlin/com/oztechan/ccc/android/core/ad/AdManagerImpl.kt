@@ -2,6 +2,8 @@ package com.oztechan.ccc.android.core.ad
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
+import android.view.WindowManager
 import co.touchlab.kermit.Logger
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
@@ -83,34 +85,45 @@ internal class AdManagerImpl(context: Context) : AdManager {
 
     override fun getBannerAd(
         context: Context,
-        width: Int,
         adId: String,
-        onAdLoaded: (Int?) -> Unit
+        maxHeightInDp: Float
     ): BannerAdView {
         Logger.v { "AdManagerImpl getBannerAd" }
 
-        val adView = AdView(context).apply {
-            val adWidthPixels = if (width == 0) {
-                context.resources.displayMetrics.widthPixels.toFloat()
-            } else {
-                width.toFloat()
-            }
+        val adWidthPixels = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            windowManager.currentWindowMetrics.bounds.width()
+        } else {
+            context.resources.displayMetrics.widthPixels
+        }
 
-            setAdSize(
-                AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
-                    context,
-                    (adWidthPixels / resources.displayMetrics.density).toInt()
-                )
-            )
+        val adHeight = maxHeightInDp.toInt().toDp(context)
+
+        val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+            context,
+            adWidthPixels.toDp(context)
+        )
+
+        val finalAdSize = if (adSize.height > adHeight) {
+            AdSize(adSize.width, adHeight)
+        } else {
+            adSize
+        }
+
+        val adView = AdView(context).apply {
+            setAdSize(finalAdSize)
             adUnitId = adId
             adListener = object : AdListener() {
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                    onAdLoaded(adSize?.height?.times(resources.displayMetrics.density)?.toInt())
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    super.onAdFailedToLoad(adError)
+                    Exception("AdManagerImpl getBannerAd onAdFailedToLoad ${adError.message}").let {
+                        Logger.e(it) { it.message.orEmpty() }
+                    }
                 }
             }
             loadAd(adRequest)
         }
+
         return BannerAdView(context, banner = adView) { adView.destroy() }
     }
 
@@ -174,6 +187,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
             }
         )
     }
+
+    private fun Int.toDp(context: Context) =
+        (this / context.resources.displayMetrics.density).toInt()
 
     private fun Activity.initializeMobileAdsSdk() {
         Logger.v { "AdManagerImpl initializeMobileAdsSdk" }

@@ -53,4 +53,7 @@
 
     <!-- Splash  -->
     <dimen name="padding_splash_icon">32dp</dimen>
+
+    <!-- Ads -->
+    <dimen name="ads_banner_height">60dp</dimen>
 </resources>

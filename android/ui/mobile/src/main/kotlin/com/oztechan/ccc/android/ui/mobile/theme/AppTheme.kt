@@ -40,7 +40,14 @@ fun AppTheme(
         onErrorContainer = R.color.background_weak.toColor(),
         outline = R.color.background_weak.toColor(),
         outlineVariant = R.color.text_weak.toColor(),
-        scrim = android.R.color.holo_purple.toColor()
+        surfaceBright = R.color.text_weak.toColor(),
+        surfaceDim = R.color.text.toColor(),
+        surfaceContainer = R.color.background.toColor(),
+        surfaceContainerHigh = R.color.background_weak.toColor(),
+        surfaceContainerHighest = R.color.background_weak.toColor(),
+        surfaceContainerLow = R.color.background_strong.toColor(),
+        surfaceContainerLowest = R.color.background_strong.toColor(),
+        scrim = android.R.color.holo_purple.toColor(),
     )
 
     MaterialTheme(

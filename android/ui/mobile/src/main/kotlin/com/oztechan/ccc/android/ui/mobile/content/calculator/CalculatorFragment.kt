@@ -16,12 +16,12 @@ import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.databinding.FragmentCalculatorBinding
+import com.oztechan.ccc.android.ui.mobile.util.buildBanner
 import com.oztechan.ccc.android.ui.mobile.util.copyToClipBoard
 import com.oztechan.ccc.android.ui.mobile.util.dataState
 import com.oztechan.ccc.android.ui.mobile.util.destroyBanner
 import com.oztechan.ccc.android.ui.mobile.util.getFromClipBoard
 import com.oztechan.ccc.android.ui.mobile.util.setBackgroundByName
-import com.oztechan.ccc.android.ui.mobile.util.setBannerAd
 import com.oztechan.ccc.android.ui.mobile.util.showSnack
 import com.oztechan.ccc.android.ui.mobile.util.visibleIf
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
@@ -76,7 +76,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun FragmentCalculatorBinding.initViews() {
-        adViewContainer.setBannerAd(
+        adViewContainer.buildBanner(
             adManager = adManager,
             adId = if (BuildConfig.DEBUG) {
                 getString(R.string.banner_ad_unit_id_calculator_debug)
