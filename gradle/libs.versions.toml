@@ -2,7 +2,7 @@
 
 kotlin = "2.1.0"
 androidGradlePlugin = "8.7.3"
-jetbrainsCompose = "1.7.0"
+jetbrainsCompose = "1.7.3"
 glance = "1.1.1"
 mokkery = "2.6.1"
 activityCompose = "1.9.3"
