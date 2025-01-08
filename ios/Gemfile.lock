@@ -110,7 +110,7 @@ GEM
       xcodeproj (>= 1.13.0, < 2.0.0)
       xcpretty (~> 0.4.0)
       xcpretty-travis-formatter (>= 0.0.3, < 2.0.0)
-    fastlane-plugin-firebase_app_distribution (0.9.1)
+    fastlane-plugin-firebase_app_distribution (0.10.0)
       google-apis-firebaseappdistribution_v1 (~> 0.3.0)
       google-apis-firebaseappdistribution_v1alpha (~> 0.2.0)
     fastlane-sirp (1.0.0)
@@ -225,7 +225,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastlane (= 2.226.0)
-  fastlane-plugin-firebase_app_distribution (= 0.9.1)
+  fastlane-plugin-firebase_app_distribution (= 0.10.0)
 
 BUNDLED WITH
    2.5.11
