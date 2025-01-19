@@ -792,7 +792,7 @@
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
 				kind = exactVersion;
-				version = 11.12.0;
+				version = 11.13.0;
 			};
 		};
 		5C5C0BA22874B8450061AEF9 /* XCRemoteSwiftPackageReference "swiftui-navigation-stack" */ = {
