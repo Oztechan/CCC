@@ -64,7 +64,7 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-14
+    runs-on: macos-15
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -147,7 +147,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   XCodeBuild:
-    runs-on: macos-14
+    runs-on: macos-15
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -231,7 +231,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Test:
-    runs-on: macos-14
+    runs-on: macos-15
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
