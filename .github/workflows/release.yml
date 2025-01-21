@@ -210,7 +210,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   UploadToAppStore:
-    runs-on: macos-14
+    runs-on: macos-15
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
