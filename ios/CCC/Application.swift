@@ -35,7 +35,11 @@ struct Application: App {
     private let earliestTaskPeriod: Double = 1 * 60 * 60 // 1 hour
 
     init() {
-        FirebaseApp.configure()
+        if ProcessInfo.processInfo.environment["CI"] == "true" {
+            FirebaseApp.configure() // Ensure Firebase is initialized
+        } else {
+            print("🖥️ Running in local development, skipping Firebase configuration.")
+        }
 
         logger.i(message: { "Application init" })
 
