@@ -1,6 +1,5 @@
 package com.oztechan.ccc.client.core.analytics
 
-import android.content.Context
 import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.analytics
@@ -8,16 +7,9 @@ import com.google.firebase.analytics.logEvent
 import com.oztechan.ccc.client.core.analytics.model.Event
 import com.oztechan.ccc.client.core.analytics.model.ScreenName
 import com.oztechan.ccc.client.core.analytics.model.UserProperty
-import com.oztechan.ccc.client.core.analytics.util.isDeviceRooted
 
-internal class AnalyticsManagerImpl(
-    context: Context
-) : AnalyticsManager {
+internal class AnalyticsManagerImpl : AnalyticsManager {
     private val firebaseAnalytics by lazy { Firebase.analytics }
-
-    init {
-        setUserProperty(UserProperty.IsRooted(isDeviceRooted(context)))
-    }
 
     override fun trackScreen(screenName: ScreenName) {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {

@@ -10,6 +10,7 @@ import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import com.oztechan.ccc.client.core.shared.model.AppTheme
+import com.scottyab.rootbeer.RootBeer
 import java.util.Locale
 
 fun updateBaseContextLocale(context: Context): Context? {
@@ -20,6 +21,12 @@ fun updateBaseContextLocale(context: Context): Context? {
     } else {
         updateResourcesLocaleLegacy(context, locale)
     }
+}
+
+fun isDeviceRooted(context: Context) = if (RootBeer(context).isRooted) {
+    true.toString()
+} else {
+    false.toString()
 }
 
 fun getThemeMode(appThemeValue: Int) = when (AppTheme.getThemeByValue(appThemeValue)) {
