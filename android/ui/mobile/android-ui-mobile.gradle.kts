@@ -65,6 +65,7 @@ dependencies {
             implementation(koinCompose)
             implementation(lifecycleRuntime)
             implementation(splashScreen)
+            implementation(rootBeer)
         }
 
         android.google.apply {

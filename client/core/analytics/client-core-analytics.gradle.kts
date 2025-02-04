@@ -20,10 +20,7 @@ kotlin {
             implementation(libs.common.test)
         }
         androidMain.dependencies {
-            libs.android.apply {
-                implementation(firebaseAnalytics)
-                implementation(rootBeer)
-            }
+            implementation(libs.android.firebaseAnalytics)
         }
     }
 }
