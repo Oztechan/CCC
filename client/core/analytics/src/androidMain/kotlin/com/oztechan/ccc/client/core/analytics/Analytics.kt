@@ -1,8 +1,9 @@
 package com.oztechan.ccc.client.core.analytics
 
 import android.content.Context
-import com.google.firebase.analytics.FirebaseAnalytics
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.initialize
 
 fun initAnalytics(context: Context) {
-    FirebaseAnalytics.getInstance(context)
+    Firebase.initialize(context)
 }
