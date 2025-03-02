@@ -18,13 +18,11 @@ kotlin {
             libs.common.apply {
                 implementation(ktorJson)
                 implementation(kermit)
+                implementation(gitliveRemoteConfig)
             }
         }
         commonTest.dependencies {
             implementation(libs.common.test)
-        }
-        androidMain.dependencies {
-            implementation(libs.android.firebaseRemoteConfig)
         }
     }
 }
