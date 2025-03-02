@@ -14,7 +14,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.common.koinCore)
+            libs.common.apply {
+                implementation(koinCore)
+                implementation(coroutines)
+            }
+
             implementation(project(Modules.Client.Core.remoteConfig))
         }
         commonTest.dependencies {
