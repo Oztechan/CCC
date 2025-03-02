@@ -9,7 +9,7 @@
 	<key>ANDROID_CLIENT_ID</key>
 	<string>secret</string>
 	<key>API_KEY</key>
-	<string>secret</string>
+	<string>AIzaSyBXcAbcd5klmTOBulnhBKKuH09Hu5OY_Ug</string>
 	<key>GCM_SENDER_ID</key>
 	<string>secret</string>
 	<key>PLIST_VERSION</key>
@@ -17,7 +17,7 @@
 	<key>BUNDLE_ID</key>
 	<string>com.oztechan.ccc</string>
 	<key>PROJECT_ID</key>
-	<string>secret</string>
+	<string>test</string>
 	<key>STORAGE_BUCKET</key>
 	<string>secret</string>
 	<key>IS_ADS_ENABLED</key>
@@ -25,7 +25,7 @@
 	<key>IS_ANALYTICS_ENABLED</key>
 	<false></false>
 	<key>GOOGLE_APP_ID</key>
-	<string>secret</string>
+	<string>1:1234567890:ios:abcdef1234567890</string>
 	<key>DATABASE_URL</key>
 	<string>secret</string>
 	<key>ADMOB_APP_ID</key>
