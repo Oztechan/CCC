@@ -13,7 +13,8 @@ internal class AdConfigServiceImpl(
     AdConfigRCModel().toAdConfigModel(),
     KEY_AD_CONFIG,
     globalScope
-), AdConfigService {
+),
+    AdConfigService {
 
     override fun String?.decode() = runCatching {
         parseToObject<AdConfigRCModel>().toAdConfigModel()

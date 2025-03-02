@@ -13,7 +13,8 @@ internal class ReviewConfigServiceImpl(
     ReviewConfigRCModel().toReviewConfigModel(),
     KEY_AD_CONFIG,
     globalScope
-), ReviewConfigService {
+),
+    ReviewConfigService {
 
     override fun String?.decode() = runCatching {
         parseToObject<ReviewConfigRCModel>().toReviewConfigModel()

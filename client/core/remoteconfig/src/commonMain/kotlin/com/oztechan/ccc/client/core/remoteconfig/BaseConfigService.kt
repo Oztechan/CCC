@@ -6,6 +6,7 @@ import dev.gitlive.firebase.remoteconfig.remoteConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
+@Suppress("TooGenericExceptionCaught")
 abstract class BaseConfigService<T>(
     val default: T,
     configKey: String,
@@ -28,17 +29,20 @@ abstract class BaseConfigService<T>(
                 ?.decode()
                 ?: default
         } catch (e: Exception) {
-            Logger.v("${this::class.simpleName} Remote config not fetched, using cached value: ${e.message}")
+            Logger.v { "${this::class.simpleName} Remote config not fetched, using cached value: ${e.message}" }
             default
         }
 
         globalScope.launch {
             try {
                 remoteConfig.fetchAndActivate()
-                Logger.v("${this@BaseConfigService::class.simpleName} Remote config updated from server \n $config")
+                Logger.v { "${this@BaseConfigService::class.simpleName} Remote config updated from server \n $config" }
                 config = remoteConfig.getValue(configKey).asString().decode()
             } catch (e: Exception) {
-                Logger.v("${this@BaseConfigService::class.simpleName} Remote config not updated, using cached value: ${e.message}")
+                Logger.v {
+                    "${this@BaseConfigService::class.simpleName}" +
+                        " Remote config not updated, using cached value: ${e.message}"
+                }
             }
         }
     }

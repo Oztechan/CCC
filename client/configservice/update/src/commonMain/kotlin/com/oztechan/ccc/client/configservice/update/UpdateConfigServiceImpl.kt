@@ -13,7 +13,8 @@ internal class UpdateConfigServiceImpl(
     UpdateConfigRCModel().toUpdateConfigModel(),
     KEY_AD_CONFIG,
     globalScope
-), UpdateConfigService {
+),
+    UpdateConfigService {
 
     override fun String?.decode() = runCatching {
         parseToObject<UpdateConfigRCModel>().toUpdateConfigModel()
