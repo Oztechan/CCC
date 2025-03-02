@@ -8,8 +8,7 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
-import com.oztechan.ccc.client.core.analytics.AnalyticsManager
-import com.oztechan.ccc.client.core.analytics.di.getClientCoreAnalyticsModule
+import com.oztechan.ccc.client.core.analytics.di.clientCoreAnalyticsModule
 import com.oztechan.ccc.client.core.persistence.di.NativeDependencyWrapper
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
@@ -44,10 +43,7 @@ import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
 @Suppress("unused")
-fun initKoin(
-    userDefaults: NSUserDefaults,
-    analyticsManager: AnalyticsManager
-) = startKoin {
+fun initKoin(userDefaults: NSUserDefaults) = startKoin {
     modules(
         // region Platform modules
         getIOSPlatformModule(userDefaults),
@@ -60,7 +56,7 @@ fun initKoin(
 
         // region Client modules
         // Core modules
-        getClientCoreAnalyticsModule(analyticsManager),
+        clientCoreAnalyticsModule,
         clientCorePersistenceModule,
         // Storage modules
         clientStorageAppModule,
