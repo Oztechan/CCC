@@ -15,6 +15,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            Modules.Client.Core.apply {
+                api(project(shared))
+            }
+
             libs.common.apply {
                 implementation(ktorJson)
                 implementation(kermit)
