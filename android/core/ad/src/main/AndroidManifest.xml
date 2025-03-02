@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <application>
-        <!-- TODO can be removed when Google ads updated with a fix, simply remove and build if error is persisting -->
-        <!-- currently it is fixed in higher version of gsm but it looks like gitlive uses old one so we still need to keep it here -->
-        <property
-            android:name="android.adservices.AD_SERVICES_CONFIG"
-            android:resource="@xml/gma_ad_services_config"
-            tools:replace="android:resource" />
-    </application>
 </manifest>
