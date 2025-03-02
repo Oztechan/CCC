@@ -60,6 +60,12 @@ android {
         compileOptions {
             sourceCompatibility = JAVA_VERSION
             targetCompatibility = JAVA_VERSION
+            // needed for gitlive remoteconfig, we have it in app module though
+            isCoreLibraryDesugaringEnabled = true
+        }
+
+        dependencies {
+            coreLibraryDesugaring(libs.android.androidDesugaring)
         }
     }
 }
