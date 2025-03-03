@@ -5,10 +5,10 @@ package com.oztechan.ccc.android.ui.mobile.content.main
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -103,7 +103,7 @@ class MainActivity : BaseActivity() {
         positiveButton = R.string.update,
         cancelable = isCancelable
     ) {
-        resolveAndStartIntent(Intent(Intent.ACTION_VIEW, Uri.parse(marketLink)))
+        resolveAndStartIntent(Intent(Intent.ACTION_VIEW, marketLink.toUri()))
     }
 
     private fun setDestination(fragmentId: Int) = with(getNavigationController()) {
