@@ -4,11 +4,11 @@
 package com.oztechan.ccc.android.ui.mobile.content.settings
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -203,7 +203,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                     requireContext().resolveAndStartIntent(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse(viewEffect.marketLink)
+                            viewEffect.marketLink.toUri()
                         )
                     )
                 }
@@ -213,7 +213,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
                 SettingsEffect.OnGitHub -> requireContext().resolveAndStartIntent(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse(getString(R.string.github_url))
+                        getString(R.string.github_url).toUri()
                     )
                 )
 
