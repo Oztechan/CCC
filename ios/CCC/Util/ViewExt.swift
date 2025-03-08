@@ -90,6 +90,7 @@ extension View {
             view()
         } customize: {
             $0.type(.toast)
+                .displayMode(.overlay)
                 .autohideIn(2.0)
                 .closeOnTap(true)
         }

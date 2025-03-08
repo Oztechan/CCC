@@ -11,6 +11,7 @@ enum class AppTheme(val themeName: String, val themeValue: Int) {
     SYSTEM_DEFAULT("System default", -1);
 
     companion object {
+        private const val ANDROID_FIST_DARK_MODE_AVAILABLE_VERSION = 29
         internal const val SYSTEM_DARK = "System dark"
 
         fun getThemeByValue(value: Int) = values().firstOrNull { it.themeValue == value }
@@ -21,10 +22,9 @@ enum class AppTheme(val themeName: String, val themeValue: Int) {
 
         fun getThemeByOrdinalOrDefault(ordinal: Int) = getThemeByOrdinal(ordinal) ?: SYSTEM_DEFAULT
 
-        @Suppress("MagicNumber")
         fun getAnalyticsThemeName(themeValue: Int, device: Device) = when (device) {
             Device.IOS -> SYSTEM_DEFAULT.themeName
-            is Device.Android -> if (device.versionCode < 29) {
+            is Device.Android -> if (device.versionCode < ANDROID_FIST_DARK_MODE_AVAILABLE_VERSION) {
                 SYSTEM_DARK
             } else {
                 getThemeByValueOrDefault(themeValue).themeName

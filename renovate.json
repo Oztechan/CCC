@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "labels": [
     "dependencies"
@@ -10,6 +10,7 @@
   "gitAuthor": "Renovate <renovate@oztechan.com>",
   "commitBody": "Co-authored-by: Mustafa Ozhan <mr.mustafa.ozhan@gmail.com>",
   "commitMessageAction": "[Oztechan/CCC#1457] Update",
+  "prConcurrentLimit": 20,
   "git-submodules": {
     "enabled": true,
     "groupName": "Git Submodules"
@@ -20,19 +21,16 @@
   },
   "packageRules": [
     {
-      "matchPackagePatterns": [
-        "^org.jetbrains.kotlin:",
-        "^org.jetbrains.kotlin.",
-        "^com.google.devtools.ksp",
-        "^org.jetbrains.compose"
-      ],
-      "groupName": "kotlin"
+      "groupName": "kotlin",
+      "matchPackageNames": [
+        "/^org.jetbrains.kotlin.$/"
+      ]
     },
     {
-      "matchPackagePatterns": [
-        "^io.insert-koin"
-      ],
-      "groupName": "koin"
+      "groupName": "koin",
+      "matchPackageNames": [
+        "/^io.insert-koin/"
+      ]
     }
   ]
 }

@@ -14,7 +14,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.common.koinCore)
+            libs.common.apply {
+                implementation(koinCore)
+                implementation(coroutines)
+            }
+
             implementation(project(Modules.Client.Core.remoteConfig))
         }
 
@@ -33,6 +37,12 @@ android {
         compileOptions {
             sourceCompatibility = JAVA_VERSION
             targetCompatibility = JAVA_VERSION
+            // needed for gitlive remoteconfig, we have it in app module though
+            isCoreLibraryDesugaringEnabled = true
+        }
+
+        dependencies {
+            coreLibraryDesugaring(libs.android.androidDesugaring)
         }
     }
 }

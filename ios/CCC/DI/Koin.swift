@@ -12,10 +12,7 @@ import SwiftUI
 var koin: Koin_coreKoin = {
     let userDefaults = UserDefaults(suiteName: "application_user_defaults")!
 
-    return KoinKt.doInitKoin(
-        userDefaults: userDefaults,
-        analyticsManager: AnalyticsManagerImpl()
-    ).koin
+    return KoinKt.doInitKoin(userDefaults: userDefaults).koin
 }()
 
 extension Koin_coreKoin {

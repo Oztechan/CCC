@@ -15,15 +15,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.common.koinCore)
+            implementation(libs.common.gitliveAnalytics)
         }
         commonTest.dependencies {
             implementation(libs.common.test)
-        }
-        androidMain.dependencies {
-            libs.android.apply {
-                implementation(firebaseAnalytics)
-                implementation(rootBeer)
-            }
         }
     }
 }
