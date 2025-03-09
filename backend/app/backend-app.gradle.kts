@@ -16,15 +16,18 @@ application {
 
 dependencies {
     libs.jvm.apply {
-        implementation(ktorCore)
-        implementation(ktorNetty)
         implementation(koinKtor)
     }
 
     libs.common.apply {
-        implementation(ktorServerContentNegotiation)
         implementation(ktorJson)
         implementation(kermit)
+    }
+
+    libs.server.apply {
+        implementation(ktorCore)
+        implementation(ktorNetty)
+        implementation(ktorContentNegotiation)
     }
 
     Modules.Common.Core.apply {
