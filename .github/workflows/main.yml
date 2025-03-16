@@ -146,89 +146,89 @@ jobs:
         id: status
         run: echo "status=success" >> $GITHUB_OUTPUT
 
-  XCodeBuild:
-    runs-on: macos-15
-    outputs:
-      status: ${{ steps.status.outputs.status }}
-    steps:
+  #  XCodeBuild:
+  #    runs-on: macos-15
+  #    outputs:
+  #      status: ${{ steps.status.outputs.status }}
+  #    steps:
+  #
+  #      - name: Setup Gradle Repo
+  #        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+  #
+  #      - name: Adding secret files
+  #        uses: ./.github/actions/add-secret-files
+  #        with:
+  #          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
+  #          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
+  #          GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
+  #          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
+  #          GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE }}
+  #          GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG }}
+  #          IOS_XCCONFIG_ASC_RELEASE: ${{ secrets.IOS_XCCONFIG_ASC_RELEASE }}
+  #          IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
+  #          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+  #
+  #      - name: Build ${{ env.BUILD_TYPE }}
+  #        working-directory: ios
+  #        run: fastlane build${{ env.BUILD_TYPE }}
+  #
+  #      - name: Upload iOS Debug Artifacts
+  #        uses: actions/upload-artifact@v4.6.1
+  #        if: github.event_name == 'push'
+  #        with:
+  #          name: iOSArtifacts
+  #          path: |
+  #            ios/CCC_I.ipa
+  #            ios/CCC_I.app.dSYM.zip
+  #
+  #      - name: Upload iOS Artifacts
+  #        uses: actions/upload-artifact@v4.6.1
+  #        if: github.event_name == 'schedule'
+  #        with:
+  #          name: iOSArtifacts
+  #          path: |
+  #            ios/CCC.ipa
+  #            ios/CCC.app.dSYM.zip
+  #
+  #      - name: Cancel other jobs if this fails
+  #        if: failure()
+  #        uses: andymckay/cancel-action@0.5
+  #
+  #      - name: Set Job Status
+  #        id: status
+  #        run: echo "status=success" >> $GITHUB_OUTPUT
 
-      - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
-
-      - name: Adding secret files
-        uses: ./.github/actions/add-secret-files
-        with:
-          ANDROID_RELEASE_KEYSTORE_ASC: ${{ secrets.ANDROID_RELEASE_KEYSTORE_ASC }}
-          SECRET_PASSWORD: ${{ secrets.SECRET_PASSWORD }}
-          GOOGLE_SERVICES_JSON_ASC: ${{ secrets.GOOGLE_SERVICES_JSON_ASC }}
-          AG_CONNECT_SERVICES_JSON_ASC: ${{ secrets.AG_CONNECT_SERVICES_JSON_ASC }}
-          GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE }}
-          GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG }}
-          IOS_XCCONFIG_ASC_RELEASE: ${{ secrets.IOS_XCCONFIG_ASC_RELEASE }}
-          IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
-          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-
-      - name: Build ${{ env.BUILD_TYPE }}
-        working-directory: ios
-        run: fastlane build${{ env.BUILD_TYPE }}
-
-      - name: Upload iOS Debug Artifacts
-        uses: actions/upload-artifact@v4.6.1
-        if: github.event_name == 'push'
-        with:
-          name: iOSArtifacts
-          path: |
-            ios/CCC_I.ipa
-            ios/CCC_I.app.dSYM.zip
-
-      - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.6.1
-        if: github.event_name == 'schedule'
-        with:
-          name: iOSArtifacts
-          path: |
-            ios/CCC.ipa
-            ios/CCC.app.dSYM.zip
-
-      - name: Cancel other jobs if this fails
-        if: failure()
-        uses: andymckay/cancel-action@0.5
-
-      - name: Set Job Status
-        id: status
-        run: echo "status=success" >> $GITHUB_OUTPUT
-
-  DistributeIOS:
-    runs-on: ubuntu-24.04
-    needs: [ XCodeBuild ]
-    if: github.event_name == 'push' || github.event_name == 'schedule'
-    outputs:
-      status: ${{ steps.status.outputs.status }}
-    steps:
-      - name: Clone Repo
-        uses: actions/checkout@v4.2.2
-
-      - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/download-artifact@v4.1.9
-        with:
-          name: iOSArtifacts
-          path: ios
-
-      # was necessary to use chown to fix permission issues in linux machines
-      - name: Distribute ${{ env.BUILD_TYPE }}
-        working-directory: ios
-        run: |
-          sudo chown -R $(whoami) /var/lib/gems/
-          fastlane distribute${{ env.BUILD_TYPE }}
-
-      - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
-        uses: geekyeggo/delete-artifact@v5.1.0
-        with:
-          name: iOSArtifacts
-
-      - name: Set Job Status
-        id: status
-        run: echo "status=success" >> $GITHUB_OUTPUT
+  #  DistributeIOS:
+  #    runs-on: ubuntu-24.04
+  #    needs: [ XCodeBuild ]
+  #    if: github.event_name == 'push' || github.event_name == 'schedule'
+  #    outputs:
+  #      status: ${{ steps.status.outputs.status }}
+  #    steps:
+  #      - name: Clone Repo
+  #        uses: actions/checkout@v4.2.2
+  #
+  #      - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
+  #        uses: actions/download-artifact@v4.1.9
+  #        with:
+  #          name: iOSArtifacts
+  #          path: ios
+  #
+  #      # was necessary to use chown to fix permission issues in linux machines
+  #      - name: Distribute ${{ env.BUILD_TYPE }}
+  #        working-directory: ios
+  #        run: |
+  #          sudo chown -R $(whoami) /var/lib/gems/
+  #          fastlane distribute${{ env.BUILD_TYPE }}
+  #
+  #      - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
+  #        uses: geekyeggo/delete-artifact@v5.1.0
+  #        with:
+  #          name: iOSArtifacts
+  #
+  #      - name: Set Job Status
+  #        id: status
+  #        run: echo "status=success" >> $GITHUB_OUTPUT
 
   Test:
     runs-on: macos-15
@@ -322,18 +322,16 @@ jobs:
 
   Notify:
     runs-on: ubuntu-24.04
-    needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis, DistributeAndroid, DistributeIOS ]
+    needs: [ GradleBuild, Test, Coverage, CodeAnalysis, DistributeAndroid ]
     if: always()
     steps:
 
       - name: Notify slack fail
         if: false == (needs.GradleBuild.outputs.status == 'success') ||
-          false == (needs.XCodeBuild.outputs.status == 'success') ||
           false == (needs.Test.outputs.status == 'success') ||
           false == (needs.Coverage.outputs.status == 'success') ||
           false == (needs.CodeAnalysis.outputs.status == 'success') ||
           (false == (needs.DistributeAndroid.outputs.status == 'success') && (github.event_name == 'push' || github.event_name == 'schedule')) ||
-          (false == (needs.DistributeIOS.outputs.status == 'success') && (github.event_name == 'push' || github.event_name == 'schedule'))
         uses: voxmedia/github-action-slack-notify-build@v1.6.0
         with:
           channel: ccc-github
