@@ -2,10 +2,15 @@ plugins {
     libs.plugins.apply {
         alias(androidLibrary)
         alias(kotlinMultiplatform)
+        kotlin("native.cocoapods") version "2.1.10"
     }
 }
 
 kotlin {
+    cocoapods {
+        pod("FirebaseCore") // Repeat for Firebase pods required by your project, e.g FirebaseFirestore for the `firebase-firestore` module.
+    }
+
     androidTarget()
 
     iosX64()
