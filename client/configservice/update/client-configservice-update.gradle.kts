@@ -13,7 +13,7 @@ kotlin {
         ios.deploymentTarget = "16.0"
         pod("FirebaseCore") {
             version = "11.9.0"
-        } // Repeat for Firebase pods required by your project, e.g FirebaseFirestore for the `firebase-firestore` module.
+        }
     }
     androidTarget()
 
