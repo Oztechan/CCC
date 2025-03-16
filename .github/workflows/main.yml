@@ -86,7 +86,7 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Assemble ${{ env.BUILD_TYPE }}
-        run: ./gradlew assemble${{ env.BUILD_TYPE }}
+        run: ./gradlew build --parallel
 
       - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/upload-artifact@v4.6.1
