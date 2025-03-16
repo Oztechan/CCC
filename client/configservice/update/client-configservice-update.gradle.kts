@@ -2,7 +2,7 @@ plugins {
     libs.plugins.apply {
         alias(androidLibrary)
         alias(kotlinMultiplatform)
-        kotlin("native.cocoapods") version "2.1.10"
+        alias(kotlinCocoapods)
     }
 }
 
