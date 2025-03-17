@@ -14,6 +14,7 @@ plugins {
         alias(androidLibrary).apply(false)
         alias(buildKonfig).apply(false)
         alias(sqlDelight).apply(false)
+        alias(kotlinCocoapods).apply(false)
         alias(kover)
         alias(detekt)
     }

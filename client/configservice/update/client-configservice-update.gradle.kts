@@ -2,10 +2,19 @@ plugins {
     libs.plugins.apply {
         alias(androidLibrary)
         alias(kotlinMultiplatform)
+        alias(kotlinCocoapods)
     }
 }
 
 kotlin {
+    cocoapods {
+        version = ProjectSettings.getVersionName(project)
+        name = Modules.Client.ConfigService.update.packageName
+        ios.deploymentTarget = "16.0"
+        pod("FirebaseCore") {
+            version = "11.9.0"
+        }
+    }
     androidTarget()
 
     iosX64()
