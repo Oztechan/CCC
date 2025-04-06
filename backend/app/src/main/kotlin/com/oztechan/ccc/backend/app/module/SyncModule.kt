@@ -23,8 +23,6 @@ internal fun Application.syncModule() {
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
-            delay(12.hours.inWholeMilliseconds)
-
             syncController.syncPrimaryCurrencies()
             delay(1.hours.inWholeMilliseconds)
         }
@@ -32,8 +30,6 @@ internal fun Application.syncModule() {
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
-            delay(12.hours.inWholeMilliseconds)
-
             syncController.syncSecondaryCurrencies()
             delay(2.hours.inWholeMilliseconds)
         }
@@ -41,8 +37,6 @@ internal fun Application.syncModule() {
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
-            delay(12.hours.inWholeMilliseconds)
-
             syncController.syncTertiaryCurrencies()
             delay(3.hours.inWholeMilliseconds)
         }
@@ -50,8 +44,6 @@ internal fun Application.syncModule() {
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
-            delay(12.hours.inWholeMilliseconds)
-
             syncController.syncUnPopularCurrencies()
             delay(12.hours.inWholeMilliseconds)
         }
