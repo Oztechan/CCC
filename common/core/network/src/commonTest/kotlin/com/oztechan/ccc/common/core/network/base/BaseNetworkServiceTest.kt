@@ -7,9 +7,9 @@ import com.oztechan.ccc.common.core.network.error.TerminationException
 import com.oztechan.ccc.common.core.network.error.TimeoutException
 import com.oztechan.ccc.common.core.network.error.UnknownNetworkException
 import io.ktor.client.network.sockets.ConnectTimeoutException
-import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlinx.io.IOException
 import kotlinx.serialization.SerializationException
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.test.Test
