@@ -122,7 +122,7 @@ jobs:
           name: androidArtifacts
 
       - name: Firebase App Distribution Google ${{ env.BUILD_TYPE }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.1
         with:
           appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -130,7 +130,7 @@ jobs:
           file: google/${{ env.BUILD_TYPE_LOWERCASE }}/app-google-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Firebase App Distribution Huawei ${{ env.BUILD_TYPE }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.1
         with:
           appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
