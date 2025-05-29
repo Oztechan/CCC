@@ -1,7 +1,7 @@
 [versions]
 
 kotlin = "2.1.21"
-androidGradlePlugin = "8.9.2"
+androidGradlePlugin = "8.10.1"
 jetbrainsCompose = "1.7.3"
 glance = "1.1.1"
 mokkery = "2.8.0"
