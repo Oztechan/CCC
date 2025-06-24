@@ -9,7 +9,6 @@ import android.view.View
 import android.view.View.OnApplyWindowInsetsListener
 import android.view.WindowInsets
 import android.widget.Button
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnAttach
 import androidx.core.view.updatePadding
@@ -84,7 +83,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     private fun FragmentCalculatorBinding.initViews() {
         val initialPaddings = InitialSpacings(24,0,0,0)
         toolbarContainer?.doOnApplyWindowInsets {
-            setPaddingVerticalWithSystemWindowInsets(
+            setPaddingVerticalAndSystemWindowInsets(
                 it,
                 skipBottom = true,
                 initialPaddings = initialPaddings
@@ -92,7 +91,7 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         }
 
         adViewContainer.rootView.doOnApplyWindowInsets {
-            setPaddingVerticalWithSystemWindowInsets(it, skipTop = true)
+            setPaddingVerticalAndSystemWindowInsets(it, skipTop = true)
         }
         adViewContainer.buildBanner(
             adManager = adManager,
@@ -222,20 +221,6 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 }
 
-
-//ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.toolbar_fragment_main)) { view, insets ->
-//    val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
-//    view.setPadding(view.paddingLeft, statusBarHeight, view.paddingRight, view.paddingBottom)
-//    insets
-//}
-//
-//ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view_main)) { view, insets ->
-//    val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
-//    view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, navBarHeight)
-//    insets
-//}
-
-
 /**
  * Sets an [OnApplyWindowInsetsListener] which proxies to the given lambda.
  *
@@ -244,29 +229,12 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
 fun View.doOnApplyWindowInsets(apply: View.(insets: WindowInsets) -> Unit) {
     setOnApplyWindowInsetsListener { view, insets ->
         view.apply(insets)
-        // Return the insets, so that children can also use them
         insets
     }
-    // Request insets.
-    // Wrap with doOnAttach to provide workaround for limitation in how WindowInsets are dispatched.
-    // If a view calls requestApplyInsets() while it is not attached to the view hierarchy, the call is dropped on the floor and ignored.
     doOnAttach { requestApplyInsets() }
 }
 
-fun View.doOnApplyWindowInsetsRespectPaddings(apply: View.(insets: WindowInsets, initialPaddings: InitialSpacings) -> Unit) {
-    setOnApplyWindowInsetsListener { view, insets ->
-        val initialPaddings = InitialSpacings(0, 0, 0, 0)
-        view.apply(insets, initialPaddings)
-        // Return the insets, so that children can also use them
-        insets
-    }
-    // Request insets.
-    // Wrap with doOnAttach to provide workaround for limitation in how WindowInsets are dispatched.
-    // If a view calls requestApplyInsets() while it is not attached to the view hierarchy, the call is dropped on the floor and ignored.
-    doOnAttach { requestApplyInsets() }
-}
-
-fun View.setPaddingVerticalWithSystemWindowInsets(
+fun View.setPaddingVerticalAndSystemWindowInsets(
     insets: WindowInsets,
     skipTop: Boolean = false,
     skipBottom: Boolean = false,
