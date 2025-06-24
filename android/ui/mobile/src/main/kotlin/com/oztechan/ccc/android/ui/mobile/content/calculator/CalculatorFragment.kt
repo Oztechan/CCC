@@ -6,7 +6,13 @@ package com.oztechan.ccc.android.ui.mobile.content.calculator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnApplyWindowInsetsListener
+import android.view.WindowInsets
 import android.widget.Button
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.doOnAttach
+import androidx.core.view.updatePadding
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -76,6 +82,18 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
     }
 
     private fun FragmentCalculatorBinding.initViews() {
+        val initialPaddings = InitialSpacings(24,0,0,0)
+        toolbarContainer?.doOnApplyWindowInsets {
+            setPaddingVerticalWithSystemWindowInsets(
+                it,
+                skipBottom = true,
+                initialPaddings = initialPaddings
+            )
+        }
+
+        adViewContainer.rootView.doOnApplyWindowInsets {
+            setPaddingVerticalWithSystemWindowInsets(it, skipTop = true)
+        }
         adViewContainer.buildBanner(
             adManager = adManager,
             adId = if (BuildConfig.DEBUG) {
@@ -203,3 +221,67 @@ class CalculatorFragment : BaseVBFragment<FragmentCalculatorBinding>() {
         viewModel.event.onKeyPress(text.toString())
     }
 }
+
+
+//ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.toolbar_fragment_main)) { view, insets ->
+//    val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+//    view.setPadding(view.paddingLeft, statusBarHeight, view.paddingRight, view.paddingBottom)
+//    insets
+//}
+//
+//ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.recycler_view_main)) { view, insets ->
+//    val navBarHeight = insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+//    view.setPadding(view.paddingLeft, view.paddingTop, view.paddingRight, navBarHeight)
+//    insets
+//}
+
+
+/**
+ * Sets an [OnApplyWindowInsetsListener] which proxies to the given lambda.
+ *
+ * Based on: https://deploy-preview-9--festive-chandrasekhar-4b30b6.netlify.app/2019/04/12/insets-listeners-to-layouts/
+ */
+fun View.doOnApplyWindowInsets(apply: View.(insets: WindowInsets) -> Unit) {
+    setOnApplyWindowInsetsListener { view, insets ->
+        view.apply(insets)
+        // Return the insets, so that children can also use them
+        insets
+    }
+    // Request insets.
+    // Wrap with doOnAttach to provide workaround for limitation in how WindowInsets are dispatched.
+    // If a view calls requestApplyInsets() while it is not attached to the view hierarchy, the call is dropped on the floor and ignored.
+    doOnAttach { requestApplyInsets() }
+}
+
+fun View.doOnApplyWindowInsetsRespectPaddings(apply: View.(insets: WindowInsets, initialPaddings: InitialSpacings) -> Unit) {
+    setOnApplyWindowInsetsListener { view, insets ->
+        val initialPaddings = InitialSpacings(0, 0, 0, 0)
+        view.apply(insets, initialPaddings)
+        // Return the insets, so that children can also use them
+        insets
+    }
+    // Request insets.
+    // Wrap with doOnAttach to provide workaround for limitation in how WindowInsets are dispatched.
+    // If a view calls requestApplyInsets() while it is not attached to the view hierarchy, the call is dropped on the floor and ignored.
+    doOnAttach { requestApplyInsets() }
+}
+
+fun View.setPaddingVerticalWithSystemWindowInsets(
+    insets: WindowInsets,
+    skipTop: Boolean = false,
+    skipBottom: Boolean = false,
+    initialPaddings: InitialSpacings? = null,
+) {
+    val insetsCompat = insets.getSystemWindowInsetsCompat()
+    updatePadding(
+        top = if (skipTop) paddingTop else insetsCompat.top + (initialPaddings?.top ?: 0),
+        bottom = if (skipBottom) paddingBottom else insetsCompat.bottom + (initialPaddings?.bottom
+            ?: 0),
+    )
+}
+
+fun WindowInsets.getSystemWindowInsetsCompat() =
+    WindowInsetsCompat.toWindowInsetsCompat(this)
+        .getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime())
+
+data class InitialSpacings(val top: Int, val end: Int, val bottom: Int, val start: Int)
