@@ -1,6 +1,6 @@
 [versions]
 
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 androidGradlePlugin = "8.10.1"
 jetbrainsCompose = "1.7.3"
 glance = "1.1.1"
