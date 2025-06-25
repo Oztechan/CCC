@@ -22,7 +22,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/exyte/PopupView.git",
-            from: "4.1.7"
+            from: "4.1.11"
         ),
         .package(
             url: "https://github.com/matteopuc/swiftui-navigation-stack",
