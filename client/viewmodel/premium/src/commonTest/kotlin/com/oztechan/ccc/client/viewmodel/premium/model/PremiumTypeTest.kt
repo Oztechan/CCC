@@ -11,7 +11,7 @@ internal class PremiumTypeTest {
         val adType = PremiumType.getById(null)
         assertNull(adType)
 
-        PremiumType.values().forEach { premiumType ->
+        PremiumType.entries.forEach { premiumType ->
             assertEquals(
                 premiumType,
                 PremiumType.getById(premiumType.data.id)

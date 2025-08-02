@@ -30,7 +30,7 @@ enum class CurrencyType {
             MZN, AMD, CZK, CHF, RON, GEL, DKK, KGS, ALL, CLP
         )
 
-        fun getNonPopularCurrencies() = values().filterNot {
+        fun getNonPopularCurrencies() = entries.filterNot {
             getPrimaryCurrencies().contains(it) ||
                 getSecondaryCurrencies().contains(it) ||
                 getTertiaryCurrencies().contains(it)

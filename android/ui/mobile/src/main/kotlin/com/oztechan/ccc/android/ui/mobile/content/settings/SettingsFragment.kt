@@ -266,7 +266,7 @@ class SettingsFragment : BaseVBFragment<FragmentSettingsBinding>() {
     private fun changeTheme() {
         activity?.showSingleChoiceDialog(
             getString(R.string.title_dialog_choose_theme),
-            AppTheme.values().map { it.themeName }.toTypedArray(),
+            AppTheme.entries.map { it.themeName }.toTypedArray(),
             viewModel.state.value.appThemeType.ordinal
         ) { index ->
             AppTheme.getThemeByOrdinal(index)?.let { viewModel.event.onThemeChange(it) }
