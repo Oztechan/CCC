@@ -23,7 +23,7 @@ internal class RateUtilTest {
             145.0, 146.0, 147.0, 148.0, 149.0, 150.0, 151.0, 152.0, 153.0, 154.0, 155.0, 156.0,
             157.0, 158.0, 159.0, 160.0, 161.0, 162.0
         )
-        CurrencyType.values().forEachIndexed { index, currencyType ->
+        CurrencyType.entries.forEachIndexed { index, currencyType ->
             assertEquals((index + 1).toDouble(), conversion.getRateFromCode(currencyType.toString()))
         }
 

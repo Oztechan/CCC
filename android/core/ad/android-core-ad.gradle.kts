@@ -33,7 +33,7 @@ android {
             create(google) {
                 dimension = flavorDimension
 
-                FlavoredKey.values().forEach {
+                FlavoredKey.entries.forEach {
                     resValue(string, it.name.resId, secret(it, DeviceFlavour.GOOGLE))
                 }
             }
@@ -41,7 +41,7 @@ android {
             create(huawei) {
                 dimension = flavorDimension
 
-                FlavoredKey.values().forEach {
+                FlavoredKey.entries.forEach {
                     resValue(string, it.name.resId, secret(it, DeviceFlavour.HUAWEI))
                 }
             }
@@ -50,13 +50,13 @@ android {
 
     buildTypes {
         getByName(BuildType.release) {
-            TypedKey.values().forEach {
+            TypedKey.entries.forEach {
                 resValue(string, it.name.resId, secret(it, BuildType.RELEASE))
             }
         }
 
         getByName(BuildType.debug) {
-            TypedKey.values().forEach {
+            TypedKey.entries.forEach {
                 resValue(string, it.name.resId, secret(it, BuildType.DEBUG))
             }
         }

@@ -78,7 +78,7 @@ internal class PremiumViewModelTest {
         viewModel.event.onPremiumActivated(null)
         verify(VerifyMode.not) { appStorage.premiumEndDate }
 
-        PremiumType.values().forEach { premiumType ->
+        PremiumType.entries.forEach { premiumType ->
             val now = nowAsLong()
             viewModel.effect.onSubscription {
                 viewModel.event.onPremiumActivated(premiumType, now)
@@ -165,7 +165,7 @@ internal class PremiumViewModelTest {
             assertFalse { it.loading }
         }
 
-        PremiumType.values()
+        PremiumType.entries
             .map { it.data }
             .forEach { premiumData ->
                 viewModel.state.onSubscription {

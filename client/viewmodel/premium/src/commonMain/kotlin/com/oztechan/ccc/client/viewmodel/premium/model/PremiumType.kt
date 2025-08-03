@@ -15,11 +15,11 @@ enum class PremiumType(val data: PremiumData) {
     LIFE_TIME(PremiumData("", "Life time", "life_time"));
 
     companion object {
-        fun getById(sku: String?) = values()
+        fun getById(sku: String?) = entries
             .takeUnless { sku == null }
             ?.firstOrNull { it.data.id == sku }
 
-        fun getPurchaseIds() = values()
+        fun getPurchaseIds() = entries
             .map { it.data.id }
             .filter { it.isNotEmpty() }
     }
