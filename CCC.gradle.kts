@@ -23,6 +23,8 @@ group = ProjectSettings.PROJECT_ID
 version = ProjectSettings.getVersionName(project)
 
 allprojects {
+    project.dependencyLocking.lockAllConfigurations()
+
     apply(plugin = rootProject.libs.plugins.kover.get().pluginId).also {
         rootProject.dependencies.add("kover", project(path))
         kover.reports.filters.excludes.annotatedBy(
@@ -67,5 +69,11 @@ allprojects {
             freeCompilerArgs.add("-Xexpect-actual-classes")
             allWarningsAsErrors = true
         }
+    }
+}
+
+tasks.findByName("dependencies")?.let {
+    allprojects.forEach { prj ->
+        if (prj != rootProject) it.dependsOn("${prj.path}:dependencies")
     }
 }

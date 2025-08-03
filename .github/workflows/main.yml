@@ -85,6 +85,14 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      # Run ./gradlew dependencies --write-locks before you commit if you want to update the lock files
+      # When you update dependencies manually, you need to run this command locally to update the lock files
+      # If there are any differences, exit code will be 1 and CI fails, that means dependencies were updated
+      - name: Check for changes in lock files
+        run: |
+          ./gradlew dependencies --write-locks
+          git diff --exit-code '**/*.lockfile'
+
       - name: Assemble ${{ env.BUILD_TYPE }}
         run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
