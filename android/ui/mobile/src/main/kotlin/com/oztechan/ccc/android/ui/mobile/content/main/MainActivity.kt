@@ -7,9 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import co.touchlab.kermit.Logger
@@ -30,11 +33,13 @@ import com.oztechan.ccc.client.viewmodel.main.MainViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
+
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
     override var containerId: Int = R.id.content
-
     private val adManager: AdManager by inject()
     private val viewModel: MainViewModel by viewModel()
     private val analyticsManager by inject<AnalyticsManager>()
@@ -47,13 +52,18 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         installSplashScreen()
 
         super.onCreate(savedInstanceState)
 
         Logger.i { "MainActivity onCreate" }
 
+        setTitle("")
         setContentView(R.layout.activity_main)
+
+        val navHostFragment = findViewById<View>(R.id.content)
+        navHostFragment.applyWindowInsets()
 
         adManager.initAds(this)
         analyticsManager.setUserProperty(UserProperty.IsRooted(isDeviceRooted(this)))
@@ -126,5 +136,26 @@ class MainActivity : BaseActivity() {
 
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(updateBaseContextLocale(base))
+    }
+}
+
+fun View.applyWindowInsets(
+    applyTop: Boolean = true,
+    applyBottom: Boolean = true,
+    applyLeft: Boolean = true,
+    applyRight: Boolean = true
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val systemInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        val cutoutInsets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
+
+        view.updatePadding(
+            left = if (applyLeft) maxOf(systemInsets.left, cutoutInsets.left) else 0,
+            top = if (applyTop) maxOf(systemInsets.top, cutoutInsets.top) else 0,
+            right = if (applyRight) maxOf(systemInsets.right, cutoutInsets.right) else 0,
+            bottom = if (applyBottom) maxOf(systemInsets.bottom, cutoutInsets.bottom) else 0
+        )
+
+        windowInsets
     }
 }

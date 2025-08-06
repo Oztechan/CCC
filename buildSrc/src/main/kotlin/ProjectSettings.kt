@@ -19,9 +19,9 @@ object ProjectSettings {
     const val ANDROID_APP_ID = "mustafaozhan.github.com.mycurrencies"
     const val HUAWEI_APP_ID = "com.oztechan.ccc.huawei"
 
-    const val COMPILE_SDK_VERSION = 34
+    const val COMPILE_SDK_VERSION = 35
     const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 34
+    const val TARGET_SDK_VERSION = 35
 
     val JAVA_VERSION = JavaVersion.VERSION_21
 
