@@ -24,6 +24,7 @@ import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
 import com.oztechan.ccc.android.ui.mobile.util.isDeviceRooted
 import com.oztechan.ccc.android.ui.mobile.util.requestAppReview
 import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
+import com.oztechan.ccc.android.ui.mobile.util.setupSystemBars
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.updateBaseContextLocale
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
@@ -48,14 +49,10 @@ class MainActivity : BaseActivity() {
         } // else is in on create since viewModel needs to be injected
     }
 
-    @Suppress("DEPRECATION")
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         installSplashScreen()
-
-        window.navigationBarColor = getColor(R.color.background_strong)
-        window.statusBarColor = getColor(R.color.background_strong)
-        actionBar?.hide()
+        setupSystemBars()
 
         super.onCreate(savedInstanceState)
 

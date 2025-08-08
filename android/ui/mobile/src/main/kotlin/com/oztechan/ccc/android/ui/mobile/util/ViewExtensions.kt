@@ -5,6 +5,7 @@
 
 package com.oztechan.ccc.android.ui.mobile.util
 
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -50,6 +51,13 @@ fun View.applyWindowInsets(
 
         windowInsets
     }
+}
+
+@Suppress("DEPRECATION")
+fun Activity.setupSystemBars() {
+    window.navigationBarColor = getColor(R.color.background_strong)
+    window.statusBarColor = getColor(R.color.background_strong)
+    actionBar?.hide()
 }
 
 fun FrameLayout.buildBanner(
