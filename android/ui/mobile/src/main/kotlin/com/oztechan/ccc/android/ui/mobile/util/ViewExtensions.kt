@@ -55,8 +55,8 @@ fun View.applyWindowInsets(
 
 @Suppress("DEPRECATION")
 fun Activity.setupSystemBars() {
-    window.navigationBarColor = getColor(R.color.background_strong)
-    window.statusBarColor = getColor(R.color.background_strong)
+    window.navigationBarColor = ContextCompat.getColor(this, R.color.background_strong)
+    window.statusBarColor = ContextCompat.getColor(this, R.color.background_strong)
     actionBar?.hide()
 }
 
