@@ -14,9 +14,12 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.children
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import com.github.submob.scopemob.castTo
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.core.ad.BannerAdView
@@ -27,6 +30,27 @@ import com.oztechan.ccc.client.viewmodel.calculator.model.ConversionState
 fun View.hideKeyboard() = context?.getSystemService(Context.INPUT_METHOD_SERVICE)
     ?.castTo<InputMethodManager>()
     ?.hideSoftInputFromWindow(windowToken, 0)
+
+fun View.applyWindowInsets(
+    applyTop: Boolean = true,
+    applyBottom: Boolean = true,
+    applyLeft: Boolean = true,
+    applyRight: Boolean = true
+) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val systemInsets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+        val cutoutInsets = windowInsets.getInsets(WindowInsetsCompat.Type.displayCutout())
+
+        view.updatePadding(
+            left = if (applyLeft) maxOf(systemInsets.left, cutoutInsets.left) else 0,
+            top = if (applyTop) maxOf(systemInsets.top, cutoutInsets.top) else 0,
+            right = if (applyRight) maxOf(systemInsets.right, cutoutInsets.right) else 0,
+            bottom = if (applyBottom) maxOf(systemInsets.bottom, cutoutInsets.bottom) else 0
+        )
+
+        windowInsets
+    }
+}
 
 fun FrameLayout.buildBanner(
     adManager: AdManager,
