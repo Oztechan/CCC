@@ -30,6 +30,5 @@ internal fun Route.currency() = get(PATH_BY_BASE) {
                     message = exchangeRate
                 )
             } ?: call.respond(HttpStatusCode.NotFound)
-
     } ?: call.respond(HttpStatusCode.BadRequest)
 }
