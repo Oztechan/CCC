@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.net.toUri
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -17,10 +19,12 @@ import com.github.submob.basemob.activity.BaseActivity
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
 import com.oztechan.ccc.android.ui.mobile.R
+import com.oztechan.ccc.android.ui.mobile.util.applyWindowInsets
 import com.oztechan.ccc.android.ui.mobile.util.getThemeMode
 import com.oztechan.ccc.android.ui.mobile.util.isDeviceRooted
 import com.oztechan.ccc.android.ui.mobile.util.requestAppReview
 import com.oztechan.ccc.android.ui.mobile.util.resolveAndStartIntent
+import com.oztechan.ccc.android.ui.mobile.util.setupSystemBars
 import com.oztechan.ccc.android.ui.mobile.util.showDialog
 import com.oztechan.ccc.android.ui.mobile.util.updateBaseContextLocale
 import com.oztechan.ccc.client.core.analytics.AnalyticsManager
@@ -34,7 +38,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
     override var containerId: Int = R.id.content
-
     private val adManager: AdManager by inject()
     private val viewModel: MainViewModel by viewModel()
     private val analyticsManager by inject<AnalyticsManager>()
@@ -47,13 +50,17 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         installSplashScreen()
+        setupSystemBars()
 
         super.onCreate(savedInstanceState)
 
         Logger.i { "MainActivity onCreate" }
 
         setContentView(R.layout.activity_main)
+
+        findViewById<View>(R.id.content).applyWindowInsets()
 
         adManager.initAds(this)
         analyticsManager.setUserProperty(UserProperty.IsRooted(isDeviceRooted(this)))
