@@ -11,11 +11,11 @@ import com.oztechan.ccc.backend.app.module.ktorModule
 import com.oztechan.ccc.backend.app.module.loggerModule
 import com.oztechan.ccc.backend.app.module.syncModule
 import io.ktor.server.application.serverConfig
+import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
-@Suppress("MagicNumber")
 fun main() {
     Logger.i { "ApplicationKt main" }
 
@@ -33,9 +33,25 @@ fun main() {
         Netty,
         appProperties,
     ) {
-        connector {
-            host = "127.0.0.1"
-            port = 8080
-        }
+        envConfig()
     }.start(true)
+}
+
+@Suppress("MagicNumber")
+fun ApplicationEngine.Configuration.envConfig() {
+    val localHost = "127.0.0.1"
+    connector {
+        host = localHost
+        port = 8080
+    }
+
+    System.getenv("CI")
+        ?.toBoolean()
+        ?.takeIf { it }
+        ?.let {
+            connector {
+                host = localHost
+                port = 80
+            }
+        }
 }
