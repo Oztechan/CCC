@@ -37,6 +37,7 @@ fun main() {
     }.start(true)
 }
 
+@Suppress("MagicNumber")
 fun ApplicationEngine.Configuration.envConfig() {
     connector {
         host = "127.0.0.1"
