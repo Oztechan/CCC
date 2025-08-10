@@ -10,15 +10,14 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.server.response.respond
 import io.ktor.server.routing.Route
 import io.ktor.server.routing.get
-import org.koin.ktor.ext.inject
 
 private const val PATH_BY_BASE = "/currency/byBase/"
 private const val PARAMETER_BASE = "base"
 
-internal fun Route.currency() = get(PATH_BY_BASE) {
+internal fun Route.currency(
+    apiController: APIController
+) = get(PATH_BY_BASE) {
     Logger.v { "GET Request $PATH_BY_BASE" }
-
-    val apiController: APIController by inject()
 
     call.parameters[PARAMETER_BASE]?.let { base ->
         Logger.v { "Parameter: $PARAMETER_BASE $base" }
