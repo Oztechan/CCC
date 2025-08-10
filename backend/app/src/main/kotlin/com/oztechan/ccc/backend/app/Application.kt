@@ -15,6 +15,7 @@ import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
+@Suppress("MagicNumber")
 fun main() {
     Logger.i { "ApplicationKt main" }
 
@@ -38,4 +39,3 @@ fun main() {
         }
     }.start(true)
 }
-
