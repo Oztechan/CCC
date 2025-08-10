@@ -39,8 +39,9 @@ fun main() {
 
 @Suppress("MagicNumber")
 fun ApplicationEngine.Configuration.envConfig() {
+    val localHost = "127.0.0.1"
     connector {
-        host = "127.0.0.1"
+        host = localHost
         port = 8080
     }
 
@@ -49,7 +50,7 @@ fun ApplicationEngine.Configuration.envConfig() {
         ?.takeIf { it }
         ?.let {
             connector {
-                host = "127.0.0.1"
+                host = localHost
                 port = 80
             }
         }
