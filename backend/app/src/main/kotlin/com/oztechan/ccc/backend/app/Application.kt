@@ -11,6 +11,7 @@ import com.oztechan.ccc.backend.app.module.ktorModule
 import com.oztechan.ccc.backend.app.module.loggerModule
 import com.oztechan.ccc.backend.app.module.syncModule
 import io.ktor.server.application.serverConfig
+import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
@@ -32,10 +33,23 @@ fun main() {
         Netty,
         appProperties,
     ) {
-        connector {
-            host = "127.0.0.1"
-            port = 8080
-        }
+        envConfig()
     }.start(true)
 }
 
+fun ApplicationEngine.Configuration.envConfig() {
+    connector {
+        host = "127.0.0.1"
+        port = 8080
+    }
+
+    System.getenv("CI")
+        ?.toBoolean()
+        ?.takeIf { it }
+        ?.let {
+            connector {
+                host = "127.0.0.1"
+                port = 80
+            }
+        }
+}
