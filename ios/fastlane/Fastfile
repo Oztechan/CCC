@@ -162,7 +162,7 @@ platform :ios do
                 profile: ENV["sigh_" + identifier + "_" + match_type + "_profile-path"]
             )
             xcodes(
-                version: "16.3",
+                version: "16.4",
                 select_for_current_build_only: true
             )
             gym(
