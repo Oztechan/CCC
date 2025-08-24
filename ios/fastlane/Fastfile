@@ -161,10 +161,6 @@ platform :ios do
             update_project_provisioning(
                 profile: ENV["sigh_" + identifier + "_" + match_type + "_profile-path"]
             )
-            xcodes(
-                version: "16.4",
-                select_for_current_build_only: true
-            )
             gym(
                 workspace: "CCC.xcworkspace",
                 scheme: "CCC",
