@@ -70,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d479ff996a9c42b89bf102056a850f2f4b0056f8
+        uses: Oztechan/Global/actions/setup-gradle-repo@3de20b67f3d22c8ee1a6ff8b8f73f69d23901e98
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -161,7 +161,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d479ff996a9c42b89bf102056a850f2f4b0056f8
+        uses: Oztechan/Global/actions/setup-gradle-repo@3de20b67f3d22c8ee1a6ff8b8f73f69d23901e98
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -248,7 +248,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d479ff996a9c42b89bf102056a850f2f4b0056f8
+        uses: Oztechan/Global/actions/setup-gradle-repo@3de20b67f3d22c8ee1a6ff8b8f73f69d23901e98
 
       - name: Test
         run: ./gradlew test
@@ -268,7 +268,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d479ff996a9c42b89bf102056a850f2f4b0056f8
+        uses: Oztechan/Global/actions/setup-gradle-repo@3de20b67f3d22c8ee1a6ff8b8f73f69d23901e98
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
@@ -311,7 +311,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@d479ff996a9c42b89bf102056a850f2f4b0056f8
+        uses: Oztechan/Global/actions/setup-gradle-repo@3de20b67f3d22c8ee1a6ff8b8f73f69d23901e98
 
       - name: Detekt & Lint
         run: ./gradlew detektAll lint
