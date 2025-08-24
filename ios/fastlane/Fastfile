@@ -165,7 +165,7 @@ platform :ios do
                 version: "16.4",
                 select_for_current_build_only: true
             )
-            sh("xcodes runtimes install 'iOS 18.1'")
+            sh("xcodes runtimes install 'iOS 18.5'")
             gym(
                 workspace: "CCC.xcworkspace",
                 scheme: "CCC",
