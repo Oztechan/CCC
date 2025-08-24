@@ -176,6 +176,9 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      - name: Set up XCode
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+
       - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: fastlane build${{ env.BUILD_TYPE }}
