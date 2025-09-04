@@ -17,4 +17,6 @@ jobs:
     uses: Oztechan/Global/.github/workflows/reusable-project.yml@6d550be1a6bb4ddab3495be9e3b1ec72ee764993
     with:
       project_id: 2
-    secrets: inherit
+    secrets:
+      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      NEXT_VERSION: ${{ secrets.NEXT_VERSION }}

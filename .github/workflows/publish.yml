@@ -11,4 +11,6 @@ jobs:
     uses: Oztechan/Global/.github/workflows/reusable-publish.yml@6d550be1a6bb4ddab3495be9e3b1ec72ee764993
     with:
       slack_channel: "ccc-github"
-    secrets: inherit
+    secrets:
+      SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
