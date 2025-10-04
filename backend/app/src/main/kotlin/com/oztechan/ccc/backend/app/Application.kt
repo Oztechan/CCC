@@ -10,6 +10,7 @@ import com.oztechan.ccc.backend.app.module.koinModule
 import com.oztechan.ccc.backend.app.module.ktorModule
 import com.oztechan.ccc.backend.app.module.loggerModule
 import com.oztechan.ccc.backend.app.module.syncModule
+import com.oztechan.ccc.backend.app.util.isProduction
 import io.ktor.server.application.serverConfig
 import io.ktor.server.engine.ApplicationEngine
 import io.ktor.server.engine.connector
@@ -45,13 +46,10 @@ fun ApplicationEngine.Configuration.envConfig() {
         port = 8080
     }
 
-    System.getenv("CI")
-        ?.toBoolean()
-        ?.takeIf { it }
-        ?.let {
-            connector {
-                host = localHost
-                port = 80
-            }
+    if (isProduction) {
+        connector {
+            host = localHost
+            port = 80
         }
+    }
 }
