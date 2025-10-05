@@ -23,7 +23,7 @@ internal fun Application.syncModule() {
     val globalScope: CoroutineScope by inject()
     val ioDispatcher: CoroutineDispatcher by inject(named(DISPATCHER_IO))
 
-    val delayDuration = if (isProduction) 5.seconds else 1.hours
+    val delayDuration = if (isProduction) 1.seconds else 1.hours
 
     globalScope.launch(ioDispatcher) {
         while (isActive) {
