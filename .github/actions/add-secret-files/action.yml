@@ -31,37 +31,48 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: |
+    - name: 'Add Secret Files'
+      env:
+        ANDROID_RELEASE_KEYSTORE_ASC: ${{ inputs.ANDROID_RELEASE_KEYSTORE_ASC }}
+        SECRET_PASSWORD: ${{ inputs.SECRET_PASSWORD }}
+        GOOGLE_SERVICES_JSON_ASC: ${{ inputs.GOOGLE_SERVICES_JSON_ASC }}
+        AG_CONNECT_SERVICES_JSON_ASC: ${{ inputs.AG_CONNECT_SERVICES_JSON_ASC }}
+        GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE: ${{ inputs.GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE }}
+        GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG: ${{ inputs.GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG }}
+        IOS_XCCONFIG_ASC_RELEASE: ${{ inputs.IOS_XCCONFIG_ASC_RELEASE }}
+        IOS_XCCONFIG_ASC_DEBUG: ${{ inputs.IOS_XCCONFIG_ASC_DEBUG }}
+        GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ inputs.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+      run: |
         # Save the Android Release Keystore
-        echo "${{ inputs.ANDROID_RELEASE_KEYSTORE_ASC }}" > release.keystore.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch release.keystore.asc > android/app/release.keystore
+        echo "$ANDROID_RELEASE_KEYSTORE_ASC" > release.keystore.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch release.keystore.asc > android/app/release.keystore
 
         # Save google-services.json files
         mkdir android/app/src/release
         mkdir android/app/src/debug
-        echo "${{ inputs.GOOGLE_SERVICES_JSON_ASC }}" > google-services.json.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/release/google-services.json
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch google-services.json.asc > android/app/src/debug/google-services.json
+        echo "$GOOGLE_SERVICES_JSON_ASC" > google-services.json.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch google-services.json.asc > android/app/src/release/google-services.json
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch google-services.json.asc > android/app/src/debug/google-services.json
 
         # Save agconnect-services.json
-        echo "${{ inputs.AG_CONNECT_SERVICES_JSON_ASC }}" > agconnect-services.json.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
+        echo "$AG_CONNECT_SERVICES_JSON_ASC" > agconnect-services.json.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch agconnect-services.json.asc > android/app/src/release/agconnect-services.json
         
         # Save GoogleService-Info.plist files
         mkdir ios/CCC/Resources/Release
         mkdir ios/CCC/Resources/Debug
-        echo "${{ inputs.GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE }}" > Release-GoogleService-Info.plist.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch Release-GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
-        echo "${{ inputs.GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG }}" > Debug-GoogleService-Info.plist.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch Debug-GoogleService-Info.plist.asc > ios/CCC/Resources/Debug/GoogleService-Info.plist
+        echo "$GOOGLE_SERVICE_INFO_PLIST_ASC_RELEASE" > Release-GoogleService-Info.plist.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch Release-GoogleService-Info.plist.asc > ios/CCC/Resources/Release/GoogleService-Info.plist
+        echo "$GOOGLE_SERVICE_INFO_PLIST_ASC_DEBUG" > Debug-GoogleService-Info.plist.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch Debug-GoogleService-Info.plist.asc > ios/CCC/Resources/Debug/GoogleService-Info.plist
         
         # Save Config.xcconfig files
-        echo "${{ inputs.IOS_XCCONFIG_ASC_RELEASE }}" > Release.xcconfig.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
-        echo "${{ inputs.IOS_XCCONFIG_ASC_DEBUG }}" > Debug.xcconfig.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch Debug.xcconfig.asc > ios/CCC/Resources/Debug/Config.xcconfig
+        echo "$IOS_XCCONFIG_ASC_RELEASE" > Release.xcconfig.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch Release.xcconfig.asc > ios/CCC/Resources/Release/Config.xcconfig
+        echo "$IOS_XCCONFIG_ASC_DEBUG" > Debug.xcconfig.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch Debug.xcconfig.asc > ios/CCC/Resources/Debug/Config.xcconfig
         
         # Save service_account.json
-        echo "${{ inputs.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}" > service_account.json.asc
-        gpg -d --passphrase "${{ inputs.SECRET_PASSWORD }}" --batch service_account.json.asc > service_account.json
+        echo "$GOOGLE_PLAY_SERVICE_ACCOUNT_JSON" > service_account.json.asc
+        gpg -d --passphrase "$SECRET_PASSWORD" --batch service_account.json.asc > service_account.json
       shell: bash
