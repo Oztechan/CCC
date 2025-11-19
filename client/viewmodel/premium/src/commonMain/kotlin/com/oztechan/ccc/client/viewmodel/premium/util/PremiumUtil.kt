@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.oztechan.ccc.client.viewmodel.premium.util
 
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
@@ -6,6 +8,7 @@ import com.oztechan.ccc.client.viewmodel.premium.model.PremiumType
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
+import kotlin.time.ExperimentalTime
 
 internal const val REWARDED_AD_PREMIUM_IN_DAYS = 2
 
