@@ -7,6 +7,7 @@ plugins {
 }
 
 kotlin {
+    @Suppress("Deprecation")
     androidTarget()
 
     listOf(
