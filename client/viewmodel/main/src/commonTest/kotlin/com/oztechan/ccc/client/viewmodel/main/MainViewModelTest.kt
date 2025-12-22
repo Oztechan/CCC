@@ -103,22 +103,22 @@ internal class MainViewModelTest {
         viewModel // init
 
         verify {
-            appStorage.premiumEndDate.let {
-                analyticsManager.setUserProperty(
-                    UserProperty.IsPremium(it.isNotPassed().toString())
+            analyticsManager.setUserProperty(
+                UserProperty.IsPremium(
+                    appStorage.premiumEndDate.isNotPassed().toString()
                 )
-            }
+            )
         }
         verify {
             appStorage.sessionCount
             analyticsManager.setUserProperty(UserProperty.SessionCount(sessionCount.toString()))
         }
         verify {
-            appStorage.appTheme.let {
-                analyticsManager.setUserProperty(
-                    UserProperty.AppTheme(AppTheme.getAnalyticsThemeName(it, mockDevice))
+            analyticsManager.setUserProperty(
+                UserProperty.AppTheme(
+                    AppTheme.getAnalyticsThemeName(appStorage.appTheme, mockDevice)
                 )
-            }
+            )
         }
         verify { analyticsManager.setUserProperty(UserProperty.DevicePlatform(mockDevice.name)) }
     }
