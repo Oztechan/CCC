@@ -14,11 +14,11 @@ enum class AppTheme(val themeName: String, val themeValue: Int) {
         private const val ANDROID_FIST_DARK_MODE_AVAILABLE_VERSION = 29
         internal const val SYSTEM_DARK = "System dark"
 
-        fun getThemeByValue(value: Int) = values().firstOrNull { it.themeValue == value }
+        fun getThemeByValue(value: Int) = entries.firstOrNull { it.themeValue == value }
 
         fun getThemeByValueOrDefault(value: Int) = getThemeByValue(value) ?: SYSTEM_DEFAULT
 
-        fun getThemeByOrdinal(ordinal: Int) = values().firstOrNull { it.ordinal == ordinal }
+        fun getThemeByOrdinal(ordinal: Int) = entries.firstOrNull { it.ordinal == ordinal }
 
         fun getThemeByOrdinalOrDefault(ordinal: Int) = getThemeByOrdinal(ordinal) ?: SYSTEM_DEFAULT
 

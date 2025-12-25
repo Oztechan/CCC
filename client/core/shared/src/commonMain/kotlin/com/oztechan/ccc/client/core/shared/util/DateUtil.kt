@@ -1,9 +1,13 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.oztechan.ccc.client.core.shared.util
 
-import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 internal fun nowAsInstant() = Clock.System.now()
 
@@ -27,7 +31,7 @@ fun Instant.toDateString(
     timeZone: TimeZone = TimeZone.currentSystemDefault()
 ) = toLocalDateTime(timeZone).run {
     "${hour.toDoubleDigits()}:${minute.toDoubleDigits()} " +
-        "${dayOfMonth.toDoubleDigits()}.${monthNumber.toDoubleDigits()}.${year.toDoubleDigits()}"
+        "${day.toDoubleDigits()}.${month.number.toDoubleDigits()}.${year.toDoubleDigits()}"
 }
 
 private const val BIGGEST_NUMBER = 9

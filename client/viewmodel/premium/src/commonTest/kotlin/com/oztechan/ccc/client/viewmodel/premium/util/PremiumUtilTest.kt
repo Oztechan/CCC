@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.oztechan.ccc.client.viewmodel.premium.util
 
 import com.oztechan.ccc.client.core.shared.util.nowAsLong
@@ -8,6 +10,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.plus
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.time.ExperimentalTime
 
 internal class PremiumUtilTest {
 

@@ -70,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -85,11 +85,19 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      # Run ./gradlew dependencies --write-locks before you commit if you want to update the lock files
+      # When you update dependencies manually, you need to run this command locally to update the lock files
+      # If there are any differences, exit code will be 1 and CI fails, that means dependencies were updated
+      - name: Check for changes in lock files
+        run: |
+          ./gradlew dependencies --write-locks
+          git diff --exit-code '**/*.lockfile'
+
       - name: Assemble ${{ env.BUILD_TYPE }}
         run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
       - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v6.0.0
         if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
@@ -114,15 +122,15 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.1
 
       - name: Download Android ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v7.0.0
         with:
           name: androidArtifacts
 
       - name: Firebase App Distribution Google ${{ env.BUILD_TYPE }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.1
         with:
           appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_GOOGLE_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_GOOGLE_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -130,7 +138,7 @@ jobs:
           file: google/${{ env.BUILD_TYPE_LOWERCASE }}/app-google-${{ env.BUILD_TYPE_LOWERCASE }}.apk
 
       - name: Firebase App Distribution Huawei ${{ env.BUILD_TYPE }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.0
+        uses: wzieba/Firebase-Distribution-Github-Action@v1.7.1
         with:
           appId: ${{ github.event_name == 'schedule' && secrets.ANDROID_HUAWEI_RELEASE_FIREBASE_APP_ID || secrets.ANDROID_HUAWEI_DEBUG_FIREBASE_APP_ID }}
           token: ${{secrets.FIREBASE_CLI_TOKEN}}
@@ -153,7 +161,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -168,12 +176,15 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      - name: Set up XCode
+        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+
       - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: fastlane build${{ env.BUILD_TYPE }}
 
       - name: Upload iOS Debug Artifacts
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v6.0.0
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -182,7 +193,7 @@ jobs:
             ios/CCC_I.app.dSYM.zip
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v6.0.0
         if: github.event_name == 'schedule'
         with:
           name: iOSArtifacts
@@ -206,10 +217,10 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.1
 
       - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v7.0.0
         with:
           name: iOSArtifacts
           path: ios
@@ -237,7 +248,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Test
         run: ./gradlew test
@@ -257,13 +268,13 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5.4.0
+        uses: codecov/codecov-action@v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: build/reports/kover/report.xml
@@ -300,7 +311,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Detekt & Lint
         run: ./gradlew detektAll lint

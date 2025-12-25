@@ -5,22 +5,51 @@
 package com.oztechan.ccc.backend.app
 
 import co.touchlab.kermit.Logger
-import io.ktor.server.engine.commandLineEnvironment
+import com.oztechan.ccc.backend.app.module.apiModule
+import com.oztechan.ccc.backend.app.module.koinModule
+import com.oztechan.ccc.backend.app.module.ktorModule
+import com.oztechan.ccc.backend.app.module.loggerModule
+import com.oztechan.ccc.backend.app.module.syncModule
+import com.oztechan.ccc.backend.app.util.isProduction
+import io.ktor.server.application.serverConfig
+import io.ktor.server.engine.ApplicationEngine
+import io.ktor.server.engine.connector
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 
-private const val REQUEST_QUEUE_LIMIT = 48
-private const val RUNNING_LIMIT = 30
-
-fun main(args: Array<String>) {
+fun main() {
     Logger.i { "ApplicationKt main" }
 
-    embeddedServer(
-        factory = Netty,
-        environment = commandLineEnvironment(args),
-        configure = {
-            requestQueueLimit = REQUEST_QUEUE_LIMIT
-            runningLimit = RUNNING_LIMIT
+    val appProperties = serverConfig {
+        module {
+            loggerModule()
+            koinModule()
+            ktorModule()
+            apiModule()
+            syncModule()
         }
-    ).start(wait = true)
+    }
+
+    embeddedServer(
+        Netty,
+        appProperties,
+    ) {
+        envConfig()
+    }.start(true)
+}
+
+@Suppress("MagicNumber")
+fun ApplicationEngine.Configuration.envConfig() {
+    val localHost = "127.0.0.1"
+    connector {
+        host = localHost
+        port = 8080
+    }
+
+    if (isProduction) {
+        connector {
+            host = localHost
+            port = 80
+        }
+    }
 }

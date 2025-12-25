@@ -118,12 +118,11 @@
     </style>
 
     <style name="BaseToolbarStyle">
-        <item name="android:layout_marginTop">@dimen/margin_twelve</item>
+        <item name="android:paddingTop">@dimen/margin_twelve</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:animateLayoutChanges">true</item>
         <item name="android:background">@color/background_strong</item>
-        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="BaseItemSeparatorStyle">

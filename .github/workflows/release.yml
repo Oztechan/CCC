@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -80,19 +80,19 @@ jobs:
         run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: googleBundle
           path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: huaweiBundle
           path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v4.6.1
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: backendJar
           path: backend/app/build/libs/app-*.jar
@@ -109,10 +109,10 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@v6.0.1
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v7.0.0
         with:
           name: googleBundle
 
@@ -155,7 +155,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v7.0.0
         with:
           name: huaweiBundle
 
@@ -186,7 +186,7 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v4.1.9
+        uses: actions/download-artifact@v7.0.0
         with:
           name: backendJar
           path: artifact
@@ -215,7 +215,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@9ebcfe7cd8670187e6dc14c539718b03d0c07d5b
+        uses: Oztechan/Global/actions/setup-gradle-repo@ba5d1c24cc0487ef7bf0846145c85066b728cd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files

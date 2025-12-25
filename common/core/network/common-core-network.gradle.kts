@@ -13,6 +13,7 @@ plugins {
 }
 
 kotlin {
+    @Suppress("Deprecation")
     androidTarget()
 
     iosX64()
@@ -26,10 +27,12 @@ kotlin {
             libs.common.apply {
                 implementation(coroutines)
                 implementation(koinCore)
-                implementation(ktorLogging)
-                implementation(ktorClientContentNegotiation)
                 implementation(ktorJson)
                 implementation(kermit)
+            }
+            libs.client.apply {
+                implementation(ktorContentNegotiation)
+                implementation(ktorLogging)
             }
             implementation(project(Modules.Common.Core.model))
         }
@@ -37,8 +40,8 @@ kotlin {
             libs.common.apply {
                 implementation(test)
                 implementation(coroutinesTest)
-                implementation(ktorClientMock)
             }
+            implementation(libs.client.ktorClientMock)
         }
         androidMain.dependencies {
             implementation(libs.android.ktor)

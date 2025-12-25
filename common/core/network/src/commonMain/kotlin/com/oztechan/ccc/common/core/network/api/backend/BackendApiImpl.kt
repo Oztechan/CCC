@@ -23,6 +23,6 @@ internal class BackendApiImpl(private val client: HttpClient) : BackendApi {
         private const val QUERY_BASE = "base"
 
         private const val PATH_CURRENCY = "currency"
-        private const val PATH_BY_BASE = "byBase/"
+        private const val PATH_BY_BASE = "byBase"
     }
 }

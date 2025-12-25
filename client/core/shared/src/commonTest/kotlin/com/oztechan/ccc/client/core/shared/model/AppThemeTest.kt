@@ -11,7 +11,7 @@ internal class AppThemeTest {
         val appTheme = AppTheme.getThemeByValue(3)
         assertNull(appTheme)
 
-        AppTheme.values().forEach {
+        AppTheme.entries.forEach {
             assertEquals(it, AppTheme.getThemeByValue(it.themeValue))
         }
     }
@@ -21,7 +21,7 @@ internal class AppThemeTest {
         val appTheme = AppTheme.getThemeByValueOrDefault(3)
         assertEquals(AppTheme.SYSTEM_DEFAULT, appTheme)
 
-        AppTheme.values().forEach {
+        AppTheme.entries.forEach {
             assertEquals(it, AppTheme.getThemeByValueOrDefault(it.themeValue))
         }
     }
@@ -31,7 +31,7 @@ internal class AppThemeTest {
         val appTheme = AppTheme.getThemeByOrdinal(3)
         assertNull(appTheme)
 
-        AppTheme.values().forEach {
+        AppTheme.entries.forEach {
             assertEquals(it, AppTheme.getThemeByOrdinal(it.ordinal))
         }
     }
@@ -41,7 +41,7 @@ internal class AppThemeTest {
         val appTheme = AppTheme.getThemeByOrdinalOrDefault(3)
         assertEquals(AppTheme.SYSTEM_DEFAULT, appTheme)
 
-        AppTheme.values().forEach {
+        AppTheme.entries.forEach {
             assertEquals(it, AppTheme.getThemeByOrdinalOrDefault(it.ordinal))
         }
     }

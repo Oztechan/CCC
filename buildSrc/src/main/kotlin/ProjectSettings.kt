@@ -8,10 +8,10 @@ import java.io.File
 object ProjectSettings {
 
     private const val MAYOR_VERSION = 2
-    private const val MINOR_VERSION = 11
+    private const val MINOR_VERSION = 12
 
     // git rev-list --first-parent --count origin/master +1
-    private const val VERSION_DIF = 776
+    private const val VERSION_DIF = 777
     private const val BASE_VERSION_CODE = 937
 
     const val PROJECT_ID = "com.oztechan.ccc"
@@ -19,9 +19,9 @@ object ProjectSettings {
     const val ANDROID_APP_ID = "mustafaozhan.github.com.mycurrencies"
     const val HUAWEI_APP_ID = "com.oztechan.ccc.huawei"
 
-    const val COMPILE_SDK_VERSION = 34
+    const val COMPILE_SDK_VERSION = 35
     const val MIN_SDK_VERSION = 21
-    const val TARGET_SDK_VERSION = 34
+    const val TARGET_SDK_VERSION = 35
 
     val JAVA_VERSION = JavaVersion.VERSION_21
 

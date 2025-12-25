@@ -6,6 +6,7 @@ plugins {
     }
 }
 kotlin {
+    @Suppress("Deprecation")
     androidTarget()
 
     iosX64()

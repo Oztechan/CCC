@@ -225,9 +225,9 @@ internal class WidgetViewModelTest {
 
         verifySuspend(VerifyMode.not) { currencyDataSource.getActiveCurrencies() }
 
-        verify(VerifyMode.not) { calculationStorage.currentBase = any<String>() }
-        verify(VerifyMode.not) { analyticsManager.trackEvent(Event.BaseChange(Param.Base(any<String>()))) }
-        verify(VerifyMode.not) { analyticsManager.setUserProperty(UserProperty.BaseCurrency(any<String>())) }
+        verify(VerifyMode.not) { calculationStorage.currentBase = any() }
+        verify(VerifyMode.not) { analyticsManager.trackEvent(Event.BaseChange(Param.Base(base))) }
+        verify(VerifyMode.not) { analyticsManager.setUserProperty(UserProperty.BaseCurrency(base)) }
     }
 
     // region Event
