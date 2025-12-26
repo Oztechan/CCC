@@ -35,11 +35,10 @@ internal class SyncControllerImpl(
     private suspend fun List<CurrencyType>.syncCurrencies(
         delayDuration: Duration
     ) = forEach { currencyType ->
-
-        delay(delayDuration.inWholeMilliseconds)
-
         runCatching { premiumApiService.getConversion(currencyType.name) }
             .onFailure { Logger.w(it) { it.message.toString() } }
             .onSuccess { conversionDataSource.insertConversion(it) }
+
+        delay(delayDuration.inWholeMilliseconds)
     }
 }
