@@ -40,25 +40,8 @@ fun main() {
 
 @Suppress("MagicNumber")
 fun ApplicationEngine.Configuration.envConfig() {
-    val devHost = "127.0.0.1"
-    val prodHost = "0.0.0.0"
-
-    if (isProduction) {
-        // Public 8080 for old clients using :8080
-        connector {
-            host = prodHost
-            port = 8080
-        }
-        // Public 80 for new clients without port
-        connector {
-            host = prodHost
-            port = 80
-        }
-    } else {
-        // Local dev only
-        connector {
-            host = devHost
-            port = 8080
-        }
+    connector {
+        host = if (isProduction) "0.0.0.0" else "127.0.0.1"
+        port = 8080
     }
 }
