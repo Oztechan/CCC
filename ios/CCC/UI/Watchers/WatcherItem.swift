@@ -40,7 +40,7 @@ struct WatcherItem: View {
             .pickerStyle(.segmented)
             .frame(maxWidth: 75.cp())
             .onChange(of: relationSelection) {
-                event.onRelationChange(watcher: watcher, isGreater: $0 == 1)
+                event.onRelationChange(watcher: watcher, isGreater: relationSelection == 1)
             }
 
             Spacer()
@@ -55,7 +55,7 @@ struct WatcherItem: View {
                 .background(\.background_weak)
                 .cornerRadius(7.cp())
                 .onChange(of: amount) {
-                    amount = event.onRateChange(watcher: watcher, rate: $0)
+                    amount = event.onRateChange(watcher: watcher, rate: amount)
                 }
 
             Spacer()
