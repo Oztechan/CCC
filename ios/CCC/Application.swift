@@ -86,7 +86,7 @@ struct Application: App {
     }
 
     private func onScenePhaseChange(phase: ScenePhase) {
-        logger.i(message: { "Application onChange scenePhase ground \(phase)" })
+        logger.i(message: { "Application onChange scenePhase \(phase)" })
 
         switch phase {
         case .active:
