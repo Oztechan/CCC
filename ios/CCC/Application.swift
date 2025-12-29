@@ -86,16 +86,13 @@ struct Application: App {
     }
 
     private func onScenePhaseChange(phase: ScenePhase) {
-        logger.i(message: { "Application onChange scenePhase \(phase)" })
+        logger.i(message: { "Application onChange scenePhase ground \(phase)" })
 
         switch phase {
         case .active:
             observable.event.onAppForeground()
         case .inactive:
-            // only when come from active, since it visits inactive while coming from background
-            if scenePhase == .active {
-                observable.event.onAppBackground()
-            }
+            observable.event.onAppBackground()
         case .background:
             scheduleAppRefresh()
         @unknown default:
