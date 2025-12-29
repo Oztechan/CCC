@@ -79,8 +79,9 @@ struct Application: App {
                     buttonText: String(\.txt_ok)
                 )
             }
-        }.onChange(of: scenePhase) { phase in
-            onScenePhaseChange(phase: phase)
+        }
+        .onChange(of: scenePhase) {
+            onScenePhaseChange(phase: scenePhase)
         }
     }
 
@@ -91,10 +92,7 @@ struct Application: App {
         case .active:
             observable.event.onAppForeground()
         case .inactive:
-            // only when come from active, since it visits inactive while coming from background
-            if scenePhase == .active {
-                observable.event.onAppBackground()
-            }
+            observable.event.onAppBackground()
         case .background:
             scheduleAppRefresh()
         @unknown default:
