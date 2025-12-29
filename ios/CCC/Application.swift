@@ -79,8 +79,9 @@ struct Application: App {
                     buttonText: String(\.txt_ok)
                 )
             }
-        }.onChange(of: scenePhase) { phase in
-            onScenePhaseChange(phase: phase)
+        }
+        .onChange(of: scenePhase) {
+            onScenePhaseChange(phase: scenePhase)
         }
     }
 

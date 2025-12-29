@@ -59,7 +59,7 @@ struct WatchersRootView: View {
             notificationManager.reloadAuthorisationStatus()
         }
         .onChange(of: notificationManager.authorizationStatus) {
-            onAuthorisationChange(authorizationStatus: $0)
+            onAuthorisationChange(authorizationStatus: notificationManager.authorizationStatus)
         }
         .animation(.default, value: observable.state)
     }
@@ -85,9 +85,15 @@ struct WatchersRootView: View {
     }
 
     private func onAuthorisationChange(authorizationStatus: UNAuthorizationStatus?) {
-        logger.i(
-            message: { "WatchersRootView onAuthorisationChange \(String(describing: authorizationStatus?.rawValue))" }
-        )
+        let statusString: String = {
+            guard let status = authorizationStatus else {
+                return "nil"
+            }
+            return String(describing: status) // e.g. "authorized", "denied", etc.
+        }()
+
+        logger.i(message: { "WatchersRootView onAuthorisationChange \(statusString)" })
+
         switch authorizationStatus {
         case .notDetermined:
             notificationManager.requestAuthorisation()
