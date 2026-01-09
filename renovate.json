@@ -19,9 +19,6 @@
     "enabled": true,
     "commitMessageAction": "[Oztechan/CCC#1457] Lock file maintenance"
   },
-  "ignorePaths": [
-    "ios/Package.swift"
-  ],
   "regexManagers": [
     {
       "fileMatch": [
