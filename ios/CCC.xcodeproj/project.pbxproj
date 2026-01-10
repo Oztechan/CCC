@@ -129,7 +129,6 @@
 		5C9C75C72603A36A00D66FDD /* ToolbarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarButton.swift; sourceTree = "<group>"; };
 		5CACB69328A7EF1800A2D13C /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		5CB954BE26932408007632DC /* AdaptiveBannerAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdaptiveBannerAdView.swift; sourceTree = "<group>"; };
-		5CB9E3CD2BAAF88400B1F1A9 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5CBFC9462AC2E43800E2CE61 /* KermitExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KermitExt.swift; sourceTree = "<group>"; };
 		5CCFB5872A9B9F13002DF46B /* BugReportSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugReportSlideRootView.swift; sourceTree = "<group>"; };
 		5CCFB5892A9B9F8F002DF46B /* IntroSlideRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroSlideRootView.swift; sourceTree = "<group>"; };
@@ -342,7 +341,6 @@
 			isa = PBXGroup;
 			children = (
 				7555FF7D242A565900829871 /* CCC */,
-				5CB9E3CD2BAAF88400B1F1A9 /* Package.swift */,
 				7555FF7C242A565900829871 /* Products */,
 			);
 			sourceTree = "<group>";
