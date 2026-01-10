@@ -29,6 +29,7 @@ ios/CCC/Resources/Debug/
 ios/fastlane/.env
 ios/fastlane/README.md
 ios/fastlane/report.xml
+/ios/CCC.xcworkspace/xcshareddata/swiftpm/Package.resolved
 xcuserdata
 
 # Android secrets
