@@ -30,6 +30,7 @@ ios/fastlane/.env
 ios/fastlane/README.md
 ios/fastlane/report.xml
 xcuserdata
+swiftpm
 
 # Android secrets
 android/app/release.keystore
