@@ -1,4 +1,4 @@
 source "https://rubygems.org"
 
-gem "fastlane", "2.230.0"
+gem "fastlane", "2.231.1"
 gem "fastlane-plugin-firebase_app_distribution", "0.10.1"
