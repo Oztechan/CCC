@@ -114,7 +114,7 @@ jobs:
     steps:
 
       - name: Clone Repo # Needed for reading commit message for Firebase App Distribution
-        uses: actions/checkout@v6.0.1
+        uses: actions/checkout@v6.0.2
 
       - name: Download Android ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/download-artifact@v7.0.0
@@ -209,7 +209,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Clone Repo
-        uses: actions/checkout@v6.0.1
+        uses: actions/checkout@v6.0.2
 
       - name: Download iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: actions/download-artifact@v7.0.0
