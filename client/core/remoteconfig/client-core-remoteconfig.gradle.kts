@@ -25,6 +25,12 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.common.test)
         }
+        androidMain.dependencies {
+            libs.android.apply {
+                // Bom is needed for gitlive
+                implementation(project.dependencies.platform(firebaseBom))
+            }
+        }
     }
 }
 
