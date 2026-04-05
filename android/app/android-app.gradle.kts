@@ -83,6 +83,7 @@ android {
 dependencies {
     libs.android.apply {
         implementation(koinAndroid)
+        implementation(project.dependencies.platform(firebaseBom))
         implementation(firebasePer)
         debugImplementation(leakCanary)
         coreLibraryDesugaring(androidDesugaring)
