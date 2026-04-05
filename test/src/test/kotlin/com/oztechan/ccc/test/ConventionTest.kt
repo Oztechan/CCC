@@ -42,16 +42,19 @@ internal class ConventionTest {
             .classes()
             .assertTrue {
                 println(it.name)
-
-                val companionObject = it.objects(includeNested = false).lastOrNull { obj ->
-                    obj.hasModifier(KoModifier.COMPANION)
-                }
-
-                if (companionObject != null) {
-                    it.declarations(includeNested = false, includeLocal = false)
-                        .last() == companionObject
-                } else {
+                if (it.path.contains("ios/.build")) {
                     true
+                } else {
+                    val companionObject = it.objects(includeNested = false).lastOrNull { obj ->
+                        obj.hasModifier(KoModifier.COMPANION)
+                    }
+
+                    if (companionObject != null) {
+                        it.declarations(includeNested = false, includeLocal = false)
+                            .last() == companionObject
+                    } else {
+                        true
+                    }
                 }
             }
     }
@@ -74,7 +77,11 @@ internal class ConventionTest {
             .packages
             .assertTrue {
                 println(it.name)
-                it.hasMatchingPath
+                if (it.path.contains("ios/.build")) {
+                    true
+                } else {
+                    it.hasMatchingPath
+                }
             }
     }
 
@@ -95,13 +102,17 @@ internal class ConventionTest {
             .scopeFromProject()
             .files
             .assertTrue {
-                it.moduleName.replace("/", ".").let { modulePackaging ->
-                    println("${it.moduleName}==${it.name}==${it.packagee?.name}==$modulePackaging")
+                if (it.path.contains("ios/.build")) {
+                    true
+                } else {
+                    it.moduleName.replace("/", ".").let { modulePackaging ->
+                        println("${it.moduleName}==${it.name}==${it.packagee?.name}==$modulePackaging")
 
-                    if (modulePackaging.contains("submodule")) {
-                        true
-                    } else {
-                        it.packagee?.name?.startsWith("com.oztechan.ccc.$modulePackaging")
+                        if (modulePackaging.contains("submodule")) {
+                            true
+                        } else {
+                            it.packagee?.name?.startsWith("com.oztechan.ccc.$modulePackaging")
+                        }
                     }
                 }
             }
