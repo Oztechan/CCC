@@ -10,7 +10,6 @@ import config.key.string
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
     }
 }
 

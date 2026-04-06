@@ -1,13 +1,16 @@
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        alias(androidLibrary)
+        alias(androidKotlinMultiplatformLibrary)
     }
 }
 
 kotlin {
-    @Suppress("Deprecation")
-    androidTarget()
+    androidLibrary {
+        namespace = Modules.Client.Core.analytics.packageName
+        compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+    }
 
     iosX64()
     iosArm64()
@@ -28,19 +31,4 @@ kotlin {
             }
         }
     }
-}
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Core.analytics.packageName
-        compileSdk = COMPILE_SDK_VERSION
-        defaultConfig.minSdk = MIN_SDK_VERSION
-
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
-        }
-    }
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 }

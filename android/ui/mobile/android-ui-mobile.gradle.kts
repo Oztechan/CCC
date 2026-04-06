@@ -4,7 +4,6 @@ import config.DeviceFlavour.Companion.implementation
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
         alias(safeArgsKotlin) // todo can be removed once compose migration done
         alias(jetbrainsCompose)
         alias(kotlinPluginCompose)

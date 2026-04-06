@@ -1,13 +1,17 @@
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        alias(androidLibrary)
+        alias(androidKotlinMultiplatformLibrary)
         alias(mokkery)
     }
 }
 kotlin {
-    @Suppress("Deprecation")
-    androidTarget()
+    androidLibrary {
+        namespace = Modules.Client.ViewModel.main.packageName
+        compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+        enableCoreLibraryDesugaring = true
+    }
 
     iosX64()
     iosArm64()
@@ -49,22 +53,6 @@ kotlin {
         }
     }
 }
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.ViewModel.main.packageName
-        compileSdk = COMPILE_SDK_VERSION
-        defaultConfig.minSdk = MIN_SDK_VERSION
-
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
-            // needed for gitlive remoteconfig, we have it in app module though
-            isCoreLibraryDesugaringEnabled = true
-        }
-
-        dependencies {
-            coreLibraryDesugaring(libs.android.androidDesugaring)
-        }
-    }
+dependencies {
+    coreLibraryDesugaring(libs.android.androidDesugaring)
 }

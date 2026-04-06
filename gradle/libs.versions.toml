@@ -1,7 +1,7 @@
 [versions]
 
 kotlin = "2.3.10"
-androidGradlePlugin = "8.13.2"
+androidGradlePlugin = "9.0.1"
 jetbrainsCompose = "1.9.0"
 glance = "1.1.1"
 mokkery = "3.3.0"
@@ -119,9 +119,9 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 kotlinPluginCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
 safeArgsKotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 firebaseCrashlyticsPlugin = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
