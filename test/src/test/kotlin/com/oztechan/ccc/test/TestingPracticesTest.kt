@@ -6,7 +6,7 @@ import com.lemonappdev.konsist.api.ext.provider.hasAnnotationOf
 import com.lemonappdev.konsist.api.verify.assertTrue
 import kotlin.test.Test
 
-class TestingPracticesTest {
+internal class TestingPracticesTest {
 
     @Test
     fun `classes with 'Test' Annotation should have 'Test' suffix`() {
