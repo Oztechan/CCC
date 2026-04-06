@@ -23,6 +23,8 @@ android {
             sourceCompatibility = JAVA_VERSION
             targetCompatibility = JAVA_VERSION
         }
+
+        buildFeatures.resValues = true
     }
 
     DeviceFlavour.apply {
