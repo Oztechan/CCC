@@ -59,7 +59,7 @@ allprojects {
         tasks.register("detektAll") {
             dependsOn(
                 tasks.withType<Detekt>().matching {
-                    // exclude detektAndroid tasks to avoid running detekt on new android gradle plugin doesn't support yet
+                    // exclude detektAndroid tasks since new android gradle plugin doesn't support yet
                     !it.name.startsWith("detektAndroid")
                 }
             )
