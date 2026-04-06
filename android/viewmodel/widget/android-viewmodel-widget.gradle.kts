@@ -29,7 +29,7 @@ dependencies {
             implementation(coroutines)
             implementation(kermit)
 
-            testImplementation(test)
+            testImplementation(testJunit)
             testImplementation(coroutinesTest)
         }
     }
