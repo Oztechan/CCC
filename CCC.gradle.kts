@@ -9,9 +9,9 @@ plugins {
         alias(kotlinMultiplatform).apply(false)
         alias(jetbrainsCompose).apply(false)
         alias(kotlinJvm).apply(false)
-        alias(kotlinAndroid).apply(false)
         alias(androidApplication).apply(false)
         alias(androidLibrary).apply(false)
+        alias(androidKotlinMultiplatformLibrary).apply(false)
         alias(buildKonfig).apply(false)
         alias(sqlDelight).apply(false)
         alias(kover)
@@ -49,6 +49,7 @@ allprojects {
 
             setSource(projectDirectory)
             exclude("**/build/**")
+            exclude("**/.build/**")
             exclude {
                 val relativePath = it.file.relativeTo(projectDirectory)
                 relativePath.startsWith(buildDirectory.get().relativeTo(projectDirectory))
@@ -56,7 +57,12 @@ allprojects {
         }
 
         tasks.register("detektAll") {
-            dependsOn(tasks.withType<Detekt>())
+            dependsOn(
+                tasks.withType<Detekt>().matching {
+                    // exclude detektAndroid tasks since new android gradle plugin doesn't support yet
+                    !it.name.startsWith("detektAndroid")
+                }
+            )
         }
 
         dependencies {
