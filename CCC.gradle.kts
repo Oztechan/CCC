@@ -49,6 +49,7 @@ allprojects {
 
             setSource(projectDirectory)
             exclude("**/build/**")
+            exclude("**/.build/**")
             exclude {
                 val relativePath = it.file.relativeTo(projectDirectory)
                 relativePath.startsWith(buildDirectory.get().relativeTo(projectDirectory))
@@ -56,7 +57,12 @@ allprojects {
         }
 
         tasks.register("detektAll") {
-            dependsOn(tasks.withType<Detekt>())
+            dependsOn(
+                tasks.withType<Detekt>().matching {
+                    // exclude detektAndroid tasks to avoid running detekt on new android gradle plugin doesn't support yet
+                    !it.name.startsWith("detektAndroid")
+                }
+            )
         }
 
         dependencies {
