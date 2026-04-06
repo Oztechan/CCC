@@ -11,6 +11,7 @@ kotlin {
         namespace = Modules.Client.Core.res.packageName
         compileSdk = ProjectSettings.COMPILE_SDK_VERSION
         minSdk = ProjectSettings.MIN_SDK_VERSION
+        withHostTest {}
     }
 
     listOf(

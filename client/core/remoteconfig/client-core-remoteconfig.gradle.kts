@@ -12,6 +12,7 @@ kotlin {
         compileSdk = ProjectSettings.COMPILE_SDK_VERSION
         minSdk = ProjectSettings.MIN_SDK_VERSION
         enableCoreLibraryDesugaring = true
+        withHostTest {}
     }
 
     iosX64()
