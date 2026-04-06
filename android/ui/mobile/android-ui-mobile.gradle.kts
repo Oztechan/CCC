@@ -50,7 +50,7 @@ android {
 dependencies {
     libs.apply {
         common.apply {
-            testImplementation(test)
+            testImplementation(testJunit)
             implementation(navigationCompose)
             implementation(kermit)
         }
