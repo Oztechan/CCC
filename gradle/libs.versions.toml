@@ -46,8 +46,6 @@ gitlive = "2.4.0"
 [libraries]
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
-common-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
@@ -99,6 +97,7 @@ ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 ios-sqlliteDriver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
 
 # JVM
+jvm-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
