@@ -13,7 +13,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = Modules.Common.Core.network.packageName
         compileSdk = ProjectSettings.COMPILE_SDK_VERSION
         minSdk = ProjectSettings.MIN_SDK_VERSION

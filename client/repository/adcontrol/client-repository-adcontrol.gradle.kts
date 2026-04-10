@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = Modules.Client.Repository.adControl.packageName
         compileSdk = ProjectSettings.COMPILE_SDK_VERSION
         minSdk = ProjectSettings.MIN_SDK_VERSION

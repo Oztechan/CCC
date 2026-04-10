@@ -5,7 +5,7 @@ plugins {
     }
 }
 kotlin {
-    androidLibrary {
+    android {
         namespace = Modules.Client.Core.viewModel.packageName
         compileSdk = ProjectSettings.COMPILE_SDK_VERSION
         minSdk = ProjectSettings.MIN_SDK_VERSION
