@@ -4,7 +4,9 @@ plugins {
 
 dependencies {
     libs.common.apply {
-        testImplementation(test)
         testImplementation(konsist)
+    }
+    libs.jvm.apply {
+        testImplementation(test)
     }
 }

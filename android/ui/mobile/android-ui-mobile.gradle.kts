@@ -49,9 +49,11 @@ android {
 dependencies {
     libs.apply {
         common.apply {
-            testImplementation(testJunit)
             implementation(navigationCompose)
             implementation(kermit)
+        }
+        jvm.apply {
+            testImplementation(test)
         }
         compose.apply {
             implementation(material3)

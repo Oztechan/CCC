@@ -27,9 +27,10 @@ dependencies {
             implementation(koinCore)
             implementation(coroutines)
             implementation(kermit)
-
-            testImplementation(testJunit)
             testImplementation(coroutinesTest)
+        }
+        jvm.apply {
+            testImplementation(test)
         }
     }
 
