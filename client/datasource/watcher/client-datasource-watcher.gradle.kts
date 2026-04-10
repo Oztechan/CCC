@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
+    android {
         namespace = Modules.Client.DataSource.watcher.packageName
         compileSdk = ProjectSettings.COMPILE_SDK_VERSION
         minSdk = ProjectSettings.MIN_SDK_VERSION
