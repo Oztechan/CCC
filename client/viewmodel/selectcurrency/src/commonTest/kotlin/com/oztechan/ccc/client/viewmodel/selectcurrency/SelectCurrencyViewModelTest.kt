@@ -7,6 +7,7 @@ import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import com.oztechan.ccc.common.core.model.Watcher
@@ -36,12 +37,18 @@ import com.oztechan.ccc.common.core.model.Currency as CurrencyCommon
 internal class SelectCurrencyViewModelTest {
 
     private val viewModel: SelectCurrencyViewModel by lazy {
-        SelectCurrencyViewModel(calculationStorage, currencyDataSource, watcherDataSource)
+        SelectCurrencyViewModel(
+            calculationStorage,
+            currencyDataSource,
+            watcherDataSource,
+            adControlRepository
+        )
     }
 
     private val currencyDataSource = mock<CurrencyDataSource>()
     private val calculationStorage = mock<CalculationStorage>(MockMode.autoUnit)
     private val watcherDataSource = mock<WatcherDataSource>(MockMode.autoUnit)
+    private val adControlRepository = mock<AdControlRepository>()
 
     private val currencyDollar = CurrencyCommon("USD", "Dollar", "$", "", true)
     private val currencyEuro = CurrencyCommon("Eur", "Euro", "", "", true)
@@ -58,6 +65,9 @@ internal class SelectCurrencyViewModelTest {
 
         every { currencyDataSource.getActiveCurrenciesFlow() }
             .returns(flowOf(currencyListEnough))
+
+        every { adControlRepository.shouldShowBannerAd() }
+            .returns(false)
     }
 
     // SEED
