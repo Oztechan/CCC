@@ -89,7 +89,7 @@ jobs:
         run: ./gradlew assemble${{ env.BUILD_TYPE }}
 
       - name: Upload Android ${{ env.BUILD_TYPE }} Artifacts
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         if: github.event_name == 'push' || github.event_name == 'schedule'
         with:
           name: androidArtifacts
@@ -176,7 +176,7 @@ jobs:
         run: fastlane build${{ env.BUILD_TYPE }}
 
       - name: Upload iOS Debug Artifacts
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         if: github.event_name == 'push'
         with:
           name: iOSArtifacts
@@ -185,7 +185,7 @@ jobs:
             ios/CCC_I.app.dSYM.zip
 
       - name: Upload iOS Artifacts
-        uses: actions/upload-artifact@v7.0.0
+        uses: actions/upload-artifact@v7.0.1
         if: github.event_name == 'schedule'
         with:
           name: iOSArtifacts
