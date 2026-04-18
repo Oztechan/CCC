@@ -43,6 +43,8 @@
 	<string>$(BANNER_AD_UNIT_ID_SETTINGS)</string>
 	<key>BANNER_AD_UNIT_ID_WATCHERS</key>
 	<string>$(BANNER_AD_UNIT_ID_WATCHERS)</string>
+	<key>BANNER_AD_UNIT_ID_SELECT_CURRENCY</key>
+	<string>$(BANNER_AD_UNIT_ID_SELECT_CURRENCY)</string>
 	<key>INTERSTITIAL_AD_ID</key>
 	<string>$(INTERSTITIAL_AD_ID)</string>
 	<key>REWARDED_AD_UNIT_ID</key>
