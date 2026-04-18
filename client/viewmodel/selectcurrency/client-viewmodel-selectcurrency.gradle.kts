@@ -37,6 +37,9 @@ kotlin {
             Modules.Client.Storage.apply {
                 implementation(project(calculation))
             }
+            Modules.Client.Repository.apply {
+                implementation(project(adControl))
+            }
 
             Modules.Common.Core.apply {
                 implementation(project(model))
