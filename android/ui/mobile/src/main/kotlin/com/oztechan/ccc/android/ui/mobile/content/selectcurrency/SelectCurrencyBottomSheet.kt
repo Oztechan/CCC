@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import co.touchlab.kermit.Logger
 import com.github.submob.basemob.bottomsheet.BaseVBBottomSheetDialogFragment
+import com.github.submob.scopemob.castTo
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.oztechan.ccc.android.core.ad.AdManager
 import com.oztechan.ccc.android.ui.mobile.BuildConfig
@@ -43,7 +44,7 @@ class SelectCurrencyBottomSheet :
 
     override fun onStart() {
         super.onStart()
-        (dialog as? BottomSheetDialog)?.behavior?.apply {
+        dialog?.castTo<BottomSheetDialog>()?.behavior?.apply {
             skipCollapsed = true
         }
         dialog?.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
@@ -54,7 +55,7 @@ class SelectCurrencyBottomSheet :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Logger.i { "SelectCurrencyBottomSheet onViewCreated" }
-        val behavior = (dialog as? BottomSheetDialog)?.behavior
+        val behavior = dialog?.castTo<BottomSheetDialog>()?.behavior
         binding.recyclerViewSelectCurrency.addOnScrollListener(
             object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
