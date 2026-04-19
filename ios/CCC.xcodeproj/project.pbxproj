@@ -382,6 +382,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7555FFA5242A565B00829871 /* Build configuration list for PBXNativeTarget "CCC" */;
 			buildPhases = (
+				5C0000001234567890ABCDEF /* Copy Environment Files */,
 				7555FFB5242A651A00829871 /* ShellScript */,
 				7555FF77242A565900829871 /* Sources */,
 				7555FF78242A565900829871 /* Frameworks */,
@@ -461,6 +462,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5C0000001234567890ABCDEF /* Copy Environment Files */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Environment Files";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cp \"$SRCROOT/CCC/Resources/$CONFIGURATION/GoogleService-Info.plist\" \"$SRCROOT/CCC/Resources/GoogleService-Info.plist\"\ncp \"$SRCROOT/CCC/Resources/$CONFIGURATION/Config.xcconfig\" \"$SRCROOT/CCC/Resources/Config.xcconfig\"\n";
+		};
 		5C3BC744289D7B2C009F1073 /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
