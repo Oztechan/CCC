@@ -10,7 +10,6 @@ import config.key.string
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
     }
 }
 
@@ -24,6 +23,8 @@ android {
             sourceCompatibility = JAVA_VERSION
             targetCompatibility = JAVA_VERSION
         }
+
+        buildFeatures.resValues = true
     }
 
     DeviceFlavour.apply {

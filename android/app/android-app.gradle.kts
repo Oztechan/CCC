@@ -10,7 +10,6 @@ import config.key.secret
 plugins {
     libs.plugins.apply {
         alias(androidApplication)
-        alias(kotlinAndroid)
         alias(googleServices)
         alias(firebasePerPlugin)
         alias(firebaseCrashlyticsPlugin)
@@ -83,6 +82,7 @@ android {
 dependencies {
     libs.android.apply {
         implementation(koinAndroid)
+        implementation(project.dependencies.platform(firebaseBom))
         implementation(firebasePer)
         debugImplementation(leakCanary)
         coreLibraryDesugaring(androidDesugaring)

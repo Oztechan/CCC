@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@4bda8a424485eab2b69d39883a78bcbe599874bb
+        uses: Oztechan/Global/actions/setup-gradle-repo@8610938e630b3ed86127765237fe3647b9fabd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -80,19 +80,19 @@ jobs:
         run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: googleBundle
           path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: huaweiBundle
           path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: backendJar
           path: backend/app/build/libs/app-*.jar
@@ -112,7 +112,7 @@ jobs:
         uses: actions/checkout@v6.0.2
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v7.0.0
+        uses: actions/download-artifact@v8.0.1
         with:
           name: googleBundle
 
@@ -139,7 +139,7 @@ jobs:
           status: completed
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v5.1.0
+        uses: geekyeggo/delete-artifact@v6.0.0
         with:
           name: googleBundle
 
@@ -155,7 +155,7 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v7.0.0
+        uses: actions/download-artifact@v8.0.1
         with:
           name: huaweiBundle
 
@@ -170,7 +170,7 @@ jobs:
           file-name: "app-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v5.1.0
+        uses: geekyeggo/delete-artifact@v6.0.0
         with:
           name: huaweiBundle
 
@@ -186,13 +186,13 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v7.0.0
+        uses: actions/download-artifact@v8.0.1
         with:
           name: backendJar
           path: artifact
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v5.1.1
+        uses: easingthemes/ssh-deploy@v6.0.3
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
@@ -201,7 +201,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v5.1.0
+        uses: geekyeggo/delete-artifact@v6.0.0
         with:
           name: backendJar
 
@@ -215,7 +215,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@4bda8a424485eab2b69d39883a78bcbe599874bb
+        uses: Oztechan/Global/actions/setup-gradle-repo@8610938e630b3ed86127765237fe3647b9fabd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files

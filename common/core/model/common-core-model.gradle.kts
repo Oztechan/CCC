@@ -11,9 +11,7 @@ kotlin {
 
     sourceSets {
         commonTest.dependencies {
-            libs.common.apply {
-                implementation(test)
-            }
+            implementation(libs.common.test)
         }
     }
 }

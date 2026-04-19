@@ -4,7 +4,6 @@ import config.DeviceFlavour.Companion.implementation
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
     }
 }
 

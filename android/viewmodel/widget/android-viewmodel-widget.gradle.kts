@@ -1,7 +1,6 @@
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
         alias(mokkery)
     }
 }
@@ -28,9 +27,10 @@ dependencies {
             implementation(koinCore)
             implementation(coroutines)
             implementation(kermit)
-
-            testImplementation(test)
             testImplementation(coroutinesTest)
+        }
+        jvm.apply {
+            testImplementation(test)
         }
     }
 

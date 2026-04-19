@@ -15,6 +15,8 @@ dependencies {
         implementation(koinCore)
 
         testImplementation(coroutinesTest)
+    }
+    libs.jvm.apply {
         testImplementation(test)
     }
 

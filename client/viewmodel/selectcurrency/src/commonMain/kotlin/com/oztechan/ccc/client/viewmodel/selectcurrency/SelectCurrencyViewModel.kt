@@ -9,6 +9,7 @@ import com.oztechan.ccc.client.core.viewmodel.BaseData
 import com.oztechan.ccc.client.core.viewmodel.SEEDViewModel
 import com.oztechan.ccc.client.datasource.currency.CurrencyDataSource
 import com.oztechan.ccc.client.datasource.watcher.WatcherDataSource
+import com.oztechan.ccc.client.repository.adcontrol.AdControlRepository
 import com.oztechan.ccc.client.storage.calculation.CalculationStorage
 import com.oztechan.ccc.client.viewmodel.selectcurrency.model.SelectCurrencyPurpose
 import com.oztechan.ccc.common.core.model.Currency
@@ -19,9 +20,10 @@ import kotlinx.coroutines.launch
 class SelectCurrencyViewModel(
     private val calculationStorage: CalculationStorage,
     currencyDataSource: CurrencyDataSource,
-    private val watcherDataSource: WatcherDataSource
+    private val watcherDataSource: WatcherDataSource,
+    adControlRepository: AdControlRepository
 ) : SEEDViewModel<SelectCurrencyState, SelectCurrencyEffect, SelectCurrencyEvent, BaseData>(
-    initialState = SelectCurrencyState()
+    initialState = SelectCurrencyState(isBannerAdVisible = adControlRepository.shouldShowBannerAd())
 ),
     SelectCurrencyEvent {
 

@@ -1,12 +1,12 @@
 [versions]
 
-kotlin = "2.3.0"
-androidGradlePlugin = "8.13.2"
+kotlin = "2.3.20"
+androidGradlePlugin = "9.1.1"
 jetbrainsCompose = "1.9.0"
 glance = "1.1.1"
-mokkery = "3.1.1"
+mokkery = "3.3.0"
 activityCompose = "1.10.1"
-navigationCompose = "2.9.1"
+navigationCompose = "2.9.2"
 detekt = "1.23.8"
 androidDesugaring = "2.1.5"
 androidMaterial = "1.13.0"
@@ -15,17 +15,17 @@ koinCore = "4.1.1"
 koinCompose = "4.1.1"
 koinAndroid = "4.1.1"
 koinKtor = "4.1.1"
-ktor = "3.3.3"
+ktor = "3.4.2"
 multiplatformSettings = "1.3.0"
 googleServices = "4.4.4"
-firebasePer = "22.0.4"
+firebaseBom = "34.12.0"
 firebasePerPlugin = "2.0.2"
-firebaseCrashlyticsPlugin = "3.0.6"
+firebaseCrashlyticsPlugin = "3.0.7"
 googleAds = "23.6.0"
 googleUmp = "3.2.0"
 huaweiAds = "3.4.84.300"
 huaweiOsm = "1.3.35"
-navigation = "2.9.6"
+navigation = "2.9.7"
 playCoreReview = "2.0.2"
 kotlinXDateTime = "0.7.1-0.6.x-compat"
 coroutines = "1.10.2"
@@ -33,20 +33,19 @@ billing = "7.1.1"
 leakCanary = "2.14"
 sqlDelight = "1.5.5"
 lifecycle = "2.10.0"
-mokoResources = "0.25.2"
-buildKonfig = "0.17.1"
+mokoResources = "0.26.3"
+buildKonfig = "0.18.0"
 splashScreen = "1.2.0"
-kover = "0.9.4"
-rootBeer = "0.1.1"
+kover = "0.9.8"
+rootBeer = "0.1.2"
 anrWatchDog = "1.4.0"
-kermit = "2.0.8"
+kermit = "2.1.0"
 konsist = "0.17.3"
 gitlive = "2.4.0"
 
 [libraries]
 # COMMON
 common-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
-common-testAnnotations = { module = "org.jetbrains.kotlin:kotlin-test-annotations-common", version.ref = "kotlin" }
 common-navigationCompose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 common-koinCore = { module = "io.insert-koin:koin-core", version.ref = "koinCore" }
 common-multiplatformSettings = { module = "com.russhwolf:multiplatform-settings", version.ref = "multiplatformSettings" }
@@ -72,7 +71,8 @@ android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", v
 
 android-koinCompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinCompose" }
 android-koinAndroid = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
-android-firebasePer = { module = "com.google.firebase:firebase-perf", version.ref = "firebasePer" }
+android-firebaseBom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+android-firebasePer = { module = "com.google.firebase:firebase-perf" }
 android-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 android-ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
@@ -97,10 +97,10 @@ ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
 ios-sqlliteDriver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
 
 # JVM
+jvm-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
-jvm-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 
 # CLIENT
 client-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
@@ -118,9 +118,9 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrainsCompose" }
 kotlinPluginCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "androidGradlePlugin" }
 safeArgsKotlin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig" }
 firebaseCrashlyticsPlugin = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }

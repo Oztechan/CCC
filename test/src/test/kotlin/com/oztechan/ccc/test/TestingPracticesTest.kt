@@ -23,6 +23,12 @@ internal class TestingPracticesTest {
             .scopeFromTest()
             .classes()
             .withNameEndingWith("Test")
-            .assertTrue { it.hasInternalModifier }
+            .assertTrue {
+                if (it.path.contains("ios/.build")) {
+                    true
+                } else {
+                    it.hasInternalModifier
+                }
+            }
     }
 }
