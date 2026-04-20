@@ -19,6 +19,7 @@ kotlin {
                 export(project(viewModel))
                 export(project(analytics))
                 export(project(shared))
+                export(project(res))
             }
 
             Modules.Client.ViewModel.apply {
@@ -47,6 +48,7 @@ kotlin {
                 api(project(viewModel))
                 api(project(analytics))
                 api(project(shared))
+                api(project(res))
             }
 
             Modules.Client.ViewModel.apply {
