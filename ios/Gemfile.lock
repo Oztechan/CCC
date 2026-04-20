@@ -72,7 +72,7 @@ GEM
     faraday_middleware (1.2.1)
       faraday (~> 1.0)
     fastimage (2.4.1)
-    fastlane (2.232.2)
+    fastlane (2.233.0)
       CFPropertyList (>= 2.3, < 4.0.0)
       abbrev (~> 0.1.2)
       addressable (>= 2.8, < 3.0.0)
@@ -92,7 +92,7 @@ GEM
       faraday-cookie_jar (~> 0.0.6)
       faraday_middleware (~> 1.0)
       fastimage (>= 2.1.0, < 3.0.0)
-      fastlane-sirp (>= 1.0.0)
+      fastlane-sirp (>= 1.1.0)
       gh_inspector (>= 1.1.2, < 2.0.0)
       google-apis-androidpublisher_v3 (~> 0.3)
       google-apis-playcustomapp_v1 (~> 0.1)
@@ -241,7 +241,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  fastlane (= 2.232.2)
+  fastlane (= 2.233.0)
   fastlane-plugin-firebase_app_distribution (= 1.0.0)
 
 BUNDLED WITH
