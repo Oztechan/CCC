@@ -30,6 +30,23 @@
   ],
   "packageRules": [
     {
+      "matchPackageNames": [
+        "bundler"
+      ],
+      "matchManagers": [
+        "bundler"
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "cd ios && bundle update --bundler"
+        ],
+        "fileFilters": [
+          "ios/Gemfile.lock"
+        ],
+        "executionMode": "update"
+      }
+    },
+    {
       "groupName": "kotlin",
       "matchPackageNames": [
         "/^org.jetbrains.kotlin.$/"
