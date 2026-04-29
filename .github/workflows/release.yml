@@ -250,7 +250,7 @@ jobs:
           needs.UploadToHuaweiAppGallery.outputs.status == 'success' &&
           needs.DeployToServer.outputs.status == 'success' &&
           needs.UploadToAppStore.outputs.status == 'success'
-        uses: voxmedia/github-action-slack-notify-build@v1.6.0
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
           status: SUCCESS
@@ -262,7 +262,7 @@ jobs:
           false == (needs.UploadToHuaweiAppGallery.outputs.status == 'success') ||
           false == (needs.DeployToServer.outputs.status == 'success') ||
           false == (needs.UploadToAppStore.outputs.status == 'success')
-        uses: voxmedia/github-action-slack-notify-build@v1.6.0
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
           status: FAILED
