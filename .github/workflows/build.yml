@@ -91,7 +91,7 @@ jobs:
 
       - name: Notify slack fail
         if: false == (needs.Build.outputs.status == 'success')
-        uses: voxmedia/github-action-slack-notify-build@v1.6.0
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
           status: FAILED
