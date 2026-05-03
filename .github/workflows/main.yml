@@ -173,6 +173,7 @@ jobs:
 
       - name: Disable Kotlin incremental native for CI
         run: |
+          mkdir -p ~/.gradle
           touch ~/.gradle/gradle.properties
           sed -i '' '/kotlin.incremental.native/d' ~/.gradle/gradle.properties
           echo "kotlin.incremental.native=false" >> ~/.gradle/gradle.properties
