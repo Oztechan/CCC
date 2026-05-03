@@ -171,6 +171,12 @@ jobs:
       - name: Set up XCode
         run: sudo xcode-select --switch /Applications/Xcode_16.4.app
 
+      - name: Disable Kotlin incremental native for CI
+        run: |
+          touch ~/.gradle/gradle.properties
+          sed -i '' '/kotlin.incremental.native/d' ~/.gradle/gradle.properties
+          echo "kotlin.incremental.native=false" >> ~/.gradle/gradle.properties
+
       - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
         run: fastlane build${{ env.BUILD_TYPE }}
