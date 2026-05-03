@@ -11,6 +11,9 @@
   "commitBody": "Co-authored-by: Mustafa Ozhan <mr.mustafa.ozhan@gmail.com>",
   "commitMessageAction": "[Oztechan/CCC#1457] Update",
   "prConcurrentLimit": 20,
+  "allowedCommands": [
+    "^cd ios && bundle update --bundler$"
+  ],
   "git-submodules": {
     "enabled": true,
     "groupName": "Git Submodules"
