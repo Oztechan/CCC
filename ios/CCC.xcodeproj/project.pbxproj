@@ -478,7 +478,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp \"$SRCROOT/CCC/Resources/$CONFIGURATION/GoogleService-Info.plist\" \"$SRCROOT/CCC/Resources/GoogleService-Info.plist\"\ncp \"$SRCROOT/CCC/Resources/$CONFIGURATION/Config.xcconfig\" \"$SRCROOT/CCC/Resources/Config.xcconfig\"\n";
+			shellScript = "if [ \"$CI\" = \"true\" ]; then\ncp \"$SRCROOT/CCC/Resources/$CONFIGURATION/GoogleService-Info.plist\" \"$SRCROOT/CCC/Resources/GoogleService-Info.plist\"\ncp \"$SRCROOT/CCC/Resources/$CONFIGURATION/Config.xcconfig\" \"$SRCROOT/CCC/Resources/Config.xcconfig\"\nfi\n";
 		};
 		5C3BC744289D7B2C009F1073 /* Firebase Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
