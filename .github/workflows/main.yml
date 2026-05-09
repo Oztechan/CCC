@@ -9,8 +9,8 @@ on:
     - cron: '0 0 * * *'  # At 00:00 every day
 
 concurrency:
-  group: ${{ github.ref == 'refs/heads/develop' && 'develop' || github.ref }} # Only run one job at a time for the same branch
-  cancel-in-progress: ${{ github.ref != 'refs/heads/develop' }} # Only cancel the same branch but not develop
+  group: ${{ github.ref == 'refs/heads/develop' && github.run_id || github.ref }} # develop: unique group per run so all builds run freely; PRs: group by branch so they can be cancelled
+  cancel-in-progress: ${{ github.ref != 'refs/heads/develop' }} # develop: never cancel (run_id groups never conflict); PRs: cancel outdated runs on new push
 
 env:
   BASE_URL_BACKEND: ${{ secrets.BASE_URL_BACKEND }}
