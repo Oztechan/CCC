@@ -44,3 +44,6 @@ android/app/src/release/google-services.json
 android/app/src/release/google-services.json.asc
 android/app/src/release/agconnect-services.json
 android/app/src/release/agconnect-services.json.asc
+
+# AI
+.claude
