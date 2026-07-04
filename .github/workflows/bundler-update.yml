@@ -12,7 +12,7 @@ jobs:
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GIT_AUTHORIZATION }}
