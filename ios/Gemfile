@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
-gem "bundler", "4.0.14"
+gem "bundler", "4.0.15"
 gem "fastlane", "2.236.1"
 gem "fastlane-plugin-firebase_app_distribution", "1.0.0"
