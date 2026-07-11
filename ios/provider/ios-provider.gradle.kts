@@ -36,6 +36,10 @@ kotlin {
 
     sourceSets {
         iosMain.dependencies {
+            libs.submob.apply {
+                implementation(logmob)
+            }
+
             libs.common.apply {
                 implementation(koinCore)
                 implementation(kermit)
@@ -96,8 +100,6 @@ kotlin {
                 implementation(project(adControl))
                 implementation(project(appConfig))
             }
-
-            implementation(Submodules.logmob)
         }
     }
 }

@@ -47,6 +47,11 @@ android {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(scopemob)
+        implementation(basemob)
+    }
+
     libs.apply {
         common.apply {
             implementation(navigationCompose)
@@ -101,10 +106,5 @@ dependencies {
         implementation(project(selectCurrency))
         implementation(project(watchers))
         implementation(project(premium))
-    }
-
-    Submodules.apply {
-        implementation(scopemob)
-        implementation(basemob)
     }
 }
