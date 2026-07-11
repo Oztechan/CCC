@@ -803,7 +803,7 @@
 			repositoryURL = "https://github.com/matteopuc/swiftui-navigation-stack";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.6;
+				version = v2.12.6;
 			};
 		};
 		5CC0095E2BD912AD004AEDE5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
