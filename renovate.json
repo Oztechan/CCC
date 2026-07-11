@@ -19,13 +19,16 @@
     "enabled": true,
     "commitMessageAction": "[Oztechan/CCC#1457] Lock file maintenance"
   },
-  "customManagers": [
+  "regexManagers": [
     {
-      "customType": "regex",
-      "managerFilePatterns": ["/^ios/CCC\\.xcodeproj/project\\.pbxproj$/"],
-      "matchStrings": ["repositoryURL = \"https://github.com/(?<owner>[^/]+)/(?<repo>[^\"/]+?)(?:\\.git)?\";\\s*requirement = \\{\\s*kind = exactVersion;\\s*version = (?<currentValue>[^;]+);"],
+      "fileMatch": [
+        "^ios/CCC\\.xcodeproj/project\\.pbxproj$"
+      ],
+      "matchStrings": [
+        "repositoryURL = \"https://github.com/(?<owner>[^/]+)/(?<repo>[^\"/]+?)(?:\\.git)?\";\\s*requirement = \\{\\s*kind = exactVersion;\\s*version = (?<currentValue>[^;]+);"
+      ],
       "datasourceTemplate": "github-tags",
-      "depNameTemplate": "{{owner}}/{{repo}}"
+      "depNameTemplate": "Oztechan/CCC"
     }
   ],
   "packageRules": [
