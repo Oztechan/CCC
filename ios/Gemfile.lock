@@ -247,9 +247,9 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bundler (= 4.0.15)
+  bundler (= 4.0.16)
   fastlane (= 2.237.0)
   fastlane-plugin-firebase_app_distribution (= 1.0.0)
 
 BUNDLED WITH
-  4.0.15
+  4.0.16
