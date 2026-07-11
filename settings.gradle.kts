@@ -15,6 +15,8 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://developer.huawei.com/repo/")
+        // SubMob shared libraries publish -SNAPSHOT builds here; releases resolve via mavenCentral().
+        maven("https://central.sonatype.com/repository/maven-snapshots/")
     }
 }
 
@@ -91,11 +93,27 @@ include(
     ":test",
 )
 
-// region Git Submodules independent modules and project hosted in different repository
-includeBuild("submodule/logmob") // KMP, logger library
-includeBuild("submodule/scopemob") // KMP, hand scope functions
-includeBuild("submodule/basemob") // Android only base classes
-includeBuild("submodule/parsermob") // KMP, parsing library
+// region SubMob shared libraries
+// Co-develop from the sibling Oztechan/SubMob checkouts when present (edits show up instantly via a
+// Gradle composite build); otherwise — CI, or a clone without the siblings — resolve the published
+// versions declared in gradle/libs.versions.toml. Substitution is explicit because vanniktech sets
+// the module group late, which the automatic composite substitution can miss.
+listOf(
+    "LogMob",
+    "ScopeMob",
+    "BaseMob",
+    "ParserMob",
+).forEach { dirName ->
+    val artifact = dirName.lowercase()
+    val dir = file("../../SubMob/$dirName")
+    if (dir.exists()) {
+        includeBuild(dir) {
+            dependencySubstitution {
+                substitute(module("com.github.submob:$artifact")).using(project(":$artifact"))
+            }
+        }
+    }
+}
 // endregion
 
 rootProject.name = "CCC"

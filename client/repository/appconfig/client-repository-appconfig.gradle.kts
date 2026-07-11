@@ -26,6 +26,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            libs.submob.apply {
+                implementation(scopemob)
+            }
+
             implementation(libs.common.koinCore)
 
             Modules.Client.ConfigService.apply {
@@ -34,7 +38,6 @@ kotlin {
             }
             implementation(project(Modules.Client.Storage.app))
             implementation(project(Modules.Client.Core.shared))
-            implementation(Submodules.scopemob)
         }
         commonTest.dependencies {
             implementation(libs.common.test)

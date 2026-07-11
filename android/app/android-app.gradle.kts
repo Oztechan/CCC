@@ -80,6 +80,10 @@ android {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(logmob)
+    }
+
     libs.android.apply {
         implementation(koinAndroid)
         implementation(project.dependencies.platform(firebaseBom))
@@ -153,9 +157,5 @@ dependencies {
     Modules.Android.UI.apply {
         implementation(project(mobile))
         implementation(project(widget))
-    }
-
-    Submodules.apply {
-        implementation(logmob)
     }
 }

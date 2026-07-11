@@ -15,6 +15,10 @@ application {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(logmob)
+    }
+
     libs.jvm.apply {
         implementation(koinKtor)
     }
@@ -48,8 +52,6 @@ dependencies {
     Modules.Common.DataSource.apply {
         implementation(project(conversion))
     }
-
-    implementation(Submodules.logmob)
 }
 
 tasks.withType<Jar> {

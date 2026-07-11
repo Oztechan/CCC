@@ -20,6 +20,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            libs.submob.apply {
+                implementation(scopemob)
+            }
+
             libs.common.apply {
                 implementation(koinCore)
                 implementation(coroutines)
@@ -43,9 +47,6 @@ kotlin {
             }
             Modules.Common.Core.apply {
                 implementation(project(model))
-            }
-            Submodules.apply {
-                implementation(scopemob)
             }
         }
         commonTest.dependencies {

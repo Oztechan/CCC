@@ -35,8 +35,6 @@ graph TD;
 
     common-->client
     common-->backend(backend)
-    
-    submodule{submodule}
 
     test
 ```
@@ -46,25 +44,20 @@ All the modules in the project are grouped into 6 targets:
 - `android`, `ios` and `backend` are app modules that contains platform only codes
 - `client` is a KMM module that shared between `ios` and `android`.
 - `common` is a KMP modules that shared between all the platforms (`android`, `ios` and `backend`)
-- `submodule` these are different git repositories and can be used in any of these modules. (arrows are not shown for the sake of simplicity)
 - `test` contains test cases for architecture and coding conventions
 
-## How to clone
+The [SubMob](https://github.com/SubMob) shared libraries are consumed as external Maven Central dependencies (see [Shared libraries](#shared-libraries))
 
-The project uses submodules, please clone it as below:
+## Shared libraries
 
-```shell
-git clone https://github.com/CurrencyConverterCalculator/CCC.git &&
-cd CCC &&
-git submodule update --init --recursive
-```
-
-Submodules:
+CCC depends on the [SubMob](https://github.com/SubMob) libraries, published to Maven Central and pinned in [`gradle/libs.versions.toml`](gradle/libs.versions.toml):
 
 - [LogMob](https://github.com/SubMob/LogMob) KMP logging library with Crashlytics support
 - [ScopeMob](https://github.com/SubMob/ScopeMob) Useful set of Kotlin scope functions with KMP support
 - [BaseMob](https://github.com/SubMob/BaseMob) Android base classes
 - [ParserMob](https://github.com/SubMob/ParserMob) KMP parsing library
+
+To work on them alongside CCC, check the repositories out as siblings at `../../SubMob/<Name>` (relative to the project root); `settings.gradle.kts` then builds them from source via a Gradle composite build. Without the sibling checkouts, the pinned published versions are used.
 
 ## How to run
 
