@@ -11,6 +11,14 @@ style:
   WildcardImport:
     active: true
     excludeImports: [ ] # default config excludes java.util.*
+  # Compose UI idioms: numeric literals in composables/previews (dp, weights, colors, sample
+  # data) and in property declarations (theme palettes) are expected, not code smells.
+  MagicNumber:
+    ignorePropertyDeclaration: true
+    ignoreAnnotated: [ 'Composable', 'Preview' ]
+  # @Preview composables are invoked by the IDE preview renderer, not by code.
+  UnusedPrivateMember:
+    ignoreAnnotated: [ 'Preview' ]
 
 complexity:
   NamedArguments:
