@@ -55,7 +55,7 @@ env:
 jobs:
 
   Build:
-    runs-on: macos-15
+    runs-on: macos-26
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
