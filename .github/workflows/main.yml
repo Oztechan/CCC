@@ -64,7 +64,7 @@ env:
 jobs:
 
   GradleBuild:
-    runs-on: macos-15
+    runs-on: macos-26
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -147,7 +147,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   XCodeBuild:
-    runs-on: macos-15
+    runs-on: macos-26
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
@@ -169,7 +169,7 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Set up XCode
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
+        run: sudo xcode-select --switch /Applications/Xcode_26.6.app
 
       - name: Disable Kotlin incremental native for CI
         run: |
@@ -241,7 +241,7 @@ jobs:
         run: echo "status=success" >> $GITHUB_OUTPUT
 
   Test:
-    runs-on: macos-15
+    runs-on: macos-26
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
