@@ -76,6 +76,13 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      - name: Disable Kotlin incremental native for CI
+        run: |
+          mkdir -p ~/.gradle
+          touch ~/.gradle/gradle.properties
+          sed -i '' '/kotlin.incremental.native/d' ~/.gradle/gradle.properties
+          echo "kotlin.incremental.native=false" >> ~/.gradle/gradle.properties
+
       - name: Build
         run: ./gradlew build
 
