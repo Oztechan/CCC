@@ -172,11 +172,7 @@ jobs:
         run: sudo xcode-select --switch /Applications/Xcode_26.6.app
 
       - name: Disable Kotlin incremental native for CI
-        run: |
-          mkdir -p ~/.gradle
-          touch ~/.gradle/gradle.properties
-          sed -i '' '/kotlin.incremental.native/d' ~/.gradle/gradle.properties
-          echo "kotlin.incremental.native=false" >> ~/.gradle/gradle.properties
+        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@e3f27b10f120bac0deaec90cc8c743dc1aa3a946
 
       - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
