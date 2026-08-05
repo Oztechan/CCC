@@ -9,7 +9,6 @@ import com.oztechan.ccc.client.configservice.ad.di.clientConfigServiceAdModule
 import com.oztechan.ccc.client.configservice.review.di.clientConfigServiceReviewModel
 import com.oztechan.ccc.client.configservice.update.di.clientConfigServiceUpdateModule
 import com.oztechan.ccc.client.core.analytics.di.clientCoreAnalyticsModule
-import com.oztechan.ccc.client.core.persistence.di.NativeDependencyWrapper
 import com.oztechan.ccc.client.core.persistence.di.clientCorePersistenceModule
 import com.oztechan.ccc.client.core.shared.Device
 import com.oztechan.ccc.client.datasource.currency.di.clientDataSourceCurrencyModule
@@ -98,7 +97,7 @@ fun initKoin(userDefaults: NSUserDefaults) = startKoin {
 }
 
 private fun getIOSPlatformModule(userDefaults: NSUserDefaults) = module {
-    single { NativeDependencyWrapper(userDefaults) }
+    single { userDefaults }
     single<Device> { Device.IOS }
 }
 
