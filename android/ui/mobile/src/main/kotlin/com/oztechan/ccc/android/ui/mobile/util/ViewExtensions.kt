@@ -64,7 +64,7 @@ fun FrameLayout.buildBanner(
     adManager: AdManager,
     adId: String,
     shouldShowAd: Boolean
-) = if (shouldShowAd) {
+) = if (shouldShowAd && adManager.canRequestAds()) {
     removeAllViews()
     addView(
         adManager.getBannerAd(

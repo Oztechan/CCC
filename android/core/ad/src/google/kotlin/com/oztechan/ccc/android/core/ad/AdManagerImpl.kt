@@ -83,6 +83,8 @@ internal class AdManagerImpl(context: Context) : AdManager {
         }
     }
 
+    override fun canRequestAds() = consentInformation.canRequestAds()
+
     override fun getBannerAd(
         context: Context,
         adId: String,
@@ -132,6 +134,11 @@ internal class AdManagerImpl(context: Context) : AdManager {
         adId: String
     ) {
         Logger.v { "AdManagerImpl showInterstitialAd" }
+
+        if (!canRequestAds()) {
+            Logger.v { "AdManagerImpl showInterstitialAd skipped, cannot request ads" }
+            return
+        }
 
         InterstitialAd.load(
             activity,
