@@ -40,13 +40,29 @@ internal class AdManagerImpl : AdManager {
     override fun getBannerAd(
         context: Context,
         adId: String,
-        maxHeightInDp: Float
+        maxHeightInDp: Float,
+        onAdLoaded: () -> Unit,
+        onAdFailedToLoad: () -> Unit
     ): BannerAdView {
         Logger.v { "AdManagerImpl getBannerAd" }
 
         val adView = BannerView(context).apply {
             this.adId = adId
             bannerAdSize = BannerAdSize.BANNER_SIZE_SMART
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    onAdLoaded()
+                }
+
+                override fun onAdFailed(errorCode: Int) {
+                    super.onAdFailed(errorCode)
+                    Exception("AdManagerImpl getBannerAd onAdFailed $errorCode").let {
+                        Logger.e(it) { it.message.orEmpty() }
+                    }
+                    onAdFailedToLoad()
+                }
+            }
             loadAd(adParam)
         }
 

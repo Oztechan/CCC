@@ -70,7 +70,9 @@ fun FrameLayout.buildBanner(
         adManager.getBannerAd(
             context,
             adId,
-            context.resources.getDimension(R.dimen.ads_banner_height)
+            context.resources.getDimension(R.dimen.ads_banner_height),
+            onAdLoaded = { isVisible = true },
+            onAdFailedToLoad = { isGone = true }
         )
     )
 } else {

@@ -88,7 +88,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
     override fun getBannerAd(
         context: Context,
         adId: String,
-        maxHeightInDp: Float
+        maxHeightInDp: Float,
+        onAdLoaded: () -> Unit,
+        onAdFailedToLoad: () -> Unit
     ): BannerAdView {
         Logger.v { "AdManagerImpl getBannerAd" }
 
@@ -116,11 +118,17 @@ internal class AdManagerImpl(context: Context) : AdManager {
             setAdSize(finalAdSize)
             adUnitId = adId
             adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    onAdLoaded()
+                }
+
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     super.onAdFailedToLoad(adError)
                     Exception("AdManagerImpl getBannerAd onAdFailedToLoad ${adError.message}").let {
                         Logger.e(it) { it.message.orEmpty() }
                     }
+                    onAdFailedToLoad()
                 }
             }
             loadAd(adRequest)
