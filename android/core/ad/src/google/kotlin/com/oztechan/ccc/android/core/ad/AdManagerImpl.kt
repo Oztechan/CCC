@@ -3,8 +3,6 @@ package com.oztechan.ccc.android.core.ad
 import android.app.Activity
 import android.content.Context
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.view.WindowManager
 import co.touchlab.kermit.Logger
 import com.google.android.gms.ads.AdListener
@@ -21,12 +19,19 @@ import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 internal class AdManagerImpl(context: Context) : AdManager {
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
     private var consentRetryCount = 0
+    private var consentRetryJob: Job? = null
+    private val consentScope = CoroutineScope(Dispatchers.Main)
 
     private val consentInformation: ConsentInformation =
         UserMessagingPlatform.getConsentInformation(context)
@@ -41,6 +46,9 @@ internal class AdManagerImpl(context: Context) : AdManager {
 
     override fun initAds(activity: Activity) {
         Logger.v { "AdManagerImpl initAds" }
+        // Cancel any retry still pending from a previous initAds so it can't fire on a stale
+        // Activity or exceed the per-launch retry budget.
+        consentRetryJob?.cancel()
         consentRetryCount = 0
         requestConsentInfoUpdate(activity)
 
@@ -86,14 +94,14 @@ internal class AdManagerImpl(context: Context) : AdManager {
 
         consentRetryCount++
         Logger.v { "AdManagerImpl retry consent info update #$consentRetryCount" }
-        Handler(Looper.getMainLooper()).postDelayed(
-            {
-                if (!activity.isFinishing && !activity.isDestroyed) {
-                    requestConsentInfoUpdate(activity)
-                }
-            },
-            CONSENT_RETRY_DELAY_MS
-        )
+        // Keep a single pending retry: cancel any previous one before scheduling the next.
+        consentRetryJob?.cancel()
+        consentRetryJob = consentScope.launch {
+            delay(CONSENT_RETRY_DELAY_MS)
+            if (!activity.isFinishing && !activity.isDestroyed) {
+                requestConsentInfoUpdate(activity)
+            }
+        }
     }
 
     override fun isPrivacyOptionsRequired() =
