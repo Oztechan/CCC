@@ -25,13 +25,15 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-internal class AdManagerImpl(context: Context) : AdManager {
+internal class AdManagerImpl(
+    context: Context,
+    private val globalScope: CoroutineScope,
+) : AdManager {
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
     private var consentRetryCount = 0
     private var consentRetryJob: Job? = null
-    private val consentScope = CoroutineScope(Dispatchers.Main)
 
     private val consentInformation: ConsentInformation =
         UserMessagingPlatform.getConsentInformation(context)
@@ -96,7 +98,7 @@ internal class AdManagerImpl(context: Context) : AdManager {
         Logger.v { "AdManagerImpl retry consent info update #$consentRetryCount" }
         // Keep a single pending retry: cancel any previous one before scheduling the next.
         consentRetryJob?.cancel()
-        consentRetryJob = consentScope.launch {
+        consentRetryJob = globalScope.launch(Dispatchers.Main) {
             delay(CONSENT_RETRY_DELAY_MS)
             if (!activity.isFinishing && !activity.isDestroyed) {
                 requestConsentInfoUpdate(activity)
