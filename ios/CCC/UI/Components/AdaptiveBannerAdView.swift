@@ -7,6 +7,7 @@
 //
 
 import GoogleMobileAds
+import UserMessagingPlatform
 import SwiftUI
 import UIKit
 import Provider
@@ -37,7 +38,9 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
         viewController.view.frame = CGRect(origin: .zero, size: adSize.size)
 
         bannerView.adSize = adSize
-        bannerView.load(GADRequest())
+        if UMPConsentInformation.sharedInstance.canRequestAds {
+            bannerView.load(GADRequest())
+        }
 
         return viewController
     }

@@ -8,6 +8,7 @@
 
 import FirebaseCore
 import GoogleMobileAds
+import UserMessagingPlatform
 import Provider
 import SwiftUI
 import BackgroundTasks
@@ -21,6 +22,7 @@ var logger: KermitLogger = {
 struct Application: App {
     @Environment(\.scenePhase) private var scenePhase
     @State private var isWatcherAlertShown = false
+    @State private var didRequestConsent = false
     @StateObject var observable = ObservableSEEDViewModel<
         MainState,
         MainEffect,
@@ -38,10 +40,6 @@ struct Application: App {
         FirebaseApp.configure()
 
         logger.i(message: { "Application init" })
-
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        GADMobileAds.sharedInstance().applicationMuted = true
-        GADMobileAds.sharedInstance().applicationVolume = 0
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
@@ -68,6 +66,7 @@ struct Application: App {
                 }
             }.onAppear {
                 observable.startObserving()
+                requestConsentIfNeeded()
             }.onDisappear {
                 observable.stopObserving()
             }.onReceive(observable.effect) {
@@ -108,6 +107,40 @@ struct Application: App {
         default:
             logger.i(message: { "Application unknown effect" })
         }
+    }
+
+    private func requestConsentIfNeeded() {
+        guard !didRequestConsent else { return }
+        didRequestConsent = true
+
+        let parameters = UMPRequestParameters()
+        UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: parameters) { requestError in
+            if let requestError = requestError {
+                logger.i(message: { "Application consent info update failed \(requestError.localizedDescription)" })
+            }
+
+            UMPConsentForm.loadAndPresentIfRequired(from: WindowUtil.getCurrentController()) { formError in
+                if let formError = formError {
+                    logger.i(message: { "Application consent form failed \(formError.localizedDescription)" })
+                }
+                startAdsIfAllowed()
+            }
+        }
+
+        // Returning users with prior consent (and users where consent isn't required) can
+        // start ads immediately, in parallel with the consent info update.
+        startAdsIfAllowed()
+    }
+
+    private func startAdsIfAllowed() {
+        guard UMPConsentInformation.sharedInstance.canRequestAds else {
+            logger.v(message: { "Application ads not started, cannot request ads" })
+            return
+        }
+
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().applicationMuted = true
+        GADMobileAds.sharedInstance().applicationVolume = 0
     }
 
     private func scheduleAppRefresh() {

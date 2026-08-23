@@ -7,10 +7,16 @@
 //
 
 import GoogleMobileAds
+import UserMessagingPlatform
 import Provider
 
 final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
     func show() {
+        guard UMPConsentInformation.sharedInstance.canRequestAds else {
+            logger.v(message: { "InterstitialAd not showed, cannot request ads" })
+            return
+        }
+
         GADInterstitialAd.load(
             withAdUnitID: SecretUtil.getSecret(key: "INTERSTITIAL_AD_ID"),
             request: GADRequest(),
