@@ -2,7 +2,10 @@
 
 kotlin = "2.4.10"
 androidGradlePlugin = "9.3.1"
-jetbrainsCompose = "1.9.0"
+jetbrainsCompose = "1.11.1"
+# Compose Multiplatform pins material3 on its own version line; the plugin's own
+# composeMaterial3Version is still 1.9.0 at Compose 1.11.1.
+jetbrainsComposeMaterial3 = "1.9.0"
 glance = "1.1.1"
 mokkery = "3.4.2"
 activityCompose = "1.13.0"
@@ -71,6 +74,9 @@ android-androidDesugaring = { module = "com.android.tools:desugar_jdk_libs", ver
 android-androidMaterial = { module = "com.google.android.material:material", version.ref = "androidMaterial" }
 android-constraintLayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
 android-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+android-composeMaterial3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "jetbrainsComposeMaterial3" }
+android-composeUiTooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "jetbrainsCompose" }
+android-composeUiToolingPreview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "jetbrainsCompose" }
 android-glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
 android-navigation = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
 
