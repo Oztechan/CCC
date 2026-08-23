@@ -60,13 +60,11 @@ dependencies {
         jvm.apply {
             testImplementation(test)
         }
-        compose.apply {
-            implementation(material3)
-            debugImplementation(uiTooling)
-            implementation(preview)
-        }
         android.apply {
             implementation(activityCompose)
+            implementation(composeMaterial3)
+            debugImplementation(composeUiTooling)
+            implementation(composeUiToolingPreview)
             implementation(androidMaterial)
             implementation(constraintLayout)
             implementation(navigation)
