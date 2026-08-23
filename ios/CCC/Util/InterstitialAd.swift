@@ -9,11 +9,11 @@
 import GoogleMobileAds
 import Provider
 
-final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
+final class InterstitialAdManager: NSObject, FullScreenContentDelegate {
     func show() {
-        GADInterstitialAd.load(
-            withAdUnitID: SecretUtil.getSecret(key: "INTERSTITIAL_AD_ID"),
-            request: GADRequest(),
+        InterstitialAd.load(
+            with: SecretUtil.getSecret(key: "INTERSTITIAL_AD_ID"),
+            request: Request(),
             completionHandler: { interstitialAd, error in
                 if let error = error {
                     let throwable = KotlinThrowable(
@@ -26,7 +26,7 @@ final class InterstitialAd: NSObject, GADFullScreenContentDelegate {
                 if UIApplication.shared.applicationState == .active {
                     interstitialAd?.fullScreenContentDelegate = self
                     interstitialAd?.present(
-                        fromRootViewController: WindowUtil.getCurrentController()
+                        from: WindowUtil.getCurrentController()
                     )
                 } else {
                     logger.v(message: { "InterstitialAd not showed appState is not active" })

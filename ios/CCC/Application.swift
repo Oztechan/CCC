@@ -39,9 +39,9 @@ struct Application: App {
 
         logger.i(message: { "Application init" })
 
-        GADMobileAds.sharedInstance().start(completionHandler: nil)
-        GADMobileAds.sharedInstance().applicationMuted = true
-        GADMobileAds.sharedInstance().applicationVolume = 0
+        MobileAds.shared.start(completionHandler: nil)
+        MobileAds.shared.applicationMuted = true
+        MobileAds.shared.applicationVolume = 0
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
             x: 0,
@@ -104,7 +104,7 @@ struct Application: App {
         logger.i(message: { "Application onEffect \(effect.description)" })
         switch effect {
         case is MainEffect.ShowInterstitialAd:
-            InterstitialAd().show()
+            InterstitialAdManager().show()
         default:
             logger.i(message: { "Application unknown effect" })
         }

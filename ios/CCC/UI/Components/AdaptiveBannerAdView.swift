@@ -14,15 +14,15 @@ import Provider
 struct AdaptiveBannerAdView: UIViewControllerRepresentable {
     private var unitID: String
 
-    private let adSize = GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(
-        UIScreen.main.bounds.size.width
+    private let adSize = currentOrientationAnchoredAdaptiveBanner(
+        width: UIScreen.main.bounds.size.width
     )
 
     init(unitID: String) {
         self.unitID = SecretUtil.getSecret(key: unitID)
     }
 
-    private let bannerView = GADBannerView(adSize: GADAdSizeBanner)
+    private let bannerView = BannerView(adSize: AdSizeBanner)
 
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
@@ -37,7 +37,7 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
         viewController.view.frame = CGRect(origin: .zero, size: adSize.size)
 
         bannerView.adSize = adSize
-        bannerView.load(GADRequest())
+        bannerView.load(Request())
 
         return viewController
     }
@@ -60,8 +60,8 @@ struct AdaptiveBannerAdView: UIViewControllerRepresentable {
         return AdaptiveBannerAdCoordinator()
     }
 
-    class AdaptiveBannerAdCoordinator: NSObject, GADBannerViewDelegate {
-        func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+    class AdaptiveBannerAdCoordinator: NSObject, BannerViewDelegate {
+        func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
             let throwable = KotlinThrowable(
                 message: "InterstitialAd show \(error.localizedDescription)"
             )
