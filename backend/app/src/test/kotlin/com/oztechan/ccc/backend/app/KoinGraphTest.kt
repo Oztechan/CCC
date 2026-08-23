@@ -7,6 +7,7 @@ import com.oztechan.ccc.common.core.database.di.commonCoreDatabaseModule
 import com.oztechan.ccc.common.core.infrastructure.di.commonCoreInfrastructureModule
 import com.oztechan.ccc.common.core.network.di.commonCoreNetworkModule
 import com.oztechan.ccc.common.datasource.conversion.di.commonDataSourceConversionModule
+import io.ktor.client.engine.HttpClientEngine
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 import org.koin.test.verify.verify
@@ -27,6 +28,9 @@ internal class KoinGraphTest {
                 commonCoreInfrastructureModule,
                 commonDataSourceConversionModule
             )
-        }.verify()
+        }.verify(
+            // Ktor picks the HttpClientEngine implicitly at runtime, so it has no Koin binding.
+            extraTypes = listOf(HttpClientEngine::class)
+        )
     }
 }
