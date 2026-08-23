@@ -158,4 +158,11 @@ dependencies {
         implementation(project(mobile))
         implementation(project(widget))
     }
+
+    libs.jvm.apply {
+        testImplementation(test)
+        testImplementation(koinTest)
+        // Brings ktor-client-core so the graph test can name HttpClientEngine for verify's extraTypes.
+        testImplementation(ktor)
+    }
 }
