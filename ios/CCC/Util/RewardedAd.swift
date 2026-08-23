@@ -9,12 +9,12 @@
 import GoogleMobileAds
 import Provider
 
-final class RewardedAd: NSObject, GADFullScreenContentDelegate {
+final class RewardedAdManager: NSObject, FullScreenContentDelegate {
 
     // below variables have to be local otherwise userDidEarnRewardHandler is not called
     let onReward: () -> Void
     let onError: () -> Void
-    private var rewardedAd: GADRewardedAd?
+    private var rewardedAd: RewardedAd?
 
     init(
         onReward: @escaping () -> Void,
@@ -25,9 +25,9 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
     }
 
     func show() {
-        GADRewardedAd.load(
-            withAdUnitID: SecretUtil.getSecret(key: "REWARDED_AD_UNIT_ID"),
-            request: GADRequest(),
+        RewardedAd.load(
+            with: SecretUtil.getSecret(key: "REWARDED_AD_UNIT_ID"),
+            request: Request(),
             completionHandler: {rewardedAd, error in
                 if error != nil {
                     let throwable = KotlinThrowable(
@@ -42,7 +42,7 @@ final class RewardedAd: NSObject, GADFullScreenContentDelegate {
                 self.rewardedAd?.fullScreenContentDelegate = self
 
                 self.rewardedAd?.present(
-                    fromRootViewController: WindowUtil.getCurrentController(),
+                    from: WindowUtil.getCurrentController(),
                     userDidEarnRewardHandler: {
                         logger.v(message: { "RewardedAd userDidEarnReward" })
                         self.onReward()

@@ -34,7 +34,7 @@ struct PremiumRootView: View {
                 message: String(\.txt_premium_text),
                 buttonText: String(\.txt_watch),
                 buttonAction: {
-                    RewardedAd(
+                    RewardedAdManager(
                         onReward: {
                             observable.event.onPremiumActivated(
                                 adType: PremiumType.video,
