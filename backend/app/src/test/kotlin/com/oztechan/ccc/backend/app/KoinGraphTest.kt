@@ -17,16 +17,19 @@ internal class KoinGraphTest {
     @OptIn(KoinExperimentalAPI::class)
     @Test
     fun `backend Koin graph has all dependencies declared`() {
-        module {
-            includes(
-                backendServicePremiumModule,
-                backendControllerSyncModule,
-                backendControllerAPIModule,
-                commonCoreDatabaseModule,
-                commonCoreNetworkModule,
-                commonCoreInfrastructureModule,
-                commonDataSourceConversionModule
-            )
-        }.verify()
+        // DIAGNOSTIC: surface the exact missing type in the CI log, then set extraTypes accordingly.
+        runCatching {
+            module {
+                includes(
+                    backendServicePremiumModule,
+                    backendControllerSyncModule,
+                    backendControllerAPIModule,
+                    commonCoreDatabaseModule,
+                    commonCoreNetworkModule,
+                    commonCoreInfrastructureModule,
+                    commonDataSourceConversionModule
+                )
+            }.verify()
+        }.exceptionOrNull()?.let { error("KOIN_VERIFY_MESSAGE >>> ${it.message}") }
     }
 }
