@@ -1,7 +1,16 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 plugins {
     libs.plugins.apply {
         application
         alias(kotlinJvm)
+    }
+}
+
+tasks.withType<Test> {
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+        events("failed")
     }
 }
 
