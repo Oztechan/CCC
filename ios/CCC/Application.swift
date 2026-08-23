@@ -40,7 +40,7 @@ struct Application: App {
         logger.i(message: { "Application init" })
 
         MobileAds.shared.start(completionHandler: nil)
-        MobileAds.shared.applicationMuted = true
+        MobileAds.shared.isApplicationMuted = true
         MobileAds.shared.applicationVolume = 0
 
         UITableView.appearance().tableHeaderView = UIView(frame: CGRect(
