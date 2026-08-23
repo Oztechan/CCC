@@ -103,6 +103,7 @@ ios-sqlliteDriver = { module = "com.squareup.sqldelight:native-driver", version.
 
 # JVM
 jvm-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+jvm-koinTest = { module = "io.insert-koin:koin-test", version.ref = "koinCore" }
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
 jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }

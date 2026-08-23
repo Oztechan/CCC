@@ -52,6 +52,11 @@ dependencies {
     Modules.Common.DataSource.apply {
         implementation(project(conversion))
     }
+
+    libs.jvm.apply {
+        testImplementation(test)
+        testImplementation(koinTest)
+    }
 }
 
 tasks.withType<Jar> {
