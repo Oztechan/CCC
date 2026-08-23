@@ -6,15 +6,19 @@ import config.key.secret
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        alias(androidLibrary)
+        alias(androidKotlinMultiplatformLibrary)
         alias(buildKonfig)
         alias(serialization)
     }
 }
 
 kotlin {
-    @Suppress("Deprecation")
-    androidTarget()
+    android {
+        namespace = Modules.Common.Core.network.packageName
+        compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+        withHostTest {}
+    }
 
     iosX64()
     iosArm64()
@@ -51,19 +55,6 @@ kotlin {
         }
         jvmMain.dependencies {
             implementation(libs.jvm.ktor)
-        }
-    }
-}
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Common.Core.network.packageName
-        compileSdk = COMPILE_SDK_VERSION
-        defaultConfig.minSdk = MIN_SDK_VERSION
-
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
         }
     }
 }

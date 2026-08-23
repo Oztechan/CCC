@@ -29,7 +29,9 @@ ios/CCC/Resources/Debug/
 ios/fastlane/.env
 ios/fastlane/README.md
 ios/fastlane/report.xml
+/ios/CCC.xcworkspace/xcshareddata/swiftpm/Package.resolved
 xcuserdata
+swiftpm
 
 # Android secrets
 android/app/release.keystore
@@ -42,3 +44,6 @@ android/app/src/release/google-services.json
 android/app/src/release/google-services.json.asc
 android/app/src/release/agconnect-services.json
 android/app/src/release/agconnect-services.json.asc
+
+# AI
+.claude

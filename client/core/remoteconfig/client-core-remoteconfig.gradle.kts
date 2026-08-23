@@ -1,14 +1,19 @@
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        alias(androidLibrary)
+        alias(androidKotlinMultiplatformLibrary)
         alias(serialization)
     }
 }
 
 kotlin {
-    @Suppress("Deprecation")
-    androidTarget()
+    android {
+        namespace = Modules.Client.Core.remoteConfig.packageName
+        compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+        enableCoreLibraryDesugaring = true
+        withHostTest {}
+    }
 
     iosX64()
     iosArm64()
@@ -25,24 +30,14 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.common.test)
         }
+        androidMain.dependencies {
+            libs.android.apply {
+                // Bom is needed for gitlive
+                implementation(project.dependencies.platform(firebaseBom))
+            }
+        }
     }
 }
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.Core.remoteConfig.packageName
-        compileSdk = COMPILE_SDK_VERSION
-        defaultConfig.minSdk = MIN_SDK_VERSION
-
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
-            // needed for gitlive remoteconfig, we have it in app module though
-            isCoreLibraryDesugaringEnabled = true
-        }
-
-        dependencies {
-            coreLibraryDesugaring(libs.android.androidDesugaring)
-        }
-    }
+dependencies {
+    coreLibraryDesugaring(libs.android.androidDesugaring)
 }

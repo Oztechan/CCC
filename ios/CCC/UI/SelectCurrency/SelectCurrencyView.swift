@@ -50,6 +50,10 @@ struct SelectCurrencyView: View {
                     buttonText: state.enoughCurrency ? String(\.update) : String(\.select),
                     onButtonClick: event.onSelectClick
                 ).listRowBackground(\.background)
+
+                if state.isBannerAdVisible {
+                    AdaptiveBannerAdView(unitID: "BANNER_AD_UNIT_ID_SELECT_CURRENCY").adapt()
+                }
             }.navigationBarHidden(true)
         }
     }

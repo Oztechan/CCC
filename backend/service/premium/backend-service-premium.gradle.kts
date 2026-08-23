@@ -16,6 +16,8 @@ dependencies {
         implementation(kermit)
 
         testImplementation(coroutinesTest)
+    }
+    libs.jvm.apply {
         testImplementation(test)
     }
 

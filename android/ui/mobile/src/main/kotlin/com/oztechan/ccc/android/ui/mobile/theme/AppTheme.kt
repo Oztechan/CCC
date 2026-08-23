@@ -1,7 +1,7 @@
 package com.oztechan.ccc.android.ui.mobile.theme
 
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import com.oztechan.ccc.android.ui.mobile.R
 import com.oztechan.ccc.android.ui.mobile.util.toColor
@@ -11,7 +11,7 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     // holo_purple from system used for undiscovered colors
-    val colorScheme = ColorScheme(
+    val colorScheme = lightColorScheme(
         primary = R.color.primary.toColor(),
         onPrimary = R.color.background_strong.toColor(),
         primaryContainer = R.color.background.toColor(),

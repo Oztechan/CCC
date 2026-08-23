@@ -1,0 +1,30 @@
+name: Bundler Update
+
+on:
+  pull_request:
+    paths:
+      - 'ios/Gemfile'
+
+jobs:
+  bundler-update:
+    if: github.actor == 'renovate[bot]'
+    runs-on: macos-26
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GIT_AUTHORIZATION }}
+
+      - name: Update Gemfile.lock
+        working-directory: ios
+        run: bundle update --bundler
+
+      - name: Commit Gemfile.lock
+        run: |
+          git config user.name "Renovate"
+          git config user.email "renovate@oztechan.com"
+          git add ios/Gemfile.lock
+          git diff --cached --quiet || git commit -m "Update Gemfile.lock for Bundler version bump"
+          git push

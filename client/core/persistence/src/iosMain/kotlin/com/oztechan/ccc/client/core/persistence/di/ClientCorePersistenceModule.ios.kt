@@ -9,8 +9,6 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 actual val clientCorePersistenceModule = module {
-    single<Settings> {
-        NSUserDefaultsSettings(get<NativeDependencyWrapper>().userDefaults)
-    }
+    single<Settings> { NSUserDefaultsSettings(get()) }
     singleOf(::PersistenceImpl) { bind<Persistence>() }
 }

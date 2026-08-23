@@ -1,7 +1,16 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 plugins {
     libs.plugins.apply {
         application
         alias(kotlinJvm)
+    }
+}
+
+tasks.withType<Test> {
+    testLogging {
+        exceptionFormat = TestExceptionFormat.FULL
+        events("failed")
     }
 }
 
@@ -15,6 +24,10 @@ application {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(logmob)
+    }
+
     libs.jvm.apply {
         implementation(koinKtor)
     }
@@ -49,7 +62,12 @@ dependencies {
         implementation(project(conversion))
     }
 
-    implementation(Submodules.logmob)
+    libs.jvm.apply {
+        testImplementation(test)
+        testImplementation(koinTest)
+        // Brings ktor-client-core so the graph test can name HttpClientEngine for verify's extraTypes.
+        testImplementation(ktor)
+    }
 }
 
 tasks.withType<Jar> {

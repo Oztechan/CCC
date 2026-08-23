@@ -58,28 +58,38 @@ platform :ios do
     desc "iOS Lanes"
 
         lane :buildRelease do
-            install_certificate_and_profile(match_type: "adhoc")
             add_test_devices
+            install_certificate_and_profile(match_type: "adhoc")
             build_project(
                 match_type: "adhoc",
                 profile: "match AdHoc com.oztechan.ccc",
                 configuration: "Release"
             )
+            upload_symbols_to_crashlytics(
+                app_id: ENV["IOS_RELEASE_FIREBASE_APP_ID"],
+                dsym_path: "../ios/CCC.app.dSYM.zip",
+                binary_path: "../ios/scripts/upload-symbols",
+            )
         end
 
         lane :buildDebug do
-            install_certificate_and_profile(match_type: "adhoc")
             add_test_devices
+            install_certificate_and_profile(match_type: "adhoc")
             build_project(
                 match_type: "adhoc",
                 profile: "match AdHoc com.oztechan.ccc.debug",
                 configuration: "Debug"
             )
+            upload_symbols_to_crashlytics(
+                app_id: ENV["IOS_DEBUG_FIREBASE_APP_ID"],
+                dsym_path: "../ios/CCC_I.app.dSYM.zip",
+                binary_path: "../ios/scripts/upload-symbols",
+            )
         end
 
         lane :store_build do
-            install_certificate_and_profile(match_type: "appstore")
             add_test_devices
+            install_certificate_and_profile(match_type: "appstore")
             build_project(
                 match_type: "appstore",
                 profile: "match AppStore com.oztechan.ccc",
@@ -100,10 +110,6 @@ platform :ios do
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC.ipa"
             )
-            upload_symbols_to_crashlytics(
-                dsym_path: "../ios/CCC.app.dSYM.zip",
-                binary_path: "../ios/scripts/upload-symbols",
-            )
         end
 
         lane :distributeDebug do
@@ -113,10 +119,6 @@ platform :ios do
                 release_notes: changelog_from_git_commits(commits_count: 1),
                 firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
                 ipa_path: "../ios/CCC_I.ipa"
-            )
-            upload_symbols_to_crashlytics(
-                dsym_path: "../ios/CCC_I.app.dSYM.zip",
-                binary_path: "../ios/scripts/upload-symbols",
             )
         end
 
@@ -137,6 +139,7 @@ platform :ios do
                 app_identifier: ["com.oztechan.ccc", "com.oztechan.ccc.debug"],
                 type: options[:match_type],
                 readonly: is_ci,
+                force_for_new_devices: true,
                 git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
                 keychain_name: keychain_name,
                 keychain_password: keychain_password,
@@ -145,10 +148,17 @@ platform :ios do
         end
 
         lane :add_test_devices do
+            api_key = app_store_connect_api_key(
+                key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+                issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+                key_content: ENV["APP_STORE_CONNECT_KEY_CONTENT"],
+                in_house: false,
+            )
             register_devices(
               devices: {
-                "Mustafa’s iPhone SE" => "00008030-001924D622F9402E",
-              }
+                "Mustafa’s iPhone 16e" => "00008140-001A034E0EE9801C",
+              },
+              api_key: api_key
             )
         end
 

@@ -19,6 +19,7 @@ kotlin {
                 export(project(viewModel))
                 export(project(analytics))
                 export(project(shared))
+                export(project(res))
             }
 
             Modules.Client.ViewModel.apply {
@@ -35,6 +36,10 @@ kotlin {
 
     sourceSets {
         iosMain.dependencies {
+            libs.submob.apply {
+                implementation(logmob)
+            }
+
             libs.common.apply {
                 implementation(koinCore)
                 implementation(kermit)
@@ -47,6 +52,7 @@ kotlin {
                 api(project(viewModel))
                 api(project(analytics))
                 api(project(shared))
+                api(project(res))
             }
 
             Modules.Client.ViewModel.apply {
@@ -94,8 +100,6 @@ kotlin {
                 implementation(project(adControl))
                 implementation(project(appConfig))
             }
-
-            implementation(Submodules.logmob)
         }
     }
 }

@@ -10,7 +10,6 @@ import config.key.secret
 plugins {
     libs.plugins.apply {
         alias(androidApplication)
-        alias(kotlinAndroid)
         alias(googleServices)
         alias(firebasePerPlugin)
         alias(firebaseCrashlyticsPlugin)
@@ -81,8 +80,13 @@ android {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(logmob)
+    }
+
     libs.android.apply {
         implementation(koinAndroid)
+        implementation(project.dependencies.platform(firebaseBom))
         implementation(firebasePer)
         debugImplementation(leakCanary)
         coreLibraryDesugaring(androidDesugaring)
@@ -155,7 +159,10 @@ dependencies {
         implementation(project(widget))
     }
 
-    Submodules.apply {
-        implementation(logmob)
+    libs.jvm.apply {
+        testImplementation(test)
+        testImplementation(koinTest)
+        // Brings ktor-client-core so the graph test can name HttpClientEngine for verify's extraTypes.
+        testImplementation(ktor)
     }
 }

@@ -1,13 +1,18 @@
 plugins {
     libs.plugins.apply {
-        alias(androidLibrary)
+        alias(androidKotlinMultiplatformLibrary)
         alias(kotlinMultiplatform)
     }
 }
 
 kotlin {
-    @Suppress("Deprecation")
-    androidTarget()
+    android {
+        namespace = Modules.Client.ConfigService.review.packageName
+        compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+        enableCoreLibraryDesugaring = true
+        withHostTest {}
+    }
 
     iosX64()
     iosArm64()
@@ -27,22 +32,6 @@ kotlin {
         }
     }
 }
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.ConfigService.review.packageName
-        compileSdk = COMPILE_SDK_VERSION
-        defaultConfig.minSdk = MIN_SDK_VERSION
-
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
-            // needed for gitlive remoteconfig, we have it in app module though
-            isCoreLibraryDesugaringEnabled = true
-        }
-
-        dependencies {
-            coreLibraryDesugaring(libs.android.androidDesugaring)
-        }
-    }
+dependencies {
+    coreLibraryDesugaring(libs.android.androidDesugaring)
 }

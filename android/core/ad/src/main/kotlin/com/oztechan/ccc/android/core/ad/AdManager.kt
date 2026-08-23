@@ -11,6 +11,8 @@ interface AdManager {
 
     fun showConsentForm(activity: Activity)
 
+    fun canRequestAds(): Boolean
+
     fun getBannerAd(
         context: Context,
         adId: String,

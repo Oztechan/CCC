@@ -4,7 +4,6 @@ import config.DeviceFlavour.Companion.implementation
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
     }
 }
 
@@ -36,6 +35,10 @@ android {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(scopemob)
+    }
+
     libs.apply {
         common.apply {
             implementation(koinCore)
@@ -49,9 +52,5 @@ dependencies {
                 DeviceFlavour.GOOGLE.implementation(billing)
             }
         }
-    }
-
-    Submodules.apply {
-        implementation(scopemob)
     }
 }

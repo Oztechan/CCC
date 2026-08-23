@@ -1,13 +1,18 @@
 plugins {
     libs.plugins.apply {
         alias(kotlinMultiplatform)
-        alias(androidLibrary)
+        alias(androidKotlinMultiplatformLibrary)
         alias(mokkery)
     }
 }
 kotlin {
-    @Suppress("Deprecation")
-    androidTarget()
+    android {
+        namespace = Modules.Client.ViewModel.calculator.packageName
+        compileSdk = ProjectSettings.COMPILE_SDK_VERSION
+        minSdk = ProjectSettings.MIN_SDK_VERSION
+        enableCoreLibraryDesugaring = true
+        withHostTest {}
+    }
 
     iosX64()
     iosArm64()
@@ -15,6 +20,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            libs.submob.apply {
+                implementation(scopemob)
+                implementation(parsermob)
+            }
+
             libs.common.apply {
                 implementation(koinCore)
                 implementation(coroutines)
@@ -44,10 +54,6 @@ kotlin {
             Modules.Common.DataSource.apply {
                 implementation(project(conversion))
             }
-            Submodules.apply {
-                implementation(scopemob)
-                implementation(parsermob)
-            }
         }
         commonTest.dependencies {
             libs.common.apply {
@@ -60,22 +66,6 @@ kotlin {
         }
     }
 }
-
-android {
-    ProjectSettings.apply {
-        namespace = Modules.Client.ViewModel.calculator.packageName
-        compileSdk = COMPILE_SDK_VERSION
-        defaultConfig.minSdk = MIN_SDK_VERSION
-
-        compileOptions {
-            sourceCompatibility = JAVA_VERSION
-            targetCompatibility = JAVA_VERSION
-            // needed for gitlive remoteconfig, we have it in app module though
-            isCoreLibraryDesugaringEnabled = true
-        }
-
-        dependencies {
-            coreLibraryDesugaring(libs.android.androidDesugaring)
-        }
-    }
+dependencies {
+    coreLibraryDesugaring(libs.android.androidDesugaring)
 }

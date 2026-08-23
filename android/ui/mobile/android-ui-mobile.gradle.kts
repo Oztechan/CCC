@@ -4,7 +4,6 @@ import config.DeviceFlavour.Companion.implementation
 plugins {
     libs.plugins.apply {
         alias(androidLibrary)
-        alias(kotlinAndroid)
         alias(safeArgsKotlin) // todo can be removed once compose migration done
         alias(jetbrainsCompose)
         alias(kotlinPluginCompose)
@@ -48,19 +47,24 @@ android {
 }
 
 dependencies {
+    libs.submob.apply {
+        implementation(scopemob)
+        implementation(basemob)
+    }
+
     libs.apply {
         common.apply {
-            testImplementation(test)
             implementation(navigationCompose)
             implementation(kermit)
         }
-        compose.apply {
-            implementation(material3)
-            debugImplementation(uiTooling)
-            implementation(preview)
+        jvm.apply {
+            testImplementation(test)
         }
         android.apply {
             implementation(activityCompose)
+            implementation(composeMaterial3)
+            debugImplementation(composeUiTooling)
+            implementation(composeUiToolingPreview)
             implementation(androidMaterial)
             implementation(constraintLayout)
             implementation(navigation)
@@ -100,10 +104,5 @@ dependencies {
         implementation(project(selectCurrency))
         implementation(project(watchers))
         implementation(project(premium))
-    }
-
-    Submodules.apply {
-        implementation(scopemob)
-        implementation(basemob)
     }
 }

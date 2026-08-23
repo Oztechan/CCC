@@ -35,6 +35,8 @@ internal class AdManagerImpl : AdManager {
 
     override fun showConsentForm(activity: Activity) = Unit
 
+    override fun canRequestAds() = true
+
     override fun getBannerAd(
         context: Context,
         adId: String,

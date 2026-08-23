@@ -55,13 +55,13 @@ env:
 jobs:
 
   Build:
-    runs-on: macos-15
+    runs-on: macos-26
     outputs:
       status: ${{ steps.status.outputs.status }}
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@4bda8a424485eab2b69d39883a78bcbe599874bb
+        uses: Oztechan/Global/actions/setup-gradle-repo@8610938e630b3ed86127765237fe3647b9fabd4f
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -76,8 +76,15 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      - name: Disable Kotlin incremental native for CI
+        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@4ddf8deebb68c6630773bdff9d83f8566310b703
+
       - name: Build
-        run: ./gradlew build
+        # iOS unit-test binaries transitively link `-framework FirebaseCore` (via GitLive), which is
+        # only available inside an Xcode/SwiftPM build - so linking them in a standalone `./gradlew
+        # build` fails with `ld: framework 'FirebaseCore' not found`. The same logic already runs on
+        # the Android host tests, so skip the native iOS unit-test tasks here.
+        run: ./gradlew build -x iosX64Test -x iosSimulatorArm64Test -x linkDebugTestIosX64 -x linkDebugTestIosSimulatorArm64
 
       - name: Set Job Status
         id: status
@@ -91,7 +98,7 @@ jobs:
 
       - name: Notify slack fail
         if: false == (needs.Build.outputs.status == 'success')
-        uses: voxmedia/github-action-slack-notify-build@v1.6.0
+        uses: voxmedia/github-action-slack-notify-build@v2
         with:
           channel: ccc-github
           status: FAILED
