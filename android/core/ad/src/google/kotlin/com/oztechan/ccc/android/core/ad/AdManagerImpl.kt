@@ -18,11 +18,23 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
-internal class AdManagerImpl(context: Context) : AdManager {
+@Suppress("TooManyFunctions")
+internal class AdManagerImpl(
+    context: Context,
+    private val globalScope: CoroutineScope,
+) : AdManager {
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
+
+    private var consentRetryCount = 0
+    private var consentRetryJob: Job? = null
 
     private val consentInformation: ConsentInformation =
         UserMessagingPlatform.getConsentInformation(context)
@@ -37,6 +49,21 @@ internal class AdManagerImpl(context: Context) : AdManager {
 
     override fun initAds(activity: Activity) {
         Logger.v { "AdManagerImpl initAds" }
+        // Cancel any retry still pending from a previous initAds so it can't fire on a stale
+        // Activity or exceed the per-launch retry budget.
+        consentRetryJob?.cancel()
+        consentRetryCount = 0
+        requestConsentInfoUpdate(activity)
+
+        // Check if you can initialize the Google Mobile Ads SDK in parallel
+        // while checking for new consent information. Consent obtained in
+        // the previous session can be used to request ads.
+        if (consentInformation.canRequestAds()) {
+            activity.initializeMobileAdsSdk()
+        }
+    }
+
+    private fun requestConsentInfoUpdate(activity: Activity) {
         consentInformation.requestConsentInfoUpdate(
             activity,
             ConsentRequestParameters.Builder().build(),
@@ -58,14 +85,25 @@ internal class AdManagerImpl(context: Context) : AdManager {
                 Exception("Consent gathering failed: ${it.errorCode}: ${it.message}").let { exception ->
                     Logger.e(exception) { exception.message.orEmpty() }
                 }
+                // Transient failures (e.g. network) leave canRequestAds() false for the whole
+                // session; retry a bounded number of times so we don't lose ad impressions.
+                retryConsentInfoUpdate(activity)
             }
         )
+    }
 
-        // Check if you can initialize the Google Mobile Ads SDK in parallel
-        // while checking for new consent information. Consent obtained in
-        // the previous session can be used to request ads.
-        if (consentInformation.canRequestAds()) {
-            activity.initializeMobileAdsSdk()
+    private fun retryConsentInfoUpdate(activity: Activity) {
+        if (consentRetryCount >= MAX_CONSENT_RETRY_COUNT) return
+
+        consentRetryCount++
+        Logger.v { "AdManagerImpl retry consent info update #$consentRetryCount" }
+        // Keep a single pending retry: cancel any previous one before scheduling the next.
+        consentRetryJob?.cancel()
+        consentRetryJob = globalScope.launch(Dispatchers.Main) {
+            delay(CONSENT_RETRY_DELAY_MS)
+            if (!activity.isFinishing && !activity.isDestroyed) {
+                requestConsentInfoUpdate(activity)
+            }
         }
     }
 
@@ -209,5 +247,10 @@ internal class AdManagerImpl(context: Context) : AdManager {
         MobileAds.initialize(this)
         MobileAds.setAppVolume(0.0f)
         MobileAds.setAppMuted(true)
+    }
+
+    private companion object {
+        const val MAX_CONSENT_RETRY_COUNT = 3
+        const val CONSENT_RETRY_DELAY_MS = 3000L
     }
 }
