@@ -1,6 +1,6 @@
 [versions]
 
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 androidGradlePlugin = "9.4.0"
 jetbrainsCompose = "1.11.1"
 # Compose Multiplatform pins material3 on its own version line; the plugin's own
