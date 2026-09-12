@@ -1,13 +1,13 @@
 package com.oztechan.ccc.client.datasource.watcher
 
+import app.cash.sqldelight.Query
+import app.cash.sqldelight.db.SqlCursor
+import app.cash.sqldelight.db.SqlDriver
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.Watcher
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
-import app.cash.sqldelight.Query
-import app.cash.sqldelight.db.SqlCursor
-import app.cash.sqldelight.db.SqlDriver
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
