@@ -13,7 +13,7 @@ internal class ConversionDataSourceImpl(
     ioDispatcher: CoroutineDispatcher
 ) : ConversionDataSource, BaseDBDataSource(ioDispatcher) {
 
-    override suspend fun insertConversion(conversion: Conversion) = dbQuery {
+    override suspend fun insertConversion(conversion: Conversion): Unit = dbQuery {
         Logger.v { "ConversionDataSourceImpl insertConversion ${conversion.base}" }
         conversionQueries.insertConversion(conversion.toConversionDBModel())
     }
