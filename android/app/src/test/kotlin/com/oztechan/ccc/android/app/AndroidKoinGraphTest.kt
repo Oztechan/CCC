@@ -1,6 +1,7 @@
 package com.oztechan.ccc.android.app
 
 import android.content.Context
+import app.cash.sqldelight.db.SqlDriver
 import com.oztechan.ccc.android.core.ad.di.androidCoreAdModule
 import com.oztechan.ccc.android.core.billing.di.androidCoreBillingModule
 import com.oztechan.ccc.android.viewmodel.widget.di.androidViewModelWidgetModule
@@ -76,7 +77,11 @@ internal class AndroidKoinGraphTest {
                 // Provided by the private platform module / Ktor at runtime, not by the modules above.
                 Device::class,
                 Context::class,
-                HttpClientEngine::class
+                HttpClientEngine::class,
+                // SQLDelight 2.x generates the *Queries types as final classes taking a SqlDriver.
+                // Koin never constructs them that way - they are read off the database instance -
+                // but verify() still inspects the constructor, so the driver has no binding.
+                SqlDriver::class
             )
         )
     }

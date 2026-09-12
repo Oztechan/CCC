@@ -34,7 +34,7 @@ kotlinXDateTime = "0.8.0-0.6.x-compat"
 coroutines = "1.11.0"
 billing = "7.1.1"
 leakCanary = "2.14"
-sqlDelight = "1.5.5"
+sqlDelight = "2.3.2"
 lifecycle = "2.10.0"
 mokoResources = "0.27.0"
 buildKonfig = "0.22.0"
@@ -61,7 +61,7 @@ common-kotlinXDateTime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", ve
 common-ktorJson = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 common-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 common-coroutinesTest = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
-common-sqlDelightCoroutinesExt = { module = "com.squareup.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+common-sqlDelightCoroutinesExt = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 common-mokoResources = { module = "dev.icerock.moko:resources", version.ref = "mokoResources" }
 common-kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 common-detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detekt" }
@@ -87,7 +87,7 @@ android-firebasePer = { module = "com.google.firebase:firebase-perf" }
 android-lifecycleViewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 android-lifecycleRuntime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
 android-ktor = { module = "io.ktor:ktor-client-android", version.ref = "ktor" }
-android-sqlliteDriver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqlDelight" }
+android-sqlliteDriver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 android-leakCanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 android-splashScreen = { module = "androidx.core:core-splashscreen", version.ref = "splashScreen" }
 android-rootBeer = { module = "com.scottyab:rootbeer-lib", version.ref = "rootBeer" }
@@ -105,14 +105,14 @@ android-huawei-huaweiOsm = { module = "com.huawei.hms:ads-omsdk", version.ref = 
 
 # IOS
 ios-ktor = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
-ios-sqlliteDriver = { module = "com.squareup.sqldelight:native-driver", version.ref = "sqlDelight" }
+ios-sqlliteDriver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
 
 # JVM
 jvm-test = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 jvm-koinTest = { module = "io.insert-koin:koin-test", version.ref = "koinCore" }
 jvm-ktor = { module = "io.ktor:ktor-client-apache", version.ref = "ktor" }
 jvm-koinKtor = { module = "io.insert-koin:koin-ktor", version.ref = "koinKtor" }
-jvm-sqlliteDriver = { module = "com.squareup.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+jvm-sqlliteDriver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
 
 # CLIENT
 client-ktorLogging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
@@ -144,7 +144,7 @@ buildKonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildKonfig"
 firebaseCrashlyticsPlugin = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlyticsPlugin" }
 googleServices = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 firebasePerPlugin = { id = "com.google.firebase.firebase-perf", version.ref = "firebasePerPlugin" }
-sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelight" }
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 mokoResources = { id = "dev.icerock.mobile.multiplatform-resources", version.ref = "mokoResources" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
