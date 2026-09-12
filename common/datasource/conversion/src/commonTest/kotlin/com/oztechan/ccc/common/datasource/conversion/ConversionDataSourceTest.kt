@@ -1,67 +1,76 @@
 package com.oztechan.ccc.common.datasource.conversion
 
-import app.cash.sqldelight.Query
-import app.cash.sqldelight.db.SqlCursor
-import app.cash.sqldelight.db.SqlDriver
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.core.database.sql.ConversionQueries
+import com.oztechan.ccc.common.core.database.sql.CurrencyConverterCalculatorDatabase
 import com.oztechan.ccc.common.datasource.conversion.fakes.Fakes
-import com.oztechan.ccc.common.datasource.conversion.mapper.toConversionDBModel
-import dev.mokkery.MockMode
-import dev.mokkery.answering.returns
-import dev.mokkery.every
-import dev.mokkery.mock
-import dev.mokkery.verify
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 internal class ConversionDataSourceTest {
 
+    private val driver = createTestSqlDriver()
+
     private val subject: ConversionDataSource by lazy {
         @Suppress("OPT_IN_USAGE")
-        ConversionDataSourceImpl(conversionQueries, UnconfinedTestDispatcher())
-    }
-
-    private val conversionQueries = mock<ConversionQueries>(MockMode.autoUnit)
-    private val sqlDriver = mock<SqlDriver>()
-    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
-
-    private val query = Query(-1, emptyArray(), sqlDriver, query = "") {
-        Fakes.conversionModel.toConversionDBModel()
+        ConversionDataSourceImpl(
+            CurrencyConverterCalculatorDatabase(driver).conversionQueries,
+            UnconfinedTestDispatcher()
+        )
     }
 
     @BeforeTest
     fun setup() {
         Logger.setLogWriters(CommonWriter())
+    }
 
-        every { sqlDriver.executeQuery(-1, "", 0, null) }
-            .returns(sqlCursor)
-
-        every { sqlCursor.next() }
-            .returns(false)
+    @AfterTest
+    fun tearDown() {
+        driver.close()
     }
 
     @Test
-    fun insertConversion() {
-        runTest {
-            subject.insertConversion(Fakes.conversionModel)
-        }
+    fun insertConversion() = runTest {
+        subject.insertConversion(Fakes.conversionModel)
 
-        verify { conversionQueries.insertConversion(Fakes.conversionModel.toConversionDBModel()) }
-    }
-
-    @Test
-    fun getConversionByBase() {
-        every { conversionQueries.getConversionByBase(Fakes.conversionModel.base) }
-            .returns(query)
-
-        runTest {
+        assertEquals(
+            Fakes.conversionModel,
             subject.getConversionByBase(Fakes.conversionModel.base)
-        }
+        )
+    }
 
-        verify { conversionQueries.getConversionByBase(Fakes.conversionModel.base) }
+    @Test
+    fun insertConversionReplacesExistingBase() = runTest {
+        subject.insertConversion(Fakes.conversionModel)
+        subject.insertConversion(Fakes.conversionModel.copy(date = "01.01.2023"))
+
+        assertEquals(
+            "01.01.2023",
+            subject.getConversionByBase(Fakes.conversionModel.base)?.date
+        )
+    }
+
+    @Test
+    fun getConversionByBase() = runTest {
+        assertNull(subject.getConversionByBase(Fakes.conversionModel.base))
+
+        subject.insertConversion(Fakes.conversionModel)
+
+        assertEquals(
+            Fakes.conversionModel,
+            subject.getConversionByBase(Fakes.conversionModel.base)
+        )
+    }
+
+    @Test
+    fun getConversionByBaseReturnsNullForUnknownBase() = runTest {
+        subject.insertConversion(Fakes.conversionModel)
+
+        assertNull(subject.getConversionByBase("UNKNOWN"))
     }
 }
