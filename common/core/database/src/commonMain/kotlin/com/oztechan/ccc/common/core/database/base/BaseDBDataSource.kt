@@ -2,9 +2,9 @@ package com.oztechan.ccc.common.core.database.base
 
 import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.error.DatabaseException
-import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
+import app.cash.sqldelight.Query
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch

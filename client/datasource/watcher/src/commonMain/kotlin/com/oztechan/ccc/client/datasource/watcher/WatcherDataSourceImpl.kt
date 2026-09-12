@@ -24,7 +24,7 @@ internal class WatcherDataSourceImpl(
             }
     }
 
-    override suspend fun addWatcher(base: String, target: String) = dbQuery {
+    override suspend fun addWatcher(base: String, target: String): Unit = dbQuery {
         Logger.v { "WatcherDataSourceImpl addWatcher $base $target" }
         watcherQueries.addWatcher(base, target)
     }
@@ -36,27 +36,27 @@ internal class WatcherDataSourceImpl(
             .map { it.toWatcherModel() }
     }
 
-    override suspend fun deleteWatcher(id: Long) = dbQuery {
+    override suspend fun deleteWatcher(id: Long): Unit = dbQuery {
         Logger.v { "WatcherDataSourceImpl deleteWatcher $id" }
         watcherQueries.deleteWatcher(id)
     }
 
-    override suspend fun updateWatcherBaseById(base: String, id: Long) = dbQuery {
+    override suspend fun updateWatcherBaseById(base: String, id: Long): Unit = dbQuery {
         Logger.v { "WatcherDataSourceImpl updateWatcherBaseById $base $id" }
         watcherQueries.updateWatcherBaseById(base, id)
     }
 
-    override suspend fun updateWatcherTargetById(target: String, id: Long) = dbQuery {
+    override suspend fun updateWatcherTargetById(target: String, id: Long): Unit = dbQuery {
         Logger.v { "WatcherDataSourceImpl updateWatcherTargetById $target $id" }
         watcherQueries.updateWatcherTargetById(target, id)
     }
 
-    override suspend fun updateWatcherRelationById(isGreater: Boolean, id: Long) = dbQuery {
+    override suspend fun updateWatcherRelationById(isGreater: Boolean, id: Long): Unit = dbQuery {
         Logger.v { "WatcherDataSourceImpl updateWatcherRelationById $isGreater $id" }
         watcherQueries.updateWatcherRelationById(isGreater.toLong(), id)
     }
 
-    override suspend fun updateWatcherRateById(rate: Double, id: Long) = dbQuery {
+    override suspend fun updateWatcherRateById(rate: Double, id: Long): Unit = dbQuery {
         Logger.v { "WatcherDataSourceImpl updateWatcherRateById $rate $id" }
         watcherQueries.updateWatcherRateById(rate, id)
     }

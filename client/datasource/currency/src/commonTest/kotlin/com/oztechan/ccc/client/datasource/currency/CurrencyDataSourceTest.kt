@@ -5,9 +5,9 @@ import co.touchlab.kermit.Logger
 import com.oztechan.ccc.common.core.database.mapper.toLong
 import com.oztechan.ccc.common.core.database.sql.Currency
 import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
-import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.db.SqlCursor
-import com.squareup.sqldelight.db.SqlDriver
+import app.cash.sqldelight.Query
+import app.cash.sqldelight.db.SqlCursor
+import app.cash.sqldelight.db.SqlDriver
 import dev.mokkery.MockMode
 import dev.mokkery.answering.returns
 import dev.mokkery.every
@@ -31,7 +31,7 @@ internal class CurrencyDataSourceTest {
     private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
 
     private val currency = Currency("EUR", "", "", 0.0, 0L)
-    private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
+    private val query = Query(-1, emptyArray(), sqlDriver, query = "") {
         currency
     }
 
