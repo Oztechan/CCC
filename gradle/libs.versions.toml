@@ -49,7 +49,7 @@ gitlive = "2.7.0"
 logmob = "3.0-SNAPSHOT"
 scopemob = "3.0-SNAPSHOT"
 basemob = "3.0.0"
-parsermob = "2.0-SNAPSHOT"
+parsermob = "2.0.0"
 
 [libraries]
 # COMMON
