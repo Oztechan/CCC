@@ -47,7 +47,7 @@ konsist = "0.17.3"
 gitlive = "2.7.0"
 # SubMob shared libraries (bumped by Renovate; -SNAPSHOT until first master release)
 logmob = "3.0.0"
-scopemob = "3.0-SNAPSHOT"
+scopemob = "3.0.0"
 basemob = "3.0.0"
 parsermob = "2.0.0"
 
