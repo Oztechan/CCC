@@ -1,5 +1,6 @@
 package com.oztechan.ccc.backend.app
 
+import app.cash.sqldelight.db.SqlDriver
 import com.oztechan.ccc.backend.controller.api.di.backendControllerAPIModule
 import com.oztechan.ccc.backend.controller.sync.di.backendControllerSyncModule
 import com.oztechan.ccc.backend.service.premium.di.backendServicePremiumModule
@@ -29,8 +30,14 @@ internal class KoinGraphTest {
                 commonDataSourceConversionModule
             )
         }.verify(
-            // Ktor picks the HttpClientEngine implicitly at runtime, so it has no Koin binding.
-            extraTypes = listOf(HttpClientEngine::class)
+            extraTypes = listOf(
+                // Ktor picks the HttpClientEngine implicitly at runtime, so it has no Koin binding.
+                HttpClientEngine::class,
+                // SQLDelight 2.x generates the *Queries types as final classes taking a SqlDriver.
+                // Koin never constructs them that way - they are read off the database instance -
+                // but verify() still inspects the constructor, so the driver has no binding.
+                SqlDriver::class
+            )
         )
     }
 }
