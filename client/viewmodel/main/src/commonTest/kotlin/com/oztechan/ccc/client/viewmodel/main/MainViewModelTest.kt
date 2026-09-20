@@ -240,6 +240,43 @@ internal class MainViewModelTest {
     }
 
     @Test
+    fun `onAppForeground twice cancels the previous interstitial timer`() = runTest {
+        every { reviewConfigService.config }
+            .returns(ReviewConfig(0, 0L))
+
+        every { adConfigService.config }
+            .returns(AdConfig(0, 0, 0L, 0L))
+
+        every { appStorage.sessionCount }
+            .returns(Random.nextLong())
+
+        every { appConfigRepository.checkAppUpdate(false) }
+            .returns(null)
+
+        every { adControlRepository.shouldShowInterstitialAd() }
+            .returns(true)
+
+        every { appConfigRepository.shouldShowAppReview() }
+            .returns(false)
+
+        every { appStorage.premiumEndDate }
+            .returns(nowAsLong() - 1.seconds.inWholeMilliseconds)
+
+        with(viewModel) {
+            event.onAppForeground()
+            val previousJob = data.adJob
+            assertTrue { previousJob.isActive }
+
+            event.onAppForeground()
+
+            assertTrue { previousJob.isCancelled }
+            assertTrue { data.adJob.isActive }
+
+            data.adJob.cancel()
+        }
+    }
+
+    @Test
     fun `onAppForeground checkAppUpdate nothing happens when check update returns null`() =
         with(viewModel) {
             val mockSessionCount = Random.nextLong()
