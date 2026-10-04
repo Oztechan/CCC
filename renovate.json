@@ -44,6 +44,12 @@
       "matchPackageNames": [
         "/^io.insert-koin/"
       ]
+    },
+    {
+      "groupName": "submob",
+      "matchPackageNames": [
+        "/^com.github.submob:/"
+      ]
     }
   ]
 }
