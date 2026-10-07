@@ -2,118 +2,109 @@ package com.oztechan.ccc.client.datasource.currency
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.core.database.mapper.toLong
-import com.oztechan.ccc.common.core.database.sql.Currency
-import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
-import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.db.SqlCursor
-import com.squareup.sqldelight.db.SqlDriver
-import dev.mokkery.MockMode
-import dev.mokkery.answering.returns
-import dev.mokkery.every
-import dev.mokkery.mock
-import dev.mokkery.verify
+import com.oztechan.ccc.common.core.database.sql.CurrencyConverterCalculatorDatabase
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlin.random.Random
+import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 internal class CurrencyDataSourceTest {
 
+    private val driver = createTestSqlDriver()
+
     private val subject: CurrencyDataSource by lazy {
         @Suppress("OPT_IN_USAGE")
-        CurrencyDataSourceImpl(currencyQueries, UnconfinedTestDispatcher())
-    }
-
-    private val currencyQueries = mock<CurrencyQueries>(MockMode.autoUnit)
-    private val sqlDriver = mock<SqlDriver>()
-    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
-
-    private val currency = Currency("EUR", "", "", 0.0, 0L)
-    private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        currency
+        CurrencyDataSourceImpl(
+            CurrencyConverterCalculatorDatabase(driver).currencyQueries,
+            UnconfinedTestDispatcher()
+        )
     }
 
     @BeforeTest
     fun setup() {
         Logger.setLogWriters(CommonWriter())
+    }
 
-        every { sqlDriver.executeQuery(-1, "", 0, null) }
-            .returns(sqlCursor)
-
-        every { sqlCursor.next() }
-            .returns(false)
+    @AfterTest
+    fun tearDown() {
+        driver.close()
     }
 
     @Test
-    fun getCurrenciesFlow() {
-        every { currencyQueries.getCurrencies() }
-            .returns(query)
+    fun getCurrenciesFlow() = runTest {
+        val currencies = subject.getCurrenciesFlow().first()
 
-        runTest {
-            subject.getCurrenciesFlow()
-        }
-
-        verify { currencyQueries.getCurrencies() }
+        assertTrue { currencies.isNotEmpty() }
+        assertEquals(currencies.sortedBy { it.code }, currencies)
     }
 
     @Test
-    fun getActiveCurrenciesFlow() {
-        every { currencyQueries.getActiveCurrencies() }
-            .returns(query)
+    fun getActiveCurrenciesFlow() = runTest {
+        assertTrue { subject.getActiveCurrenciesFlow().first().isEmpty() }
 
-        runTest {
-            subject.getActiveCurrenciesFlow()
-        }
+        subject.updateCurrencyStateByCode(EUR, true)
 
-        verify { currencyQueries.getActiveCurrencies() }
+        assertEquals(
+            listOf(EUR),
+            subject.getActiveCurrenciesFlow().first().map { it.code }
+        )
     }
 
     @Test
-    fun getActiveCurrencies() {
-        every { currencyQueries.getActiveCurrencies() }
-            .returns(query)
+    fun getActiveCurrencies() = runTest {
+        assertTrue { subject.getActiveCurrencies().isEmpty() }
 
-        runTest {
-            subject.getActiveCurrencies()
-        }
+        subject.updateCurrencyStateByCode(EUR, true)
 
-        verify { currencyQueries.getActiveCurrencies() }
+        assertEquals(listOf(EUR), subject.getActiveCurrencies().map { it.code })
     }
 
     @Test
-    fun updateCurrencyStateByCode() {
-        val mockCode = "mock"
-        val mockState = Random.nextBoolean()
+    fun updateCurrencyStateByCode() = runTest {
+        subject.updateCurrencyStateByCode(EUR, true)
 
-        runTest {
-            subject.updateCurrencyStateByCode(mockCode, mockState)
-        }
+        assertTrue { subject.getCurrencyByCode(EUR)?.isActive == true }
 
-        verify { currencyQueries.updateCurrencyStateByCode(mockState.toLong(), mockCode) }
+        subject.updateCurrencyStateByCode(EUR, false)
+
+        assertFalse { subject.getCurrencyByCode(EUR)?.isActive == true }
     }
 
     @Test
-    fun updateCurrencyStates() {
-        val mockState = Random.nextBoolean()
+    fun updateCurrencyStates() = runTest {
+        subject.updateCurrencyStates(true)
 
-        runTest {
-            subject.updateCurrencyStates(mockState)
-        }
+        assertEquals(
+            subject.getCurrenciesFlow().first().size,
+            subject.getActiveCurrencies().size
+        )
 
-        verify { currencyQueries.updateCurrencyStates(mockState.toLong()) }
+        subject.updateCurrencyStates(false)
+
+        assertTrue { subject.getActiveCurrencies().isEmpty() }
     }
 
     @Test
-    fun getCurrencyByCode() {
-        every { currencyQueries.getCurrencyByCode(currency.code) }
-            .returns(query)
+    fun getCurrencyByCode() = runTest {
+        val currency = subject.getCurrencyByCode(EUR)
 
-        runTest {
-            subject.getCurrencyByCode(currency.code)
-        }
+        assertEquals(EUR, currency?.code)
+        assertEquals("Euro", currency?.name)
+        assertFalse { currency?.isActive == true }
+    }
 
-        verify { currencyQueries.getCurrencyByCode(currency.code) }
+    @Test
+    fun getCurrencyByCodeReturnsNullForUnknownCode() = runTest {
+        assertNull(subject.getCurrencyByCode("UNKNOWN"))
+    }
+
+    companion object {
+        private const val EUR = "EUR"
     }
 }

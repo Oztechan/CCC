@@ -49,9 +49,11 @@ kotlin {
 }
 
 sqldelight {
-    database("CurrencyConverterCalculatorDatabase") {
-        packageName = "${Modules.Common.Core.database.packageName}.sql"
-        sourceFolders = listOf("sql")
-        linkSqlite = true
+    linkSqlite.set(true)
+    databases {
+        create("CurrencyConverterCalculatorDatabase") {
+            packageName.set("${Modules.Common.Core.database.packageName}.sql")
+            srcDirs.setFrom("src/commonMain/sql")
+        }
     }
 }
