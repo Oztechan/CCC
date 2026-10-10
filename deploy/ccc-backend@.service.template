@@ -1,0 +1,68 @@
+[Unit]
+# Templated unit: one file, one instance per environment.
+#   systemctl start ccc-backend@prod
+#   systemctl start ccc-backend@test
+# %i expands to the instance name, so each environment gets its own working
+# directory (and therefore its own SQLite file) and its own settings.
+Description=CCC Backend (Ktor) — %i
+Documentation=https://github.com/Oztechan/CCC
+After=network-online.target
+Wants=network-online.target
+# Never give up restarting, even after repeated rapid failures.
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=__USER__
+Group=__GROUP__
+
+# The SQLite file (application_database.sqlite.db) is created relative to the
+# working directory, so each instance needs its own. Two instances sharing one
+# directory would share and corrupt a single database.
+WorkingDirectory=__APP_ROOT__/%i
+
+# Per-instance runtime settings: SERVER_HOST, SERVER_PORT, SYNC_ENABLED and
+# JVM_OPTS. Written by setup-server.sh.
+#
+# Note that EnvironmentFile values reach the *process*, not the unit config —
+# systemd only expands ${VAR} in ExecStart, never in directives like MemoryMax.
+# Per-instance cgroup limits therefore live in a drop-in instead, at
+# /etc/systemd/system/ccc-backend@<instance>.service.d/memory.conf.
+EnvironmentFile=__CONFIG_ROOT__/%i.env
+
+# $JVM_OPTS is intentionally unquoted so systemd splits it into separate
+# arguments. It carries the per-instance sizing from the env file.
+ExecStart=/usr/bin/java $JVM_OPTS -jar __APP_ROOT__/%i/__JAR_NAME__
+
+# Conservative defaults. Each instance overrides these in its drop-in:
+# prod gets more headroom and is pinned out of swap, test gets less and is
+# allowed to page out. See deploy/README.md.
+#
+# Deliberately no MemoryHigh. It throttles the cgroup and forces reclaim, but a
+# JVM's footprint is almost entirely anonymous pages. Under sustained reclaim
+# pressure the service would stall instead of failing cleanly and restarting.
+MemoryAccounting=yes
+MemoryMax=512M
+MemorySwapMax=0
+
+Restart=always
+RestartSec=10
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ccc-backend-%i
+
+# Hardening. The service only needs to read its jar and write its SQLite file.
+# ProtectHome is resolved by setup-server.sh: it has to be off when the deploy
+# directory itself lives under /home or /root, or the unit cannot see its jar.
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=__PROTECT_HOME__
+ProtectKernelTunables=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+ReadWritePaths=__APP_ROOT__/%i
+
+[Install]
+WantedBy=multi-user.target
