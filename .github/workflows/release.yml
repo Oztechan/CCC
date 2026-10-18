@@ -230,9 +230,16 @@ jobs:
           IOS_XCCONFIG_ASC_DEBUG: ${{ secrets.IOS_XCCONFIG_ASC_DEBUG }}
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1.329.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: ios
+
       - name: StoreBuild
         working-directory: ios
-        run: fastlane store_build
+        run: bundle exec fastlane store_build
 
       - name: Set Job Status
         id: status

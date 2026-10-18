@@ -174,9 +174,16 @@ jobs:
       - name: Disable Kotlin incremental native for CI
         uses: Oztechan/Global/actions/disable-kotlin-incremental-native@4ddf8deebb68c6630773bdff9d83f8566310b703
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1.329.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: ios
+
       - name: Build ${{ env.BUILD_TYPE }}
         working-directory: ios
-        run: fastlane build${{ env.BUILD_TYPE }}
+        run: bundle exec fastlane build${{ env.BUILD_TYPE }}
 
       - name: Upload iOS Debug Artifacts
         uses: actions/upload-artifact@v7.0.2
@@ -220,12 +227,16 @@ jobs:
           name: iOSArtifacts
           path: ios
 
-      # was necessary to use chown to fix permission issues in linux machines
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@651ff0d62c5c79bed6d53ec518387aae20e72c1a # v1.329.0
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+          working-directory: ios
+
       - name: Distribute ${{ env.BUILD_TYPE }}
         working-directory: ios
-        run: |
-          sudo chown -R $(whoami) /var/lib/gems/
-          fastlane distribute${{ env.BUILD_TYPE }}
+        run: bundle exec fastlane distribute${{ env.BUILD_TYPE }}
 
       - name: Delete iOS ${{ env.BUILD_TYPE }} Artifacts
         uses: geekyeggo/delete-artifact@v6.0.0
