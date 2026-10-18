@@ -46,10 +46,10 @@ kermit = "2.2.0"
 konsist = "0.18.1"
 gitlive = "2.7.0"
 # SubMob shared libraries (bumped by Renovate; -SNAPSHOT until first master release)
-logmob = "3.0.2"
-scopemob = "3.0.4"
-basemob = "3.0.1"
-parsermob = "2.0.4"
+logmob = "3.0.3"
+scopemob = "3.0.5"
+basemob = "3.0.2"
+parsermob = "2.0.5"
 
 [libraries]
 # COMMON
