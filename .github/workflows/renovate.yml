@@ -9,6 +9,6 @@ on:
 
 jobs:
   RenovateAutoApprove:
-    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@18fc0629166fe375fa58931efcd330328441875b
+    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@09a1cacca416ed947cc45dece674196d3c8d75de
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
