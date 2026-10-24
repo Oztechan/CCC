@@ -34,6 +34,19 @@
   ],
   "packageRules": [
     {
+      "description": "Below a major bump, CI is the gate. SubMob is excluded: every merge there publishes an immutable release.",
+      "matchRepositories": [
+        "Oztechan/**"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest",
+        "lockFileMaintenance"
+      ],
+      "automerge": true
+    },
+    {
       "groupName": "kotlin",
       "matchPackageNames": [
         "/^org.jetbrains.kotlin.$/"
