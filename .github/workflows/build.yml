@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@19d4d7713de335e8b28a6ac395d45abb9ac4044e # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@1597c89cc5fc58e16949ad56be1e3bd8ca295e86 # develop
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -77,7 +77,7 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Disable Kotlin incremental native for CI
-        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@19d4d7713de335e8b28a6ac395d45abb9ac4044e # develop
+        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@1597c89cc5fc58e16949ad56be1e3bd8ca295e86 # develop
 
       - name: Build
         # iOS unit-test binaries transitively link `-framework FirebaseCore` (via GitLive), which is
