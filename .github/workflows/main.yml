@@ -356,3 +356,15 @@ jobs:
           channel: ccc-github
           status: FAILED
           color: danger
+
+  # Auto-approve Renovate PRs once CI passes — the needs edge is the "all green" gate; the shared
+  # reusable does the code-owner approval. Replaces the old standalone renovate.yml.
+  RenovateAutoApprove:
+    needs: [ GradleBuild, XCodeBuild, Test, Coverage, CodeAnalysis ]
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.event.pull_request.user.login == 'renovate[bot]' &&
+      !contains(github.head_ref, 'major')
+    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@9db02fc2a2698f139227fcd9bc7797f52632384e
+    secrets:
+      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
