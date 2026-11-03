@@ -365,6 +365,6 @@ jobs:
       github.event_name == 'pull_request' &&
       github.event.pull_request.user.login == 'renovate[bot]' &&
       !contains(github.head_ref, 'major')
-    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@9db02fc2a2698f139227fcd9bc7797f52632384e
+    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@bd0bde4c7b7997d28bf6f29778b0f2f46cd5133f
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
