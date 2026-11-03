@@ -48,8 +48,8 @@ gitlive = "2.7.0"
 # SubMob shared libraries (bumped by Renovate; -SNAPSHOT until first master release)
 logmob = "3.0.10"
 scopemob = "3.0.9"
-basemob = "3.0.10"
-parsermob = "2.0.8"
+basemob = "3.0.11"
+parsermob = "2.0.9"
 
 [libraries]
 # COMMON
