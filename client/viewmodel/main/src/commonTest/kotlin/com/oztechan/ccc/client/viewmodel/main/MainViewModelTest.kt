@@ -67,6 +67,7 @@ internal class MainViewModelTest {
     private val analyticsManager = mock<AnalyticsManager>(MockMode.autoUnit)
 
     private val appThemeValue = Random.nextInt()
+    private val premiumEndDate = nowAsLong()
     private val mockDevice = Device.IOS
     private val isFirstRun: Boolean = Random.nextBoolean()
     private val sessionCount = 1L
@@ -82,7 +83,7 @@ internal class MainViewModelTest {
             .returns(appThemeValue)
 
         every { appStorage.premiumEndDate }
-            .returns(nowAsLong())
+            .returns(premiumEndDate)
 
         every { appStorage.sessionCount }
             .returns(sessionCount)
@@ -105,7 +106,7 @@ internal class MainViewModelTest {
         verify {
             analyticsManager.setUserProperty(
                 UserProperty.IsPremium(
-                    appStorage.premiumEndDate.isNotPassed().toString()
+                    premiumEndDate.isNotPassed().toString()
                 )
             )
         }
@@ -116,7 +117,7 @@ internal class MainViewModelTest {
         verify {
             analyticsManager.setUserProperty(
                 UserProperty.AppTheme(
-                    AppTheme.getAnalyticsThemeName(appStorage.appTheme, mockDevice)
+                    AppTheme.getAnalyticsThemeName(appThemeValue, mockDevice)
                 )
             )
         }
