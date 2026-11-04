@@ -1,119 +1,105 @@
 package com.oztechan.ccc.client.datasource.currency
 
+import app.cash.sqldelight.db.QueryResult
+import app.cash.sqldelight.db.SqlCursor
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlPreparedStatement
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.core.database.mapper.toLong
-import com.oztechan.ccc.common.core.database.sql.Currency
 import com.oztechan.ccc.common.core.database.sql.CurrencyQueries
-import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.db.SqlCursor
-import com.squareup.sqldelight.db.SqlDriver
 import dev.mokkery.MockMode
+import dev.mokkery.answering.calls
 import dev.mokkery.answering.returns
 import dev.mokkery.every
+import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.verify
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 internal class CurrencyDataSourceTest {
 
+    private val sqlDriver = mock<SqlDriver>(MockMode.autoUnit)
+    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
+    private val statement = mock<SqlPreparedStatement>(MockMode.autoUnit)
+
+    private val executedSql = mutableListOf<String>()
+
     private val subject: CurrencyDataSource by lazy {
         @Suppress("OPT_IN_USAGE")
-        CurrencyDataSourceImpl(currencyQueries, UnconfinedTestDispatcher())
-    }
-
-    private val currencyQueries = mock<CurrencyQueries>(MockMode.autoUnit)
-    private val sqlDriver = mock<SqlDriver>()
-    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
-
-    private val currency = Currency("EUR", "", "", 0.0, 0L)
-    private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        currency
+        CurrencyDataSourceImpl(CurrencyQueries(sqlDriver), UnconfinedTestDispatcher())
     }
 
     @BeforeTest
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
-        every { sqlDriver.executeQuery(-1, "", 0, null) }
-            .returns(sqlCursor)
+        every { sqlDriver.currentTransaction() } returns null
+        every { sqlCursor.next() } returns QueryResult.Value(false)
 
-        every { sqlCursor.next() }
-            .returns(false)
+        every { sqlDriver.execute(any(), any(), any(), any()) } calls { args ->
+            executedSql += args.arg<String>(1)
+            args.arg<(SqlPreparedStatement.() -> Unit)?>(3)?.invoke(statement)
+            QueryResult.Value(1L)
+        }
+        every { sqlDriver.executeQuery<Any?>(any(), any(), any(), any(), any()) } calls { args ->
+            executedSql += args.arg<String>(1)
+            args.arg<(SqlPreparedStatement.() -> Unit)?>(4)?.invoke(statement)
+            args.arg<(SqlCursor) -> QueryResult<Any?>>(2).invoke(sqlCursor)
+        }
     }
 
     @Test
-    fun getCurrenciesFlow() {
-        every { currencyQueries.getCurrencies() }
-            .returns(query)
+    fun getCurrenciesFlow() = runTest {
+        subject.getCurrenciesFlow().first()
 
-        runTest {
-            subject.getCurrenciesFlow()
-        }
-
-        verify { currencyQueries.getCurrencies() }
+        assertTrue { executedSql.single().contains("FROM Currency") }
     }
 
     @Test
-    fun getActiveCurrenciesFlow() {
-        every { currencyQueries.getActiveCurrencies() }
-            .returns(query)
+    fun getActiveCurrenciesFlow() = runTest {
+        subject.getActiveCurrenciesFlow().first()
 
-        runTest {
-            subject.getActiveCurrenciesFlow()
-        }
-
-        verify { currencyQueries.getActiveCurrencies() }
+        assertTrue { executedSql.single().contains("FROM Currency WHERE isActive=1") }
     }
 
     @Test
-    fun getActiveCurrencies() {
-        every { currencyQueries.getActiveCurrencies() }
-            .returns(query)
+    fun getActiveCurrencies() = runTest {
+        assertTrue { subject.getActiveCurrencies().isEmpty() }
 
-        runTest {
-            subject.getActiveCurrencies()
-        }
-
-        verify { currencyQueries.getActiveCurrencies() }
+        assertTrue { executedSql.single().contains("FROM Currency WHERE isActive=1") }
     }
 
     @Test
-    fun updateCurrencyStateByCode() {
-        val mockCode = "mock"
-        val mockState = Random.nextBoolean()
+    fun updateCurrencyStateByCode() = runTest {
+        subject.updateCurrencyStateByCode(EUR, true)
 
-        runTest {
-            subject.updateCurrencyStateByCode(mockCode, mockState)
-        }
-
-        verify { currencyQueries.updateCurrencyStateByCode(mockState.toLong(), mockCode) }
+        assertTrue { executedSql.single().contains("UPDATE Currency SET isActive=? WHERE code=?") }
+        verify { statement.bindLong(0, 1L) }
+        verify { statement.bindString(1, EUR) }
     }
 
     @Test
-    fun updateCurrencyStates() {
-        val mockState = Random.nextBoolean()
+    fun updateCurrencyStates() = runTest {
+        subject.updateCurrencyStates(false)
 
-        runTest {
-            subject.updateCurrencyStates(mockState)
-        }
-
-        verify { currencyQueries.updateCurrencyStates(mockState.toLong()) }
+        assertTrue { executedSql.single().contains("UPDATE Currency SET isActive=?") }
+        verify { statement.bindLong(0, 0L) }
     }
 
     @Test
-    fun getCurrencyByCode() {
-        every { currencyQueries.getCurrencyByCode(currency.code) }
-            .returns(query)
+    fun getCurrencyByCode() = runTest {
+        subject.getCurrencyByCode(EUR)
 
-        runTest {
-            subject.getCurrencyByCode(currency.code)
-        }
+        assertTrue { executedSql.single().contains("FROM Currency WHERE code=?") }
+        verify { statement.bindString(0, EUR) }
+    }
 
-        verify { currencyQueries.getCurrencyByCode(currency.code) }
+    companion object {
+        private const val EUR = "EUR"
     }
 }

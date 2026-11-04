@@ -42,12 +42,12 @@ internal class CurrencyDataSourceImpl(
             .map { it.toCurrencyModel() }
     }
 
-    override suspend fun updateCurrencyStateByCode(code: String, isActive: Boolean) = dbQuery {
+    override suspend fun updateCurrencyStateByCode(code: String, isActive: Boolean): Unit = dbQuery {
         Logger.v { "CurrencyDataSourceImpl updateCurrencyStateByCode $code $isActive" }
         currencyQueries.updateCurrencyStateByCode(isActive.toLong(), code)
     }
 
-    override suspend fun updateCurrencyStates(value: Boolean) = dbQuery {
+    override suspend fun updateCurrencyStates(value: Boolean): Unit = dbQuery {
         Logger.v { "CurrencyDataSourceImpl updateCurrencyStates $value" }
         currencyQueries.updateCurrencyStates(value.toLong())
     }

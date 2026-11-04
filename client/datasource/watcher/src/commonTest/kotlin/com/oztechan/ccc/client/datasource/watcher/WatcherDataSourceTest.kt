@@ -1,116 +1,129 @@
 package com.oztechan.ccc.client.datasource.watcher
 
+import app.cash.sqldelight.db.QueryResult
+import app.cash.sqldelight.db.SqlCursor
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlPreparedStatement
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.oztechan.ccc.common.core.database.mapper.toLong
-import com.oztechan.ccc.common.core.database.sql.Watcher
 import com.oztechan.ccc.common.core.database.sql.WatcherQueries
-import com.squareup.sqldelight.Query
-import com.squareup.sqldelight.db.SqlCursor
-import com.squareup.sqldelight.db.SqlDriver
 import dev.mokkery.MockMode
+import dev.mokkery.answering.calls
 import dev.mokkery.answering.returns
 import dev.mokkery.every
+import dev.mokkery.matcher.any
 import dev.mokkery.mock
 import dev.mokkery.verify
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlin.random.Random
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 internal class WatcherDataSourceTest {
 
+    private val sqlDriver = mock<SqlDriver>(MockMode.autoUnit)
+    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
+    private val statement = mock<SqlPreparedStatement>(MockMode.autoUnit)
+
+    private val executedSql = mutableListOf<String>()
+
     private val subject: WatcherDataSource by lazy {
         @Suppress("OPT_IN_USAGE")
-        WatcherDataSourceImpl(watcherQueries, UnconfinedTestDispatcher())
-    }
-
-    private val watcherQueries = mock<WatcherQueries>(MockMode.autoUnit)
-    private val sqlDriver = mock<SqlDriver>()
-    private val sqlCursor = mock<SqlCursor>(MockMode.autoUnit)
-
-    private val base = "EUR"
-    private val target = "USD"
-    private val id = 12L
-
-    private val query = Query(-1, mutableListOf(), sqlDriver, query = "") {
-        Watcher(id, base, target, 1L, 0.0)
+        WatcherDataSourceImpl(WatcherQueries(sqlDriver), UnconfinedTestDispatcher())
     }
 
     @BeforeTest
     fun setup() {
         Logger.setLogWriters(CommonWriter())
 
-        every { sqlDriver.executeQuery(-1, "", 0, null) }
-            .returns(sqlCursor)
+        every { sqlDriver.currentTransaction() } returns null
+        every { sqlCursor.next() } returns QueryResult.Value(false)
 
-        every { sqlCursor.next() }
-            .returns(false)
+        every { sqlDriver.execute(any(), any(), any(), any()) } calls { args ->
+            executedSql += args.arg<String>(1)
+            args.arg<(SqlPreparedStatement.() -> Unit)?>(3)?.invoke(statement)
+            QueryResult.Value(1L)
+        }
+        every { sqlDriver.executeQuery<Any?>(any(), any(), any(), any(), any()) } calls { args ->
+            executedSql += args.arg<String>(1)
+            args.arg<(SqlPreparedStatement.() -> Unit)?>(4)?.invoke(statement)
+            args.arg<(SqlCursor) -> QueryResult<Any?>>(2).invoke(sqlCursor)
+        }
     }
 
     @Test
     fun getWatchersFlow() = runTest {
-        every { watcherQueries.getWatchers() }
-            .returns(query)
+        subject.getWatchersFlow().first()
 
-        subject.getWatchersFlow()
-
-        verify { watcherQueries.getWatchers() }
+        assertTrue { executedSql.single().contains("FROM Watcher") }
     }
 
     @Test
     fun addWatcher() = runTest {
-        subject.addWatcher(base, target)
+        subject.addWatcher(BASE, TARGET)
 
-        verify { watcherQueries.addWatcher(base, target) }
+        assertTrue { executedSql.single().contains("INSERT OR REPLACE INTO Watcher") }
+        verify { statement.bindString(0, BASE) }
+        verify { statement.bindString(1, TARGET) }
     }
 
     @Test
     fun getWatchers() = runTest {
-        every { watcherQueries.getWatchers() }
-            .returns(query)
+        assertTrue { subject.getWatchers().isEmpty() }
 
-        subject.getWatchers()
-
-        verify { watcherQueries.getWatchers() }
+        assertTrue { executedSql.single().contains("FROM Watcher") }
     }
 
     @Test
     fun deleteWatcher() = runTest {
-        subject.deleteWatcher(id)
+        subject.deleteWatcher(ID)
 
-        verify { watcherQueries.deleteWatcher(id) }
+        assertTrue { executedSql.single().contains("DELETE FROM Watcher WHERE id = ?") }
+        verify { statement.bindLong(0, ID) }
     }
 
     @Test
     fun updateWatcherBaseById() = runTest {
-        subject.updateWatcherBaseById(base, id)
+        subject.updateWatcherBaseById(BASE, ID)
 
-        verify { watcherQueries.updateWatcherBaseById(base, id) }
+        assertTrue { executedSql.single().contains("UPDATE Watcher SET base=? WHERE id=?") }
+        verify { statement.bindString(0, BASE) }
+        verify { statement.bindLong(1, ID) }
     }
 
     @Test
     fun updateWatcherTargetById() = runTest {
-        subject.updateWatcherTargetById(target, id)
+        subject.updateWatcherTargetById(TARGET, ID)
 
-        verify { watcherQueries.updateWatcherTargetById(target, id) }
+        assertTrue { executedSql.single().contains("UPDATE Watcher SET target=? WHERE id=?") }
+        verify { statement.bindString(0, TARGET) }
+        verify { statement.bindLong(1, ID) }
     }
 
     @Test
     fun updateWatcherRelationById() = runTest {
-        val relation = Random.nextBoolean()
-        subject.updateWatcherRelationById(relation, id)
+        subject.updateWatcherRelationById(true, ID)
 
-        verify { watcherQueries.updateWatcherRelationById(relation.toLong(), id) }
+        assertTrue { executedSql.single().contains("UPDATE Watcher SET isGreater=? WHERE id=?") }
+        verify { statement.bindLong(0, 1L) }
+        verify { statement.bindLong(1, ID) }
     }
 
     @Test
     fun updateWatcherRateById() = runTest {
-        val rate = 1.2
+        subject.updateWatcherRateById(RATE, ID)
 
-        subject.updateWatcherRateById(rate, id)
+        assertTrue { executedSql.single().contains("UPDATE Watcher SET rate=? WHERE id=?") }
+        verify { statement.bindDouble(0, RATE) }
+        verify { statement.bindLong(1, ID) }
+    }
 
-        verify { watcherQueries.updateWatcherRateById(rate, id) }
+    companion object {
+        private const val BASE = "EUR"
+        private const val TARGET = "USD"
+        private const val ID = 12L
+        private const val RATE = 1.2
     }
 }
