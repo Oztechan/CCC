@@ -47,9 +47,11 @@
       "automerge": true
     },
     {
+      "description": "Mokkery is a compiler plugin pinned to a Kotlin version, so it has to move with Kotlin.",
       "groupName": "kotlin",
       "matchPackageNames": [
-        "/^org.jetbrains.kotlin.$/"
+        "/^org\\.jetbrains\\.kotlin[.:]/",
+        "/^dev\\.mokkery/"
       ]
     },
     {
