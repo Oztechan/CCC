@@ -256,8 +256,9 @@ jobs:
       - name: Setup Gradle Repo
         uses: Oztechan/Global/actions/setup-gradle-repo@141d5aac1651ea0e345778d524da296c90fcdbbb # develop
 
+      # `test` alone matches no task in the KMP modules, so their commonTest never ran.
       - name: Test
-        run: ./gradlew test
+        run: ./gradlew test testAndroidHostTest
 
       - name: Cancel other jobs if this fails
         if: failure()
