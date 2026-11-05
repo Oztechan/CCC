@@ -44,7 +44,7 @@ rootBeer = "0.1.2"
 anrWatchDog = "1.4.0"
 kermit = "2.2.0"
 konsist = "0.18.1"
-gitlive = "2.7.0"
+gitlive = "2.8.0"
 # SubMob shared libraries (bumped by Renovate; -SNAPSHOT until first master release)
 logmob = "3.0.10"
 scopemob = "3.0.9"
