@@ -101,7 +101,7 @@ internal class AdManagerImpl(context: Context) : AdManager {
 
         val adHeight = maxHeightInDp.toInt().toDp(context)
 
-        val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(
+        val adSize = AdSize.getLargeAnchoredAdaptiveBannerAdSize(
             context,
             adWidthPixels.toDp(context)
         )
