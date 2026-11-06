@@ -1,13 +1,13 @@
 [versions]
 
-kotlin = "2.4.10"
-androidGradlePlugin = "9.5.0"
+kotlin = "2.4.21"
+androidGradlePlugin = "9.5.1"
 jetbrainsCompose = "1.11.1"
 # Compose Multiplatform pins material3 on its own version line; the plugin's own
 # composeMaterial3Version is still 1.9.0 at Compose 1.11.1.
 jetbrainsComposeMaterial3 = "1.9.0"
 glance = "1.2.0"
-mokkery = "3.4.2"
+mokkery = "3.6.0"
 activityCompose = "1.13.0"
 navigationCompose = "2.9.2"
 detekt = "1.23.8"
@@ -32,7 +32,7 @@ navigation = "2.9.8"
 playCoreReview = "2.0.2"
 kotlinXDateTime = "0.8.0-0.6.x-compat"
 coroutines = "1.11.0"
-billing = "7.1.1"
+billing = "8.3.0"
 leakCanary = "2.14"
 sqlDelight = "2.4.1"
 lifecycle = "2.10.0"
@@ -44,12 +44,12 @@ rootBeer = "0.1.2"
 anrWatchDog = "1.4.0"
 kermit = "2.2.0"
 konsist = "0.18.1"
-gitlive = "2.7.0"
+gitlive = "2.8.0"
 # SubMob shared libraries (bumped by Renovate; -SNAPSHOT until first master release)
-logmob = "3.0.10"
-scopemob = "3.0.9"
-basemob = "3.0.10"
-parsermob = "2.0.8"
+logmob = "3.0.13"
+scopemob = "3.0.10"
+basemob = "3.0.12"
+parsermob = "2.0.10"
 
 [libraries]
 # COMMON
