@@ -175,7 +175,7 @@ jobs:
         uses: Oztechan/Global/actions/disable-kotlin-incremental-native@09537cfd17645f1680b23448e216520765d916e5 # develop
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@de492cf36cbab201753d720ce4f4e336cd688c94 # v1.336.0
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
         with:
           ruby-version: '4.0'
           bundler-cache: true
@@ -228,7 +228,7 @@ jobs:
           path: ios
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@de492cf36cbab201753d720ce4f4e336cd688c94 # v1.336.0
+        uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
         with:
           ruby-version: '4.0'
           bundler-cache: true
