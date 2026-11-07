@@ -55,6 +55,8 @@ class MainViewModel(
     }
 
     private fun setupInterstitialAdTimer() {
+        // Cancel any running timer so repeated foregrounds can't stack multiple timers.
+        data.adJob.cancel()
         data.adVisibility = true
 
         data.adJob = viewModelScope.launch {
