@@ -70,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@09537cfd17645f1680b23448e216520765d916e5 # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -153,7 +153,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@09537cfd17645f1680b23448e216520765d916e5 # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -172,7 +172,7 @@ jobs:
         run: sudo xcode-select --switch /Applications/Xcode_26.6.app
 
       - name: Disable Kotlin incremental native for CI
-        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@09537cfd17645f1680b23448e216520765d916e5 # develop
+        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@7a55e5985882699bf309a005b1d75ca087c2205a # develop
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@b3aaceaef7e0ee231b499e7b5f49c03fc1d32199 # v1.338.0
@@ -254,7 +254,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@09537cfd17645f1680b23448e216520765d916e5 # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
 
       # `test` alone matches no task in the KMP modules, so their commonTest never ran.
       - name: Test
@@ -275,7 +275,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@09537cfd17645f1680b23448e216520765d916e5 # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
@@ -318,7 +318,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@09537cfd17645f1680b23448e216520765d916e5 # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
 
       - name: Detekt & Lint
         run: ./gradlew detektAll lint
