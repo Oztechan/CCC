@@ -45,11 +45,6 @@ anrWatchDog = "1.4.0"
 kermit = "2.2.0"
 konsist = "0.18.1"
 gitlive = "2.8.0"
-# SubMob shared libraries (bumped by Renovate; -SNAPSHOT until first master release)
-logmob = "3.0.15"
-scopemob = "3.0.11"
-basemob = "3.0.14"
-parsermob = "2.0.11"
 
 [libraries]
 # COMMON
@@ -124,11 +119,11 @@ server-ktorContentNegotiation = { module = "io.ktor:ktor-server-content-negotiat
 server-ktorCore = { module = "io.ktor:ktor-server-core", version.ref = "ktor" }
 server-ktorNetty = { module = "io.ktor:ktor-server-netty", version.ref = "ktor" }
 
-# SUBMOB (shared libraries; substituted by the Oztechan/SubMob composite builds when present)
-submob-logmob = { module = "com.github.submob:logmob", version.ref = "logmob" }
-submob-scopemob = { module = "com.github.submob:scopemob", version.ref = "scopemob" }
-submob-basemob = { module = "com.github.submob:basemob", version.ref = "basemob" }
-submob-parsermob = { module = "com.github.submob:parsermob", version.ref = "parsermob" }
+# SUBMOB (shared libraries; the versions come from the submodule builds, not a repository)
+submob-logmob = { module = "com.github.submob:logmob" }
+submob-scopemob = { module = "com.github.submob:scopemob" }
+submob-basemob = { module = "com.github.submob:basemob" }
+submob-parsermob = { module = "com.github.submob:parsermob" }
 
 [plugins]
 
