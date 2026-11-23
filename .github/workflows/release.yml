@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -215,7 +215,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
