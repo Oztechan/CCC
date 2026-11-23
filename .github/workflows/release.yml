@@ -61,7 +61,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -80,19 +80,19 @@ jobs:
         run: ./gradlew :android:app:bundleRelease :backend:app:jar --parallel
 
       - name: Upload Google App Bundle
-        uses: actions/upload-artifact@v7.0.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: googleBundle
           path: android/app/build/outputs/bundle/googleRelease/app-google-release.aab
 
       - name: Upload Huawei App Bundle
-        uses: actions/upload-artifact@v7.0.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: huaweiBundle
           path: android/app/build/outputs/bundle/huaweiRelease/app-huawei-release.aab
 
       - name: Upload Backend Jar
-        uses: actions/upload-artifact@v7.0.2
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: backendJar
           path: backend/app/build/libs/app-*.jar
@@ -109,10 +109,10 @@ jobs:
     steps:
 
       - name: Clone Repo
-        uses: actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v8.0.2
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: googleBundle
 
@@ -130,7 +130,7 @@ jobs:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
 
       - name: Upload Artifact to Google Play Console
-        uses: r0adkll/upload-google-play@v1.1.5
+        uses: r0adkll/upload-google-play@e738b9dd8f2476ea806d921b64aacd24f34515a5 # v1.1.5
         with:
           serviceAccountJson: service_account.json
           packageName: mustafaozhan.github.com.mycurrencies
@@ -139,7 +139,7 @@ jobs:
           status: completed
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v6.0.0
+        uses: geekyeggo/delete-artifact@176a747ab7e287e3ff4787bf8a148716375ca118 # v6.0.0
         with:
           name: googleBundle
 
@@ -155,12 +155,12 @@ jobs:
     steps:
 
       - name: Download App Bundle
-        uses: actions/download-artifact@v8.0.2
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: huaweiBundle
 
       - name: Deploy to Huawei App Gallery
-        uses: muhamedzeema/appgallery-deply-action@main
+        uses: muhamedzeema/appgallery-deply-action@732f1ba1c6e55f653d95b87fccb19b1c1c4fa69f # main
         with:
           client-id: ${{secrets.HUAWEI_CLIENT_ID}}
           client-key: ${{secrets.HUAWEI_CLIENT_KEY}}
@@ -170,7 +170,7 @@ jobs:
           file-name: "app-huawei-release"
 
       - name: Delete App Bundle
-        uses: geekyeggo/delete-artifact@v6.0.0
+        uses: geekyeggo/delete-artifact@176a747ab7e287e3ff4787bf8a148716375ca118 # v6.0.0
         with:
           name: huaweiBundle
 
@@ -186,13 +186,13 @@ jobs:
     steps:
 
       - name: Download Backend Jar
-        uses: actions/download-artifact@v8.0.2
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           name: backendJar
           path: artifact
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@v6.0.3
+        uses: easingthemes/ssh-deploy@35647dbb6c84e9f4c4ff546acffbfe40e5650576 # v6.0.3
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
@@ -201,7 +201,7 @@ jobs:
           SOURCE: "artifact/"
 
       - name: Delete Backend Jar
-        uses: geekyeggo/delete-artifact@v6.0.0
+        uses: geekyeggo/delete-artifact@176a747ab7e287e3ff4787bf8a148716375ca118 # v6.0.0
         with:
           name: backendJar
 
@@ -215,7 +215,7 @@ jobs:
       status: ${{ steps.status.outputs.status }}
     steps:
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@7a55e5985882699bf309a005b1d75ca087c2205a # develop
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -257,7 +257,7 @@ jobs:
           needs.UploadToHuaweiAppGallery.outputs.status == 'success' &&
           needs.DeployToServer.outputs.status == 'success' &&
           needs.UploadToAppStore.outputs.status == 'success'
-        uses: voxmedia/github-action-slack-notify-build@v2
+        uses: voxmedia/github-action-slack-notify-build@373da97827332b19e753c84d1e5b7937dbe0fbfa # v2
         with:
           channel: ccc-github
           status: SUCCESS
@@ -269,7 +269,7 @@ jobs:
           false == (needs.UploadToHuaweiAppGallery.outputs.status == 'success') ||
           false == (needs.DeployToServer.outputs.status == 'success') ||
           false == (needs.UploadToAppStore.outputs.status == 'success')
-        uses: voxmedia/github-action-slack-notify-build@v2
+        uses: voxmedia/github-action-slack-notify-build@373da97827332b19e753c84d1e5b7937dbe0fbfa # v2
         with:
           channel: ccc-github
           status: FAILED
