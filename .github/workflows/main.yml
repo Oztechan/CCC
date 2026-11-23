@@ -70,7 +70,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -153,7 +153,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Adding secret files
         uses: ./.github/actions/add-secret-files
@@ -172,7 +172,7 @@ jobs:
         run: sudo xcode-select --switch /Applications/Xcode_26.6.app
 
       - name: Disable Kotlin incremental native for CI
-        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+        uses: Oztechan/Global/actions/disable-kotlin-incremental-native@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1.343.0
@@ -254,7 +254,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       # `test` alone matches no task in the KMP modules, so their commonTest never ran.
       - name: Test
@@ -275,7 +275,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Generate Coverage
         run: ./gradlew koverXmlReport
@@ -318,7 +318,7 @@ jobs:
     steps:
 
       - name: Setup Gradle Repo
-        uses: Oztechan/Global/actions/setup-gradle-repo@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+        uses: Oztechan/Global/actions/setup-gradle-repo@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
 
       - name: Detekt & Lint
         run: ./gradlew detektAll lint
@@ -366,6 +366,6 @@ jobs:
       github.event_name == 'pull_request' &&
       github.event.pull_request.user.login == 'renovate[bot]' &&
       !contains(github.head_ref, 'major')
-    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@3b97f22e81f7d532557bbc8f70621fcea33b2645 # v1.0.168
+    uses: Oztechan/Global/.github/workflows/reusable-renovate-approve.yml@d8b3e0c0daf818d599c0b068a95144207febdb22 # v1.0.169
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
