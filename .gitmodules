@@ -1,16 +1,16 @@
 [submodule "submodule/LogMob"]
 	path = submodule/LogMob
 	url = https://github.com/SubMob/LogMob.git
-	branch = v3.0.17
+	branch = v3.0.18
 [submodule "submodule/ScopeMob"]
 	path = submodule/ScopeMob
 	url = https://github.com/SubMob/ScopeMob.git
-	branch = v3.0.12
+	branch = v3.0.13
 [submodule "submodule/BaseMob"]
 	path = submodule/BaseMob
 	url = https://github.com/SubMob/BaseMob.git
-	branch = v3.0.15
+	branch = v3.0.16
 [submodule "submodule/ParserMob"]
 	path = submodule/ParserMob
 	url = https://github.com/SubMob/ParserMob.git
-	branch = v2.0.13
+	branch = v2.0.14
